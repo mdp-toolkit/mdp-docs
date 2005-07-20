@@ -1,0 +1,166 @@
+body {
+	background:white;
+	/*font-family:'Trebuchet MS',Verdana,sans-serif;*/
+	font-family:helvetica,sans-serif;
+	text-align:justify;
+	margin-bottom:50px;
+	}
+
+/*a[href] { text-decoration:none; }*/
+
+/* tables */
+table { border-style:none; }
+td { vertical-align:top; }
+.screentable { text-align:center; }
+
+/* lists */
+
+UL { padding-left:1em; 
+   }
+
+UL LI {
+	margin:0.5em 0.5em 0.5em 0.5em;
+}
+
+OL LI {
+	margin:0.5em 0.5em 0.5em 0.5em;
+}
+
+UL.nice { list-style-type:none; }
+
+UL.nice LI {
+        background: #F0F8FF;
+	border: 1px solid #708090;
+	padding:0.5em 0.5em 0.5em 0.5em;
+}
+
+OL.nice LI {
+        background: #F0F8FF;
+	border: 1px solid #708090;
+	padding:0.5em 0.5em 0.5em 0.5em;
+	list-style-type:lower-roman;
+}
+
+DT { font-weight:bold; }
+
+H1 {
+	font-family: serif;
+}
+
+.news {
+	background-color:#E0F060
+	}
+
+#news-box {
+  margin-top: 2em;
+  padding: .5em; 
+  border: 1px solid #708090;
+  font-size:smaller;
+}
+
+.highlight {
+	font-weight:bold;
+/*	background-color:#E0F060;*/
+}
+
+.smaller_font {
+	font-size:smaller;
+}
+
+code {
+	text-align:left;
+	color:#000080;
+}
+
+pycode {
+	text-align:left;
+	color:#000080;
+	margin-left:2em;
+	font-weight:bold;
+}
+
+pre.literal-block {
+  overflow: auto;
+  background: #bcd2ee; 
+  padding: .5em; 
+  margin: 1em;
+  border: 1px solid #708090;
+}
+
+.pycomment {
+	color:maroon;
+	font-weight:bold;
+}
+
+.faqquest {
+	font-size:larger;
+	font-weight:bold;
+}
+
+.faqansw {
+	font-style:normal;
+}
+
+.faqcit {
+	text-align:justify;
+	font-size:smaller;
+	font-style:italic;
+	padding:0.5em 0.5em 0.5em 0.5em;
+}
+
+.soft {
+	font-weight:bold;
+}
+
+#header {
+	background:#bcd2ee;
+	text-align:center;
+        border: 1px solid #708090;
+	padding:5px;
+	text-decoration:none;
+}
+
+IMG.whiteb  { 	
+	border-width:2px;
+	border-color:white;
+	border-style:solid;
+ }
+
+#sidebar {
+/*	top:auto;
+    position:fixed;
+	text-align:left; */
+	margin-top:2em;
+    width:8em;
+	float:left;
+}
+
+.abox {
+	background:#bcd2ee;
+	padding:3px;
+	margin:0px;
+	margin-bottom:-1px;
+	width:inherit;
+	text-align:center;
+        border: 1px solid #708090;
+}
+
+DIV.abox > A {
+	color:black;
+ 	text-decoration:none;
+}
+
+#container {
+	padding-right:30px;
+	padding-left:30px;
+	margin-right:auto;
+	margin-left:auto;
+	max-width:800px; 
+}
+
+#content {
+    margin-left:10em;
+}
+
+#footer {
+}

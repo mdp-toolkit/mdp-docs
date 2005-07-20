@@ -1,0 +1,1325 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.3.8: http://docutils.sourceforge.net/" />
+<title>Tutorial</title>
+<meta name="author" content="Pietro Berkes and Tiziano Zito" />
+<meta name="copyright" content="This document has been placed in the public domain." />
+<link rel="stylesheet" href="docutils.css" type="text/css" />
+</head>
+<body>
+<div class="document" id="tutorial">
+<h1 class="title">Tutorial</h1>
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Author:</th>
+<td>Pietro Berkes and Tiziano Zito</td></tr>
+<tr class="field"><th class="docinfo-name">Homepage:</th><td class="field-body"><a class="reference" href="http://mdp-toolkit.sourceforge.net">http://mdp-toolkit.sourceforge.net</a></td>
+</tr>
+<tr><th class="docinfo-name">Copyright:</th>
+<td>This document has been placed in the public domain.</td></tr>
+</tbody>
+</table>
+This document is also available as <a href="MDP_tutorial.pdf">pdf file</a> (200 KB).<p>Modular toolkit for Data Processing (MDP) is a Python library to
+perform data processing. Already implemented algorithms include:
+Principal Component Analysis (PCA), Independent Component Analysis
+(ICA), Slow Feature Analysis (SFA), and Growing Neural Gas (GNG).</p>
+<p>MDP supports the most common numerical extensions to Python and the
+<tt class="docutils literal"><span class="pre">symeig</span></tt> package (a Python wrapper
+for the LAPACK functions to solve the standard and generalized
+eigenvalue problems for symmetric (hermitian) positive definite
+matrices). MDP also includes <tt class="docutils literal"><span class="pre">graph</span></tt> (a lightweight package
+to handle graphs).</p>
+<p>When used together with <tt class="docutils literal"><span class="pre">SciPy</span></tt> (the scientific Python library) and <tt class="docutils literal"><span class="pre">symeig</span></tt>,
+MDP gives to the scientific programmer the full power of well-known C and
+FORTRAN data processing libraries.  MDP helps the programmer to
+exploit Python object oriented design with C and FORTRAN efficiency.</p>
+<p>MDP has been written for research in neuroscience, but it has been
+designed to be helpful in any context where trainable data processing
+algorithms are used.  Its simplicity on the user side together with
+the reusability of the implemented nodes could make it also a valid
+educational tool.</p>
+<p>Using MDP is as easy as:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import mdp
+&gt;&gt;&gt; # perform pca on some data x
+...
+&gt;&gt;&gt; y = mdp.pca(x) 
+&gt;&gt;&gt; # perform ica on some data x using single precision
+...
+&gt;&gt;&gt; y = mdp.fastica(x, typecode='f') 
+</pre>
+<p>MDP is of course much more than this: it allows to combine different
+algorithms and other data processing elements (nodes) into data
+processing sequences (flows). Moreover, it provides a framework that
+makes the implementation of new algorithms easy and intuitive.</p>
+<p>This is a guide to basic and some more advanced features of
+the MDP library.</p>
+<div class="note">
+<p class="first admonition-title">Note</p>
+<p>Code snippets throughout the script will be denoted by:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; print &quot;Hello world!&quot;
+Hello world!
+</pre>
+<p>To run the following code examples don't forget to import mdp
+in your Python session with:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import mdp
+</pre>
+<p class="last">You'll find all the code of this tutorial within the <tt class="docutils literal"><span class="pre">demo</span></tt> directory
+in the MDP installation path.</p>
+</div>
+<div class="contents topic" id="contents">
+<p class="topic-title first"><a name="contents">Contents</a></p>
+<ul class="simple">
+<li><a class="reference" href="#nodes" id="id1" name="id1">Nodes</a><ul>
+<li><a class="reference" href="#node-creation" id="id2" name="id2">Node Creation</a></li>
+<li><a class="reference" href="#node-training" id="id3" name="id3">Node Training</a></li>
+<li><a class="reference" href="#node-execution" id="id4" name="id4">Node Execution</a></li>
+<li><a class="reference" href="#node-inversion" id="id5" name="id5">Node Inversion</a></li>
+<li><a class="reference" href="#writing-your-own-nodes-subclassing-signalnode" id="id6" name="id6">Writing your own nodes: subclassing SignalNode</a></li>
+</ul>
+</li>
+<li><a class="reference" href="#flows" id="id7" name="id7">Flows</a><ul>
+<li><a class="reference" href="#flow-creation-training-and-execution" id="id8" name="id8">Flow creation, training and execution</a></li>
+<li><a class="reference" href="#flow-inversion" id="id9" name="id9">Flow inversion</a></li>
+<li><a class="reference" href="#flows-are-container-type-objects" id="id10" name="id10">Flows are container type objects</a></li>
+<li><a class="reference" href="#crash-recovery" id="id11" name="id11">Crash recovery</a></li>
+</ul>
+</li>
+<li><a class="reference" href="#generators" id="id12" name="id12">Generators</a></li>
+<li><a class="reference" href="#checkpoints" id="id13" name="id13">Checkpoints</a></li>
+<li><a class="reference" href="#a-real-life-example-logistic-maps" id="id14" name="id14">A real life example (Logistic maps)</a></li>
+<li><a class="reference" href="#another-real-life-example-growing-neural-gas" id="id15" name="id15">Another real life example (Growing neural gas)</a></li>
+<li><a class="reference" href="#to-do" id="id16" name="id16">To Do</a></li>
+</ul>
+</div>
+<div class="section" id="nodes">
+<h1><a class="toc-backref" href="#id1" name="nodes">Nodes</a></h1>
+<p>A node is the basic unit in MDP and it represents a data processing
+element, like for example a learning algorithm, a filter, a
+visualization step etc. Each node can have a training phase, during 
+which the internal structures are learned from training data (e.g. 
+the weights of a neural network are adapted or the covariance matrix
+is estimated) and an execution phase, where new data can be processed
+forwards (by processing the data through the node) or backwards (by 
+applying the inverse of the transformation computed by the node if 
+defined). MDP is designed to make the implementation of new algorithms
+easy and intuitive, for example by setting automatically input and 
+output dimension and by casting the data to match the typecode 
+(e.g. float or double precision) of the internal structures. Most of 
+the nodes were designed to be applied to arbitrarily long sets of 
+data: the internal structures can be updated successively by 
+sending chunks of the input data (this is equivalent to online 
+learning if the chunks consists of single observations, or to 
+batch learning if the whole data is sent in a single chunk). 
+Already implemented nodes include Principal Component Analysis
+(PCA), Independent Component Analysis (ICA), Slow Feature 
+Analysis (SFA), and Growing Neural Gas Network.</p>
+<div class="section" id="node-creation">
+<h2><a class="toc-backref" href="#id2" name="node-creation">Node Creation</a></h2>
+<p>Nodes can be obtained by creating an instance of the node class.
+Each node is characterized by an input dimension, that corresponds
+to the dimensionality of the input vectors, an output dimension, and
+a typecode, which determines the typecode of the internal structures
+and of the output signal. These three attributes are inherited from
+the input data if left unspecified. Input dimension and typecode
+can usually be specified when an instance of the node class
+is created.
+The constructor of each node class can require other task-specific
+arguments.</p>
+<p>Some examples of node creation:</p>
+<ul>
+<li><p class="first">Create a node that performs Principal Component Analysis (PCA) 
+whose input dimension and typecode
+are inherited from the input data during training. Output dimensions
+default to input dimensions.</p>
+<pre class="literal-block">
+&gt;&gt;&gt; pcanode1 = mdp.nodes.PCANode()
+&gt;&gt;&gt; pcanode1
+PCANode(input_dim=None, output_dim=None, typecode='None')
+</pre>
+</li>
+<li><p class="first">Setting <tt class="docutils literal"><span class="pre">output_dim</span> <span class="pre">=</span> <span class="pre">10</span></tt> means that the node will keep only the 
+first 10 principal components of the input.</p>
+<pre class="literal-block">
+&gt;&gt;&gt; pcanode2 = mdp.nodes.PCANode(output_dim = 10)
+&gt;&gt;&gt; pcanode2
+PCANode(input_dim=None, output_dim=10, typecode='None')
+</pre>
+</li>
+<li><p class="first">If the typecode is set to <tt class="docutils literal"><span class="pre">f</span></tt> (float), the input 
+data is cast to float precision when received and the internal 
+structures are also stored as <tt class="docutils literal"><span class="pre">f</span></tt>. The typecode influences the 
+memory space necessary for a node and the precision with which the 
+computations are performed.</p>
+<pre class="literal-block">
+&gt;&gt;&gt; pcanode3 = mdp.nodes.PCANode(typecode = 'f')
+&gt;&gt;&gt; pcanode3
+PCANode(input_dim=None, output_dim=None, typecode='f')
+</pre>
+<p>You can obtain a list of the typecodes supported by a node
+by calling its <tt class="docutils literal"><span class="pre">get_supported_typecodes</span></tt> method:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; pcanode3.get_supported_typecodes()
+['f', 'd']
+</pre>
+</li>
+<li><p class="first">A PolynomialExpansionNode expands its input in the space
+of polynomals of a given degree by computing all monomials up
+to the specified degree. Its constructor needs as first argument
+the degree of the polynomials space (3 in this case).</p>
+<pre class="literal-block">
+&gt;&gt;&gt; expnode = mdp.nodes.PolynomialExpansionNode(3)
+</pre>
+</li>
+</ul>
+</div>
+<div class="section" id="node-training">
+<h2><a class="toc-backref" href="#id3" name="node-training">Node Training</a></h2>
+<p>Some nodes need to be trained to perform their task. This can
+be done during a training phase by calling the <tt class="docutils literal"><span class="pre">train</span></tt> method.</p>
+<p>Some examples of node training:</p>
+<ul>
+<li><p class="first">Create some random data and update the internal structures
+(i.e. mean and covariance matrix) of the PCANode:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; x = mdp.numx_rand.random((100, 25))  # 25 variables, 100 observations
+&gt;&gt;&gt; pcanode1.train(x)
+</pre>
+<p>At this point the input dimension and the typecode have been
+inherited from <tt class="docutils literal"><span class="pre">x</span></tt>:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; pcanode1
+PCANode(input_dim=25, output_dim=None, typecode='d')
+</pre>
+</li>
+<li><p class="first">We can train our node with more than one chunk of data. This
+is especially useful when the input data is too long to
+be stored in memory or when it has to be created on-the-fly.
+(See also the <a class="reference" href="#generators">Generators</a> section):</p>
+<pre class="literal-block">
+&gt;&gt;&gt; for i in range(100):
+...     x = mdp.numx_rand.random((100, 25))
+...     pcanode1.train(x)
+&gt;&gt;&gt;
+</pre>
+</li>
+<li><p class="first">Some nodes don't need to be trained:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; expnode.is_trainable()
+0 
+</pre>
+<p>Trying to train them anyway would raise an exception:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; x = mdp.numx_rand.random((100, 5))
+&gt;&gt;&gt; expnode.train(x)
+Traceback (most recent call last):
+File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+File &quot;...&quot;, line 190, in train
+  raise IsNotTrainableException, &quot;This node is not trainable.&quot;
+mdp.signal_node.IsNotTrainableException: This node is not trainable.
+</pre>
+</li>
+<li><p class="first">The training phase ends when the <tt class="docutils literal"><span class="pre">stop_training</span></tt>, <tt class="docutils literal"><span class="pre">execute</span></tt>, or
+<tt class="docutils literal"><span class="pre">inverse</span></tt> method are called. For example we can stop the training 
+of the PCANode (at this point the principal components are computed):</p>
+<pre class="literal-block">
+&gt;&gt;&gt; pcanode1.stop_training()
+</pre>
+<p>It is now possible to access the trained internal data</p>
+<pre class="literal-block">
+&gt;&gt;&gt; avg = pcanode1.avg            # mean of the input data
+&gt;&gt;&gt; v = pcanode1.get_projmatrix() # projection matrix
+</pre>
+</li>
+</ul>
+</div>
+<div class="section" id="node-execution">
+<h2><a class="toc-backref" href="#id4" name="node-execution">Node Execution</a></h2>
+<p>After the training phase it is possible to execute the node:</p>
+<ul>
+<li><p class="first">The input data is projected on the principal components learned
+in the training phase.</p>
+<pre class="literal-block">
+&gt;&gt;&gt; x = mdp.numx_rand.random((100, 25))
+&gt;&gt;&gt; y_pca = pcanode1.execute(x)
+</pre>
+</li>
+<li><p class="first">Calling a node instance is equivalent to executing it:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; y_pca = pcanode1(x)
+</pre>
+</li>
+<li><p class="first">The input data is expanded in the space of polynomials of
+degree 3.</p>
+<pre class="literal-block">
+&gt;&gt;&gt; x = mdp.numx_rand.random((100, 5))
+&gt;&gt;&gt; y_exp = expnode(x)
+</pre>
+</li>
+</ul>
+</div>
+<div class="section" id="node-inversion">
+<h2><a class="toc-backref" href="#id5" name="node-inversion">Node Inversion</a></h2>
+<p>If the operation computed by the node is invertible, it is possible
+to compute the inverse transformation:</p>
+<ul>
+<li><p class="first">Given the output data, compute the inverse projection to
+the input space for the PCA node:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; pcanode1.is_invertible()
+1
+&gt;&gt;&gt; x = pcanode1.inverse(y_pca)
+</pre>
+</li>
+<li><p class="first">The expansion node in not invertible:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; expnode.is_invertible()
+0
+</pre>
+<p>Trying to compute the inverse would raise an exception:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; expnode.inverse(y_exp)
+Traceback (most recent call last):
+File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+File &quot;...&quot;, line 252, in inverse
+  raise IsNotInvertibleException, &quot;This node is not invertible.&quot;
+mdp.signal_node.IsNotInvertibleException: This node is not invertible.
+</pre>
+</li>
+</ul>
+</div>
+<div class="section" id="writing-your-own-nodes-subclassing-signalnode">
+<h2><a class="toc-backref" href="#id6" name="writing-your-own-nodes-subclassing-signalnode">Writing your own nodes: subclassing SignalNode</a></h2>
+<p>MDP tries to make it easy to write new data processing elements
+that fit with the existing elements. To expand the MDP library of
+implemented nodes with your own nodes you can subclass
+the SignalNode class, overriding some of the methods according
+to your needs.
+We'll see in the following some examples:</p>
+<ul>
+<li><p class="first">We start by defining a node that multiplies its input by 2.</p>
+<p>Define the class as a subclass of SignalNode:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class TimesTwoNode(mdp.SignalNode):
+</pre>
+<p>This node cannot be trained. To define this, one has to overwrite
+the <tt class="docutils literal"><span class="pre">is_trainable</span></tt> method to return 0:</p>
+<pre class="literal-block">
+...     def is_trainable(self): return 0
+</pre>
+<p>Execute has in principle only to multiply x by 2</p>
+<pre class="literal-block">
+...     def execute(self, x):
+</pre>
+<p>However, we must first call the method of the parent class
+that performs some tests, for example to make
+sure that <tt class="docutils literal"><span class="pre">x</span></tt> has the right rank and dimensionality:</p>
+<pre class="literal-block">
+...         super(TimesTwoNode, self).execute(x)
+</pre>
+<p>Each subclass has to handle the typecode defined by the user
+or inherited by the input data, and make sure that internal
+structures are stored consistently.
+This often means that input data has to be cast. SignalNode
+contains a helper function that casts the array only if
+necessary:</p>
+<pre class="literal-block">
+...         x = self._refcast(x)
+</pre>
+<p>Finally we can compute the result.
+Note that we have to cast the scalar to be sure that
+if we use some of the numeric extension (e.g. <tt class="docutils literal"><span class="pre">Numeric</span></tt>),
+the result of the multiplication is not upcasted
+Use the internal helper function to do so:</p>
+<pre class="literal-block">
+...         return self._scast(2)*x
+</pre>
+<p>The inverse of the multiplication by 2 is of course the division by 2:</p>
+<pre class="literal-block">
+...     def inverse(self, y):
+</pre>
+<p>As in execute, we first have to call the
+parent class and cast the input vector and the scalar:</p>
+<pre class="literal-block">
+...         super(TimesTwoNode, self).inverse(y)
+...         return self._refcast(y/self._scast(2))
+...
+&gt;&gt;&gt;
+</pre>
+<p>The same definition without comments:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class TimesTwoNode(mdp.SignalNode):
+...     def is_trainable(self): return 0
+...     def execute(self, x):
+...         super(TimesTwoNode, self).execute(x)
+...         x = self._refcast(x)
+...         return self._scast(2)*x
+...     def inverse(self, y):
+...         super(TimesTwoNode, self).inverse(y)
+...         return self._refcast(y/self._scast(2))
+...
+&gt;&gt;&gt;
+</pre>
+<p>Test the new node:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; node = TimesTwoNode(typecode = 'i')
+&gt;&gt;&gt; x = mdp.numx.array([[1.0, 2.0, 3.0]])
+&gt;&gt;&gt; y = node(x)
+&gt;&gt;&gt; print x, '* 2 =  ', y
+[ [ 1.  2.  3.]] * 2 =   [ [2 4 6]]
+&gt;&gt;&gt; print y, '/ 2 =', node.inverse(y)
+[ [2 4 6]] / 2 = [ [1 2 3]]
+</pre>
+</li>
+<li><p class="first">We then define a node that raises the input to the power specified
+at the instance's creation</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class PowerNode(mdp.SignalNode):
+</pre>
+<p>We redefine the init method to take the power as first argument.
+In general one should always give the possibility to set the typecode
+and the input dimensions. The default value is None, which means that
+the exact value is going to be inherited from the input data:</p>
+<pre class="literal-block">
+...     def __init__(self, power, input_dim=None, typecode=None):
+</pre>
+<p>Initialize the parent class:</p>
+<pre class="literal-block">
+...         super(PowerNode, self).__init__(input_dim=input_dim, typecode=typecode)
+</pre>
+<p>Store the power:</p>
+<pre class="literal-block">
+...         self.power = power
+</pre>
+<p><tt class="docutils literal"><span class="pre">PowerNode</span></tt> is not trainable...</p>
+<pre class="literal-block">
+...     def is_trainable(self): return 0
+</pre>
+<p>... nor invertible:</p>
+<pre class="literal-block">
+...     def is_invertible(self): return 0
+</pre>
+<p>It is possible to overwrite the function <tt class="docutils literal"><span class="pre">get_supported_typecodes</span></tt>
+to return a list of typecodes supported by the node:</p>
+<pre class="literal-block">
+...     def get_supported_typecodes(self):
+...         return ['f', 'd']
+</pre>
+<p>The <tt class="docutils literal"><span class="pre">execute</span></tt> method:</p>
+<pre class="literal-block">
+...     def execute(self, x):
+...         super(PowerNode, self).execute(x)
+...         return self._refcast(x**self._scast(self.power))
+...
+&gt;&gt;&gt;
+</pre>
+<p>The same definition without comments:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class PowerNode(mdp.SignalNode):
+...     def __init__(self, power, input_dim=None, typecode=None):
+...         super(PowerNode, self).__init__(input_dim=input_dim, typecode=typecode)
+...         self.power = power
+...     def is_trainable(self): return 0
+...     def is_invertible(self): return 0
+...     def get_supported_typecodes(self):
+...         return ['f', 'd']
+...     def execute(self, x):
+...         super(PowerNode, self).execute(x)
+...         return self._refcast(x**self._scast(self.power))
+...
+&gt;&gt;&gt;
+</pre>
+<p>Test the new node</p>
+<pre class="literal-block">
+&gt;&gt;&gt; node = PowerNode(3)
+&gt;&gt;&gt; x = mdp.numx.array([[1.0, 2.0, 3.0]])
+&gt;&gt;&gt; y = node.execute(x)
+&gt;&gt;&gt; print x, '**', node.power, '=', node(x)
+[ [ 1.  2.  3.]] ** 3 = [ [  1.   8.  27.]]
+</pre>
+</li>
+<li><p class="first">We now define a node that needs to be trained. The <tt class="docutils literal"><span class="pre">MeanFreeNode</span></tt>
+computes the mean of its training data and subtracts it from the input
+during execution:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class MeanFreeNode(mdp.SignalNode):
+...     def __init__(self, input_dim=None, typecode=None):
+...         super(MeanFreeNode, self).__init__(input_dim=input_dim, 
+...                                            typecode=typecode)
+</pre>
+<p>Mean of the input data. We initialize it to None since we still
+don't know how large is an input vector:</p>
+<pre class="literal-block">
+...         self.avg = None
+</pre>
+<p>Number of training points:</p>
+<pre class="literal-block">
+...         self.tlen = 0
+</pre>
+<p>The <tt class="docutils literal"><span class="pre">train</span></tt> method receives the input data:</p>
+<pre class="literal-block">
+...     def train(self, x):
+...         super(MeanFreeNode, self).train(x)
+...         x = self._refcast(x)
+</pre>
+<p>Initialize the mean vector with the right size and typecode if necessary:</p>
+<pre class="literal-block">
+...         if self.avg is None:
+...             self.avg = mdp.numx.zeros(self.get_input_dim(),
+...                                       typecode=self.get_typecode())
+</pre>
+<p>Update the mean with the sum of the new data:</p>
+<pre class="literal-block">
+...         self.avg += sum(x, 0)
+</pre>
+<p>Count the number of points processed:</p>
+<pre class="literal-block">
+...         self.tlen += x.shape[0]
+</pre>
+<p>The <tt class="docutils literal"><span class="pre">stop_training</span></tt> function is called when the training phase is over:</p>
+<pre class="literal-block">
+...     def stop_training(self):
+...         super(MeanFreeNode, self).stop_training()
+</pre>
+<p>When the training is over, divide the sum of the training 
+data by the number of training vectors to obtain the mean:</p>
+<pre class="literal-block">
+...         self.avg /= self._scast(self.tlen)
+</pre>
+<p>The <tt class="docutils literal"><span class="pre">execute</span></tt> and <tt class="docutils literal"><span class="pre">inverse</span></tt> methods:</p>
+<pre class="literal-block">
+...     def execute(self, x):
+...         super(MeanFreeNode, self).execute(x)
+...         return self._refcast(x - self.avg)
+...     def inverse(self, y):
+...         super(MeanFreeNode, self).inverse(y)
+...         return self._refcast(y + self.avg)
+...
+&gt;&gt;&gt;
+</pre>
+<p>The same definition without comments:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class MeanFreeNode(mdp.SignalNode):
+...     def __init__(self, input_dim=None, typecode=None):
+...               super(MeanFreeNode, self).__init__(input_dim=input_dim,
+...                                            typecode=typecode)
+...         self.avg = None
+...         self.tlen = 0
+...     def train(self, x):
+...        super(MeanFreeNode, self).train(x)
+...        x = self._refcast(x)
+...        if self.avg is None:
+...        self.avg = mdp.numx.zeros(self.get_input_dim(),
+...                                  typecode=self.get_typecode())
+...        self.avg += sum(x, 0)
+...        self.tlen += x.shape[0]
+...     def stop_training(self):
+...        super(MeanFreeNode, self).stop_training()
+...        self.avg /= self._scast(self.tlen)
+...     def execute(self, x):
+...        super(MeanFreeNode, self).execute(x)
+...        return self._refcast(x - self.avg)
+...     def inverse(self, y):
+...        super(MeanFreeNode, self).inverse(y)
+...        return self._refcast(y + self.avg)
+...
+&gt;&gt;&gt;
+</pre>
+<p>Test the new node:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; node = MeanFreeNode()
+&gt;&gt;&gt; x = mdp.numx_rand.random((10,4))
+&gt;&gt;&gt; node.train(x)
+&gt;&gt;&gt; y = node.execute(x)
+&gt;&gt;&gt; print 'Mean of y (should be zero): ', mdp.utils.mean(y, 0)
+Mean of y (should be zero):  [  0.00000000e+00   2.22044605e-17  
+-2.22044605e-17   1.11022302e-17]
+</pre>
+</li>
+<li><p class="first">In our last example we'll define a node that repeats its input twice,
+returning an input that has twice as many dimensions:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class TwiceNode(mdp.SignalNode):
+...     def is_trainable(self): return 0
+...     def is_invertible(self): return 0
+</pre>
+<p>When <tt class="docutils literal"><span class="pre">SignalNode</span></tt> inherits the input and output dimension from
+the input data, it calls the <tt class="docutils literal"><span class="pre">_set_default_inputdim</span></tt> and
+<tt class="docutils literal"><span class="pre">_set_default_outputdim</span></tt> functions. Here we overwrite the
+<tt class="docutils literal"><span class="pre">_set_default_outputdim</span></tt> to set the output dimension to be twice the
+input dimension:</p>
+<pre class="literal-block">
+...     def _set_default_outputdim(self, nvariables):
+...         self._output_dim = 2*nvariables
+</pre>
+<p>The <tt class="docutils literal"><span class="pre">execute</span></tt> method:</p>
+<pre class="literal-block">
+...     def execute(self, x):
+...         super(TwiceNode, self).execute(x)
+...         x = self._refcast(x)
+...         return mdp.numx.concatenate((x, x),1)
+...
+&gt;&gt;&gt;
+</pre>
+<p>The same definition without comments:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class TwiceNode(mdp.SignalNode):
+...     def is_trainable(self): return 0
+...     def is_invertible(self): return 0
+...     def _set_default_outputdim(self, nvariables):
+...         self._output_dim = 2*nvariables
+...     def execute(self, x):
+...         super(TwiceNode, self).execute(x)
+...         x = self._refcast(x)
+...         return mdp.numx.concatenate((x, x),1)
+...
+&gt;&gt;&gt;
+</pre>
+<p>Test the new node</p>
+<pre class="literal-block">
+&gt;&gt;&gt; node = TwiceNode()
+&gt;&gt;&gt; x = mdp.numx.zeros((5,2))
+&gt;&gt;&gt; x
+array([[0, 0],
+       [0, 0],
+       [0, 0],
+       [0, 0],
+       [0, 0]])
+&gt;&gt;&gt; node.execute(x)
+array([[0, 0, 0, 0],
+       [0, 0, 0, 0],
+       [0, 0, 0, 0],
+       [0, 0, 0, 0],
+       [0, 0, 0, 0]])
+</pre>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="flows">
+<h1><a class="toc-backref" href="#id7" name="flows">Flows</a></h1>
+<p>A flow consists in an acyclic graph of nodes (currently only
+node sequences are implemented). The data is sent to an 
+input node and is successively processed by the following 
+nodes on the graph. The general flow implementation automatizes 
+the training, execution, and inverse execution (if defined) of 
+the whole graph. Crash recovery is optionally available: in case 
+of failure the current state of the flow is saved for later 
+inspection. A subclass of the basic flow class allows 
+user-supplied checkpoint functions to be executed at the end 
+of each phase, for example to save the internal structures 
+of a node for later analysis.</p>
+<div class="section" id="flow-creation-training-and-execution">
+<h2><a class="toc-backref" href="#id8" name="flow-creation-training-and-execution">Flow creation, training and execution</a></h2>
+<p>Suppose we have an input signal with an high number of dimensions,
+on which we would like to perform ICA. To make the problem affordable,
+we first need to reduce its dimensionality with PCA. Finally, we would
+like to visualize the data sequence at the beginning and after
+each step.</p>
+<p>We could start by quickly defining a node to visualize the data
+(see the <a class="reference" href="#writing-your-own-nodes-subclassing-signalnode">Writing your own nodes: subclassing SignalNode</a> section
+for details on subclassing <tt class="docutils literal"><span class="pre">SignalNode</span></tt>). For visualization we use in the
+following a generic <tt class="docutils literal"><span class="pre">plot</span></tt> function that the user will have to link to
+the plotting package he has installed. If you have <tt class="docutils literal"><span class="pre">SciPy</span></tt> you could 
+for example define:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; plot = scipy.gplt.plot
+&gt;&gt;&gt; class VisualizeNode(mdp.SignalNode):
+...     def is_trainable(self): return 0
+...     def is_invertible(self): return 0
+...     def execute(self, x):
+...         mdp.SignalNode.execute(self,x)
+...         self._refcast(x)
+...         plot(x)
+...         return x
+&gt;&gt;&gt;
+</pre>
+<p>Generate some input signal randomly (which makes the
+example useless, but it's just for illustration...).
+Generate a signal with 20 dimensions and 1000 observations:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; inp = mdp.numx_rand.random((1000,20))
+</pre>
+<p>Rescale x to have zero mean and unit variance:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; inp = (inp - mdp.utils.mean(inp,0))/mdp.utils.std(inp,0)
+</pre>
+<p>We reduce the variance of the last 15 components, so that they are
+going to be eliminated by PCA:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; inp[:,5:] /= 10.0
+</pre>
+<p>Mix linearly the input signals:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; x = mdp.utils.mult(inp,mdp.numx_rand.random((20,20)))
+</pre>
+<ul>
+<li><p class="first">We could now perform our analysis using only nodes, that's the 
+lenghty way...</p>
+<p>1. Visualize the input data:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; plot(x)
+</pre>
+<p>2. Perform PCA:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; pca = mdp.nodes.PCANode(output_dim=5)
+&gt;&gt;&gt; pca.train(x)
+&gt;&gt;&gt; out1 = pca.execute(x)
+</pre>
+<p>3. Visualize data after PCA:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; plot(out1)
+</pre>
+<p>4. Perform ICA using CuBICA algorithm:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; ica = mdp.nodes.CuBICANode()
+&gt;&gt;&gt; ica.train(out1)
+&gt;&gt;&gt; out2 = ica.execute(out1)
+</pre>
+<p>5. Visualize data after ICA:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; plot(out2)
+</pre>
+</li>
+<li><p class="first">... or we could use flows, the recommended way:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; flow = mdp.SimpleFlow([VisualizeNode(),
+...                        mdp.nodes.PCANode(output_dim=5),
+...                        VisualizeNode(),
+...                        mdp.nodes.CuBICANode(),
+...                        VisualizeNode()])
+...
+&gt;&gt;&gt; flow.train(x)
+&gt;&gt;&gt; out = flow.execute(x)
+</pre>
+<p>You will probably get some warnings here. This is expected, see the
+section about <a class="reference" href="#generators">Generators</a> to learn more about that, for the moment
+you can simply ignore them.</p>
+</li>
+</ul>
+<p>Just to check that everything works 
+properly, we can calculate covariance between sources and estimated sources
+(should be approximately 1):</p>
+<pre class="literal-block">
+&gt;&gt;&gt; cov = mdp.utils.amax(abs(mdp.utils.cov(inp[:,:5],out)))
+&gt;&gt;&gt; print cov
+[ 0.99324451  0.99724133  0.99247439  0.99049607  0.994309  ]
+</pre>
+</div>
+<div class="section" id="flow-inversion">
+<h2><a class="toc-backref" href="#id9" name="flow-inversion">Flow inversion</a></h2>
+<p>Flows can be inverted by calling their inverse function.
+In this case, however, the flow contains non-invertible nodes,
+and trying to invert it would raise an exception.
+To overcome this we simply get a slice of the flow instance
+with the invertible nodes.
+Note that a slice of a flow instance returns a new instance
+containing references to the corresponding nodes.
+Reconstruct the mix inverting the flow:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; rec = flow[1::2].inverse(out)
+</pre>
+<p>Calculate covariance between input mix and reconstructed mix:
+(should be approximately 1)</p>
+<pre class="literal-block">
+&gt;&gt;&gt; cov = mdp.utils.amax(abs(mdp.utils.cov(x/mdp.utils.std(x,0),
+...                                        rec/mdp.utils.std(rec,0))))
+&gt;&gt;&gt; print cov
+[ 0.99839606  0.99744461  0.99616208  0.99772863  0.99690947  
+  0.99864056  0.99734378  0.98722502  0.98118101  0.99407939
+  0.99683096  0.99756988  0.99664384  0.99723419  0.9985529 
+  0.99829763  0.9982712   0.99721741  0.99682906  0.98858858]
+</pre>
+</div>
+<div class="section" id="flows-are-container-type-objects">
+<h2><a class="toc-backref" href="#id10" name="flows-are-container-type-objects">Flows are container type objects</a></h2>
+<p>We have seen that we can get flow slices. Actually flows are Python container
+type objects, very much like lists, i.e. you can loop through them:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; for node in flow:
+...     print repr(node)
+...
+VisualizeNode(input_dim=20, output_dim=20, typecode='d')
+PCANode(input_dim=20, output_dim=5, typecode='d')
+VisualizeNode(input_dim=5, output_dim=5, typecode='d')
+CuBICANode(input_dim=5, output_dim=5, typecode='d')
+VisualizeNode(input_dim=5, output_dim=5, typecode='d')
+&gt;&gt;&gt; 
+</pre>
+<p>You can <tt class="docutils literal"><span class="pre">pop</span></tt>, <tt class="docutils literal"><span class="pre">insert</span></tt> and <tt class="docutils literal"><span class="pre">append</span></tt> nodes like you would do with lists:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; len(flow)
+5
+&gt;&gt;&gt; nodetoberemoved = flow.pop(-1)
+&gt;&gt;&gt; nodetoberemoved
+VisualizeNode(input_dim=5, output_dim=5, typecode='d')
+&gt;&gt;&gt; len(flow)
+4
+</pre>
+<p>Finally, you can concatenate flows:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; dummyflow = flow[3:].copy()
+&gt;&gt;&gt; longflow = flow + dummyflow
+&gt;&gt;&gt; len(longflow)
+5
+</pre>
+<p>The returned flow is always consistent, i.e. input and
+output dimensions of successive nodes always match. If 
+you try to create an inconsistent flow you'll get an
+error:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; flow
+SimpleFlow([VisualizeNode(input_dim=20, output_dim=20, typecode='d'),
+            PCANode(input_dim=20, output_dim=5, typecode='d'),
+            VisualizeNode(input_dim=5, output_dim=5, typecode='d'),
+            CuBICANode(input_dim=5, output_dim=5, typecode='d')])
+&gt;&gt;&gt; flow.pop(1)
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+  [...]
+ValueError: dimensions mismatch: 20 != 5
+</pre>
+</div>
+<div class="section" id="crash-recovery">
+<h2><a class="toc-backref" href="#id11" name="crash-recovery">Crash recovery</a></h2>
+<p>If a node in a flow fails, you'll get a traceback that tells you which
+node has failed. You can also switch the crash recovery capability on. If
+something goes wrong you'll end up with a pickle dump of the flow, that 
+can be later inspected.</p>
+<p>To see how it works let's define a bogus node that always throws an 
+<tt class="docutils literal"><span class="pre">Exception</span></tt> and put it into a flow:</p>
+<pre class="literal-block">
+&gt;&gt;&gt;class BogusExceptNode(mdp.SignalNode):
+...    def train(self,x):
+...        self.bogus_attr = 1
+...        raise Exception, &quot;Bogus Exception&quot;
+...    def execute(self,x):
+...        raise Exception, &quot;Bogus Exception&quot;
+...
+&gt;&gt;&gt; flow = mdp.SimpleFlow([BogusExceptNode()])
+</pre>
+<p>Switch on crash recovery:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; flow.set_crash_recovery(1)
+</pre>
+<p>Attempt to train the flow:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; flow.train([[None]])
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 1, in ?
+  [...]
+mdp.linear_flows.FlowExceptionCR: 
+----------------------------------------
+! Exception in node #0 (BogusExceptNode):
+Node Traceback:
+Traceback (most recent call last):
+  [...]
+Exception: Bogus Exception
+----------------------------------------
+A crash dump is available on: &quot;/tmp/MDPcrash_LmISO_.pic&quot;
+</pre>
+<p>You can give a file name to tell the flow where to put the dump:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; flow.set_crash_recovery('/home/myself/mydumps/MDPdump.pic')
+</pre>
+</div>
+</div>
+<div class="section" id="generators">
+<h1><a class="toc-backref" href="#id12" name="generators">Generators</a></h1>
+<p>A generator is a Python iterator introduced in Python 2.2 that returns
+a value after each call and can be used for example in <tt class="docutils literal"><span class="pre">for</span></tt> loops.
+See <a class="reference" href="http://linuxgazette.net/100/pramode.html">http://linuxgazette.net/100/pramode.html</a> for an introduction, and
+<a class="reference" href="http://www.python.org/peps/pep-0255.html">http://www.python.org/peps/pep-0255.html</a> for a complete description.</p>
+<p>Let us define two bogus node classes to be used as examples of nodes:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; BogusNode = mdp.IdentityNode
+&gt;&gt;&gt; class BogusNode2(mdp.IdentityNode):
+...     &quot;&quot;&quot;This node does nothing. but it's not trainable and not invertible.
+...     &quot;&quot;&quot;
+...     def is_trainable(self): return 0
+...     def is_invertible(self): return 0
+...
+&gt;&gt;&gt;
+</pre>
+<p>This generator generates <tt class="docutils literal"><span class="pre">blocks</span></tt> input blocks to be used as training set.
+In this example one block is a 2-dimensional time-series. The first variable
+is [2,4,6,....,1000] and the second one [0,1,3,5,...,999].
+All blocks are equal, this of course would not be the case in a real-life
+example.</p>
+<p>In this example we use a <tt class="docutils literal"><span class="pre">ProgressBar</span></tt> to get progress information.</p>
+<pre class="literal-block">
+&gt;&gt;&gt; def gen_data(blocks):
+...     progressbar = mdp.utils.ProgressBar(0,blocks)
+...     progressbar.update(0)
+...     for i in xrange(blocks):
+...         block_x = mdp.utils.atleast_2d(mdp.numx.arange(2,1001,2))
+...         block_y = mdp.utils.atleast_2d(mdp.numx.arange(1,1001,2))
+...         # put variables on columns and observations on rows
+...         block = mdp.numx.transpose(mdp.numx.concatenate([block_x,block_y]))
+...         progressbar.update(i+1)
+...         yield block
+...     print '\n'
+...     return
+...
+&gt;&gt;&gt;
+</pre>
+<p>Let's define a bogus flow consisting of 2 <tt class="docutils literal"><span class="pre">BogusNode</span></tt>:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; flow = mdp.SimpleFlow([BogusNode(),BogusNode()],verbose=1)
+</pre>
+<p>Train the first node with 5000 blocks and the second node with 3000 blocks.
+Note that the only allowed argument to <tt class="docutils literal"><span class="pre">train</span></tt> is a sequence (list or tuple)
+of generators. In case you don't want or need to use incremental learning and
+want to do a one-shot training, you can use as argument to <tt class="docutils literal"><span class="pre">train</span></tt> a single
+array of data:</p>
+<p><strong>block-mode training</strong></p>
+<blockquote>
+<pre class="literal-block">
+&gt;&gt;&gt; flow.train([gen_data(5000),gen_data(3000)])
+Training node #0 (IdentityNode)
+[===================================100%==================================&gt;]  
+
+Training finished
+Training node #1 (IdentityNode)
+[===================================100%==================================&gt;]  
+
+Training finished
+Close the training phase of the last node
+</pre>
+</blockquote>
+<p><strong>one-shot training</strong> using one single set of data for both nodes</p>
+<blockquote>
+<pre class="literal-block">
+&gt;&gt;&gt; flow = mdp.SimpleFlow([BogusNode(),BogusNode()])
+&gt;&gt;&gt; block_x = mdp.utils.atleast_2d(mdp.numx.arange(2,1001,2))
+&gt;&gt;&gt; block_y = mdp.utils.atleast_2d(mdp.numx.arange(1,1001,2))
+&gt;&gt;&gt; single_block = mdp.numx.transpose(mdp.numx.concatenate([block_x,block_y]))
+&gt;&gt;&gt; flow.train(single_block)
+</pre>
+</blockquote>
+<p>If your flow contains non-trainable nodes, you must specify a <tt class="docutils literal"><span class="pre">None</span></tt> generator
+for the non-trainable nodes:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; flow = mdp.SimpleFlow([BogusNode2(),BogusNode()], verbose=1)
+&gt;&gt;&gt; flow.train([None,gen_data(5000)])
+Training node #0 (BogusNode2)
+Training finished
+Training node #1 (IdentityNode)
+[===================================100%==================================&gt;]  
+
+Training finished
+Close the training phase of the last node
+</pre>
+<p>If in this case you try the one-shot training you'll get two warnings like
+the following ones:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; flow = mdp.SimpleFlow([BogusNode2(),BogusNode()], verbose=1)
+&gt;&gt;&gt; flow.train(single_block)
+Training node #0 (BogusNode2)
+/.../linear_flows.py:94: MDPWarning: 
+! Node 0 in not trainable
+You probably need a 'None' generator for this node. Continuing anyway.
+  warnings.warn(wrnstr, mdp.MDPWarning)
+Training finished
+Training node #1 (IdentityNode)
+Training finished
+Close the training phase of the last node
+</pre>
+<p>You can get rid of this warning either by doing what the warning asks you,
+namely use the generator syntax and provide a <tt class="docutils literal"><span class="pre">None</span></tt> generator for the
+non-trainable nodes, or by switching off MDP warnings altogether:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import warnings
+&gt;&gt;&gt; warnings.filterwarnings(&quot;ignore&quot;,'.*',mdp.MDPWarning)
+&gt;&gt;&gt; flow = mdp.SimpleFlow([BogusNode2(),BogusNode()], verbose=1)
+&gt;&gt;&gt; flow.train(single_block)
+Training node #0 (BogusNode2)
+Training finished
+Training node #1 (IdentityNode)
+Training finished
+Close the training phase of the last node
+</pre>
+<p>To switch on <tt class="docutils literal"><span class="pre">MDPWarnings</span></tt> again:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; warnings.filterwarnings(&quot;always&quot;,'.*',mdp.MDPWarning)
+</pre>
+<p>Generators can be used also for execution (and inversion):</p>
+<pre class="literal-block">
+&gt;&gt;&gt; flow = mdp.SimpleFlow([BogusNode(),BogusNode()], verbose=1)
+&gt;&gt;&gt; flow.train([gen_data(1), gen_data(1)])
+Training node #0 (BogusNode2)
+Training finished
+Training node #1 (IdentityNode)
+[===================================100%==================================&gt;]  
+
+Training finished
+Close the training phase of the last node
+&gt;&gt;&gt; output = flow.execute(gen_data(1000))
+[===================================100%==================================&gt;]  
+&gt;&gt;&gt; output = flow.inverse(gen_data(1000))
+[===================================100%==================================&gt;]  
+</pre>
+<p>Execution and inversion can be done in one-shot mode also. Note that
+since training is finished you are not going to get a warning</p>
+<pre class="literal-block">
+&gt;&gt;&gt; output = flow.execute(single_block)
+&gt;&gt;&gt; output = flow.inverse(single_block)
+</pre>
+</div>
+<div class="section" id="checkpoints">
+<h1><a class="toc-backref" href="#id13" name="checkpoints">Checkpoints</a></h1>
+<p>It can sometimes be useful to execute arbitrary functions at the end
+of the training or execution phase, for example to save the internal
+structures of a node for later analysis. This can easily be done
+defining a <tt class="docutils literal"><span class="pre">CheckpointFlow</span></tt>. As an example imagine the following 
+situation: you want to perform Principal Component Analysis (PCA) on 
+your data to reduce the dimensionality. After this you want to expand
+the signals into a nonlinear space and then perform Slow Feature 
+Analysis to extract slowly varying signals. As the expansion will increase
+the number of components, you don't want to run out of memory, but at the same
+time you want to keep as much information as possible after the dimensionality
+reduction. You could do that by specifying the percentage of
+the total input variance that has to be conserved in the dimensionality
+reduction. As the number of output components of the PCA node now can become 
+as large as the that of the input components, you want to check, after training the 
+PCA node, that this number is below a certain threshold. If this is not 
+the case you want to abort the execution and maybe start again requesting
+less variance to be kept.</p>
+<p>Let start defining a generator to be used through the whole example:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; def gen_data(blocks,dims):
+...     mat = mdp.numx_rand.random((dims,dims))-0.5
+...     for i in xrange(blocks):
+...         # put variables on columns and observations on rows
+...         block = mdp.utils.mult(mdp.numx_rand.random((1000,dims)), mat)
+...         yield block
+...     return
+...
+&gt;&gt;&gt;
+</pre>
+<p>Define a <tt class="docutils literal"><span class="pre">PCANode</span></tt> which reduces dimensionality of the input,
+a <tt class="docutils literal"><span class="pre">PolynomialExpansionNode</span></tt> to expand the signals in the space
+of polynomials of degree 2 and a <tt class="docutils literal"><span class="pre">SFANode</span></tt> to perform SFA:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; pca = mdp.nodes.PCANode(output_dim=0.9)
+&gt;&gt;&gt; exp = mdp.nodes.PolynomialExpansionNode(2)
+&gt;&gt;&gt; sfa = mdp.nodes.SFANode()
+</pre>
+<p>As you see we have set the output dimension of the <tt class="docutils literal"><span class="pre">PCANode</span></tt> to be <tt class="docutils literal"><span class="pre">0.9</span></tt>.
+This means that we want to keep at least 90% of the variance of the original signal.
+We define a <tt class="docutils literal"><span class="pre">PCADimensionExceededException</span></tt> that has to be thrown when
+the number of output components exceeds a certain threshold:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class PCADimensionExceededException(Exception):
+...     &quot;&quot;&quot;Exception base class for PCA exceeded dimensions case.&quot;&quot;&quot;
+...     pass
+...
+&gt;&gt;&gt;
+</pre>
+<p>Then, write a <tt class="docutils literal"><span class="pre">CheckpointFunction</span></tt> that checks the number of output
+dimensions of the <tt class="docutils literal"><span class="pre">PCANode</span></tt> and aborts if this number is larger than <tt class="docutils literal"><span class="pre">max_dim</span></tt>:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; class CheckPCA(mdp.CheckpointFunction):
+...     def __init__(self,max_dim):
+...         self.max_dim = max_dim
+...     def __call__(self,node):
+...         node.stop_training()
+...         act_dim = node.get_output_dim()
+...         if act_dim &gt; self.max_dim:
+...             errstr = 'PCA output dimensions exceeded maximum '+\
+...                      '(%d &gt; %d)'%(act_dim,self.max_dim)
+...             raise PCADimensionExceededException, errstr
+...         else:
+...             print 'PCA output dimensions = %d'%(act_dim)
+...
+&gt;&gt;&gt;
+</pre>
+<p>Define the CheckpointFlow:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; flow = mdp.CheckpointFlow([pca, exp, sfa])
+</pre>
+<p>To train it we have to supply 3 generators and 3 checkpoint functions:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; flow.train([gen_data(10, 50), None, gen_data(10, 50)],
+...            [CheckPCA(10), None, None])
+Traceback (most recent call last):
+  File &quot;&lt;stdin&gt;&quot;, line 2, in ?
+  [...]
+__main__.PCADimensionExceededException: PCA output dimensions exceeded maximum (25 &gt; 10)
+</pre>
+<p>The training fails with a <tt class="docutils literal"><span class="pre">PCADimensionExceededException</span></tt>.
+If we only had 12 input dimensions instead of 50 we would have passed
+the checkpoint:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; flow[0] = mdp.nodes.PCANode(output_dim=0.9) 
+&gt;&gt;&gt; flow.train([gen_data(10, 12), None, gen_data(10, 12)],
+...            [CheckPCA(10), None, None])
+PCA output dimensions = 6
+</pre>
+<p>We could use the built-in <tt class="docutils literal"><span class="pre">CheckpoinSaveFunction</span></tt> to save the <tt class="docutils literal"><span class="pre">SFANode</span></tt> 
+and analyze the results later :</p>
+<pre class="literal-block">
+&gt;&gt;&gt; pca = mdp.nodes.PCANode(output_dim=0.9)
+&gt;&gt;&gt; exp = mdp.nodes.PolynomialExpansionNode(2)
+&gt;&gt;&gt; sfa = mdp.nodes.SFANode()
+&gt;&gt;&gt; flow = mdp.CheckpointFlow([pca, exp, sfa])
+&gt;&gt;&gt; flow.train([gen_data(10, 12), None, gen_data(10, 12)],
+...            [CheckPCA(10),
+...             None, 
+...             mdp.CheckpointSaveFunction('dummy.pic',
+...                                        stop_training = 1,
+...                                        protocol = 0)])
+...
+PCA output dimensions = 7
+</pre>
+<p>We can now reload and analyze the <tt class="docutils literal"><span class="pre">SFANode</span></tt>:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; fl = file('dummy.pic')
+&gt;&gt;&gt; import cPickle
+&gt;&gt;&gt; sfa_reloaded = cPickle.load(fl)
+&gt;&gt;&gt; sfa_reloaded
+SFANode(input_dim=35, output_dim=35, typecode='d')
+</pre>
+<p>Don't forget to clean the rubbish:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; fl.close()
+&gt;&gt;&gt; import os
+&gt;&gt;&gt; os.remove('dummy.pic')
+</pre>
+</div>
+<div class="section" id="a-real-life-example-logistic-maps">
+<h1><a class="toc-backref" href="#id14" name="a-real-life-example-logistic-maps">A real life example (Logistic maps)</a></h1>
+<p>We show an application of Slow Feature Analysis to the analysis of
+non-stationary time series. We consider a chaotic time series generated
+by the logistic map based on the logistic equation (a demographic model
+of the population biomass of species in the presence of limiting factors
+such as food supply or disease), and extract the slowly varying parameter
+that is hidden behind the time series.
+This example reproduces some of the results reported in:
+Laurenz Wiskott, <cite>Estimating Driving Forces of Nonstationary Time Series
+with Slow Feature Analysis</cite>. arXiv.org e-Print archive,
+<a class="reference" href="http://arxiv.org/abs/cond-mat/0312317">http://arxiv.org/abs/cond-mat/0312317</a></p>
+<p>Generate the slowly varying driving force, 
+a combination of three sine waves (freqs: 5, 11, 13 Hz), and define a function
+to generate the logistic map</p>
+<pre class="literal-block">
+&gt;&gt;&gt; p2 = mdp.numx.pi*2
+&gt;&gt;&gt; t = mdp.utils.linspace(0,1,10000,endpoint=0) # time axis 1s, samplerate 10KHz
+&gt;&gt;&gt; dforce = mdp.numx.sin(p2*5*t) + mdp.numx.sin(p2*11*t) + mdp.numx.sin(p2*13*t)
+&gt;&gt;&gt; def logistic_map(x,r):
+...     return r*x*(1-x)
+...
+&gt;&gt;&gt;
+</pre>
+<p>Note that we define <tt class="docutils literal"><span class="pre">series</span></tt> to be a two-dimensional array.
+Inputs to MDP must be two-dimensional arrays with variables
+on columns and observations on rows. In this case we have only
+one variable:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; series = mdp.numx.zeros((10000,1),'d')
+</pre>
+<p>Fix the initial condition:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; series[0] = 0.6
+</pre>
+<p>Generate the time-series using the logistic equation
+the driving force modifies the logistic equation parameter <tt class="docutils literal"><span class="pre">r</span></tt>:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; for i in range(1,10000):
+...     series[i] = logistic_map(series[i-1],3.6+0.13*dforce[i])
+...
+&gt;&gt;&gt;
+</pre>
+<p>If you have a plotting package <tt class="docutils literal"><span class="pre">series</span></tt> should look like this:</p>
+<div class="image"><img alt="chaotic time series" src="series.png" width="700" /></div>
+<p>Define a flow to perform SFA in the space of polynomials of degree 3.
+We need a node that embeds the time-series in a 10 dimensional
+space, where different variables correspond to time-delayed copies
+of the original time-series: the <tt class="docutils literal"><span class="pre">TimeFramesNode(10)</span></tt>.
+Then we need a node that expands the new signal in the space
+of polynomials of degree 3: the <tt class="docutils literal"><span class="pre">PolynomialExpansionNode(3)</span></tt>.
+Finally we perform SFA onto the expanded signal
+and keep the slowest feature: <tt class="docutils literal"><span class="pre">SFANode(output_dim=1)</span></tt>.
+We also measure the <em>slowness</em> of the input time-series and
+of the slow feature obtained by SFA. Therefore we put at the
+beginning and at the end of the sequence an <em>analysis node</em>
+that computes the <em>eta-value</em> (a measure of slowness) 
+of its input (see docs for the definition of eta-value): the <tt class="docutils literal"><span class="pre">EtaComputerNode()</span></tt>:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; sequence = [mdp.nodes.EtaComputerNode(),
+...             mdp.nodes.TimeFramesNode(10),
+...             mdp.nodes.PolynomialExpansionNode(3),
+...             mdp.nodes.SFANode(output_dim=1),
+...             mdp.nodes.EtaComputerNode()]
+...
+&gt;&gt;&gt;
+&gt;&gt;&gt; flow = mdp.SimpleFlow(sequence, verbose=1)
+</pre>
+<p>Since the time-series is short enough to be kept in memory
+we don't need to define generators and we can feed the flow
+directly with the whole signal:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; flow.train(series)
+</pre>
+<p>Since the second and the third nodes are not trainable we are
+going to get two warnings (Training Interrupted). We can safely
+ignore them. Execute the flow to get the slow feature</p>
+<pre class="literal-block">
+&gt;&gt;&gt; slow = flow.execute(series)
+</pre>
+<p>The slow feautre should match the driving force
+up to a scaling factor, a constant offset and the sign.
+To allow a comparison we rescale the driving force
+to have zero mean and unit variance:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; resc_dforce = (dforce - mdp.utils.mean(dforce,0))/mdp.utils.std(dforce,0)
+</pre>
+<p>Print covariance between the rescaled driving force and
+the slow feature. Note that embedding the time-series with
+10 time frames leads to a time-series with 9 observations less:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; mdp.utils.cov(resc_dforce[:-9],slow)
+0.99992501533859179
+</pre>
+<p>Print the <em>eta-values</em> of the chaotic time-series and of
+the slow feature</p>
+<pre class="literal-block">
+&gt;&gt;&gt; print 'Eta value (time-series): ', flow[0].get_eta(t=10000)
+Eta value (time-series):  [ 3002.53380245]
+&gt;&gt;&gt; print 'Eta value (slow feature): ', flow[-1].get_eta(t=9996)
+Eta value (slow feature):  [ 10.2185087]
+</pre>
+<p>If you have a plotting package you could plot <tt class="docutils literal"><span class="pre">resc_dforce</span></tt> together with
+<tt class="docutils literal"><span class="pre">slow</span></tt> and see that they match perfectly:</p>
+<div class="image"><img alt="SFA estimate" src="results.png" width="700" /></div>
+</div>
+<div class="section" id="another-real-life-example-growing-neural-gas">
+<h1><a class="toc-backref" href="#id15" name="another-real-life-example-growing-neural-gas">Another real life example (Growing neural gas)</a></h1>
+<p>We generate uniformly distributed random data points confined on different
+2-D geometrical objects. The Growing Neural Gas Node builds a graph with the
+same topological structure.</p>
+<p>Fix the random seed to obtain reproducible results:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; mdp.numx_rand.seed(1266090063, 1644375755)
+</pre>
+<p>Some functions to generate uniform probability distributions on
+different geometrical objects:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; def uniform(min_, max_, dims):
+...     &quot;&quot;&quot;Return a random number between min_ and max_ .&quot;&quot;&quot;
+...     return mdp.numx_rand.random(dims)*(max_-min_)+min_
+...
+&gt;&gt;&gt; def circumference_distr(center, radius, n):
+...     &quot;&quot;&quot;Return n random points uniformly distributed on a circumference.&quot;&quot;&quot;
+...     phi = uniform(0, 2*mdp.numx.pi, (n,1))
+...     x = radius*mdp.numx.cos(phi)+center[0]
+...     y = radius*mdp.numx.sin(phi)+center[1]
+...     return mdp.numx.concatenate((x,y), axis=1)
+...
+&gt;&gt;&gt; def circle_distr(center, radius, n):
+...     &quot;&quot;&quot;Return n random points uniformly distributed on a circle.&quot;&quot;&quot;
+...     phi = uniform(0, 2*mdp.numx.pi, (n,1))
+...     sqrt_r = mdp.numx.sqrt(uniform(0, radius*radius, (n,1)))
+...     x = sqrt_r*mdp.numx.cos(phi)+center[0]
+...     y = sqrt_r*mdp.numx.sin(phi)+center[1]
+...     return mdp.numx.concatenate((x,y), axis=1)
+...
+&gt;&gt;&gt; def rectangle_distr(center, w, h, n):
+...     &quot;&quot;&quot;Return n random points uniformly distributed on a rectangle.&quot;&quot;&quot;
+...     x = uniform(-w/2., w/2., (n,1))+center[0]
+...     y = uniform(-h/2., h/2., (n,1))+center[1]
+...     return mdp.numx.concatenate((x,y), axis=1)
+...
+&gt;&gt;&gt; N = 2000
+</pre>
+<p>Explicitly collect random points from some distributions:</p>
+<ul>
+<li><p class="first">Circumferences:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; cf1 = circumference_distr([6,-0.5], 2, N)
+&gt;&gt;&gt; cf2 = circumference_distr([3,-2], 0.3, N)
+</pre>
+</li>
+<li><p class="first">Circles:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; cl1 = circle_distr([-5,3], 0.5, N/2)
+&gt;&gt;&gt; cl2 = circle_distr([3.5,2.5], 0.7, N)
+</pre>
+</li>
+<li><p class="first">Rectangles:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; r1 = rectangle_distr([-1.5,0], 1, 4, N)
+&gt;&gt;&gt; r2 = rectangle_distr([+1.5,0], 1, 4, N)
+&gt;&gt;&gt; r3 = rectangle_distr([0,+1.5], 2, 1, N/2)
+&gt;&gt;&gt; r4 = rectangle_distr([0,-1.5], 2, 1, N/2)
+</pre>
+</li>
+</ul>
+<p>Shuffle the points to make the statistics stationary</p>
+<pre class="literal-block">
+&gt;&gt;&gt; x = mdp.numx.concatenate([cf1, cf2, cl1, cl2, r1,r2,r3,r4], axis=0)
+&gt;&gt;&gt; x = mdp.numx.take(x,mdp.numx_rand.permutation(x.shape[0]))
+</pre>
+<p>If you have a plotting package <tt class="docutils literal"><span class="pre">x</span></tt> should look like this:</p>
+<div class="image"><img alt="GNG starting distribution" src="gng_distribution.png" width="700" /></div>
+<p>Create a <tt class="docutils literal"><span class="pre">GrowingNeuralGasNode</span></tt> and train it:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; gng = mdp.nodes.GrowingNeuralGasNode(max_nodes=75)
+</pre>
+<p>The initial distribution of nodes is randomly chosen:</p>
+<div class="image"><img alt="GNG starting condition" src="gng_initial.png" width="700" /></div>
+<p>The training is performed in small chunks in order to visualize
+the evolution of the graph:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; STEP = 500
+&gt;&gt;&gt; for i in range(0,x.shape[0],STEP):
+...     gng.train(x[i:i+STEP])
+...     # [...] plotting instructions
+...
+&gt;&gt;&gt; gng.stop_training()
+</pre>
+<p>See <a class="reference" href="animated_training.gif">here</a> the animation of training.</p>
+<p>Visualizing the neural gas network, we'll see that it is
+adapted to the topological structure of the data distribution:</p>
+<div class="image"><img alt="GNG final condition" src="gng_final.png" width="700" /></div>
+<p>Calculate the number of connected components:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; n_obj = len(gng.graph.connected_components())
+5
+</pre>
+</div>
+<div class="section" id="to-do">
+<h1><a class="toc-backref" href="#id16" name="to-do">To Do</a></h1>
+<p>In this last section we want to give you an overview about our
+plans for the development of MDP:</p>
+<ul class="simple">
+<li>Add more data processing algorithms.</li>
+<li>Extend the linear  flows to handle general acyclic graphs of nodes.</li>
+<li>Actual use of the graph structure will be possible only in presence of 
+an easy and intuitive GUI :)</li>
+<li>Wait for a good guy who wants to contribute a <tt class="docutils literal"><span class="pre">CovarianceMatrix</span></tt> class that
+uses some of the fancy sum algorithms to avoid round off errors when
+adding many numbers.</li>
+</ul>
+<div class="admonition-a-final-remark admonition">
+<p class="first admonition-title">A final remark</p>
+<p class="last">If you want to contribute some code or a new
+algorithm, please do not hesitate to submit it!</p>
+</div>
+</div>
+</div>
+<div class="footer">
+<hr class="footer" />
+Generated on: 2005-06-13 08:31 UTC.
+Generated by <a class="reference" href="http://docutils.sourceforge.net/">Docutils</a> from <a class="reference" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> source.
+
+</div>
+</body>
+</html>
