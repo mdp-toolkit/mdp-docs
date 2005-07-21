@@ -21,7 +21,7 @@ cd ..
 echo 'Generating MDP website...'
 cd html_src
 python granparser.py
-cp *css images/* ../html
+cp *css images/* data/* ../html
 cd ..
 
 
