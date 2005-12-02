@@ -1,0 +1,26 @@
+#!/bin/bash
+echo 'Are you sure you want to overwrite the tutorial.rst?'
+echo 'If yes comment me out!'
+echo 'Bye!'
+exit -1
+
+LOC=$PWD
+DEMOS=("node_demo.py" "subclass_demo.py" "flow_demo.py" "generators_demo.py" "checkpoint_demo.py" "logistic_demo.py" "neuralgas_demo.py")
+DIR="/home/zito/cvs/python/mdp/demo/"
+TUT=$LOC/tutorial.rst
+TUTHTML=$LOC/tutorial.html
+PAR=$LOC/parser.py
+RST=/home/scipy/local/docutils/tools/rst2html.py
+GENHTML=$LOC/genhtml
+rm -f $TUT
+cd $DIR
+for fl in "${DEMOS[@]}"; do 
+     echo "Processing file $fl"
+     echo "Here starts file: $fl" >> $TUT
+     echo "==========================================================" >> $TUT
+     python $PAR $fl >> $TUT
+     echo "" >> $TUT
+done
+cd $LOC
+echo "Generating html"
+$GENHTML

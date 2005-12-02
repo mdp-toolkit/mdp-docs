@@ -1,0 +1,288 @@
+<CENTER><H1>Symeig</H1></CENTER>
+<H2>Symmetrical eigenvalue problem routine for SciPy</H2>
+
+<P>
+The <span class="highlight">symeig</span> module contains a Python
+wrapper for the LAPACK functions to solve the <span
+class="highlight">standard and generalized eigenvalue problems for
+symmetric (hermitian) positive definite matrices</span>. Those
+specialized algorithms give an important speed-up with repect to the
+generic LAPACK eigenvalue problem solver used by
+<A HREF="http://www.scipy.org/">SciPy</A> (<CODE>scipy.linalg.eig</CODE>).
+
+<P>
+The wrapper function <CODE>symeig</CODE> automatically selects the
+appropriate LAPACK routine. It is also possible to request only a
+subset of all eigenvalues, which uses less memory and sometimes
+results in an additional speed-up especially for large matrices.
+
+<P>
+<span class="highlight">symeig</span> is in the process of being
+added to the official <A HREF="http://www.scipy.org/">SciPy</A> 
+distribution. Until then we distribute it here 
+since we have received some feedback from users that were 
+interested in using it in the meanwhile. 
+
+<HR>
+
+<H2>Installation</H2>
+
+<UL>
+<LI><B>Requirements:</B>
+<UL>
+<LI> A complete <A HREF="http://www.netlib.org/lapack/">LAPACK</A> 
+     library with <A HREF="http://math-atlas.sourceforge.net/">ATLAS</A>
+     optimized routines
+<LI><A HREF="http://www.python.org/">Python</A> &ge; 2.3
+<LI><A HREF="http://www.scipy.org/">SciPy</A> &ge; 0.3.2
+<LI><A HREF="http://cens.ioc.ee/projects/f2py2e/">f2py</A> &ge; 2.43.239_1809
+</UL>
+
+If you experience some problems installing these programs, try looking
+at <A HREF="faq.html#FAQ3">this FAQ</A>.
+
+
+<LI><B>Download:</B>
+<A HREF="/cgi-bin/axs/ax.pl?http://sourceforge.net/project/showfiles.php?group_id=116959">
+Download <span class="highlight">symeig</span> at SourceForge</A>
+
+<LI><B>Installation:</B>
+
+Unpack the archive file, enter the project directory and type:<BR>
+<CODE class="pycode">python setup.py install</CODE>.
+
+<P>
+If you want to use <span class="highlight">symeig</span> without
+installing it on the system Python path:<BR>
+<CODE class="pycode">python setup.py install --prefix=/some_dir_in_your_PYTHONPATH/</CODE>.
+
+<LI ID="TESTING"><B>Testing:</B>
+Check your installation in a Python shell as follows:
+<pre class="literal-block">
+&gt;&gt;&gt; import symeig
+&gt;&gt;&gt; symeig.test.test()
+</pre>
+To see the <A HREF="#amazing">amazing speed-up properties</A>
+of symeig compared to the standard <CODE class="pycode">scipy.eig</CODE>
+function, type:
+<pre class="literal-block">
+&gt;&gt;&gt; import symeig
+&gt;&gt;&gt; symeig.test.benchmark()
+</pre>
+</UL>
+
+<HR>
+
+<H2>Mantainers</H2>
+
+<span class="highlight">symeig</span> has been written by
+<a href="/cgi-bin/axs/ax.pl?http://itb.biologie.hu-berlin.de/~berkes">Pietro Berkes</a>
+and <a href="/cgi-bin/axs/ax.pl?http://itb.biologie.hu-berlin.de/~zito">Tiziano Zito</a> 
+at the <a href="http://itb.biologie.hu-berlin.de/">Institute for Theoretical Biology</a>
+of the <a href="http://www.hu-berlin.de/">Humboldt University</a>, Berlin.<br>
+For comments, patches, feature requests, support requests, and bug reports
+(if any) you can either use the SourceForge
+<a href="http://sourceforge.net/mail/?group_id=116959">MDP mailing list</a>
+or write directly to us (maybe faster).
+
+<HR>
+
+<H2>Documentation</H2>
+<UL>
+<LI><B>symeig docstring:</B>
+<pre class="literal-block">
+    """Solve standard and generalized eigenvalue problem for symmetric
+       (hermitian) definite positive matrices.
+
+    Syntax:
+
+      w,Z = symeig(A) 
+      w = symeig(A,eigvectors=0)
+      w,Z = symeig(A,range=(lo,hi))
+      w,Z = symeig(A,B,range=(lo,hi))
+
+    Inputs:
+
+      A     -- An N x N matrix.
+      B     -- An N x N matrix.
+      eigenvectors -- if set return eigenvalues and eigenvectors, otherwise
+                      only eigenvalues 
+      turbo -- (only for generalized eigenvalue problem and if range=None)
+               if turbo = "on", use divide and conquer algorithm
+               (faster but expensive in memory)
+      range -- the tuple (lo,hi) represent the indexes of the smallest and
+               largest (in ascending order) eigenvalues to be returned.
+               1 &lt;= lo &lt; hi &lt;= N
+               if range = None, returns all eigenvalues and eigenvectors. 
+      type  -- (only for generalized eigenvalue problem)
+               Specifies the problem type to be solved:
+                      type = 1:  A*x = (lambda)*B*x
+                           = 2:  A*B*x = (lambda)*x
+                           = 3:  B*A*x = (lambda)*x
+      overwrite -- if 'overwrite' is set, computations are done inplace,
+                   A and B are overwritten during calculation (you save
+                   memory but loose the matrices).
+                   If matrices are complex this argument is ignored.
+      
+    Outputs:
+
+      w     -- (selected) eigenvalues in ascending order.
+      Z     -- if range = None, Z contains the matrix of eigenvectors,
+               normalized as follows:
+                  Z^H * A * Z = lambda and
+                    - type = 1 or 2: Z^H * B * Z = I
+                    - type = 3     : Z^H * B^(-1) * Z = I
+               where ^H means conjugate transpose.
+               if range, an N x M matrix containing the orthonormal
+               eigenvectors of the matrix A corresponding to the selected
+               eigenvalues, with the i-th column of Z holding the eigenvector
+               associated with w[i]. The eigenvectors are normalized as above.
+    """
+</pre>
+<LI ID="amazing"><B>Benchmark results:</B>
+<P>
+<table cellpadding="2px" cellspacing="0"  border="1" style="text-align: left; width: 100%;">
+<tbody>
+<tr>
+<td style="vertical-align: top; width: 20%; font-weight: bold;"><br>
+</td>
+<td
+style="vertical-align: top; text-align: center; width: 20%; font-weight: bold;"
+rowspan="1" colspan="2">Standard eigenproblem<BR>(sec/100)
+</td>
+<td
+style="vertical-align: top; text-align: center; width: 20%; font-weight: bold;"
+rowspan="1" colspan="2">Generalized eigenproblem<BR>(sec/100)
+</td>
+</tr>
+<tr>
+<td
+style="vertical-align: top; width: 20%; font-weight: bold; text-align: center;">Matrix
+dimension<br>
+</td>
+<td
+style="vertical-align: top; text-align: center; width: 20%; background-color: rgb(153, 255, 153); font-weight: bold;">symeig<br>
+</td>
+<td
+style="vertical-align: top; text-align: center; width: 20%; background-color: rgb(255, 204, 204); font-weight: bold;">scipy<br>
+</td>
+<td
+style="vertical-align: top; text-align: center; width: 20%; background-color: rgb(153, 255, 153); font-weight: bold;">symeig<br>
+</td>
+<td
+style="vertical-align: top; text-align: center; width: 20%; background-color: rgb(255, 204, 204); font-weight: bold;">scipy<br>
+</td>
+</tr>
+<tr>
+<td style="vertical-align: top; width: 20%; text-align: center;">16x16<br>
+</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(153, 255, 153);">
+0.15</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(255, 204, 204);">0.35</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(153, 255, 153);">0.27</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(255, 204, 204);">
+0.27</td>
+</tr>
+<tr>
+<td style="vertical-align: top; width: 20%; text-align: center;">32x32</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(153, 255, 153);">0.38</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(255, 204, 204);">0.46</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(153, 255, 153);">0.67</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(255, 204, 204);">0.74</td>
+</tr>
+<tr>
+<td style="vertical-align: top; width: 20%; text-align: center;">64x64</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(153, 255, 153);">1.39</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(255, 204, 204);">2.84
+</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(153, 255, 153);">2.41</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(255, 204, 204);">3.16</td>
+</tr>
+<tr>
+<td style="vertical-align: top; width: 20%; text-align: center;">128x128</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(153, 255, 153);">6.31</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(255, 204, 204);">19.60</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(153, 255, 153);">13.48</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(255, 204, 204);">21.31</td>
+</tr>
+<tr>
+<td style="vertical-align: top; width: 20%; text-align: center;">256x256</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(153, 255, 153);">40.19</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(255, 204, 204);">174.55</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(153, 255, 153);">81.58</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(255, 204, 204);">412.50</td>
+</tr>
+<tr>
+<td style="vertical-align: top; width: 20%; text-align: center;">512x512</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(153, 255, 153);">290.87</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(255, 204, 204);">1495.93</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(153, 255, 153);">524.27</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(255, 204, 204);">3900.23</td>
+</tr>
+<tr>
+<td style="vertical-align: top; width: 20%; text-align: center;">1024x1024</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(153, 255, 153);">1921.66</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(255, 204, 204);">11877.02</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(153, 255, 153);">3366.63</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(255, 204, 204);">31836.77</td>
+</tr>
+<tr>
+<td style="vertical-align: top; width: 20%; text-align: center;">2048x2048</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(153, 255, 153);">19548.78</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(255, 204, 204);">135800.10</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(153, 255, 153);">35719.18</td>
+<td
+style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(255, 204, 204);">271808.71</td>
+</tr>
+</tbody>
+</table>
+
+<LI><B>Wrapped LAPACK functions:</B>
+<BR>
+<span class="highlight">symeig</span> wraps the following LAPACK functions
+for <A HREF="http://www.netlib.org/lapack/lug/node30.html">standard</A>
+and <A HREF="http://www.netlib.org/lapack/lug/node34.html">generalized</A>
+symmetric eigenvalue problems:
+<P><CENTER>
+<TABLE BORDER="1" CELLPADDING="10px" CELLSPACING="0">
+<TR><TD>EVR routines<TD><CODE>ssyevr.f</CODE><TD><CODE>dsyevr.f</CODE>
+    <TD><CODE>cheevr.f</CODE><TD><CODE>zheevr.f</CODE>
+<TR><TD>GV routines<TD><CODE>ssygv.f</CODE><TD><CODE>dsygv.f</CODE>
+    <TD><CODE>chegv.f</CODE><TD><CODE>zhegv.f</CODE>
+<TR><TD>GVD routines<TD><CODE>ssygvd.f</CODE><TD><CODE>dsygvd.f</CODE>
+    <TD><CODE>chegvd.f</CODE><TD><CODE>zhegvd.f</CODE>
+<TR><TD>GVX routines<TD><CODE>ssygvx.f</CODE><TD><CODE>dsygvx.f</CODE>
+    <TD><CODE>chegvx.f</CODE><TD><CODE>zhegvx.f</CODE>
+</TABLE></CENTER>
+</UL>

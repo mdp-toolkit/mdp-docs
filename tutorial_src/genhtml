@@ -1,0 +1,49 @@
+#!/bin/bash
+TUT=$PWD/tutorial.rst
+
+# generate latex version
+TEMP=$PWD/rem
+TUTL=$PWD/tutorial_latex.txt
+rm -rf $TUTL
+echo '============================================' > $TUTL
+echo '`Modular Toolkit for Data Processing (MDP)`_' >> $TUTL
+echo '============================================' >> $TUTL
+echo '                                            ' >> $TUTL
+echo ' This document is also available online:    ' >> $TUTL
+echo ' http://mdp-toolkit.sourceforge.net/tutorial.html' >> $TUTL
+echo '                                            ' >> $TUTL
+cat $TUT >> $TUTL
+
+# generate html tutorial 
+# modify header
+TEMP=$PWD/temp
+TEMPD=$PWD/tempd
+python modify_header.py > $TEMP 
+TUTHTML=tutorial.html
+RST="/home/scipy/local/docutils/tools/rst2html.py -g -t --stylesheet=docutils.css" 
+$RST $TEMP $TEMPD
+# enclose body of $TEMP with our headers and footers
+# and copy it into the right place
+python remove_header.py $TEMPD $TUTHTML
+rm -f $TEMP $TEMPD
+
+# generate pdf totorial
+TEMP=$PWD/temp
+RST2="/home/scipy/local/docutils/tools/rst2latex.py -g -t " 
+$RST2 $TUTL $TEMP
+TUTTEX=$PWD/tutorial.tex
+# adjust \includegraphics --> \includegraphics[width=0.9\textwidth]
+cat $TEMP | sed s/\\\\includegraphics/\\\\includegraphics[width=0.9\\\\textwidth]/g > $TUTTEX
+rm -rf $TEMP
+# compile with pdflatex
+pdflatex $TUTTEX
+pdflatex $TUTTEX
+# clean up
+rm -rf tutorial.aux tutorial.log tutorial.out tutorial_latex.txt tutorial.tex
+# copy pdf to html directory
+cp tutorial.pdf ../MDP_tutorial.pdf
+
+
+
+
+

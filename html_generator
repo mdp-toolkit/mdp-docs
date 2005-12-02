@@ -1,0 +1,27 @@
+#!/bin/bash
+# clean up
+rm -rf html
+mkdir html
+mkdir html/docs
+mkdir html/docs/api
+# copy CHANGES to html
+cp LASTCHANGES html/CHANGES 
+# generate API documentation:
+echo 'Generating API documentation...'
+mkdir del
+cp -r ../mdp del/
+rm -rf del/mdp/demo
+epydoc --html -o html/docs/api -n "Modular toolkit for Data Processing MDP" -u "http://mdp-toolkit.sourceforge.net" --no-frames --private --inheritance listed  --docformat=plaintext ./del/mdp
+rm -rf del
+echo 'Done.'
+echo 'Generating tutorial HTML and PDF...'
+cd tutorial_src/
+./genhtml
+cd ..
+echo 'Generating MDP website...'
+cd html_src
+python granparser.py
+cp *css images/* data/* ../html
+cd ..
+
+
