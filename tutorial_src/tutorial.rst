@@ -4,58 +4,21 @@ Tutorial
 :Author: Pietro Berkes and Tiziano Zito
 :Homepage: http://mdp-toolkit.sourceforge.net
 :Copyright: This document has been placed in the public domain.
+:Version: 2.0.0
 
 .. raw:: html
    
    This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP_tutorial.pdf?download">pdf file</a> (200 KB).
 
-Modular toolkit for Data Processing (MDP) is a Python library to
-perform data processing. Already implemented algorithms include:
-Principal Component Analysis (PCA), Independent Component Analysis
-(ICA), Slow Feature Analysis (SFA), and Growing Neural Gas (GNG).
-
-MDP supports the most common numerical extensions to Python and the
-``symeig`` package (a Python wrapper
-for the LAPACK functions to solve the standard and generalized
-eigenvalue problems for symmetric (hermitian) positive definite
-matrices). MDP also includes ``graph`` (a lightweight package
-to handle graphs).
-
-When used together with ``SciPy`` (the scientific Python library) and
-``symeig``, MDP gives to the scientific programmer the full power of
-well-known C and FORTRAN data processing libraries.  MDP helps the
-programmer to exploit Python object oriented design with C and FORTRAN
-efficiency.
-
-MDP has been written for research in neuroscience, but it has been
-designed to be helpful in any context where trainable data processing
-algorithms are used.  Its simplicity on the user side together with
-the reusability of the implemented nodes could make it also a valid
-educational tool.
-
-Using MDP is as easy as:
-
-.. raw:: html
-
-   <!-- ignore -->
-
-::
-
-    >>> import mdp
-    >>> # perform pca on some data x
-    ...
-    >>> y = mdp.pca(x) 
-    >>> # perform ica on some data x using single precision
-    ...
-    >>> y = mdp.fastica(x, typecode='f') 
-
-MDP is of course much more than this: it allows to combine different
-algorithms and other data processing elements (nodes) into data
-processing sequences (flows). Moreover, it provides a framework that
-makes the implementation of new algorithms easy and intuitive.
-
 This is a guide to basic and some more advanced features of
-the MDP library. 
+the MDP library. Besides the present tutorial, you can learn 
+more about MDP by using the standard Python tools.  
+All MDP nodes have doc-strings, the public
+attributes and methods have telling names: All information about a 
+node can be obtained using  the ``help`` and ``dir`` functions within 
+the Python interpreter.	In addition to that, an automatically generated 
+`API <http://mdp-toolkit.sourceforge.net/docs/api/index.html>`_ is 
+available.
 
 .. Note::
   Code snippets throughout the script will be denoted by:
@@ -80,6 +43,66 @@ the MDP library.
 
 .. contents::
 
+Introduction
+------------
+Modular toolkit for Data Processing (MDP) is a Python library to
+perform data processing. Already implemented algorithms include:
+Principal Component Analysis (PCA), Independent Component Analysis
+(ICA), Slow Feature Analysis (SFA), and Growing Neural Gas (GNG).
+
+MDP supports the most common numerical extensions to Python and the
+`symeig <http://mdp-toolkit.sourceforge.net/symeig.html>`_ package 
+(a Python wrapper
+for the LAPACK functions to solve the standard and generalized
+eigenvalue problems for symmetric (hermitian) positive definite
+matrices). MDP also includes ``graph`` (a lightweight package
+to handle graphs).
+
+When used together with `SciPy <http://www.scipy.org>`_ (the 
+scientific Python library) and
+`symeig`_, MDP gives to the scientific programmer the full power of
+well-known C and FORTRAN data processing libraries.  MDP helps the
+programmer to exploit Python object oriented design with C and FORTRAN
+efficiency.
+
+MDP has been written for research in neuroscience, but it has been
+designed to be helpful in any context where trainable data processing
+algorithms are used.  Its simplicity on the user side together with
+the reusability of the implemented nodes could make it also a valid
+educational tool.
+
+Quick Start
+-----------
+Using MDP is as easy as:
+
+.. raw:: html
+
+   <!-- ignore -->
+
+::
+
+    >>> import mdp
+    >>> # perform pca on some data x
+    ...
+    >>> y = mdp.pca(x) 
+    >>> # perform ica on some data x using single precision
+    ...
+    >>> y = mdp.fastica(x, typecode='f') 
+
+A complete list of all short-cut functions like ``pca`` or ``fastica``
+can be obtained as follows:
+
+::
+
+    >>> dir(mdp.helper_funcs)
+    ['__builtins__', '__doc__', '__file__', '__name__', 
+     'cubica', 'fastica', 'get_eta', 'mdp', 'pca', 'sfa', 'whitening']
+
+MDP is of course much more than this: it allows to combine different
+algorithms and other data processing elements (nodes) into data
+processing sequences (flows). Moreover, it provides a framework that
+makes the implementation of new algorithms easy and intuitive.
+
 Nodes
 -----
 A node is the basic unit in MDP and it represents a data processing
@@ -101,7 +124,9 @@ learning if the chunks consists of single observations, or to
 batch learning if the whole data is sent in a single chunk). 
 Already implemented nodes include Principal Component Analysis
 (PCA), Independent Component Analysis (ICA), Slow Feature 
-Analysis (SFA), and Growing Neural Gas Network.
+Analysis (SFA), and Growing Neural Gas Network. Have a look at the 
+`full list <http://mdp-toolkit.sourceforge.net/index.html#IMNODES>`_ 
+of implemented nodes.
  
 Node Creation
 ~~~~~~~~~~~~~~
@@ -114,7 +139,7 @@ the input data if left unspecified. Input dimension and typecode
 can usually be specified when an instance of the node class
 is created.
 The constructor of each node class can require other task-specific
-arguments.
+arguments. The full documentation is available in the node's class doc-string.
 
 Some examples of node creation:
 
@@ -136,6 +161,15 @@ Some examples of node creation:
       >>> pcanode2
       PCANode(input_dim=None, output_dim=10, typecode='None')
 
+  The output dimensionality can be specified in terms of the explained variance
+  also. If we want to keep the number of principal components which can 
+  account for 80% of the input variance, we can set:
+  ::
+
+      >>> pcanode3 = mdp.nodes.PCANode(output_dim = 0.8)
+      >>> pcanode3.desired_variance
+      0.80000000000000004
+
 - If the typecode is set to ``f`` (float), the input 
   data is cast to float precision when received and the internal 
   structures are also stored as ``f``. The typecode influences the 
@@ -143,26 +177,25 @@ Some examples of node creation:
   computations are performed.
   ::
 
-      >>> pcanode3 = mdp.nodes.PCANode(typecode = 'f')
-      >>> pcanode3
+      >>> pcanode4 = mdp.nodes.PCANode(typecode = 'f')
+      >>> pcanode4
       PCANode(input_dim=None, output_dim=None, typecode='f')
 
   You can obtain a list of the typecodes supported by a node
   by calling its ``get_supported_typecodes`` method:
   ::
 
-      >>> pcanode3.get_supported_typecodes()
+      >>> pcanode4.get_supported_typecodes()
       ['f', 'd']
 
 
-- A PolynomialExpansionNode expands its input in the space
+- A ``PolynomialExpansionNode`` expands its input in the space
   of polynomals of a given degree by computing all monomials up
   to the specified degree. Its constructor needs as first argument
   the degree of the polynomials space (3 in this case).
   ::
 
       >>> expnode = mdp.nodes.PolynomialExpansionNode(3)
-
 
 Node Training
 ~~~~~~~~~~~~~~
@@ -172,7 +205,7 @@ be done during a training phase by calling the ``train`` method.
 Some examples of node training:
 
 - Create some random data and update the internal structures
-  (i.e. mean and covariance matrix) of the PCANode:
+  (i.e. mean and covariance matrix) of the ``PCANode``:
   ::
 
       >>> x = mdp.numx_rand.random((100, 25))  # 25 variables, 100 observations
@@ -196,35 +229,44 @@ Some examples of node training:
       ...     pcanode1.train(x)
       >>>
 
-- Some nodes don't need to be trained:
+- Some nodes don't need to or can not be trained:
   ::
 
       >>> expnode.is_trainable()
       0 
   
-  Trying to train them anyway would raise an exception:
-  ::
-
-      >>> x = mdp.numx_rand.random((100, 5))
-      >>> expnode.train(x)
-      Traceback (most recent call last):
-      File "<stdin>", line 1, in ?
-      File "...", line 190, in train
-        raise IsNotTrainableException, "This node is not trainable."
-      mdp.signal_node.IsNotTrainableException: This node is not trainable.
+  Trying to train them anyway would raise 
+  an ``IsNotTrainableException``.
 
 - The training phase ends when the ``stop_training``, ``execute``, or
   ``inverse`` method are called. For example we can stop the training 
-  of the PCANode (at this point the principal components are computed):
+  of the ``PCANode`` (at this point the principal components are computed):
   ::
 
       >>> pcanode1.stop_training()
+
+- If the ``PCANode`` was declared to have a number of output components 
+  dependent on the input variance to be explained, we can check after
+  training the number of output components and the actually explained variance:
+  ::
+
+      >>> pcanode3.train(x)
+      >>> pcanode3.stop_training()
+      >>> pcanode3.output_dim
+      16
+      >>> pcanode3.explained_variance
+      0.85261144755506446 
 
   It is now possible to access the trained internal data
   ::
 
       >>> avg = pcanode1.avg            # mean of the input data
       >>> v = pcanode1.get_projmatrix() # projection matrix
+
+- Some nodes, namely the one corresponding to supervised algorithms, e.g.
+  ``FDANode``, may need some labels or other supervised signals to be passed
+  during training. Detailed information about the signature of the 
+  ``train`` method can be read in the node's class doc-string.
 
 Node Execution
 ~~~~~~~~~~~~~~
@@ -249,6 +291,9 @@ After the training phase it is possible to execute the node:
       >>> x = mdp.numx_rand.random((100, 5))
       >>> y_exp = expnode(x)
 
+- Some nodes may allow for optional arguments in the ``execute`` method, 
+  as always the complete information is given in node's class doc-string.
+
 Node Inversion
 ~~~~~~~~~~~~~~ 
 If the operation computed by the node is invertible, it is possible
@@ -269,32 +314,24 @@ to compute the inverse transformation:
       >>> expnode.is_invertible()
       0
   
-  Trying to compute the inverse would raise an exception:
-  ::
-
-    >>> expnode.inverse(y_exp)
-    Traceback (most recent call last):
-    File "<stdin>", line 1, in ?
-    File "...", line 252, in inverse
-      raise IsNotInvertibleException, "This node is not invertible."
-    mdp.signal_node.IsNotInvertibleException: This node is not invertible.
+  Trying to compute the inverse would raise an ``IsNotInvertibleException``.
 
 
-Writing your own nodes: subclassing SignalNode
+Writing your own nodes: subclassing Node
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 MDP tries to make it easy to write new data processing elements
 that fit with the existing elements. To expand the MDP library of
 implemented nodes with your own nodes you can subclass
-the SignalNode class, overriding some of the methods according
+the Node class, overriding some of the methods according
 to your needs.
 We'll see in the following some examples:
 
 - We start by defining a node that multiplies its input by 2.
   
-  Define the class as a subclass of SignalNode:
+  Define the class as a subclass of Node:
   ::
   
-      >>> class TimesTwoNode(mdp.SignalNode):
+      >>> class TimesTwoNode(mdp.Node):
 
   This node cannot be trained. To define this, one has to overwrite
   the ``is_trainable`` method to return 0:
@@ -305,45 +342,28 @@ We'll see in the following some examples:
   Execute has in principle only to multiply x by 2
   ::
 
-      ...     def execute(self, x):
+      ...     def _execute(self, x):
+      ...         return self._scast(2)*x
 
-  However, we must first call the method of the parent class
-  that performs some tests, for example to make
-  sure that ``x`` has the right rank and dimensionality:
-  ::
-  
-      ...         super(TimesTwoNode, self).execute(x)
-  
+  Note that the ``execute`` method, which should never be overwritten and
+  which is inherited from the ``Node`` parent class will  
+  perform some tests, for example to make
+  sure that ``x`` has the right rank, dimensionality and typecode.
+  After that the user-supplied ``_execute`` method is called.
   Each subclass has to handle the typecode defined by the user
   or inherited by the input data, and make sure that internal
-  structures are stored consistently.
-  This often means that input data has to be cast. SignalNode
-  contains a helper function that casts the array only if
-  necessary:
-  ::
-  
-      ...         x = self._refcast(x)
-  
-  Finally we can compute the result.
-  Note that we have to cast the scalar to be sure that
-  if we use some of the numeric extension (e.g. ``Numeric``),
-  the result of the multiplication is not upcasted
-  Use the internal helper function to do so:
-  ::
-
-      ...         return self._scast(2)*x
+  structures are stored consistently. To help with this the
+  ``Node`` base class has a method called ``_refcast(array, typecode)`` 
+  that casts an array only when its typecode is different from the
+  requested one. The method ``_scast`` does the same with scalar values.
+  The latter function is necessary only for ``Numeric`` compatibility, both
+  ``numarray`` and ``scipy`` have sane scalar casting policy. 
 
   The inverse of the multiplication by 2 is of course the division by 2:
   ::
   
-      ...     def inverse(self, y):
-
-  As in execute, we first have to call the
-  parent class and cast the input vector and the scalar:
-  ::
-  
-      ...         super(TimesTwoNode, self).inverse(y)
-      ...         return self._refcast(y/self._scast(2))
+      ...     def _inverse(self, y):
+      ...         return y/self._scast(2)
       ...
       >>>
     
@@ -355,15 +375,12 @@ We'll see in the following some examples:
 
   ::
 
-      >>> class TimesTwoNode(mdp.SignalNode):
+      >>> class TimesTwoNode(mdp.Node):
       ...     def is_trainable(self): return 0
-      ...     def execute(self, x):
-      ...         super(TimesTwoNode, self).execute(x)
-      ...         x = self._refcast(x)
+      ...     def _execute(self, x):
       ...         return self._scast(2)*x
-      ...     def inverse(self, y):
-      ...         super(TimesTwoNode, self).inverse(y)
-      ...         return self._refcast(y/self._scast(2))
+      ...     def _inverse(self, y):
+      ...         return y/self._scast(2)
       ...
       >>>
 
@@ -382,7 +399,7 @@ We'll see in the following some examples:
   at the instance's creation
   ::
 
-      >>> class PowerNode(mdp.SignalNode):
+      >>> class PowerNode(mdp.Node):
 
   We redefine the init method to take the power as first argument.
   In general one should always give the possibility to set the typecode
@@ -419,11 +436,10 @@ We'll see in the following some examples:
       ...     def get_supported_typecodes(self):
       ...         return ['f', 'd']
 
-  The ``execute`` method:
+  The ``_execute`` method:
   ::
 
-      ...     def execute(self, x):
-      ...         super(PowerNode, self).execute(x)
+      ...     def _execute(self, x):
       ...         return self._refcast(x**self._scast(self.power))
       ...
       >>>
@@ -437,7 +453,7 @@ We'll see in the following some examples:
 
   ::
 
-      >>> class PowerNode(mdp.SignalNode):
+      >>> class PowerNode(mdp.Node):
       ...     def __init__(self, power, input_dim=None, typecode=None):
       ...         super(PowerNode, self).__init__(input_dim=input_dim, typecode=typecode)
       ...         self.power = power
@@ -445,8 +461,7 @@ We'll see in the following some examples:
       ...     def is_invertible(self): return 0
       ...     def get_supported_typecodes(self):
       ...         return ['f', 'd']
-      ...     def execute(self, x):
-      ...         super(PowerNode, self).execute(x)
+      ...     def _execute(self, x):
       ...         return self._refcast(x**self._scast(self.power))
       ...
       >>>
@@ -465,7 +480,7 @@ We'll see in the following some examples:
   during execution:
   ::
 
-      >>> class MeanFreeNode(mdp.SignalNode):
+      >>> class MeanFreeNode(mdp.Node):
       ...     def __init__(self, input_dim=None, typecode=None):
       ...         super(MeanFreeNode, self).__init__(input_dim=input_dim, 
       ...                                            typecode=typecode)
@@ -481,16 +496,14 @@ We'll see in the following some examples:
 
       ...         self.tlen = 0
     
-  The ``train`` method receives the input data:
+  The subclass needs only to overwrite the ``_train`` method, which
+  will be called by the parent ``train`` after some testing and casting has
+  been done:    
   ::
 
-      ...     def train(self, x):
-      ...         super(MeanFreeNode, self).train(x)
-      ...         x = self._refcast(x)
-
-  Initialize the mean vector with the right size and typecode if necessary:
-  ::
-
+      ...     def _train(self, x):
+      ...         # Initialize the mean vector with the right 
+      ...         # size and typecode if necessary:
       ...         if self.avg is None:
       ...             self.avg = mdp.numx.zeros(self.get_input_dim(),
       ...                                       typecode=self.get_typecode())
@@ -505,26 +518,20 @@ We'll see in the following some examples:
 
       ...         self.tlen += x.shape[0]
 
-  The ``stop_training`` function is called when the training phase is over:
+  The ``_stop_training`` function is called bythe parent ``stop_training`` 
+  method when the training phase is over. We divide the sum of the training 
+  data by the number of training vectors to obtain the mean: 
   ::
 
-      ...     def stop_training(self):
-      ...         super(MeanFreeNode, self).stop_training()
-
-  When the training is over, divide the sum of the training 
-  data by the number of training vectors to obtain the mean:
-  ::
-
+      ...     def _stop_training(self):
       ...         self.avg /= self._scast(self.tlen)
 
-  The ``execute`` and ``inverse`` methods:
+  The ``_execute`` and ``_inverse`` methods:
   ::
 
-      ...     def execute(self, x):
-      ...         super(MeanFreeNode, self).execute(x)
+      ...     def _execute(self, x):
       ...         return self._refcast(x - self.avg)
-      ...     def inverse(self, y):
-      ...         super(MeanFreeNode, self).inverse(y)
+      ...     def _inverse(self, y):
       ...         return self._refcast(y + self.avg)
       ...
       >>>
@@ -537,28 +544,24 @@ We'll see in the following some examples:
 
   :: 
 
-      >>> class MeanFreeNode(mdp.SignalNode):
+      >>> class MeanFreeNode(mdp.Node):
       ...     def __init__(self, input_dim=None, typecode=None):
       ...	        super(MeanFreeNode, self).__init__(input_dim=input_dim,
       ...                                            typecode=typecode)
       ...         self.avg = None
       ...         self.tlen = 0
-      ...     def train(self, x):
-      ...        super(MeanFreeNode, self).train(x)
+      ...     def _train(self, x):
       ...        x = self._refcast(x)
       ...        if self.avg is None:
       ...        self.avg = mdp.numx.zeros(self.get_input_dim(),
       ...                                  typecode=self.get_typecode())
       ...        self.avg += sum(x, 0)
       ...        self.tlen += x.shape[0]
-      ...     def stop_training(self):
-      ...        super(MeanFreeNode, self).stop_training()
+      ...     def _stop_training(self):
       ...        self.avg /= self._scast(self.tlen)
-      ...     def execute(self, x):
-      ...        super(MeanFreeNode, self).execute(x)
+      ...     def _execute(self, x):
       ...        return self._refcast(x - self.avg)
-      ...     def inverse(self, y):
-      ...        super(MeanFreeNode, self).inverse(y)
+      ...     def _inverse(self, y):
       ...        return self._refcast(y + self.avg)
       ...
       >>>
@@ -578,26 +581,38 @@ We'll see in the following some examples:
   returning an input that has twice as many dimensions:
   ::
 
-      >>> class TwiceNode(mdp.SignalNode):
+      >>> class TwiceNode(mdp.Node):
       ...     def is_trainable(self): return 0
       ...     def is_invertible(self): return 0
 
-  When ``SignalNode`` inherits the input and output dimension from
-  the input data, it calls the ``_set_default_inputdim`` and
-  ``_set_default_outputdim`` functions. Here we overwrite the
-  ``_set_default_outputdim`` to set the output dimension to be twice the
-  input dimension:
+  When ``Node`` inherits the input dimension, output dimension and typecode
+  from the input data, it calls the methods ``set_input_dim``, 
+  ``set_output_dim`` and ``set_typecode`` functions. Those are the setters for
+  ``input_dim``, ``output_dim`` and ``typecode``, which are Python 
+  `properties <http://www.python.org/2.2/descrintro.html>`_. 
+  If a subclass needs to change the default behaviour, the internal methods
+  ``_set_input_dim``, ``_set_output_dim`` and ``_set_typecode`` can
+  be overwritten. The property setter will call the internal method after
+  some basic testing and internal settings. The private methods 
+  ``_set_input_dim``, ``_set_output_dim`` and ``_set_typecode`` are responsible
+  for setting the attributes ``_input_dim``, ``_output_dim`` and ``_typecode``.
+  
+  Here we overwrite
+  ``_set_input_dim`` to automatically set the output dimension to be twice the
+  input dimension, and ``_set_output_dim`` to raise an exception: 
+  the output dimensions should not be explicitly set.
   ::
 
-      ...     def _set_default_outputdim(self, nvariables):
-      ...         self._output_dim = 2*nvariables
+      ...     def _set_input_dim(self, n):
+      ...         self._input_dim = n
+      ...         self._output_dim = 2*n
+      ...     def _set_output_dim(self, n):
+      ...         raise mdp.NodeException, "Output dim can not be explicitly set!"
 
-  The ``execute`` method:
+  The ``_execute`` method:
   ::
 
-      ...     def execute(self, x):
-      ...         super(TwiceNode, self).execute(x)
-      ...         x = self._refcast(x)
+      ...     def _execute(self, x):
       ...         return mdp.numx.concatenate((x, x),1)
       ...
       >>>
@@ -610,14 +625,15 @@ We'll see in the following some examples:
 
   ::
 
-      >>> class TwiceNode(mdp.SignalNode):
+      >>> class TwiceNode(mdp.Node):
       ...     def is_trainable(self): return 0
       ...     def is_invertible(self): return 0
-      ...     def _set_default_outputdim(self, nvariables):
-      ...         self._output_dim = 2*nvariables
-      ...     def execute(self, x):
-      ...         super(TwiceNode, self).execute(x)
-      ...         x = self._refcast(x)
+      ...     def _set_input_dim(self, n):
+      ...         self._input_dim = n
+      ...         self._output_dim = 2*n
+      ...     def _set_output_dim(self, n):
+      ...         raise mdp.NodeException, "Output dim can not be explicitly set!"
+      ...     def _execute(self, x):
       ...         return mdp.numx.concatenate((x, x),1)
       ...
       >>>
@@ -663,19 +679,19 @@ like to visualize the data sequence at the beginning and after
 each step.
 
 We could start by quickly defining a node to visualize the data
-(see the `Writing your own nodes: subclassing SignalNode`_ section
-for details on subclassing ``SignalNode``). For visualization we use in the
+(see the `Writing your own nodes: subclassing Node`_ section
+for details on subclassing ``Node``). For visualization we use in the
 following a generic ``plot`` function that the user will have to link to
 the plotting package he has installed. If you have ``SciPy`` you could 
 for example define:
 ::
    
     >>> plot = scipy.gplt.plot
-    >>> class VisualizeNode(mdp.SignalNode):
+    >>> class VisualizeNode(mdp.Node):
     ...     def is_trainable(self): return 0
     ...     def is_invertible(self): return 0
     ...     def execute(self, x):
-    ...         mdp.SignalNode.execute(self,x)
+    ...         mdp.Node.execute(self,x)
     ...         self._refcast(x)
     ...         plot(x)
     ...         return x
@@ -739,7 +755,7 @@ Mix linearly the input signals:
 - ... or we could use flows, the recommended way:
   ::
 
-      >>> flow = mdp.SimpleFlow([VisualizeNode(),
+      >>> flow = mdp.Flow([VisualizeNode(),
       ...                        mdp.nodes.PCANode(output_dim=5),
       ...                        VisualizeNode(),
       ...                        mdp.nodes.CuBICANode(),
@@ -829,7 +845,7 @@ error:
 ::
 
    >>> flow
-   SimpleFlow([VisualizeNode(input_dim=20, output_dim=20, typecode='d'),
+   Flow([VisualizeNode(input_dim=20, output_dim=20, typecode='d'),
                PCANode(input_dim=20, output_dim=5, typecode='d'),
                VisualizeNode(input_dim=5, output_dim=5, typecode='d'),
                CuBICANode(input_dim=5, output_dim=5, typecode='d')])
@@ -850,14 +866,14 @@ To see how it works let's define a bogus node that always throws an
 ``Exception`` and put it into a flow:
 ::
 
-    >>>class BogusExceptNode(mdp.SignalNode):
+    >>> class BogusExceptNode(mdp.Node):
     ...    def train(self,x):
     ...        self.bogus_attr = 1
     ...        raise Exception, "Bogus Exception"
     ...    def execute(self,x):
     ...        raise Exception, "Bogus Exception"
     ...
-    >>> flow = mdp.SimpleFlow([BogusExceptNode()])
+    >>> flow = mdp.Flow([BogusExceptNode()])
 
 Switch on crash recovery:
 ::
@@ -933,7 +949,7 @@ In this example we use a ``ProgressBar`` to get progress information.
 Let's define a bogus flow consisting of 2 ``BogusNode``:
 ::
 
-    >>> flow = mdp.SimpleFlow([BogusNode(),BogusNode()],verbose=1)
+    >>> flow = mdp.Flow([BogusNode(),BogusNode()],verbose=1)
 
 
 Train the first node with 5000 blocks and the second node with 3000 blocks.
@@ -961,7 +977,7 @@ array of data:
 
   ::
 
-      >>> flow = mdp.SimpleFlow([BogusNode(),BogusNode()])
+      >>> flow = mdp.Flow([BogusNode(),BogusNode()])
       >>> block_x = mdp.utils.atleast_2d(mdp.numx.arange(2,1001,2))
       >>> block_y = mdp.utils.atleast_2d(mdp.numx.arange(1,1001,2))
       >>> single_block = mdp.numx.transpose(mdp.numx.concatenate([block_x,block_y]))
@@ -971,7 +987,7 @@ If your flow contains non-trainable nodes, you must specify a ``None`` generator
 for the non-trainable nodes:
 ::
 
-    >>> flow = mdp.SimpleFlow([BogusNode2(),BogusNode()], verbose=1)
+    >>> flow = mdp.Flow([BogusNode2(),BogusNode()], verbose=1)
     >>> flow.train([None,gen_data(5000)])
     Training node #0 (BogusNode2)
     Training finished
@@ -986,7 +1002,7 @@ If in this case you try the one-shot training you'll get two warnings like
 the following ones:
 ::
 
-    >>> flow = mdp.SimpleFlow([BogusNode2(),BogusNode()], verbose=1)
+    >>> flow = mdp.Flow([BogusNode2(),BogusNode()], verbose=1)
     >>> flow.train(single_block)
     Training node #0 (BogusNode2)
     /.../linear_flows.py:94: MDPWarning: 
@@ -1005,7 +1021,7 @@ non-trainable nodes, or by switching off MDP warnings altogether:
 
     >>> import warnings
     >>> warnings.filterwarnings("ignore",'.*',mdp.MDPWarning)
-    >>> flow = mdp.SimpleFlow([BogusNode2(),BogusNode()], verbose=1)
+    >>> flow = mdp.Flow([BogusNode2(),BogusNode()], verbose=1)
     >>> flow.train(single_block)
     Training node #0 (BogusNode2)
     Training finished
@@ -1021,7 +1037,7 @@ To switch on ``MDPWarnings`` again:
 Generators can be used also for execution (and inversion):
 ::
 
-    >>> flow = mdp.SimpleFlow([BogusNode(),BogusNode()], verbose=1)
+    >>> flow = mdp.Flow([BogusNode(),BogusNode()], verbose=1)
     >>> flow.train([gen_data(1), gen_data(1)])
     Training node #0 (BogusNode2)
     Training finished
@@ -1253,7 +1269,7 @@ of its input (see docs for the definition of eta-value): the ``EtaComputerNode()
     ...             mdp.nodes.EtaComputerNode()]
     ...
     >>>
-    >>> flow = mdp.SimpleFlow(sequence, verbose=1)
+    >>> flow = mdp.Flow(sequence, verbose=1)
 
 Since the time-series is short enough to be kept in memory
 we don't need to define generators and we can feed the flow
