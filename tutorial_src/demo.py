@@ -1,3 +1,4 @@
+import scipy
 import mdp
 dir(mdp.helper_funcs)
 # ['__builtins__', '__doc__', '__file__', '__name__',
@@ -47,7 +48,7 @@ x = pcanode1.inverse(y_pca)
 expnode.is_invertible()
 # 0
 class TimesTwoNode(mdp.Node):
-    def is_trainable(self): return 0
+    def is_trainable(self): return False
     def _execute(self, x):
         return self._scast(2)*x
     def _inverse(self, y):
@@ -65,8 +66,8 @@ class PowerNode(mdp.Node):
     def __init__(self, power, input_dim=None, typecode=None):
         super(PowerNode, self).__init__(input_dim=input_dim, typecode=typecode)
         self.power = power
-    def is_trainable(self): return 0
-    def is_invertible(self): return 0
+    def is_trainable(self): return False
+    def is_invertible(self): return False
     def get_supported_typecodes(self):
         return ['f', 'd']
     def _execute(self, x):
@@ -107,16 +108,61 @@ y = node.execute(x)
 print 'Mean of y (should be zero): ', mdp.utils.mean(y, 0)
 # Mean of y (should be zero):  [  0.00000000e+00   2.22044605e-17
 # -2.22044605e-17   1.11022302e-17]
+class UnitVarianceNode(mdp.Node):
+    def __init__(self, input_dim=None, typecode=None):
+        super(UnitVarianceNode, self).__init__(input_dim=input_dim,
+                                           typecode=typecode)
+        self.avg = None
+        self.std = None # standard deviation
+        self.tlen = 0
+    def _get_train_seq(self):
+        return [(self.train_mean, self.stop_mean),
+                (self.train_std, self.stop_std)]
+    def train_mean(self, x):
+        if self.avg is None:
+            self.avg = mdp.numx.zeros(self.get_input_dim(),
+                                      typecode=self.get_typecode())
+        self.avg += sum(x, 0)
+        self.tlen += x.shape[0]
+    def stop_mean(self):
+        self.avg /= self._scast(self.tlen)
+    def train_std(self, x):
+        if self.std is None:
+            self.tlen = 0
+            self.std = mdp.numx.zeros(self.get_input_dim(),
+                                      typecode=self.get_typecode())
+        self.std += sum((x - self.avg)**2., 0)
+        self.tlen += x.shape[0]
+    def stop_std(self):
+        # compute the standard deviation
+        self.std = self._refcast(mdp.numx.sqrt(self.std/(self.tlen-1)))
+    def _execute(self, x):
+        return self._refcast((x - self.avg)/self.std)
+    def _inverse(self, y):
+        return self._refcast(y*self.std + self.avg)
+# >>>
+node = UnitVarianceNode()
+x = mdp.numx_rand.random((10,4))
+# loop over phases
+for phase in range(2):
+    node.train(x)
+    node.stop_training()
+# ...
+# ...
+# execute
+y = node.execute(x)
+print 'Standard deviation of y (should be one): ', mdp.utils.std(y, 0)
+# Standard deviation of y (should be one):  [ 1.  1.  1.  1.]
 class TwiceNode(mdp.Node):
-    def is_trainable(self): return 0
-    def is_invertible(self): return 0
+    def is_trainable(self): return False
+    def is_invertible(self): return False
     def _set_input_dim(self, n):
         self._input_dim = n
         self._output_dim = 2*n
     def _set_output_dim(self, n):
         raise mdp.NodeException, "Output dim can not be explicitly set!"
     def _execute(self, x):
-        return mdp.numx.concatenate((x, x),1)
+        return mdp.numx.concatenate((x, x), 1)
 # ...
 # >>>
 node = TwiceNode()
@@ -200,7 +246,7 @@ flow
 # PCANode(input_dim=20, output_dim=5, typecode='d'),
 # VisualizeNode(input_dim=5, output_dim=5, typecode='d'),
 # CuBICANode(input_dim=5, output_dim=5, typecode='d')])
-flow.pop(1)
+#flow.pop(1)
 # Traceback (most recent call last):
 # File "<stdin>", line 1, in ?
 # [...]
@@ -214,7 +260,7 @@ class BogusExceptNode(mdp.Node):
 # ...
 flow = mdp.Flow([BogusExceptNode()])
 flow.set_crash_recovery(1)
-flow.train([[None]])
+#flow.train([[None]])
 # Traceback (most recent call last):
 # File "<stdin>", line 1, in ?
 # [...]

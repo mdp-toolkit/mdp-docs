@@ -17,6 +17,7 @@ wrote_lines = 0
 read_lines = 0
 
 print 'Reading from "'+tut.name+'", writing to "'+demo.name+'"'
+demo.write('import scipy\n')
 for line in tut:
     read_lines += 1
     # strip trailing and preceding blanks

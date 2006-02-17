@@ -334,10 +334,10 @@ We'll see in the following some examples:
       >>> class TimesTwoNode(mdp.Node):
 
   This node cannot be trained. To define this, one has to overwrite
-  the ``is_trainable`` method to return 0:
+  the ``is_trainable`` method to return False:
   ::
   
-      ...     def is_trainable(self): return 0
+      ...     def is_trainable(self): return False
   
   Execute has in principle only to multiply x by 2
   ::
@@ -357,7 +357,7 @@ We'll see in the following some examples:
   that casts an array only when its typecode is different from the
   requested one. The method ``_scast`` does the same with scalar values.
   The latter function is necessary only for ``Numeric`` compatibility, both
-  ``numarray`` and ``scipy`` have sane scalar casting policy. 
+  ``numarray`` and ``scipy`` have a sane scalar casting policy. 
 
   The inverse of the multiplication by 2 is of course the division by 2:
   ::
@@ -376,7 +376,7 @@ We'll see in the following some examples:
   ::
 
       >>> class TimesTwoNode(mdp.Node):
-      ...     def is_trainable(self): return 0
+      ...     def is_trainable(self): return False
       ...     def _execute(self, x):
       ...         return self._scast(2)*x
       ...     def _inverse(self, y):
@@ -422,12 +422,12 @@ We'll see in the following some examples:
   ``PowerNode`` is not trainable...
   ::
 
-      ...     def is_trainable(self): return 0
+      ...     def is_trainable(self): return False
 
   ... nor invertible:
   ::
 
-      ...     def is_invertible(self): return 0
+      ...     def is_invertible(self): return False
 
   It is possible to overwrite the function ``get_supported_typecodes``
   to return a list of typecodes supported by the node:
@@ -457,8 +457,8 @@ We'll see in the following some examples:
       ...     def __init__(self, power, input_dim=None, typecode=None):
       ...         super(PowerNode, self).__init__(input_dim=input_dim, typecode=typecode)
       ...         self.power = power
-      ...     def is_trainable(self): return 0
-      ...     def is_invertible(self): return 0
+      ...     def is_trainable(self): return False
+      ...     def is_invertible(self): return False
       ...     def get_supported_typecodes(self):
       ...         return ['f', 'd']
       ...     def _execute(self, x):
@@ -496,7 +496,7 @@ We'll see in the following some examples:
 
       ...         self.tlen = 0
     
-  The subclass needs only to overwrite the ``_train`` method, which
+  The subclass only needs to overwrite the ``_train`` method, which
   will be called by the parent ``train`` after some testing and casting has
   been done:    
   ::
@@ -518,7 +518,14 @@ We'll see in the following some examples:
 
       ...         self.tlen += x.shape[0]
 
-  The ``_stop_training`` function is called bythe parent ``stop_training`` 
+  Note that train methods can have further arguments, which might be
+  useful to implement algorithms that require supervised learning.
+  For example, if you want to define a node that performs some form
+  of classification you can define a _train(self, data, labels)
+  method. The parent ``train`` checks ''data'' and takes care to pass
+  the ''labels'' on (cf. for example mdp.FDANode).
+
+  The ``_stop_training`` function is called by the parent ``stop_training`` 
   method when the training phase is over. We divide the sum of the training 
   data by the number of training vectors to obtain the mean: 
   ::
@@ -546,15 +553,16 @@ We'll see in the following some examples:
 
       >>> class MeanFreeNode(mdp.Node):
       ...     def __init__(self, input_dim=None, typecode=None):
-      ...	        super(MeanFreeNode, self).__init__(input_dim=input_dim,
-      ...                                            typecode=typecode)
-      ...         self.avg = None
-      ...         self.tlen = 0
+      ...	     super(MeanFreeNode, self).__init__(input_dim=input_dim,
+      ...                                           typecode=typecode)
+      ...        self.avg = None
+      ...        self.tlen = 0
       ...     def _train(self, x):
-      ...        x = self._refcast(x)
+      ...        # Initialize the mean vector with the right 
+      ...        # size and typecode if necessary:
       ...        if self.avg is None:
-      ...        self.avg = mdp.numx.zeros(self.get_input_dim(),
-      ...                                  typecode=self.get_typecode())
+      ...           self.avg = mdp.numx.zeros(self.get_input_dim(),
+      ...                                     typecode=self.get_typecode())
       ...        self.avg += sum(x, 0)
       ...        self.tlen += x.shape[0]
       ...     def _stop_training(self):
@@ -577,17 +585,144 @@ We'll see in the following some examples:
       Mean of y (should be zero):  [  0.00000000e+00   2.22044605e-17  
       -2.22044605e-17   1.11022302e-17]
 
+- It is also possible do define nodes with multiple training phases.
+  In such a case, calling the ''train'' and ''stop_training'' functions
+  multiple times is going to execute successive training phases
+  (this kind of node is much easier to train using a flow, see next section).
+  Here we'll define a node that returns a meanfree, unit variance signal.
+  We define two training phases: first we compute the mean of the
+  signal and next we sum the squared, meanfree input to compute
+  the standard deviation  (of course it is possible to solve this
+  problem in one single step).
+  ::
+
+      >>> class UnitVarianceNode(mdp.Node):
+      ...     def __init__(self, input_dim=None, typecode=None):
+      ...         super(UnitVarianceNode, self).__init__(input_dim=input_dim, 
+      ...                                            typecode=typecode)
+      ...         self.avg = None
+      ...         self.std = None # standard deviation
+      ...         self.tlen = 0
+
+  The training sequence is defined by the function ''_get_train_seq'',
+  that returns a list of tuples, one for each training phase. The
+  tuples contain references to the ''training'' and ''stop_training''
+  functions of each phase. The standard output of this function
+  is ''[(_train, _stop_training)]'', which explains the default
+  behavior illustrated above. We overwrite the function to return
+  the list of our training functions:
+  ::
+
+      ...     def _get_train_seq(self):
+      ...         return [(self.train_mean, self.stop_mean),
+      ...                 (self.train_std, self.stop_std)]
+
+  Next we define the training functions. The first phase is identical
+  to that in the previous example:
+  ::
+
+      ...     def train_mean(self, x):
+      ...         if self.avg is None:
+      ...             self.avg = mdp.numx.zeros(self.get_input_dim(),
+      ...                                       typecode=self.get_typecode())
+      ...         self.avg += sum(x, 0)
+      ...         self.tlen += x.shape[0]
+      ...     def stop_mean(self):
+      ...         self.avg /= self._scast(self.tlen)
+
+  The second one is only marginally different and does not require many
+  explanations:
+  ::
+
+      ...     def train_std(self, x):
+      ...         if self.std is None:
+      ...             self.tlen = 0
+      ...             self.std = mdp.numx.zeros(self.get_input_dim(),
+      ...                                       typecode=self.get_typecode())
+      ...         self.std += sum((x - self.avg)**2., 0)
+      ...         self.tlen += x.shape[0]
+      ...     def stop_std(self):
+      ...         # compute the standard deviation
+      ...         self.std = self._refcast(mdp.numx.sqrt(self.std/(self.tlen-1)))
+
+  The ''execution'' and ''inverse'' methods are not surprising, either:
+  ::
+
+      ...     def _execute(self, x):
+      ...         return self._refcast((x - self.avg)/self.std)
+      ...     def _inverse(self, y):
+      ...         return self._refcast(y*self.std + self.avg)
+      >>>
+
+  The same definition without comments:
+  
+  .. raw:: html
+
+     <!-- ignore -->
+
+  ::
+      >>> class UnitVarianceNode(mdp.Node):
+      ...     def __init__(self, input_dim=None, typecode=None):
+      ...         super(UnitVarianceNode, self).__init__(input_dim=input_dim, 
+      ...                                            typecode=typecode)
+      ...         self.avg = None
+      ...         self.std = 0. # standard deviation
+      ...         self.tlen = 0
+      ...     def _get_train_seq(self):
+      ...         return [(self.train_mean, self.stop_mean),
+      ...                 (self.train_std, self.stop_std)]
+      ...     def train_mean(self, x):
+      ...         if self.avg is None:
+      ...             self.avg = mdp.numx.zeros(self.get_input_dim(),
+      ...                                       typecode=self.get_typecode())
+      ...         self.avg += sum(x, 0)
+      ...         self.tlen += x.shape[0]
+      ...     def stop_mean(self):
+      ...         self.avg /= self._scast(self.tlen)
+      ...     def train_std(self, x):
+      ...         if self.std is None:
+      ...             self.tlen = 0
+      ...             self.std = mdp.numx.zeros(self.get_input_dim(),
+      ...                                       typecode=self.get_typecode())
+      ...         self.std += sum((x - self.avg)**2., 0)
+      ...         self.tlen += x.shape[0]
+      ...     def stop_std(self):
+      ...         # compute the standard deviation
+      ...         self.std = self._refcast(mdp.numx.sqrt(self.std/(self.tlen-1)))
+      ...     def _execute(self, x):
+      ...         return self._refcast((x - self.avg)/self.std)
+      ...     def _inverse(self, y):
+      ...         return self._refcast(y*self.std + self.avg)
+      >>>
+
+  Test the new node:
+  ::
+
+      >>> node = UnitVarianceNode()
+      >>> x = mdp.numx_rand.random((10,4))
+      >>> # loop over phases
+      ... for phase in range(2):
+      ...     node.train(x)
+      ...     node.stop_training()
+      ...
+      ...
+      >>> # execute
+      ... y = node.execute(x)
+      >>> print 'Standard deviation of y (should be one): ', mdp.utils.std(y, 0)
+      Standard deviation of y (should be one):  [ 1.  1.  1.  1.]
+    
+
 - In our last example we'll define a node that repeats its input twice,
   returning an input that has twice as many dimensions:
   ::
 
       >>> class TwiceNode(mdp.Node):
-      ...     def is_trainable(self): return 0
-      ...     def is_invertible(self): return 0
+      ...     def is_trainable(self): return False
+      ...     def is_invertible(self): return False
 
-  When ``Node`` inherits the input dimension, output dimension and typecode
+  When ``Node`` inherits the input dimension, output dimension, and typecode
   from the input data, it calls the methods ``set_input_dim``, 
-  ``set_output_dim`` and ``set_typecode`` functions. Those are the setters for
+  ``set_output_dim``, and ``set_typecode`` functions. Those are the setters for
   ``input_dim``, ``output_dim`` and ``typecode``, which are Python 
   `properties <http://www.python.org/2.2/descrintro.html>`_. 
   If a subclass needs to change the default behaviour, the internal methods
@@ -599,8 +734,8 @@ We'll see in the following some examples:
   
   Here we overwrite
   ``_set_input_dim`` to automatically set the output dimension to be twice the
-  input dimension, and ``_set_output_dim`` to raise an exception: 
-  the output dimensions should not be explicitly set.
+  input dimension, and ``_set_output_dim`` to raise an exception:
+  the output dimensions should not be set explicitly.
   ::
 
       ...     def _set_input_dim(self, n):
@@ -613,7 +748,7 @@ We'll see in the following some examples:
   ::
 
       ...     def _execute(self, x):
-      ...         return mdp.numx.concatenate((x, x),1)
+      ...         return mdp.numx.concatenate((x, x), 1)
       ...
       >>>
 
@@ -626,8 +761,8 @@ We'll see in the following some examples:
   ::
 
       >>> class TwiceNode(mdp.Node):
-      ...     def is_trainable(self): return 0
-      ...     def is_invertible(self): return 0
+      ...     def is_trainable(self): return False
+      ...     def is_invertible(self): return False
       ...     def _set_input_dim(self, n):
       ...         self._input_dim = n
       ...         self._output_dim = 2*n
@@ -912,12 +1047,12 @@ http://www.python.org/peps/pep-0255.html for a complete description.
 Let us define two bogus node classes to be used as examples of nodes:
 ::
 
-    >>> BogusNode = mdp.IdentityNode
-    >>> class BogusNode2(mdp.IdentityNode):
-    ...     """This node does nothing. but it's not trainable and not invertible.
+    >>> BogusNode = mdp.Node
+    >>> class BogusNode2(mdp.Node):
+    ...     """This node does nothing. But it's not trainable nor invertible.
     ...     """
-    ...     def is_trainable(self): return 0
-    ...     def is_invertible(self): return 0
+    ...     def is_trainable(self): return False
+    ...     def is_invertible(self): return False
     ...
     >>>
 
