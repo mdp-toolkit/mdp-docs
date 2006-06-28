@@ -1,33 +1,32 @@
-import scipy
 import mdp
 dir(mdp.helper_funcs)
 # ['__builtins__', '__doc__', '__file__', '__name__',
 # 'cubica', 'fastica', 'get_eta', 'mdp', 'pca', 'sfa', 'whitening']
 pcanode1 = mdp.nodes.PCANode()
 pcanode1
-# PCANode(input_dim=None, output_dim=None, typecode='None')
+# PCANode(input_dim=None, output_dim=None, dtype=None)
 pcanode2 = mdp.nodes.PCANode(output_dim = 10)
 pcanode2
-# PCANode(input_dim=None, output_dim=10, typecode='None')
+# PCANode(input_dim=None, output_dim=10, dtype=None)
 pcanode3 = mdp.nodes.PCANode(output_dim = 0.8)
 pcanode3.desired_variance
 # 0.80000000000000004
-pcanode4 = mdp.nodes.PCANode(typecode = 'f')
+pcanode4 = mdp.nodes.PCANode(dtype = 'f')
 pcanode4
-# PCANode(input_dim=None, output_dim=None, typecode='f')
-pcanode4.get_supported_typecodes()
-# ['f', 'd']
+# PCANode(input_dim=None, output_dim=None, dtype='f')
+pcanode4.get_supported_dtypes()
+# [dtype('<f4'), dtype('<f8')]
 expnode = mdp.nodes.PolynomialExpansionNode(3)
 x = mdp.numx_rand.random((100, 25))  # 25 variables, 100 observations
 pcanode1.train(x)
 pcanode1
-# PCANode(input_dim=25, output_dim=None, typecode='d')
+# PCANode(input_dim=25, output_dim=None, dtype='float64')
 for i in range(100):
     x = mdp.numx_rand.random((100, 25))
     pcanode1.train(x)
 # >>>
 expnode.is_trainable()
-# 0
+# False
 pcanode1.stop_training()
 pcanode3.train(x)
 pcanode3.stop_training()
@@ -37,25 +36,37 @@ pcanode3.explained_variance
 # 0.85261144755506446
 avg = pcanode1.avg            # mean of the input data
 v = pcanode1.get_projmatrix() # projection matrix
+fdanode = mdp.nodes.FDANode()
+for label in ['a', 'b', 'c']:
+    x = mdp.numx_rand.random((100, 25))
+    fdanode.train(x, label)
+# >>>
+fdanode.stop_training()
+for label in ['a', 'b', 'c']:
+    x = mdp.numx_rand.random((100, 25))
+    fdanode.train(x, label)
+# >>>
 x = mdp.numx_rand.random((100, 25))
 y_pca = pcanode1.execute(x)
 y_pca = pcanode1(x)
 x = mdp.numx_rand.random((100, 5))
 y_exp = expnode(x)
+x = mdp.numx_rand.random((100, 25))
+y_fda = fdanode(x)
 pcanode1.is_invertible()
-# 1
+# True
 x = pcanode1.inverse(y_pca)
 expnode.is_invertible()
-# 0
+# False
 class TimesTwoNode(mdp.Node):
     def is_trainable(self): return False
     def _execute(self, x):
-        return self._scast(2)*x
+        return 2*x
     def _inverse(self, y):
-        return y/self._scast(2)
+        return y/2
 # ...
 # >>>
-node = TimesTwoNode(typecode = 'i')
+node = TimesTwoNode(dtype = 'i')
 x = mdp.numx.array([[1.0, 2.0, 3.0]])
 y = node(x)
 print x, '* 2 =  ', y
@@ -63,15 +74,15 @@ print x, '* 2 =  ', y
 print y, '/ 2 =', node.inverse(y)
 # [ [2 4 6]] / 2 = [ [1 2 3]]
 class PowerNode(mdp.Node):
-    def __init__(self, power, input_dim=None, typecode=None):
-        super(PowerNode, self).__init__(input_dim=input_dim, typecode=typecode)
+    def __init__(self, power, input_dim=None, dtype=None):
+        super(PowerNode, self).__init__(input_dim=input_dim, dtype=dtype)
         self.power = power
     def is_trainable(self): return False
     def is_invertible(self): return False
-    def get_supported_typecodes(self):
+    def _get_supported_dtypes(self):
         return ['f', 'd']
     def _execute(self, x):
-        return self._refcast(x**self._scast(self.power))
+        return self._refcast(x**self.power)
 # ...
 # >>>
 node = PowerNode(3)
@@ -80,66 +91,66 @@ y = node.execute(x)
 print x, '**', node.power, '=', node(x)
 # [ [ 1.  2.  3.]] ** 3 = [ [  1.   8.  27.]]
 class MeanFreeNode(mdp.Node):
-    def __init__(self, input_dim=None, typecode=None):
+    def __init__(self, input_dim=None, dtype=None):
         super(MeanFreeNode, self).__init__(input_dim=input_dim,
-                                           typecode=typecode)
+                                           dtype=dtype)
         self.avg = None
         self.tlen = 0
     def _train(self, x):
         # Initialize the mean vector with the right
-        # size and typecode if necessary:
+        # size and dtype if necessary:
         if self.avg is None:
-            self.avg = mdp.numx.zeros(self.get_input_dim(),
-                                      typecode=self.get_typecode())
-        self.avg += sum(x, 0)
+            self.avg = mdp.numx.zeros(self.input_dim,
+                                      dtype=self.dtype)
+        self.avg += mdp.numx.sum(x, axis=0)
         self.tlen += x.shape[0]
     def _stop_training(self):
-        self.avg /= self._scast(self.tlen)
+        self.avg /= self.tlen
     def _execute(self, x):
-        return self._refcast(x - self.avg)
+        return x - self.avg
     def _inverse(self, y):
-        return self._refcast(y + self.avg)
+        return y + self.avg
 # ...
 # >>>
 node = MeanFreeNode()
 x = mdp.numx_rand.random((10,4))
 node.train(x)
 y = node.execute(x)
-print 'Mean of y (should be zero): ', mdp.utils.mean(y, 0)
+print 'Mean of y (should be zero): ', mdp.numx.mean(y, 0)
 # Mean of y (should be zero):  [  0.00000000e+00   2.22044605e-17
 # -2.22044605e-17   1.11022302e-17]
 class UnitVarianceNode(mdp.Node):
-    def __init__(self, input_dim=None, typecode=None):
+    def __init__(self, input_dim=None, dtype=None):
         super(UnitVarianceNode, self).__init__(input_dim=input_dim,
-                                           typecode=typecode)
-        self.avg = None
+                                               dtype=dtype)
+        self.avg = None # average
         self.std = None # standard deviation
         self.tlen = 0
     def _get_train_seq(self):
-        return [(self.train_mean, self.stop_mean),
-                (self.train_std, self.stop_std)]
-    def train_mean(self, x):
+        return [(self._train_mean, self._stop_mean),
+                (self._train_std, self._stop_std)]
+    def _train_mean(self, x):
         if self.avg is None:
-            self.avg = mdp.numx.zeros(self.get_input_dim(),
-                                      typecode=self.get_typecode())
-        self.avg += sum(x, 0)
+            self.avg = mdp.numx.zeros(self.input_dim,
+                                      dtype=self.dtype)
+        self.avg += mdp.numx.sum(x, 0)
         self.tlen += x.shape[0]
-    def stop_mean(self):
-        self.avg /= self._scast(self.tlen)
-    def train_std(self, x):
+    def _stop_mean(self):
+        self.avg /= self.tlen
+    def _train_std(self, x):
         if self.std is None:
             self.tlen = 0
-            self.std = mdp.numx.zeros(self.get_input_dim(),
-                                      typecode=self.get_typecode())
-        self.std += sum((x - self.avg)**2., 0)
+            self.std = mdp.numx.zeros(self.input_dim,
+                                      dtype=self.dtype)
+        self.std += mdp.numx.sum((x - self.avg)**2., 0)
         self.tlen += x.shape[0]
-    def stop_std(self):
+    def _stop_std(self):
         # compute the standard deviation
-        self.std = self._refcast(mdp.numx.sqrt(self.std/(self.tlen-1)))
+        self.std = mdp.numx.sqrt(self.std/(self.tlen-1))
     def _execute(self, x):
-        return self._refcast((x - self.avg)/self.std)
+        return (x - self.avg)/self.std
     def _inverse(self, y):
-        return self._refcast(y*self.std + self.avg)
+        return y*self.std + self.avg
 # >>>
 node = UnitVarianceNode()
 x = mdp.numx_rand.random((10,4))
@@ -151,7 +162,7 @@ for phase in range(2):
 # ...
 # execute
 y = node.execute(x)
-print 'Standard deviation of y (should be one): ', mdp.utils.std(y, 0)
+print 'Standard deviation of y (should be one): ', mdp.numx.std(y, 0)
 # Standard deviation of y (should be one):  [ 1.  1.  1.  1.]
 class TwiceNode(mdp.Node):
     def is_trainable(self): return False
@@ -160,7 +171,7 @@ class TwiceNode(mdp.Node):
         self._input_dim = n
         self._output_dim = 2*n
     def _set_output_dim(self, n):
-        raise mdp.NodeException, "Output dim can not be explicitly set!"
+        raise mdp.NodeException, "Output dim can not be set explicitly!"
     def _execute(self, x):
         return mdp.numx.concatenate((x, x), 1)
 # ...
@@ -179,43 +190,37 @@ node.execute(x)
 # [0, 0, 0, 0],
 # [0, 0, 0, 0],
 # [0, 0, 0, 0]])
-plot = scipy.gplt.plot
-class VisualizeNode(mdp.Node):
-    def is_trainable(self): return 0
-    def is_invertible(self): return 0
-    def execute(self, x):
-        mdp.Node.execute(self,x)
-        self._refcast(x)
-        plot(x)
-        return x
-# >>>
-inp = mdp.numx_rand.random((1000,20))
-inp = (inp - mdp.utils.mean(inp,0))/mdp.utils.std(inp,0)
+inp = mdp.numx_rand.random((1000, 20))
+inp = (inp - mdp.numx.mean(inp, 0))/mdp.numx.std(inp, 0)
 inp[:,5:] /= 10.0
-x = mdp.utils.mult(inp,mdp.numx_rand.random((20,20)))
-plot(x)
+x = mdp.utils.mult(inp,mdp.numx_rand.random((20, 20)))
+inp_test = mdp.numx_rand.random((1000, 20))
+inp_test = (inp_test - mdp.numx.mean(inp_test, 0))/mdp.numx.std(inp_test, 0)
+inp_test[:,5:] /= 10.0
+x_test = mdp.utils.mult(inp_test, mdp.numx_rand.random((20, 20)))
 pca = mdp.nodes.PCANode(output_dim=5)
 pca.train(x)
 out1 = pca.execute(x)
-plot(out1)
 ica = mdp.nodes.CuBICANode()
 ica.train(out1)
 out2 = ica.execute(out1)
-plot(out2)
-flow = mdp.Flow([VisualizeNode(),
-                       mdp.nodes.PCANode(output_dim=5),
-                       VisualizeNode(),
-                       mdp.nodes.CuBICANode(),
-                       VisualizeNode()])
-# ...
+out1_test = pca.execute(x_test)
+out2_test = ica.execute(out1_test)
+hitnode = mdp.nodes.HitParadeNode(3)
+hitnode.train(out2_test)
+maxima, indices = hitnode.get_maxima()
+flow = mdp.Flow([mdp.nodes.PCANode(output_dim=5), mdp.nodes.CuBICANode()])
 flow.train(x)
+flow.append(mdp.nodes.HitParadeNode(3))
+flow.train(x_test)
+maxima, indices = flow[2].get_maxima()
 out = flow.execute(x)
-cov = mdp.utils.amax(abs(mdp.utils.cov(inp[:,:5],out)))
+cov = mdp.numx.amax(abs(mdp.utils.cov2(inp[:,:5], out)))
 print cov
-# [ 0.99324451  0.99724133  0.99247439  0.99049607  0.994309  ]
-rec = flow[1::2].inverse(out)
-cov = mdp.utils.amax(abs(mdp.utils.cov(x/mdp.utils.std(x,0),
-                                       rec/mdp.utils.std(rec,0))))
+# [ 0.98992083  0.99244511  0.99227319  0.99663185  0.9871812 ]
+rec = flow.inverse(out)
+cov = mdp.numx.amax(abs(mdp.utils.cov2(x/mdp.numx.std(x,0),
+                                       rec/mdp.numx.std(rec,0))))
 print cov
 # [ 0.99839606  0.99744461  0.99616208  0.99772863  0.99690947
 # 0.99864056  0.99734378  0.98722502  0.98118101  0.99407939
@@ -224,33 +229,23 @@ print cov
 for node in flow:
     print repr(node)
 # ...
-# VisualizeNode(input_dim=20, output_dim=20, typecode='d')
-# PCANode(input_dim=20, output_dim=5, typecode='d')
-# VisualizeNode(input_dim=5, output_dim=5, typecode='d')
-# CuBICANode(input_dim=5, output_dim=5, typecode='d')
-# VisualizeNode(input_dim=5, output_dim=5, typecode='d')
+# PCANode(input_dim=20, output_dim=5, dtype='float64')
+# CuBICANode(input_dim=5, output_dim=5, dtype='float64')
+# HitParadeNode(input_dim=5, output_dim=5, dtype='float64')
 # >>>
 len(flow)
-# 5
+# 3
+print flow[::2]
+# [PCANode, HitParadeNode]
 nodetoberemoved = flow.pop(-1)
 nodetoberemoved
-# VisualizeNode(input_dim=5, output_dim=5, typecode='d')
+# HitParadeNode(input_dim=5, output_dim=5, dtype='float64')
 len(flow)
-# 4
-dummyflow = flow[3:].copy()
+# 2
+dummyflow = flow[1:].copy()
 longflow = flow + dummyflow
 len(longflow)
-# 5
-flow
-# Flow([VisualizeNode(input_dim=20, output_dim=20, typecode='d'),
-# PCANode(input_dim=20, output_dim=5, typecode='d'),
-# VisualizeNode(input_dim=5, output_dim=5, typecode='d'),
-# CuBICANode(input_dim=5, output_dim=5, typecode='d')])
-#flow.pop(1)
-# Traceback (most recent call last):
-# File "<stdin>", line 1, in ?
-# [...]
-# ValueError: dimensions mismatch: 20 != 5
+# 3
 class BogusExceptNode(mdp.Node):
    def train(self,x):
        self.bogus_attr = 1
@@ -260,53 +255,39 @@ class BogusExceptNode(mdp.Node):
 # ...
 flow = mdp.Flow([BogusExceptNode()])
 flow.set_crash_recovery(1)
-#flow.train([[None]])
-# Traceback (most recent call last):
-# File "<stdin>", line 1, in ?
-# [...]
-# mdp.linear_flows.FlowExceptionCR:
-# ----------------------------------------
-# ! Exception in node #0 (BogusExceptNode):
-# Node Traceback:
-# Traceback (most recent call last):
-# [...]
-# Exception: Bogus Exception
-# ----------------------------------------
-# A crash dump is available on: "/tmp/MDPcrash_LmISO_.pic"
 flow.set_crash_recovery('/home/myself/mydumps/MDPdump.pic')
-BogusNode = mdp.IdentityNode
-class BogusNode2(mdp.IdentityNode):
-    """This node does nothing. but it's not trainable and not invertible.
+class BogusNode(mdp.Node):
+    """This node does nothing."""
+    def _train(self, x):
+        pass
+# ...
+class BogusNode2(mdp.Node):
+    """This node does nothing. But it's not trainable nor invertible.
     """
-    def is_trainable(self): return 0
-    def is_invertible(self): return 0
+    def is_trainable(self): return False
+    def is_invertible(self): return False
 # ...
 # >>>
 def gen_data(blocks):
-    progressbar = mdp.utils.ProgressBar(0,blocks)
-    progressbar.update(0)
-    for i in xrange(blocks):
-        block_x = mdp.utils.atleast_2d(mdp.numx.arange(2,1001,2))
-        block_y = mdp.utils.atleast_2d(mdp.numx.arange(1,1001,2))
+    for i in mdp.utils.progressinfo(xrange(blocks)):
+        block_x = mdp.numx.atleast_2d(mdp.numx.arange(2,1001,2))
+        block_y = mdp.numx.atleast_2d(mdp.numx.arange(1,1001,2))
         # put variables on columns and observations on rows
         block = mdp.numx.transpose(mdp.numx.concatenate([block_x,block_y]))
-        progressbar.update(i+1)
         yield block
-    print '\n'
-    return
 # ...
 # >>>
-flow = mdp.Flow([BogusNode(),BogusNode()],verbose=1)
+flow = mdp.Flow([BogusNode(),BogusNode()], verbose=1)
 flow.train([gen_data(5000),gen_data(3000)])
 # Training node #0 (IdentityNode)
 # [===================================100%==================================>]
 flow = mdp.Flow([BogusNode(),BogusNode()])
-block_x = mdp.utils.atleast_2d(mdp.numx.arange(2,1001,2))
-block_y = mdp.utils.atleast_2d(mdp.numx.arange(1,1001,2))
+block_x = mdp.numx.atleast_2d(mdp.numx.arange(2,1001,2))
+block_y = mdp.numx.atleast_2d(mdp.numx.arange(1,1001,2))
 single_block = mdp.numx.transpose(mdp.numx.concatenate([block_x,block_y]))
 flow.train(single_block)
 flow = mdp.Flow([BogusNode2(),BogusNode()], verbose=1)
-flow.train([None,gen_data(5000)])
+flow.train([None, gen_data(5000)])
 # Training node #0 (BogusNode2)
 # Training finished
 # Training node #1 (IdentityNode)
@@ -340,13 +321,39 @@ flow.train([gen_data(1), gen_data(1)])
 # [===================================100%==================================>]
 output = flow.execute(single_block)
 output = flow.inverse(single_block)
+class SimpleIterator(object):
+    def __init__(self, blocks):
+        self.blocks = blocks
+    def __iter__(self):
+# ...	        # this is a generator
+        for i in range(self.blocks):
+            yield generate_some_data()
+# >>>
+class RandomIterator(object):
+    def __init__(self):
+        self.state = None
+    def __iter__(self):
+        if self.state is None:
+            self.state = mdp.numx_rand.get_state()
+        else:
+            mdp.numx_rand.set_state(self.state)
+        for i in range(2):
+            yield mdp.numx_rand.random((1,4))
+iterator = RandomIterator()
+for x in iterator: print x
+# ...
+# [[ 0.99586495  0.53463386  0.6306412   0.09679571]]
+# [[ 0.51117469  0.46647448  0.95089738  0.94837122]]
+for x in iterator: print x
+# ...
+# [[ 0.99586495  0.53463386  0.6306412   0.09679571]]
+# [[ 0.51117469  0.46647448  0.95089738  0.94837122]]
 def gen_data(blocks,dims):
     mat = mdp.numx_rand.random((dims,dims))-0.5
     for i in xrange(blocks):
         # put variables on columns and observations on rows
         block = mdp.utils.mult(mdp.numx_rand.random((1000,dims)), mat)
         yield block
-    return
 # ...
 # >>>
 pca = mdp.nodes.PCANode(output_dim=0.9)
@@ -372,12 +379,6 @@ class CheckPCA(mdp.CheckpointFunction):
 # ...
 # >>>
 flow = mdp.CheckpointFlow([pca, exp, sfa])
-flow.train([gen_data(10, 50), None, gen_data(10, 50)],
-           [CheckPCA(10), None, None])
-# Traceback (most recent call last):
-# File "<stdin>", line 2, in ?
-# [...]
-# __main__.PCADimensionExceededException: PCA output dimensions exceeded maximum (25 > 10)
 flow[0] = mdp.nodes.PCANode(output_dim=0.9)
 flow.train([gen_data(10, 12), None, gen_data(10, 12)],
            [CheckPCA(10), None, None])
@@ -398,12 +399,12 @@ fl = file('dummy.pic')
 import cPickle
 sfa_reloaded = cPickle.load(fl)
 sfa_reloaded
-# SFANode(input_dim=35, output_dim=35, typecode='d')
+# SFANode(input_dim=35, output_dim=35, dtype='d')
 fl.close()
 import os
 os.remove('dummy.pic')
 p2 = mdp.numx.pi*2
-t = mdp.utils.linspace(0,1,10000,endpoint=0) # time axis 1s, samplerate 10KHz
+t = mdp.numx.linspace(0,1,10000,endpoint=0) # time axis 1s, samplerate 10KHz
 dforce = mdp.numx.sin(p2*5*t) + mdp.numx.sin(p2*11*t) + mdp.numx.sin(p2*13*t)
 def logistic_map(x,r):
     return r*x*(1-x)
@@ -425,14 +426,14 @@ sequence = [mdp.nodes.EtaComputerNode(),
 flow = mdp.Flow(sequence, verbose=1)
 flow.train(series)
 slow = flow.execute(series)
-resc_dforce = (dforce - mdp.utils.mean(dforce,0))/mdp.utils.std(dforce,0)
-mdp.utils.cov(resc_dforce[:-9],slow)
+resc_dforce = (dforce - mdp.numx.mean(dforce,0))/mdp.numx.std(dforce,0)
+mdp.utils.cov2(resc_dforce[:-9],slow)
 # 0.99992501533859179
 print 'Eta value (time-series): ', flow[0].get_eta(t=10000)
 # Eta value (time-series):  [ 3002.53380245]
 print 'Eta value (slow feature): ', flow[-1].get_eta(t=9996)
 # Eta value (slow feature):  [ 10.2185087]
-mdp.numx_rand.seed(1266090063, 1644375755)
+mdp.numx_rand.seed(1266090063)
 def uniform(min_, max_, dims):
     """Return a random number between min_ and max_ ."""
     return mdp.numx_rand.random(dims)*(max_-min_)+min_
@@ -463,8 +464,10 @@ cf1 = circumference_distr([6,-0.5], 2, N)
 cf2 = circumference_distr([3,-2], 0.3, N)
 cl1 = circle_distr([-5,3], 0.5, N/2)
 cl2 = circle_distr([3.5,2.5], 0.7, N)
-# - Rectangles:
-# ::
+r1 = rectangle_distr([-1.5,0], 1, 4, N)
+r2 = rectangle_distr([+1.5,0], 1, 4, N)
+r3 = rectangle_distr([0,+1.5], 2, 1, N/2)
+r4 = rectangle_distr([0,-1.5], 2, 1, N/2)
 x = mdp.numx.concatenate([cf1, cf2, cl1, cl2, r1,r2,r3,r4], axis=0)
 x = mdp.numx.take(x,mdp.numx_rand.permutation(x.shape[0]))
 gng = mdp.nodes.GrowingNeuralGasNode(max_nodes=75)
@@ -475,4 +478,5 @@ for i in range(0,x.shape[0],STEP):
 # ...
 gng.stop_training()
 n_obj = len(gng.graph.connected_components())
+print n_obj
 # 5

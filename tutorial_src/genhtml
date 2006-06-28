@@ -36,12 +36,13 @@ TUTTEX=$PWD/tutorial.tex
 cat $TEMP | sed s/\\\\includegraphics/\\\\includegraphics[width=0.9\\\\textwidth]/g > $TUTTEX
 rm -rf $TEMP
 # compile with pdflatex
-pdflatex $TUTTEX
-pdflatex $TUTTEX
+pdflatex $TUTTEX > /dev/null
+pdflatex $TUTTEX > /dev/null
 # clean up
 rm -rf tutorial.aux tutorial.log tutorial.out tutorial_latex.txt tutorial.tex
 # copy pdf to html directory
 cp tutorial.pdf ../MDP_tutorial.pdf
+cp $TUTHTML ../html/$TUTHTML
 
 
 

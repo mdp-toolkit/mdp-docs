@@ -27,6 +27,6 @@ stop_idx = inp.find('</body>')
 # enclose it with our header and footer
 content = inp[:start_idx+6] + head + inp[start_idx+6:stop_idx] + foot
 
-out = file('../html/'+tut, 'w')
+out = file(tut, 'w')
 out.write(content)
 out.close()
