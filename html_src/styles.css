@@ -6,12 +6,15 @@ body {
 	margin-bottom:50px;
 	}
 
-/*a[href] { text-decoration:none; }*/
+:link { color:#506758; }
 
 /* tables */
 table { border-style:none; }
 td { vertical-align:top; }
 .screentable { text-align:center; }
+.td_header { vertical-align:middle;
+	     padding-left:15px;
+	}
 
 /* lists */
 
@@ -81,7 +84,7 @@ pycode {
 
 pre.literal-block {
   overflow: auto;
-  background: #bcd2ee; 
+  background: #acdebe; 
   padding: .5em; 
   margin: 1em;
   border: 1px solid #708090;
@@ -113,11 +116,14 @@ pre.literal-block {
 }
 
 #header {
-	background:#bcd2ee;
+	background:#acdebe;
 	text-align:center;
         border: 1px solid #708090;
 	padding:5px;
 	text-decoration:none;
+	font-size:250%;
+	font-weight:bold;
+	/*margin-left:3.5em;*/
 }
 
 IMG.whiteb  { 	
@@ -136,7 +142,7 @@ IMG.whiteb  {
 }
 
 .abox {
-	background:#bcd2ee;
+	background:#acdebe;
 	padding:3px;
 	margin:0px;
 	margin-bottom:-1px;

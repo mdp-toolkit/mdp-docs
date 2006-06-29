@@ -22,13 +22,21 @@ body {
 
 UL { padding-left:1em; }
 
+:link { color:#506758; }
+
 #header {
-	background:#bcd2ee;
+	background:#acdebe;
 	text-align:center;
         border: 1px solid #708090;
 	padding:5px;
 	text-decoration:none;
+	font-size:250%;
+	font-weight:bold;
+	/*margin-left:3.5em;*/
 }
+.td_header { vertical-align:middle;
+	     padding-left:15px;
+	}
 
 IMG.whiteb  { 	
 	border-width:2px;
@@ -46,7 +54,7 @@ IMG.whiteb  {
 }
 
 .abox {
-	background:#bcd2ee;
+	background:#acdebe;
 	padding:3px;
 	margin:0px;
 	margin-bottom:-1px;
@@ -238,7 +246,7 @@ pre.line-block {
 
 pre.literal-block, pre.doctest-block {
   overflow: auto;
-  background: #bcd2ee; 
+  background: #acdebe; 
   padding: .5em; 
   margin: 1em;
   border: 1px solid #708090;
@@ -295,7 +303,7 @@ h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
 
 tt.docutils { 
   border: 1px solid #708090;
-  background-color: #bcd2ee; }
+  background-color: #acdebe; }
 
 ul.auto-toc {
   list-style-type: none }

@@ -1,25 +1,24 @@
 <DIV ID="news-box">
 <B>News</B>
 <table>
+  <tr><td>16.06.2006:<td>We're going to <a href="http://indico.cern.ch/contributionDisplay.py?contribId=46&sessionId=50&confId=44">present MDP 2.0</a> at the <a href="http://indico.cern.ch/conferenceDisplay.py?confId=44">Europython</a> conference, in July.
   <tr><td>28.06.2005:<td>MDP has been <a href="#EUROPYTALK">presented</a> at the <a href="http://www.europython.org/">Europython</a> conference in G&ouml;teborg, Sweden. 
-  <tr><td>13.06.2005:<td>The new <a href="tutorial.html">Tutorial</a> guides you though
-      the basic and advanced features of MDP.
+  <tr><td>13.06.2005:<td>The new <a href="tutorial.html">Tutorial</a> guides you through basic and advanced features of MDP.
   <tr><td>13.06.2005:<td>MDP 1.1.0 released
 			  (<A HREF="CHANGES">changes since the last release</A>).
 </table>
 </DIV>
 
+<p>
+<span class="highlight">Modular toolkit for Data Processing
+(MDP)</span> is a Python data processing framework. Implemented
+algorithms include: Principal Component Analysis (PCA), Independent
+Component Analysis (ICA), Slow Feature Analysis (SFA), Growing Neural
+Gas (GNG), Factor Analysis, Fisher Discriminant Analysis (FDA), and Gaussian
+Classifiers. Read the <a href="tutorial.html#node-list">full list</a>.
+
 <H2 ID="QUICK_INTRO">Quick start</H2>
 
-<span class="highlight">Modular toolkit for Data Processing
-(MDP)</span> is a Python library to perform data processing.  Already
-implemented algorithms include: <span class="highlight">Principal
-Component Analysis (PCA)</span>, <span class="highlight">Independent
-Component Analysis (ICA)</span>, <span class="highlight">Slow Feature
-Analysis (SFA)</span>, and <span class="highlight">Growing Neural Gas
-(GNG)</span>. Read the full list of <a href="#IMNODES">implemented algorithms</a>.
-
-<P>
 Using MDP is as easy as:
 <pre class="literal-block">
 &gt;&gt;&gt; import mdp
@@ -36,15 +35,15 @@ processing sequences (flows). Moreover, it provides a framework that
 makes the implementation of new algorithms easy and intuitive.
 
 <P>
-For more information you could:
+To learn more about MDP:
 
 <UL>
-<LI>Read the <A HREF="#INTRO">long description</A> of MDP
-<LI>Take a look at the new <a href="tutorial.html">Tutorial</a>
-    (<a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP_tutorial.pdf?download">pdf</a> 200 KB)
-<LI ID="EUROPYTALK"> See the presentation given at the <a href="http://www.europython.org/">Europython</a> conference in G&ouml;teborg, Sweden, 27-29 June 2005:<br>
- <a href="EuroPython2005MDPTalk.sxi">OpenOffice</a> (1.1 MB), <a href="EuroPython2005MDPTalk.pdf">pdf</a> (500 KB). 
-<li>Read the <a href="faq.html">FAQ</a> 
+<LI>Read the <A HREF="#INTRO">long description</A>
+<LI>Take a look at the <a href="tutorial.html">Tutorial</a>
+    (<a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP_tutorial.pdf?download">pdf</a> 250 KB)
+<LI ID="EUROPYTALK"> See the presentation given at the <a href="http://www.europython.org/">Europython</a> conference in Geneva, Switzerland, July 3-5 2006:
+ <a href="EuroPython2006MDPTalk.sxi">OpenOffice</a> (?? MB), <a href="EuroPython2006MDPTalk.pdf">pdf</a> (?? KB). 
+<!-- <li>Read the <a href="faq.html">FAQ</a> -->
 <li>Sneak through the <a href="docs/api/index.html">API</a>
 </UL>
 
@@ -53,152 +52,106 @@ For more information you could:
 <H2 ID="INTRO">Description</H2>
 
 <span class="highlight">Modular toolkit for Data Processing
-(MDP)</span> is a Python library to implement data processing elements
-(nodes) and to combine them into data processing sequences (flows).
+(MDP)</span> is a data processing framework written in Python.
 
 <P>
-A node is the basic unit in MDP, and it represents a data processing
-element, like for example a learning algorithm, a filter, a
-visualization step etc. Each node can have a training phase, during
-which the internal structures are learned from training data (e.g. the
-weights of a neural network are adapted or the covariance matrix is
-estimated) and an execution phase, where new data can be processed
-forwards (by processing the data through the node) or backwards (by
-applying the inverse of the transformation computed by the node if
-defined). MDP is designed to make the implementation of new algorithms
-easy and intuitive, for example by setting automatically input and
-output dimension and by casting the data to match the typecode
-(e.g. float or double precision) of the internal structures. Most of
-the nodes were designed to be applied to arbitrarily long sets of
-data: the internal structures can be updated successively by sending
-chunks of the input data (this is equivalent to online learning if the
-chunks consists of single observations, or to batch learning if the
-whole data is sent in a single chunk). Already 
-<a href="#IMNODES">implemented nodes</a> include <span
-class="highlight">Principal Component Analysis (PCA)</span>, <span
-class="highlight">Independent Component Analysis (ICA)</span>,
-<span class="highlight">Slow Feature Analysis (SFA)</span>, and
-<span class="highlight">Growing Neural Gas Network</span>.
+From the user's perspective, MDP consists of a collection of trainable
+supervised and unsupervised algorithms or other data processing units
+(nodes) that can be combined into data processing flows. Given a
+sequence of input data, MDP takes care of successively training or
+executing all nodes in the flow. This structure allows to specify
+complex algorithms as a sequence of simpler data processing steps in a
+natural way. Training can be performed using small chunks of input
+data, so that the use of very large data sets becomes possible while
+reducing the memory requirements. Memory usage can also be minimized
+by defining the internals of the nodes to be single precision.
 
 <P>
-A flow consists in an acyclic graph of nodes (currently only node
-sequences are implemented). The data is sent to an input node and is
-successively processed by the following nodes on the graph. The
-general flow implementation automatizes the training, execution and
-inverse execution (if defined) of the whole graph.
-<A HREF="docs/api/public/mdp.linear_flows.SimpleFlow-class.html#set_crash_recovery">
-Crash recovery</A> is optionally available: in case of failure, the current
-state of the flow is saved for later inspection.
-A subclass of the basic flow class allows user-supplied checkpoint
-functions to be executed at the end of each phase, for example to save
-the internal structures of a node for later analysis.
+The base of <a href="tutorial.html#node-list">readily available
+algorithms</a> includes Principal Component Analysis, two flavors of
+Independent Component Analysis, Slow Feature Analysis, Gaussian
+Classifiers, Growing Neural Gas, Fisher Discriminant Analysis, and
+Factor Analysis.
 
 <P>
-MDP supports the most common numerical extensions to Python and the <a
-href="symeig.html"><code>symeig</code></a> package (a Python wrapper
-for the LAPACK functions to solve the standard and generalized
-eigenvalue problems for symmetric (hermitian) positive definite
-matrices). MDP also includes <code>graph</code> (a lightweight package
-to handle graphs).
+From the developer's perspective, MDP is a framework to make the
+implementation of new algorithms easier. The basic class 'Node' takes
+care of tedious tasks like numerical type and dimensionality checking,
+leaving the developer free to concentrate on the implementation of the
+training and execution phases. The node then automatically integrates
+with the rest of the library and can be used in a flow together with
+other nodes. A node can have multiple training phases and even an
+undetermined number of phases. This allows for example the
+implementation of algorithms that need to collect some statistics on
+the whole input before proceeding with the actual training, or others
+that need to iterate over a training phase until a convergence
+criterion is satisfied. The ability to train each phase using chunks
+of input data is maintained if the chunks are generated with
+iterators. Moreover, crash recovery is optionally available: in case
+of failure, the current state of the flow is saved for later
+inspection.
 
 <P>
-When used together with SciPy (the scientific Python library) and symeig,
-MDP gives to the scientific programmer the full power of well-known C and
-FORTRAN data processing libraries.  MDP helps the programmer to
-exploit Python object oriented design with C and FORTRAN efficiency.
+MDP has been written in the context of theoretical research in
+neuroscience, but it has been designed to be helpful in any context
+where trainable data processing algorithms are used. Its simplicity on
+the user side together with the reusability of the implemented nodes
+make it also a valid educational tool.
 
 <P>
-MDP has been written for research in neuroscience, but it has been
-designed to be helpful in any context where trainable data processing
-algorithms are used.  Its simplicity on the user side together with
-the reusability of the implemented nodes could make it also a valid
-educational tool.
+As its user base is steadily increasing, MDP appears as a good
+candidate for becoming a common repository of user-supplied, freely
+available, Python implemented data processing algorithms.
 
 <HR>
 
 <H2 ID="DOWINS">Installation</H2>
 
-<UL>
-<LI><B>Requirements:</B>
-<UL>
-<LI><A HREF="http://www.python.org/">Python</A> &ge; 2.3
-
-<LI>one of the following Python numerical extensions: 
-  <a href="http://numeric.scipy.org/">Numeric</a>, 
-  <a href="http://www.stsci.edu/resources/software_hardware/numarray">Numarray</a>,
-  or <a href="http://www.scipy.org/">SciPy</a>.
-</UL>
+<B>Requirements:</B>
+<A HREF="http://www.python.org/">Python</A> &ge; 2.4, 
+<a href="http://numpy.sf.net/">NumPY</a> &ge; 0.9.8
 
 <P>
-For optimal performance, we recommend to use SciPy with <A
-  HREF="http://www.netlib.org/lapack/">LAPACK</A> and <A
-  HREF="http://math-atlas.sourceforge.net/">ATLAS</A> libraries,
-  and to install the <A HREF="symeig.html">symeig</A> module.
+<B>Download:</B>
+<A HREF="http://sourceforge.net/project/showfiles.php?group_id=116959">
+Download MDP 2.0RC at SourceForge</A>
 
 <P>
-If you experience some problems installing these programs, try looking
-at <A HREF="faq.html#FAQ3">this FAQ</A>.
-
-<LI><B>Download:</B>
-
-<A HREF="/cgi-bin/axs/ax.pl?http://sourceforge.net/project/showfiles.php?group_id=116959">
-Download MDP 1.1.0 at SourceForge</A>
-
-<LI ID="INSTALL"><B>Installation:</B>
-<BR>
+<B>Installation:</B><BR>
 Unpack the archive file, enter the project directory and type:<BR>
 <CODE class="pycode">python setup.py install</CODE>
-
-<P>
+<BR>
 If you want to use MDP without installing it on the system Python path:<BR>
 <CODE class="pycode">python setup.py install --prefix=/some_dir_in_PYTHONPATH/</CODE>
-
-<P>
-On Windows, the installation of  binary distribution is as easy as
+<BR>
+On Windows, the installation of the binary distribution is as easy as
 executing the installer and following the instructions.
 
-<LI ID="TESTING"><B>Testing:</B>
-<BR>
+<P>
+<B>Testing:</B><BR>
 If you have successfully installed MDP, you can test your installation in a Python shell
 as follows:
 <pre class="literal-block">
 &gt;&gt;&gt; import mdp
-&gt;&gt;&gt; mdp.test.test()
+&gt;&gt;&gt; mdp.test()
 </pre>
-<pre class="literal-block">
-&gt;&gt;&gt; import graph
-&gt;&gt;&gt; graph.test.test()
-</pre>
-
-You can also try the benchmark functions (only useful with SciPy):
-<pre class="literal-block">
-&gt;&gt;&gt; import mdp
-&gt;&gt;&gt; mdp.test.benchmark()
-</pre>
-
-Together with MDP some demo scripts are distributed that illustrate
-the basic and advanced use of the library. They can be found in the
-package installation path in the subdirectory <CODE>demo</CODE>.
 
 <P>
-The demo scripts are thought to be a sort of interactive tutorial if
-you don't feel like reading the <a href="tutorial.html">HTML tutorial</a>. 
-You should not directly execute them. Open a script with your favorite
-text editor, read the comments and try the commands on a Python shell.
-
-</UL>
+<B>Demos:</B><BR>
+All the examples shown in the <a href="tutorial.html">MDP tutorial</a>
+can be found in the package installation path in the subdirectory
+<CODE>demo</CODE>.
 
 <HR>
 
 <H2 ID="CONT">Mantainers</H2>
 
-MDP has been written by <a href="/cgi-bin/axs/ax.pl?http://itb.biologie.hu-berlin.de/~berkes">Pietro 
-Berkes</a> and <a href="/cgi-bin/axs/ax.pl?http://itb.biologie.hu-berlin.de/~zito">Tiziano Zito</a> 
+MDP has been written by <a href="http://www.gatsby.ucl.ac.uk/~berkes/">Pietro 
+Berkes</a> and <a href="http://itb.biologie.hu-berlin.de/~zito">Tiziano Zito</a> 
 at the <a href="http://itb.biologie.hu-berlin.de/">Institute for Theoretical Biology</a>
 of the <a href="http://www.hu-berlin.de/">Humboldt University</a>, Berlin.
 For comments, patches, feature requests, support requests, and bug reports
-(if any) you can either use the SourceForge <a href="http://sourceforge.net/mail/?group_id=116959">mailing list</a>
-or write directly to us (maybe faster).
+(if any) you can use the users <a href="http://sourceforge.net/mail/?group_id=116959">mailing list</a>.
 
 <P>
 If you want to contribute some code or a new algorithm, please do not
@@ -206,89 +159,28 @@ hesitate to submit it!
 
 <HR>
 
-<H2 ID="IMNODES">Node List</H2>
+<H2 ID="CITE">How to cite MDP</H2>
 
-<ul CLASS="nice">
-<li><a href="docs/api/public/mdp.nodes.pca_nodes.PCANode-class.html"><b>PCANode</b></a>:
-     implementation of the Principal Component Analysis (PCA) algorithm,
-     a.k.a. discrete Karhunen-Lo&egrave;ve transform. <br>
-     References: I.T. Jolliffe, <i>Principal Component Analysis</i>, 
-     Springer-Verlag (1986).
+If you use MDP for scientific purposes, you may want to cite it. This
+is the official way to do it:
 
-<li><a href="docs/api/public/mdp.nodes.pca_nodes.WhiteningNode-class.html"><b>WhiteningNode</b>
-     </a>: this node performs a whitening (sphering) of the input data. Output data
-     has zero mean, unit variance and different variables are decorrelated. <br>
-     References: I.T. Jolliffe, <i>Principal Component Analysis</i>, 
-     Springer-Verlag (1986).
+<P>
+Berkes, P. and Zito, T. (2005)<BR>
+<B>Modular Toolkit for Data Processing (version 2.0)</B><BR>
+<a href="http://mdp-toolkit.sourceforge.net">http://mdp-toolkit.sourceforge.net</a>
 
-<li><a href="docs/api/public/mdp.nodes.ica_nodes.FastICANode-class.html"><b>FastICANode</b>
-    </a>:
-    implementation of the 
-    <A href="http://www.cis.hut.fi/aapo/papers/NCS99web/node45.html">FastICA</A>
-    algorithm for 
-    <A HREF="http://www.cis.hut.fi/projects/compneuro/whatisica.html">Independent 
-    Component Analysis (ICA)</A>. <BR>
-    References: Aapo Hyv&auml;rinen
-    <i>Fast and Robust Fixed-Point Algorithms for Independent Component Analysis</i>,
-    IEEE Transactions on Neural Networks, 10(3):626--634, 1999.
+<P>
+If your paper gets published, plase send us a reference (and even a copy
+if you don't mind).
 
- <li> <a href="docs/api/public/mdp.nodes.ica_nodes.CuBICANode-class.html"><b>CuBICANode
-    </b>
-    </a>:
-    implementation of the 
-    <A href="http://itb.biologie.hu-berlin.de/~wiskott/Projects/ImprovedICA.html">CuBICA</A>
-    algorithm for 
-    <A HREF="http://www.cis.hut.fi/projects/compneuro/whatisica.html">ICA</A>. <BR>
-    References: Blaschke, T. and Wiskott, L. (2003).
-    <i>CuBICA: Independent Component Analysis by Simultaneous Third- and Fourth-Order
-    Cumulant Diagonalization.</i>
-    IEEE Transactions on Signal Processing, 52(5), pp. 1250--1256.
+<HR>
 
- <li> <a href="docs/api/public/mdp.nodes.sfa_nodes.SFANode-class.html"><b>SFANode</b></a>:
-    implementation of the 
-    <A href="http://itb.biologie.hu-berlin.de/~wiskott/Projects/LearningInvariances.html">
-    Slow Feature Analysis (SFA)</A> algorithm. <BR>
-    References: Wiskott, L. and Sejnowski, T.J. (2002).
-    <i>Slow Feature Analysis: Unsupervised Learning of Invariances.</i>
-    Neural Computation, 14(4):715-770.
+<H2 ID="MIGRATE">Migration from old versions</H2>
 
- <li> <a href="docs/api/public/mdp.nodes.neural_gas_nodes.GrowingNeuralGasNode-class.html"><b>GrowingNeuralGasNode</b>
-    </a>:
-    implementation of the 
-    <A href="http://www.neuroinformatik.ruhr-uni-bochum.de/ini/VDM/research/gsn/JavaPaper/node19.html">Growing Neural Gas</A>
-    algorithm. See also the demo script <CODE>neuralgas_demo.py</CODE> .<BR>
-    References: B. Fritzke (1995), <i>A Growing Neural Gas Network Learns Topologies</i> in
-    G. Tesauro, D. S. Touretzky, and T. K. Leen (editors), 
-    <i> Advances in Neural Information Processing Systems</i>,
-    7:625-632, MIT Press.
-
- <li> <a href="docs/api/public/mdp.nodes.expansion_nodes.PolynomialExpansionNode-class.html">
-    <b>PolynomialExpansionNode</b></a>:
-    this node expands its input into the space of polynomials of a given degree by
-    computing all monomials in the input variables.
-
- <li> <a href="docs/api/public/mdp.nodes.misc_nodes.TimeFramesNode-class.html">
-    <b>TimeFramesNode</b></a>:
-    this node computes an output signal formed by copies of delayed versions of the input
-    signal. For a possible application, see the demo script
-    <CODE>logistic_demo.py</CODE>
-
- <li> <a href="docs/api/public/mdp.nodes.misc_nodes.HitParadeNode-class.html">
-    <b>HitParadeNode</b></a>:
-    this analysis node stores a given number of local maxima and minima of
-    the input signal, separated by a minimum gap in time.
-
- <li> <a href="docs/api/public/mdp.nodes.misc_nodes.EtaComputerNode-class.html">
-    <b>EtaComputerNode</b></a>:
-    this analysis node computes the eta values (a measure of temporal variation)
-    of the normalized training data. <BR>
-    References: Wiskott, L. and Sejnowski, T.J. (2002).
-    <i>Slow Feature Analysis: Unsupervised Learning of Invariances.</i>
-    Neural Computation, 14(4):715-770.
-
- <li> <a href="docs/api/public/mdp.nodes.misc_nodes.NoiseNode-class.html">
-    <b>NoiseNode</b></a>:
-	This node injects noise into the input data. Based on the implementation
-	of Mathias Franzius.
-
-</ul>
+In the transition to MDP 2.0 it was necessary to implement some
+non-backward compatible changes. This should not affect you, unless
+you wrote your own subclasses. Read
+<a href="tutorial.html#writing-your-own-nodes-subclassing-node">this section</a>
+ of the tutorial, after which migration should be straightforward. If you
+still experience difficulties, please write a message on the 
+<a href="http://sourceforge.net/mail/?group_id=116959">mailing list</a>.
