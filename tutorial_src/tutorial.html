@@ -353,7 +353,7 @@ ul.auto-toc {
 <td>2.0.0</td></tr>
 </tbody>
 </table>
-This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP_tutorial.pdf?download">pdf file</a> (200 KB).<p>This is a guide to basic and some more advanced features of
+This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP_tutorial.pdf?download">pdf file</a> (?? KB).<p>This is a guide to basic and some more advanced features of
 the MDP library. Besides the present tutorial, you can learn 
 more about MDP by using the standard Python tools.  
 All MDP nodes have doc-strings, the public
@@ -380,58 +380,81 @@ in the MDP installation path.</p>
 <div class="contents topic">
 <p class="topic-title first"><a id="contents" name="contents">Contents</a></p>
 <ul class="simple">
-<li><a class="reference" href="#introduction" id="id1" name="id1">Introduction</a></li>
-<li><a class="reference" href="#quick-start" id="id2" name="id2">Quick Start</a></li>
-<li><a class="reference" href="#nodes" id="id3" name="id3">Nodes</a><ul>
-<li><a class="reference" href="#node-instantiation" id="id4" name="id4">Node Instantiation</a></li>
-<li><a class="reference" href="#node-training" id="id5" name="id5">Node Training</a></li>
-<li><a class="reference" href="#node-execution" id="id6" name="id6">Node Execution</a></li>
-<li><a class="reference" href="#node-inversion" id="id7" name="id7">Node Inversion</a></li>
-<li><a class="reference" href="#writing-your-own-nodes-subclassing-node" id="id8" name="id8">Writing your own nodes: subclassing Node</a></li>
+<li><a class="reference" href="#introduction" id="id3" name="id3">Introduction</a></li>
+<li><a class="reference" href="#quick-start" id="id4" name="id4">Quick Start</a></li>
+<li><a class="reference" href="#nodes" id="id5" name="id5">Nodes</a><ul>
+<li><a class="reference" href="#node-instantiation" id="id6" name="id6">Node Instantiation</a></li>
+<li><a class="reference" href="#node-training" id="id7" name="id7">Node Training</a></li>
+<li><a class="reference" href="#node-execution" id="id8" name="id8">Node Execution</a></li>
+<li><a class="reference" href="#node-inversion" id="id9" name="id9">Node Inversion</a></li>
+<li><a class="reference" href="#writing-your-own-nodes-subclassing-node" id="id10" name="id10">Writing your own nodes: subclassing Node</a></li>
 </ul>
 </li>
-<li><a class="reference" href="#flows" id="id9" name="id9">Flows</a><ul>
-<li><a class="reference" href="#flow-instantiation-training-and-execution" id="id10" name="id10">Flow instantiation, training and execution</a></li>
-<li><a class="reference" href="#flow-inversion" id="id11" name="id11">Flow inversion</a></li>
-<li><a class="reference" href="#flows-are-container-type-objects" id="id12" name="id12">Flows are container type objects</a></li>
-<li><a class="reference" href="#crash-recovery" id="id13" name="id13">Crash recovery</a></li>
+<li><a class="reference" href="#flows" id="id11" name="id11">Flows</a><ul>
+<li><a class="reference" href="#flow-instantiation-training-and-execution" id="id12" name="id12">Flow instantiation, training and execution</a></li>
+<li><a class="reference" href="#flow-inversion" id="id13" name="id13">Flow inversion</a></li>
+<li><a class="reference" href="#flows-are-container-type-objects" id="id14" name="id14">Flows are container type objects</a></li>
+<li><a class="reference" href="#crash-recovery" id="id15" name="id15">Crash recovery</a></li>
 </ul>
 </li>
-<li><a class="reference" href="#iterators" id="id14" name="id14">Iterators</a></li>
-<li><a class="reference" href="#checkpoints" id="id15" name="id15">Checkpoints</a></li>
-<li><a class="reference" href="#a-real-life-example-logistic-maps" id="id16" name="id16">A real life example (Logistic maps)</a></li>
-<li><a class="reference" href="#another-real-life-example-growing-neural-gas" id="id17" name="id17">Another real life example (Growing neural gas)</a></li>
-<li><a class="reference" href="#utils-section" id="id18" name="id18">utils section</a></li>
-<li><a class="reference" href="#to-do" id="id19" name="id19">To Do</a></li>
+<li><a class="reference" href="#iterators" id="id16" name="id16">Iterators</a></li>
+<li><a class="reference" href="#checkpoints" id="id17" name="id17">Checkpoints</a></li>
+<li><a class="reference" href="#a-real-life-example-logistic-maps" id="id18" name="id18">A real life example (Logistic maps)</a></li>
+<li><a class="reference" href="#another-real-life-example-growing-neural-gas" id="id19" name="id19">Another real life example (Growing neural gas)</a></li>
+<li><a class="reference" href="#node-list" id="id20" name="id20">Node List</a></li>
+<li><a class="reference" href="#additional-utilities" id="id21" name="id21">Additional utilities</a><ul>
+<li><a class="reference" href="#graph-module" id="id22" name="id22">Graph module</a></li>
+</ul>
+</li>
+<li><a class="reference" href="#to-do" id="id23" name="id23">To Do</a></li>
 </ul>
 </div>
 <div class="section">
-<h1><a class="toc-backref" href="#id1" id="introduction" name="introduction">Introduction</a></h1>
-<p>Modular toolkit for Data Processing (MDP) is a Python library to
-perform data processing. Already implemented algorithms include:
-Principal Component Analysis (PCA), Independent Component Analysis
-(ICA), Slow Feature Analysis (SFA), and Growing Neural Gas (GNG).</p>
-<p>MDP supports the most common numerical extensions to Python and the
-<a class="reference" href="http://mdp-toolkit.sourceforge.net/symeig.html">symeig</a> package 
-(a Python wrapper
-for the LAPACK functions to solve the standard and generalized
-eigenvalue problems for symmetric (hermitian) positive definite
-matrices). MDP also includes <tt class="docutils literal"><span class="pre">graph</span></tt> (a lightweight package
-to handle graphs).</p>
-<p>When used together with <a class="reference" href="http://www.scipy.org">SciPy</a> (the 
-scientific Python library) and
-<a class="reference" href="http://mdp-toolkit.sourceforge.net/symeig.html">symeig</a>, MDP gives to the scientific programmer the full power of
-well-known C and FORTRAN data processing libraries.  MDP helps the
-programmer to exploit Python object oriented design with C and FORTRAN
-efficiency.</p>
-<p>MDP has been written for research in neuroscience, but it has been
-designed to be helpful in any context where trainable data processing
-algorithms are used.  Its simplicity on the user side together with
-the reusability of the implemented nodes could make it also a valid
-educational tool.</p>
+<h1><a class="toc-backref" href="#id3" id="introduction" name="introduction">Introduction</a></h1>
+<p>Modular toolkit for Data Processing (MDP) is a data processing
+framework written in Python.</p>
+<p>From the user's perspective, MDP consists of a collection of trainable
+supervised and unsupervised algorithms or other data processing units
+(nodes) that can be combined into data processing flows. Given a
+sequence of input data, MDP takes care of successively training or
+executing all nodes in the flow. This structure allows to specify
+complex algorithms as a sequence of simpler data processing steps in a
+natural way. Training can be performed using small chunks of input
+data, so that the use of very large data sets becomes possible while
+reducing the memory requirements. Memory usage can also be minimized
+by defining the internals of the nodes to be single precision.</p>
+<p>The base of readily available algorithms includes Principal Component
+Analysis, two flavors of Independent Component Analysis, Slow Feature
+Analysis, Gaussian Classifiers, Growing Neural Gas, Fisher
+Discriminant Analysis, and Factor Analysis. The full list
+of implemented nodes can be found in the <a class="reference" href="#node-list">Node List</a> section.</p>
+<p>From the developer's perspective, MDP is a framework to make the
+implementation of new algorithms easier. The basic class 'Node' takes
+care of tedious tasks like numerical type and dimensionality checking,
+leaving the developer free to concentrate on the implementation of the
+training and execution phases. The node then automatically integrates
+with the rest of the library and can be used in a flow together with
+other nodes. A node can have multiple training phases and even an
+undetermined number of phases. This allows for example the
+implementation of algorithms that need to collect some statistics on
+the whole input before proceeding with the actual training, or others
+that need to iterate over a training phase until a convergence
+criterion is satisfied. The ability to train each phase using chunks
+of input data is maintained if the chunks are generated with
+iterators. Moreover, crash recovery is optionally available: in case
+of failure, the current state of the flow is saved for later
+inspection.</p>
+<p>MDP has been written in the context of theoretical research in
+neuroscience, but it has been designed to be helpful in any context
+where trainable data processing algorithms are used. Its simplicity on
+the user side together with the reusability of the implemented nodes
+make it also a valid educational tool.</p>
+<p>As its user base is steadily increasing, MDP appears as a good
+candidate for becoming a common repository of user-supplied, freely
+available, Python implemented data processing algorithms.</p>
 </div>
 <div class="section">
-<h1><a class="toc-backref" href="#id2" id="quick-start" name="quick-start">Quick Start</a></h1>
+<h1><a class="toc-backref" href="#id4" id="quick-start" name="quick-start">Quick Start</a></h1>
 <p>Using MDP is as easy as:</p>
 <!-- ignore --><pre class="literal-block">
 &gt;&gt;&gt; import mdp
@@ -446,40 +469,41 @@ educational tool.</p>
 can be obtained as follows:</p>
 <pre class="literal-block">
 &gt;&gt;&gt; dir(mdp.helper_funcs)
-['__builtins__', '__doc__', '__file__', '__name__', 
- 'cubica', 'fastica', 'get_eta', 'mdp', 'pca', 'sfa', 'whitening']
+['__builtins__', '__doc__', '__file__', '__name__',
+'cubica', 'factor_analysis', 'fastica', 'get_eta', 'mdp',
+'pca', 'sfa', 'sfa2', 'whitening']
 </pre>
-<p>MDP is of course much more than this: it allows to combine different
+<p>MDP is, of course, much more than this: it allows to combine different
 algorithms and other data processing elements (nodes) into data
 processing sequences (flows). Moreover, it provides a framework that
 makes the implementation of new algorithms easy and intuitive.</p>
+<p>MDP requires the numerical Python extension <a class="reference" href="http://numeric.scipy.org/">numpy</a>.  MDP offers in its namespace references
+to the main modules <tt class="docutils literal"><span class="pre">numpy</span></tt>, <tt class="docutils literal"><span class="pre">numpy.linalg</span></tt>, and <tt class="docutils literal"><span class="pre">numpy.random</span></tt>
+as <tt class="docutils literal"><span class="pre">mdp.numx</span></tt>, <tt class="docutils literal"><span class="pre">mdp.numx_linalg</span></tt> and <tt class="docutils literal"><span class="pre">mdp.numx_rand</span></tt>. This is
+done to possibly support additional numerical extensions in the
+future.</p>
 </div>
 <div class="section">
-<h1><a class="toc-backref" href="#id3" id="nodes" name="nodes">Nodes</a></h1>
+<h1><a class="toc-backref" href="#id5" id="nodes" name="nodes">Nodes</a></h1>
 <p>A node is the basic unit in MDP and it represents a data processing
 element, like for example a learning algorithm, a filter, a
-visualization step etc. Each node can have a training phase, during 
-which the internal structures are learned from training data (e.g. 
-the weights of a neural network are adapted or the covariance matrix
-is estimated) and an execution phase, where new data can be processed
-forwards (by processing the data through the node) or backwards (by 
-applying the inverse of the transformation computed by the node if 
-defined). MDP is designed to make the implementation of new algorithms
-easy and intuitive, for example by setting automatically input and 
-output dimension and by casting the data to match the <tt class="docutils literal"><span class="pre">dtype</span></tt> 
-(e.g. float or double precision) of the internal structures. Most of 
-the nodes were designed to be applied to arbitrarily long sets of 
-data: the internal structures can be updated successively by 
-sending chunks of the input data (this is equivalent to online 
-learning if the chunks consists of single observations, or to 
-batch learning if the whole data is sent in a single chunk). 
-Already implemented nodes include Principal Component Analysis
-(PCA), Independent Component Analysis (ICA), Slow Feature 
-Analysis (SFA), and Growing Neural Gas Network. Have a look at the 
-<a class="reference" href="http://mdp-toolkit.sourceforge.net/index.html#IMNODES">full list</a> 
-of implemented nodes.</p>
+visualization step, etc. Each node can have one or more training
+phases, during which the internal structures are learned from training
+data (e.g. the weights of a neural network are adapted or the
+covariance matrix is estimated) and an execution phase, where new data
+can be processed forwards (by processing the data through the node) or
+backwards (by applying the inverse of the transformation computed by
+the node if defined). The <tt class="docutils literal"><span class="pre">Node</span></tt> class is designed to make the
+implementation of new algorithms easy and intuitive, for example by
+setting automatically input and output dimension and by casting the
+data to match the numerical type (e.g. float or double) of the
+internal structures. <tt class="docutils literal"><span class="pre">Node</span></tt> was designed to be applied to arbitrarily
+long sets of data: the internal structures can be updated
+incrementally by sending chunks of the input data (this is equivalent
+to online learning if the chunks consists of single observations, or
+to batch learning if the whole data is sent in a single chunk).</p>
 <div class="section">
-<h2><a class="toc-backref" href="#id4" id="node-instantiation" name="node-instantiation">Node Instantiation</a></h2>
+<h2><a class="toc-backref" href="#id6" id="node-instantiation" name="node-instantiation">Node Instantiation</a></h2>
 <p>Nodes can be obtained by creating an instance of the <tt class="docutils literal"><span class="pre">Node</span></tt> class.
 Each node is characterized by an input dimension, that corresponds
 to the dimensionality of the input vectors, an output dimension, and
@@ -549,7 +573,7 @@ the degree of the polynomials space (3 in this case).</p>
 </ul>
 </div>
 <div class="section">
-<h2><a class="toc-backref" href="#id5" id="node-training" name="node-training">Node Training</a></h2>
+<h2><a class="toc-backref" href="#id7" id="node-training" name="node-training">Node Training</a></h2>
 <p>Some nodes need to be trained to perform their task. This can
 be done during a training phases by calling the <tt class="docutils literal"><span class="pre">train</span></tt> method. 
 MDP supports both supervised and unsupervised training, and
@@ -645,7 +669,7 @@ which automatically handle multiple phases.</p>
 </ul>
 </div>
 <div class="section">
-<h2><a class="toc-backref" href="#id6" id="node-execution" name="node-execution">Node Execution</a></h2>
+<h2><a class="toc-backref" href="#id8" id="node-execution" name="node-execution">Node Execution</a></h2>
 <p>After the training phase it is possible to execute the node:</p>
 <ul>
 <li><p class="first">The input data is projected on the principal components learned
@@ -679,7 +703,7 @@ as always the complete information is given in the doc-string.</p>
 </ul>
 </div>
 <div class="section">
-<h2><a class="toc-backref" href="#id7" id="node-inversion" name="node-inversion">Node Inversion</a></h2>
+<h2><a class="toc-backref" href="#id9" id="node-inversion" name="node-inversion">Node Inversion</a></h2>
 <p>If the operation computed by the node is invertible, it is possible
 to compute the inverse transformation:</p>
 <ul>
@@ -701,12 +725,17 @@ False
 </ul>
 </div>
 <div class="section">
-<h2><a class="toc-backref" href="#id8" id="writing-your-own-nodes-subclassing-node" name="writing-your-own-nodes-subclassing-node">Writing your own nodes: subclassing Node</a></h2>
+<h2><a class="toc-backref" href="#id10" id="writing-your-own-nodes-subclassing-node" name="writing-your-own-nodes-subclassing-node">Writing your own nodes: subclassing Node</a></h2>
 <p>MDP tries to make it easy to write new data processing elements
 that fit with the existing elements. To expand the MDP library of
 implemented nodes with your own nodes you can subclass
 the Node class, overriding some of the methods according
 to your needs.</p>
+<p>It is recommended to refer to the <tt class="docutils literal"><span class="pre">numpy</span></tt> numerical extension
+through the MDP aliases <tt class="docutils literal"><span class="pre">mdp.numx</span></tt>, <tt class="docutils literal"><span class="pre">mdp.numx_linalg</span></tt>, and
+<tt class="docutils literal"><span class="pre">mdp.numx_rand</span></tt> when writing <tt class="docutils literal"><span class="pre">Node</span></tt> subclasses. This shall ensure
+that your nodes can be used without modifications should MDP support
+alternative numerical extensions in the future.</p>
 <p>We'll illustrate this with some toy examples.</p>
 <ul>
 <li><p class="first">We start by defining a node that multiplies its input by 2.</p>
@@ -1014,20 +1043,23 @@ array([[0, 0, 0, 0],
 </div>
 </div>
 <div class="section">
-<h1><a class="toc-backref" href="#id9" id="flows" name="flows">Flows</a></h1>
+<h1><a class="toc-backref" href="#id11" id="flows" name="flows">Flows</a></h1>
 <p>A flow consists in an acyclic graph of nodes (currently only
 node sequences are implemented). The data is sent to an 
 input node and is successively processed by the following 
 nodes on the graph. The general flow implementation automatizes 
 the training, execution, and inverse execution (if defined) of 
-the whole graph. Crash recovery is optionally available: in case 
-of failure the current state of the flow is saved for later 
-inspection. A subclass of the basic flow class allows 
-user-supplied checkpoint functions to be executed at the end 
-of each phase, for example to save the internal structures 
-of a node for later analysis.</p>
+the whole graph. Training can be supervised and can consist of
+multiple phases.
+Crash recovery is optionally available: in case of failure the current
+state of the flow is saved for later inspection. A subclass of the
+basic flow class (<tt class="docutils literal"><span class="pre">CheckpointFlow</span></tt>) allows user-supplied checkpoint
+functions to be executed at the end of each phase, for example to save
+the internal structures of a node for later analysis.
+Flow objects are Python containers. Most of the builtin <tt class="docutils literal"><span class="pre">list</span></tt>
+methods are available.</p>
 <div class="section">
-<h2><a class="toc-backref" href="#id10" id="flow-instantiation-training-and-execution" name="flow-instantiation-training-and-execution">Flow instantiation, training and execution</a></h2>
+<h2><a class="toc-backref" href="#id12" id="flow-instantiation-training-and-execution" name="flow-instantiation-training-and-execution">Flow instantiation, training and execution</a></h2>
 <p>Suppose we have an input signal with an high number of dimensions,
 on which we would like to perform ICA. To make the problem affordable,
 we first need to reduce its dimensionality with PCA. Finally, we would
@@ -1116,7 +1148,7 @@ interfere with the data flow.</p>
 </ul>
 </div>
 <div class="section">
-<h2><a class="toc-backref" href="#id11" id="flow-inversion" name="flow-inversion">Flow inversion</a></h2>
+<h2><a class="toc-backref" href="#id13" id="flow-inversion" name="flow-inversion">Flow inversion</a></h2>
 <p>Flows can be inverted by calling their <tt class="docutils literal"><span class="pre">inverse</span></tt> method.
 In the case where the flow contains non-invertible nodes,
 trying to invert it would raise an exception.
@@ -1138,7 +1170,7 @@ We can reconstruct the mix by inverting the flow:</p>
 </pre>
 </div>
 <div class="section">
-<h2><a class="toc-backref" href="#id12" id="flows-are-container-type-objects" name="flows-are-container-type-objects">Flows are container type objects</a></h2>
+<h2><a class="toc-backref" href="#id14" id="flows-are-container-type-objects" name="flows-are-container-type-objects">Flows are container type objects</a></h2>
 <p>Flows are Python container type objects, very much like lists,
 i.e., you can loop through them:</p>
 <pre class="literal-block">
@@ -1175,7 +1207,7 @@ output dimensions of successive nodes always have to match. If
 you try to create an inconsistent flow you'll get an error.</p>
 </div>
 <div class="section">
-<h2><a class="toc-backref" href="#id13" id="crash-recovery" name="crash-recovery">Crash recovery</a></h2>
+<h2><a class="toc-backref" href="#id15" id="crash-recovery" name="crash-recovery">Crash recovery</a></h2>
 <p>If a node in a flow fails, you'll get a traceback that tells you which
 node has failed. You can also switch the crash recovery capability on. If
 something goes wrong you'll end up with a pickle dump of the flow, that 
@@ -1221,13 +1253,15 @@ A crash dump is available on: &quot;/tmp/MDPcrash_LmISO_.pic&quot;
 </div>
 </div>
 <div class="section">
-<h1><a class="toc-backref" href="#id14" id="iterators" name="iterators">Iterators</a></h1>
+<h1><a class="toc-backref" href="#id16" id="iterators" name="iterators">Iterators</a></h1>
 <p>Python allows user-defined classes to support iteration,
-as described in <a class="reference" href="http://docs.python.org/lib/typeiter.html">http://docs.python.org/lib/typeiter.html</a> .
+as described in the
+<a class="reference" href="http://docs.python.org/lib/typeiter.html">Python docs</a>.
 A convenient implementation of the iterator protocol is provided
-by generators.</p>
-<p>See <a class="reference" href="http://linuxgazette.net/100/pramode.html">http://linuxgazette.net/100/pramode.html</a> for an
-introduction, and <a class="reference" href="http://www.python.org/peps/pep-0255.html">http://www.python.org/peps/pep-0255.html</a> for a
+by generators:
+see <a class="reference" href="http://linuxgazette.net/100/pramode.html">this article</a> for an
+introduction, and the
+<a class="reference" href="http://www.python.org/peps/pep-0255.html">official PEP</a> for a
 complete description.</p>
 <p>Let us define two bogus node classes to be used as examples of nodes:</p>
 <pre class="literal-block">
@@ -1406,7 +1440,7 @@ same sequence every time:</p>
 </pre>
 </div>
 <div class="section">
-<h1><a class="toc-backref" href="#id15" id="checkpoints" name="checkpoints">Checkpoints</a></h1>
+<h1><a class="toc-backref" href="#id17" id="checkpoints" name="checkpoints">Checkpoints</a></h1>
 <p>It can sometimes be useful to execute arbitrary functions at the end
 of the training or execution phase, for example to save the internal
 structures of a node for later analysis. This can easily be done
@@ -1526,7 +1560,7 @@ SFANode(input_dim=35, output_dim=35, dtype='d')
 </pre>
 </div>
 <div class="section">
-<h1><a class="toc-backref" href="#id16" id="a-real-life-example-logistic-maps" name="a-real-life-example-logistic-maps">A real life example (Logistic maps)</a></h1>
+<h1><a class="toc-backref" href="#id18" id="a-real-life-example-logistic-maps" name="a-real-life-example-logistic-maps">A real life example (Logistic maps)</a></h1>
 <p>We show an application of Slow Feature Analysis to the analysis of
 non-stationary time series. We consider a chaotic time series generated
 by the logistic map based on the logistic equation (a demographic model
@@ -1632,7 +1666,7 @@ Eta value (slow feature):  [ 10.2185087]
 <img alt="SFA estimate" src="results.png" style="width: 700px;" />
 </div>
 <div class="section">
-<h1><a class="toc-backref" href="#id17" id="another-real-life-example-growing-neural-gas" name="another-real-life-example-growing-neural-gas">Another real life example (Growing neural gas)</a></h1>
+<h1><a class="toc-backref" href="#id19" id="another-real-life-example-growing-neural-gas" name="another-real-life-example-growing-neural-gas">Another real life example (Growing neural gas)</a></h1>
 <p>We generate uniformly distributed random data points confined on different
 2-D geometrical objects. The Growing Neural Gas Node builds a graph with the
 same topological structure.</p>
@@ -1728,10 +1762,266 @@ adapted to the topological structure of the data distribution:</p>
 </pre>
 </div>
 <div class="section">
-<h1><a class="toc-backref" href="#id18" id="utils-section" name="utils-section">utils section</a></h1>
+<h1><a class="toc-backref" href="#id20" id="node-list" name="node-list">Node List</a></h1>
+<p>Here is the complete list of implemented nodes.
+Refer to the
+<a class="reference" href="http://mdp-toolkit.sourceforge.net/docs/api/index.html">API</a>
+for the full documentation and interface description.</p>
+<dl class="docutils">
+<dt><strong>CuBICANode</strong></dt>
+<dd>Perform Independent Component Analysis using the CuBICA algorithm.
+Reference: Blaschke, T. and Wiskott, L. (2003).
+<em>CuBICA: Independent Component Analysis by Simultaneous Third- and
+Fourth-Order Cumulant Diagonalization</em>.
+IEEE Transactions on Signal Processing, 52(5), pp. 1250-1256.
+More information about ICA can be found among others in
+Hyvarinen A., Karhunen J., Oja E. (2001). <em>Independent Component Analysis</em>,
+Wiley.</dd>
+<dt><strong>EtaComputerNode</strong></dt>
+<dd>Compute the eta values of the normalized training data.
+The delta value of a signal is a measure of its temporal
+variation, and is defined as the mean of the derivative squared,
+i.e. <tt class="docutils literal"><span class="pre">delta(x)</span> <span class="pre">=</span> <span class="pre">mean(dx/dt(t)^2)</span></tt>. <tt class="docutils literal"><span class="pre">delta(x)</span></tt> is zero if
+'x' is a constant signal, and increases if the temporal variation
+of the signal is bigger.
+The eta value is a more intuitive measure of temporal variation,
+defined as <tt class="docutils literal"><span class="pre">eta(x)</span> <span class="pre">=</span> <span class="pre">T/(2*pi)</span> <span class="pre">*</span> <span class="pre">sqrt(delta(x))</span></tt>.
+If 'x' is a signal of length 'T' which consists of a sine function
+that accomplishes exactly 'N' oscillations, then <tt class="docutils literal"><span class="pre">eta(x)</span> <span class="pre">=</span> <span class="pre">N</span></tt>.
+Reference: Wiskott, L. and Sejnowski, T.J. (2002).
+<em>Slow Feature Analysis:
+Unsupervised Learning of Invariances</em>, Neural Computation,
+14(4):715-770.</dd>
+<dt><strong>FANode</strong></dt>
+<dd>Perform Factor Analysis. The current implementation should be most
+efficient for long data sets: the sufficient statistics are
+collected in the training phase, and all EM-cycles are performed at
+its end. More information about Factor Analysis can be found in
+<a class="reference" href="http://www.ics.uci.edu/~welling/classnotes/classnotes.html">Max Welling's classnotes</a>
+in the chapter &quot;Linear Models&quot;.</dd>
+<dt><strong>FastICANode</strong></dt>
+<dd>Perform Independent Component Analysis using the FastICA algorithm.
+Reference:
+Aapo Hyvarinen (1999).
+<em>Fast and Robust Fixed-Point Algorithms for Independent Component Analysis</em>,
+IEEE Transactions on Neural Networks, 10(3):626-634.
+More information about ICA can be found among others in
+Hyvarinen A., Karhunen J., Oja E. (2001). <em>Independent Component Analysis</em>,
+Wiley.</dd>
+<dt><strong>FDANode</strong></dt>
+<dd>Perform a (generalized) Fisher Discriminant Analysis of its
+input. It is a supervised node that implements FDA using a
+generalized eigenvalue approach.
+More information on Fisher Discriminant Analysis can be found for
+example in C. Bishop, <em>Neural Networks for Pattern Recognition</em>,
+Oxford Press, pp. 105-112.</dd>
+<dt><strong>GaussianClassifierNode</strong> </dt>
+<dd>Perform a supervised Gaussian classification.  Given a set of
+labelled data, the node fits a gaussian distribution to each
+class.</dd>
+<dt><strong>GrowingNeuralGasNode</strong></dt>
+<dd>Learn the topological structure of the input data by building a corresponding
+graph approximation. 
+More information about the Growing Neural Gas algorithm can be found in B.
+Fritzke, <em>A Growing Neural Gas Network Learns Topologies</em>, in G. Tesauro, D. S.
+Touretzky, and T. K. Leen (editors), <em>Advances in Neural Information
+Processing Systems 7</em>, pages 625-632. MIT Press, Cambridge MA, 1995.</dd>
+<dt><strong>HitParadeNode</strong></dt>
+<dd>Collect the first 'n' local maxima and minima of the training signal
+which are separated by a minimum gap 'd'.</dd>
+<dt><strong>NoiseNode</strong></dt>
+<dd>Inject multiplicative or additive noise into the input data.</dd>
+<dt><strong>PCANode</strong></dt>
+<dd>Filter the input data throug the most significatives of its
+principal components.
+More information about Principal Component Analysis, a.k.a. discrete
+Karhunen-Loeve transform can be found among others in
+I.T. Jolliffe, <em>Principal Component Analysis</em>, Springer-Verlag (1986).&quot;&quot;&quot;</dd>
+<dt><strong>PolynomialExpansionNode</strong></dt>
+<dd>Perform expansion in a polynomial space.</dd>
+<dt><strong>QuadraticExpansionNode</strong></dt>
+<dd>Perform expansion in the space formed by all linear and quadratic
+monomials</dd>
+<dt><strong>SFANode</strong></dt>
+<dd>Extract the slowly varying components from the input data.
+More information about Slow Feature Analysis can be found in
+Wiskott, L. and Sejnowski, T.J., <em>Slow Feature Analysis: Unsupervised
+Learning of Invariances</em>, Neural Computation, 14(4):715-770 (2002).</dd>
+<dt><strong>SFA2Node</strong></dt>
+<dd>Get an input signal, expand it in the space of
+inhomogeneous polynomials of degree 2 and extract its slowly varying
+components. The <tt class="docutils literal"><span class="pre">get_quadratic_form</span></tt> method returns the input-output
+function of one of the learned unit as a <tt class="docutils literal"><span class="pre">mdp.utils.QuadraticForm</span></tt> object.
+More information about Slow Feature Analysis can be found in
+Wiskott, L. and Sejnowski, T.J., <em>Slow Feature Analysis: Unsupervised
+Learning of Invariances</em>, Neural Computation, 14(4):715-770 (2002).</dd>
+<dt><strong>TimeFramesNode</strong></dt>
+<dd><p class="first">Copy delayed version of the input signal on the space dimensions.</p>
+<!-- ignore --><pre class="last literal-block">
+For example, for time_frames=3 and gap=2: 
+
+[ X(1) Y(1)        [ X(1) Y(1) X(3) Y(3) X(5) Y(5)
+  X(2) Y(2)          X(2) Y(2) X(4) Y(4) X(6) Y(6)
+  X(3) Y(3)   --&gt;    X(3) Y(3) X(5) Y(5) X(7) Y(7)
+  X(4) Y(4)          X(4) Y(4) X(6) Y(6) X(8) Y(8)
+  X(5) Y(5)          ...  ...  ...  ...  ...  ... ]
+  X(6) Y(6)
+  X(7) Y(7)
+  X(8) Y(8)
+  ...  ...  ]
+</pre>
+</dd>
+<dt><strong>WhiteningNode</strong></dt>
+<dd>'Whiten' the input data by filtering it through the most
+significatives of its principal components. All output
+signals have zero mean, unit variance and are decorrelated.</dd>
+</dl>
+<div class="admonition-didn-t-you-find-what-you-were-looking-for admonition">
+<p class="first admonition-title">Didn't you find what you were looking for?</p>
+<p class="last">If you want to contribute some code or a new
+algorithm, please do not hesitate to submit it!</p>
+</div>
 </div>
 <div class="section">
-<h1><a class="toc-backref" href="#id19" id="to-do" name="to-do">To Do</a></h1>
+<h1><a class="toc-backref" href="#id21" id="additional-utilities" name="additional-utilities">Additional utilities</a></h1>
+<p>MDP offers some additional utilities of general interest
+in the <tt class="docutils literal"><span class="pre">mdp.utils</span></tt> module. Refer to the
+<a class="reference" href="http://mdp-toolkit.sourceforge.net/docs/api/index.html">API</a>
+for the full documentation and interface description.</p>
+<dl class="docutils">
+<dt><strong>CovarianceMatrix</strong></dt>
+<dd><p class="first">This class stores an empirical covariance matrix that can be updated
+incrementally. A call to the <tt class="docutils literal"><span class="pre">fix</span></tt> method returns the current state
+of the covariance matrix, the average and the number of observations,
+and resets the internal data.</p>
+<p class="last">Note that the internal sum is a standard <tt class="docutils literal"><span class="pre">__add__</span></tt> operation. We are not
+using any of the fancy sum algorithms to avoid round off errors when
+adding many numbers. If you want to contribute a <tt class="docutils literal"><span class="pre">CovarianceMatrix</span></tt>
+class that uses such algorithms we would be happy to include it in
+MDP.  For a start see the <a class="reference" href="http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/393090">Python recipe</a>
+by Raymond Hettinger. For a
+review about floating point arithmetic and its pitfalls see
+this <a class="reference" href="http://docs.sun.com/source/806-3568/ncg_goldberg.html">interesting article</a>.</p>
+</dd>
+<dt><strong>DelayCovarianceMatrix</strong></dt>
+<dd>This class stores an empirical covariance matrix between the signal and
+time delayed signal that can be updated incrementally.</dd>
+<dt><strong>dig_node(node)</strong></dt>
+<dd>Crawl recursively an MDP <tt class="docutils literal"><span class="pre">Node</span></tt> looking for arrays.
+Return (dictionary, string), where the dictionary is:
+{ attribute_name: (size_in_bytes, array_reference)}
+and string is a nice string representation of it.</dd>
+<dt><strong>get_node_size(node)</strong></dt>
+<dd>Get 'node' total byte-size using <tt class="docutils literal"><span class="pre">cPickle</span></tt> with protocol=2.
+(The byte-size is related the memory needed by the node).</dd>
+<dt><strong>progressinfo(sequence, length, style, custom)</strong></dt>
+<dd><p class="first">A fully configurable text-mode progress info box.
+To get a progress info box for your loops use it like this:</p>
+<!-- ignore --><pre class="literal-block">
+&gt;&gt;&gt; for i in progressinfo(sequence):
+...     do_something(i)
+</pre>
+<p>You can also use it with generators, files or any other iterable object,
+but in this case you have to specify the total length of the sequence:</p>
+<!-- ignore --><pre class="literal-block">
+&gt;&gt;&gt; for line in progressinfo(open_file, nlines):
+...     do_something(line)
+</pre>
+<p>A few examples of the available layouts:</p>
+<!-- ignore --><pre class="last literal-block">
+[===================================73%==============&gt;...................]
+
+Progress:  67%[======================================&gt;                   ]
+
+23% [02:01:28] - [00:12:37]
+</pre>
+</dd>
+<dt><strong>QuadraticForm</strong></dt>
+<dd>Define an inhomogeneous quadratic form as <tt class="docutils literal"><span class="pre">1/2</span> <span class="pre">x'Hx</span> <span class="pre">+</span> <span class="pre">f'x</span> <span class="pre">+</span> <span class="pre">c</span></tt>.</dd>
+<dt><strong>refcast(array, dtype)</strong></dt>
+<dd>Cast the array to 'dtype' only if necessary,
+otherwise return a reference.</dd>
+<dt><strong>rotate(mat, angle, columns, units)</strong></dt>
+<dd><p class="first">Rotate in-place a NxM data matrix in the plane defined by the 'columns'
+when observation are stored on rows. Observations are rotated
+counterclockwise. This corresponds to the following matrix-multiplication
+for each data-point (unchanged elements omitted):</p>
+<!-- ignore --><pre class="last literal-block">
+[  cos(angle) -sin(angle)     [ x_i ]
+   sin(angle)  cos(angle) ] * [ x_j ] 
+</pre>
+</dd>
+<dt><strong>random_rot(dim, dtype)</strong></dt>
+<dd>Return a random rotation matrix, drawn from the Haar distribution
+(the only uniform distribution on SO(n)).
+The algorithm is described in the paper
+Stewart, G.W., <em>The efficient generation of random orthogonal
+matrices with an application to condition estimators</em>, SIAM Journal
+on Numerical Analysis, 17(3), pp. 403-409, 1980.
+For more information see this <a class="reference" href="http://en.wikipedia.org/wiki/Orthogonal_matrix#Randomization">Wikipedia entry</a>.</dd>
+<dt><strong>symrand(dim_or_eigv, dtype)</strong></dt>
+<dd>Return a random symmetric (Hermitian) matrix with eigenvalues
+uniformly distributed on (0,1].</dd>
+</dl>
+<div class="section">
+<h2><a class="toc-backref" href="#id22" id="graph-module" name="graph-module">Graph module</a></h2>
+<p>MDP contains <tt class="docutils literal"><span class="pre">mdp.graph</span></tt>, a lightweight package to handle directed graphs.</p>
+<dl class="docutils">
+<dt><strong>Graph</strong></dt>
+<dd><p class="first">Represent a directed graph. This class contains several methods
+to create graph structures and manipulate them, among which</p>
+<ul class="last">
+<li><dl class="first docutils">
+<dt><tt class="docutils literal"><span class="pre">add_tree</span></tt>: Add a tree to the graph.</dt>
+<dd><p class="first">The tree is specified with a nested list of tuple, in a LISP-like
+notation. The values specified in the list become the values of
+the single nodes.
+Return an equivalent nested list with the nodes instead of the values.</p>
+<p>Example:</p>
+<!-- ignore --><pre class="last literal-block">
+&gt;&gt;&gt; a=b=c=d=e=None
+&gt;&gt;&gt; g.add_tree( (a, b, (c, d ,e)) )
+# corresponds to this tree structure, with all node values set to None:
+
+        a
+       / \
+      b   c
+         / \
+        d   e
+</pre>
+</dd>
+</dl>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">topological_sort</span></tt>: Perform a topological sort of the nodes.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">dfs</span></tt>, <tt class="docutils literal"><span class="pre">undirected_dfs</span></tt>: Perform Depth First sort.</p>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">bfs</span></tt>, <tt class="docutils literal"><span class="pre">undirected_bfs</span></tt>: Perform Breadth First sort.</p>
+</li>
+<li><dl class="first docutils">
+<dt><tt class="docutils literal"><span class="pre">connected_components</span></tt>: Return a list of lists containing</dt>
+<dd><p class="first last">the nodes of all connected components of the graph.</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><tt class="docutils literal"><span class="pre">is_weakly_connected</span></tt>: Return True if the graph is weakly connected.</p>
+</li>
+</ul>
+</dd>
+<dt><strong>GraphEdge</strong></dt>
+<dd>Represent a graph edge and all information attached to it.</dd>
+<dt><strong>GraphNode</strong></dt>
+<dd>Represent a graph node and all information attached to it.</dd>
+<dt><strong>recursive_map(func, seq)</strong></dt>
+<dd>Apply a function recursively on a sequence and all subsequences.</dd>
+<dt><strong>recursive_reduce(func, seq, *argv)</strong></dt>
+<dd>Apply <tt class="docutils literal"><span class="pre">reduce(func,</span> <span class="pre">seq)</span></tt> recursively to a sequence and all its
+subsequences.</dd>
+</dl>
+</div>
+</div>
+<div class="section">
+<h1><a class="toc-backref" href="#id23" id="to-do" name="to-do">To Do</a></h1>
 <p>In this last section we want to give you an overview about our
 plans for the development of MDP:</p>
 <ul class="simple">
@@ -1743,16 +2033,11 @@ an easy and intuitive GUI :)</li>
 uses some of the fancy sum algorithms to avoid round off errors when
 adding many numbers.</li>
 </ul>
-<div class="admonition-a-final-remark admonition">
-<p class="first admonition-title">A final remark</p>
-<p class="last">If you want to contribute some code or a new
-algorithm, please do not hesitate to submit it!</p>
-</div>
 </div>
 </div>
 <div class="footer">
 <hr class="footer" />
-Generated on: 2006-06-28 18:04 UTC.
+Generated on: 2006-06-29 14:33 UTC.
 Generated by <a class="reference" href="http://docutils.sourceforge.net/">Docutils</a> from <a class="reference" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> source.
 
 </div>

@@ -1,7 +1,8 @@
 import mdp
 dir(mdp.helper_funcs)
 # ['__builtins__', '__doc__', '__file__', '__name__',
-# 'cubica', 'fastica', 'get_eta', 'mdp', 'pca', 'sfa', 'whitening']
+# 'cubica', 'factor_analysis', 'fastica', 'get_eta', 'mdp',
+# 'pca', 'sfa', 'sfa2', 'whitening']
 pcanode1 = mdp.nodes.PCANode()
 pcanode1
 # PCANode(input_dim=None, output_dim=None, dtype=None)

@@ -8,7 +8,7 @@ Tutorial
 
 .. raw:: html
    
-   This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP_tutorial.pdf?download">pdf file</a> (200 KB).
+   This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP_tutorial.pdf?download">pdf file</a> (?? KB).
 
 This is a guide to basic and some more advanced features of
 the MDP library. Besides the present tutorial, you can learn 
@@ -45,31 +45,52 @@ available.
 
 Introduction
 ------------
-Modular toolkit for Data Processing (MDP) is a Python library to
-perform data processing. Already implemented algorithms include:
-Principal Component Analysis (PCA), Independent Component Analysis
-(ICA), Slow Feature Analysis (SFA), and Growing Neural Gas (GNG).
+Modular toolkit for Data Processing (MDP) is a data processing
+framework written in Python.
 
-MDP supports the most common numerical extensions to Python and the
-`symeig <http://mdp-toolkit.sourceforge.net/symeig.html>`_ package 
-(a Python wrapper
-for the LAPACK functions to solve the standard and generalized
-eigenvalue problems for symmetric (hermitian) positive definite
-matrices). MDP also includes ``graph`` (a lightweight package
-to handle graphs).
+From the user's perspective, MDP consists of a collection of trainable
+supervised and unsupervised algorithms or other data processing units
+(nodes) that can be combined into data processing flows. Given a
+sequence of input data, MDP takes care of successively training or
+executing all nodes in the flow. This structure allows to specify
+complex algorithms as a sequence of simpler data processing steps in a
+natural way. Training can be performed using small chunks of input
+data, so that the use of very large data sets becomes possible while
+reducing the memory requirements. Memory usage can also be minimized
+by defining the internals of the nodes to be single precision.
 
-When used together with `SciPy <http://www.scipy.org>`_ (the 
-scientific Python library) and
-`symeig`_, MDP gives to the scientific programmer the full power of
-well-known C and FORTRAN data processing libraries.  MDP helps the
-programmer to exploit Python object oriented design with C and FORTRAN
-efficiency.
+The base of readily available algorithms includes Principal Component
+Analysis, two flavors of Independent Component Analysis, Slow Feature
+Analysis, Gaussian Classifiers, Growing Neural Gas, Fisher
+Discriminant Analysis, and Factor Analysis. The full list
+of implemented nodes can be found in the `Node List`_ section.
 
-MDP has been written for research in neuroscience, but it has been
-designed to be helpful in any context where trainable data processing
-algorithms are used.  Its simplicity on the user side together with
-the reusability of the implemented nodes could make it also a valid
-educational tool.
+From the developer's perspective, MDP is a framework to make the
+implementation of new algorithms easier. The basic class 'Node' takes
+care of tedious tasks like numerical type and dimensionality checking,
+leaving the developer free to concentrate on the implementation of the
+training and execution phases. The node then automatically integrates
+with the rest of the library and can be used in a flow together with
+other nodes. A node can have multiple training phases and even an
+undetermined number of phases. This allows for example the
+implementation of algorithms that need to collect some statistics on
+the whole input before proceeding with the actual training, or others
+that need to iterate over a training phase until a convergence
+criterion is satisfied. The ability to train each phase using chunks
+of input data is maintained if the chunks are generated with
+iterators. Moreover, crash recovery is optionally available: in case
+of failure, the current state of the flow is saved for later
+inspection.
+
+MDP has been written in the context of theoretical research in
+neuroscience, but it has been designed to be helpful in any context
+where trainable data processing algorithms are used. Its simplicity on
+the user side together with the reusability of the implemented nodes
+make it also a valid educational tool.
+
+As its user base is steadily increasing, MDP appears as a good
+candidate for becoming a common repository of user-supplied, freely
+available, Python implemented data processing algorithms.
 
 Quick Start
 -----------
@@ -95,38 +116,41 @@ can be obtained as follows:
 ::
 
     >>> dir(mdp.helper_funcs)
-    ['__builtins__', '__doc__', '__file__', '__name__', 
-     'cubica', 'fastica', 'get_eta', 'mdp', 'pca', 'sfa', 'whitening']
+    ['__builtins__', '__doc__', '__file__', '__name__',
+    'cubica', 'factor_analysis', 'fastica', 'get_eta', 'mdp',
+    'pca', 'sfa', 'sfa2', 'whitening']
 
-MDP is of course much more than this: it allows to combine different
+MDP is, of course, much more than this: it allows to combine different
 algorithms and other data processing elements (nodes) into data
 processing sequences (flows). Moreover, it provides a framework that
 makes the implementation of new algorithms easy and intuitive.
+
+MDP requires the numerical Python extension `numpy
+<http://numeric.scipy.org/>`_.  MDP offers in its namespace references
+to the main modules ``numpy``, ``numpy.linalg``, and ``numpy.random``
+as ``mdp.numx``, ``mdp.numx_linalg`` and ``mdp.numx_rand``. This is
+done to possibly support additional numerical extensions in the
+future.
 
 Nodes
 -----
 A node is the basic unit in MDP and it represents a data processing
 element, like for example a learning algorithm, a filter, a
-visualization step etc. Each node can have a training phase, during 
-which the internal structures are learned from training data (e.g. 
-the weights of a neural network are adapted or the covariance matrix
-is estimated) and an execution phase, where new data can be processed
-forwards (by processing the data through the node) or backwards (by 
-applying the inverse of the transformation computed by the node if 
-defined). MDP is designed to make the implementation of new algorithms
-easy and intuitive, for example by setting automatically input and 
-output dimension and by casting the data to match the ``dtype`` 
-(e.g. float or double precision) of the internal structures. Most of 
-the nodes were designed to be applied to arbitrarily long sets of 
-data: the internal structures can be updated successively by 
-sending chunks of the input data (this is equivalent to online 
-learning if the chunks consists of single observations, or to 
-batch learning if the whole data is sent in a single chunk). 
-Already implemented nodes include Principal Component Analysis
-(PCA), Independent Component Analysis (ICA), Slow Feature 
-Analysis (SFA), and Growing Neural Gas Network. Have a look at the 
-`full list <http://mdp-toolkit.sourceforge.net/index.html#IMNODES>`_ 
-of implemented nodes.
+visualization step, etc. Each node can have one or more training
+phases, during which the internal structures are learned from training
+data (e.g. the weights of a neural network are adapted or the
+covariance matrix is estimated) and an execution phase, where new data
+can be processed forwards (by processing the data through the node) or
+backwards (by applying the inverse of the transformation computed by
+the node if defined). The ``Node`` class is designed to make the
+implementation of new algorithms easy and intuitive, for example by
+setting automatically input and output dimension and by casting the
+data to match the numerical type (e.g. float or double) of the
+internal structures. ``Node`` was designed to be applied to arbitrarily
+long sets of data: the internal structures can be updated
+incrementally by sending chunks of the input data (this is equivalent
+to online learning if the chunks consists of single observations, or
+to batch learning if the whole data is sent in a single chunk).
  
 Node Instantiation
 ~~~~~~~~~~~~~~~~~~~
@@ -363,6 +387,12 @@ that fit with the existing elements. To expand the MDP library of
 implemented nodes with your own nodes you can subclass
 the Node class, overriding some of the methods according
 to your needs.
+
+It is recommended to refer to the ``numpy`` numerical extension
+through the MDP aliases ``mdp.numx``, ``mdp.numx_linalg``, and
+``mdp.numx_rand`` when writing ``Node`` subclasses. This shall ensure
+that your nodes can be used without modifications should MDP support
+alternative numerical extensions in the future.
 
 We'll illustrate this with some toy examples.
 
@@ -708,12 +738,15 @@ node sequences are implemented). The data is sent to an
 input node and is successively processed by the following 
 nodes on the graph. The general flow implementation automatizes 
 the training, execution, and inverse execution (if defined) of 
-the whole graph. Crash recovery is optionally available: in case 
-of failure the current state of the flow is saved for later 
-inspection. A subclass of the basic flow class allows 
-user-supplied checkpoint functions to be executed at the end 
-of each phase, for example to save the internal structures 
-of a node for later analysis.
+the whole graph. Training can be supervised and can consist of
+multiple phases.
+Crash recovery is optionally available: in case of failure the current
+state of the flow is saved for later inspection. A subclass of the
+basic flow class (``CheckpointFlow``) allows user-supplied checkpoint
+functions to be executed at the end of each phase, for example to save
+the internal structures of a node for later analysis.
+Flow objects are Python containers. Most of the builtin ``list``
+methods are available.
 
 Flow instantiation, training and execution
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -933,12 +966,13 @@ You can give a file name to tell the flow where to save the dump:
 Iterators
 ---------
 Python allows user-defined classes to support iteration,
-as described in http://docs.python.org/lib/typeiter.html .
+as described in the
+`Python docs <http://docs.python.org/lib/typeiter.html>`_.
 A convenient implementation of the iterator protocol is provided
-by generators.
-
-See http://linuxgazette.net/100/pramode.html for an
-introduction, and http://www.python.org/peps/pep-0255.html for a
+by generators:
+see `this article <http://linuxgazette.net/100/pramode.html>`_ for an
+introduction, and the
+`official PEP <http://www.python.org/peps/pep-0255.html>`_ for a
 complete description.
 
 Let us define two bogus node classes to be used as examples of nodes:
@@ -1513,9 +1547,316 @@ Calculate the number of connected components:
     >>> print n_obj
     5
 
-utils section
--------------
+Node List
+---------
+Here is the complete list of implemented nodes.
+Refer to the
+`API <http://mdp-toolkit.sourceforge.net/docs/api/index.html>`_
+for the full documentation and interface description.
 
+**CuBICANode**
+   Perform Independent Component Analysis using the CuBICA algorithm.
+   Reference: Blaschke, T. and Wiskott, L. (2003).
+   *CuBICA: Independent Component Analysis by Simultaneous Third- and
+   Fourth-Order Cumulant Diagonalization*.
+   IEEE Transactions on Signal Processing, 52(5), pp. 1250-1256.
+   More information about ICA can be found among others in
+   Hyvarinen A., Karhunen J., Oja E. (2001). *Independent Component Analysis*,
+   Wiley.
+
+**EtaComputerNode**
+   Compute the eta values of the normalized training data.
+   The delta value of a signal is a measure of its temporal
+   variation, and is defined as the mean of the derivative squared,
+   i.e. ``delta(x) = mean(dx/dt(t)^2)``. ``delta(x)`` is zero if
+   'x' is a constant signal, and increases if the temporal variation
+   of the signal is bigger.
+   The eta value is a more intuitive measure of temporal variation,
+   defined as ``eta(x) = T/(2*pi) * sqrt(delta(x))``.
+   If 'x' is a signal of length 'T' which consists of a sine function
+   that accomplishes exactly 'N' oscillations, then ``eta(x) = N``.
+   Reference: Wiskott, L. and Sejnowski, T.J. (2002).
+   *Slow Feature Analysis:
+   Unsupervised Learning of Invariances*, Neural Computation,
+   14(4):715-770.
+
+**FANode**
+   Perform Factor Analysis. The current implementation should be most
+   efficient for long data sets: the sufficient statistics are
+   collected in the training phase, and all EM-cycles are performed at
+   its end. More information about Factor Analysis can be found in
+   `Max Welling's classnotes
+   <http://www.ics.uci.edu/~welling/classnotes/classnotes.html>`_
+   in the chapter "Linear Models".
+
+**FastICANode**
+   Perform Independent Component Analysis using the FastICA algorithm.
+   Reference:
+   Aapo Hyvarinen (1999).
+   *Fast and Robust Fixed-Point Algorithms for Independent Component Analysis*,
+   IEEE Transactions on Neural Networks, 10(3):626-634.
+   More information about ICA can be found among others in
+   Hyvarinen A., Karhunen J., Oja E. (2001). *Independent Component Analysis*,
+   Wiley.
+
+**FDANode**
+   Perform a (generalized) Fisher Discriminant Analysis of its
+   input. It is a supervised node that implements FDA using a
+   generalized eigenvalue approach.
+   More information on Fisher Discriminant Analysis can be found for
+   example in C. Bishop, *Neural Networks for Pattern Recognition*,
+   Oxford Press, pp. 105-112.
+
+**GaussianClassifierNode** 
+   Perform a supervised Gaussian classification.  Given a set of
+   labelled data, the node fits a gaussian distribution to each
+   class.
+
+**GrowingNeuralGasNode**
+   Learn the topological structure of the input data by building a corresponding
+   graph approximation. 
+   More information about the Growing Neural Gas algorithm can be found in B.
+   Fritzke, *A Growing Neural Gas Network Learns Topologies*, in G. Tesauro, D. S.
+   Touretzky, and T. K. Leen (editors), *Advances in Neural Information
+   Processing Systems 7*, pages 625-632. MIT Press, Cambridge MA, 1995.
+
+**HitParadeNode**
+   Collect the first 'n' local maxima and minima of the training signal
+   which are separated by a minimum gap 'd'.
+
+**NoiseNode**
+   Inject multiplicative or additive noise into the input data.
+
+**PCANode**
+   Filter the input data throug the most significatives of its
+   principal components.
+   More information about Principal Component Analysis, a.k.a. discrete
+   Karhunen-Loeve transform can be found among others in
+   I.T. Jolliffe, *Principal Component Analysis*, Springer-Verlag (1986)."""
+
+**PolynomialExpansionNode**
+   Perform expansion in a polynomial space.
+
+**QuadraticExpansionNode**
+   Perform expansion in the space formed by all linear and quadratic
+   monomials
+
+**SFANode**
+   Extract the slowly varying components from the input data.
+   More information about Slow Feature Analysis can be found in
+   Wiskott, L. and Sejnowski, T.J., *Slow Feature Analysis: Unsupervised
+   Learning of Invariances*, Neural Computation, 14(4):715-770 (2002).
+
+**SFA2Node**
+   Get an input signal, expand it in the space of
+   inhomogeneous polynomials of degree 2 and extract its slowly varying
+   components. The ``get_quadratic_form`` method returns the input-output
+   function of one of the learned unit as a ``mdp.utils.QuadraticForm`` object.
+   More information about Slow Feature Analysis can be found in
+   Wiskott, L. and Sejnowski, T.J., *Slow Feature Analysis: Unsupervised
+   Learning of Invariances*, Neural Computation, 14(4):715-770 (2002).
+
+**TimeFramesNode**
+   Copy delayed version of the input signal on the space dimensions.
+
+   .. raw:: html
+
+      <!-- ignore -->
+    
+   ::
+
+      For example, for time_frames=3 and gap=2: 
+    
+      [ X(1) Y(1)        [ X(1) Y(1) X(3) Y(3) X(5) Y(5)
+        X(2) Y(2)          X(2) Y(2) X(4) Y(4) X(6) Y(6)
+        X(3) Y(3)   -->    X(3) Y(3) X(5) Y(5) X(7) Y(7)
+        X(4) Y(4)          X(4) Y(4) X(6) Y(6) X(8) Y(8)
+        X(5) Y(5)          ...  ...  ...  ...  ...  ... ]
+        X(6) Y(6)
+        X(7) Y(7)
+        X(8) Y(8)
+        ...  ...  ]
+
+**WhiteningNode**
+   'Whiten' the input data by filtering it through the most
+   significatives of its principal components. All output
+   signals have zero mean, unit variance and are decorrelated.
+
+.. admonition:: Didn't you find what you were looking for?
+   
+   If you want to contribute some code or a new
+   algorithm, please do not hesitate to submit it!
+
+
+Additional utilities
+--------------------
+MDP offers some additional utilities of general interest
+in the ``mdp.utils`` module. Refer to the
+`API <http://mdp-toolkit.sourceforge.net/docs/api/index.html>`_
+for the full documentation and interface description.
+
+**CovarianceMatrix**
+    This class stores an empirical covariance matrix that can be updated
+    incrementally. A call to the ``fix`` method returns the current state
+    of the covariance matrix, the average and the number of observations,
+    and resets the internal data.
+
+    Note that the internal sum is a standard ``__add__`` operation. We are not
+    using any of the fancy sum algorithms to avoid round off errors when
+    adding many numbers. If you want to contribute a ``CovarianceMatrix``
+    class that uses such algorithms we would be happy to include it in
+    MDP.  For a start see the `Python recipe
+    <http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/393090>`_
+    by Raymond Hettinger. For a
+    review about floating point arithmetic and its pitfalls see
+    this `interesting article <http://docs.sun.com/source/806-3568/ncg_goldberg.html>`_.
+
+**DelayCovarianceMatrix**
+    This class stores an empirical covariance matrix between the signal and
+    time delayed signal that can be updated incrementally.
+
+**dig_node(node)**
+    Crawl recursively an MDP ``Node`` looking for arrays.
+    Return (dictionary, string), where the dictionary is:
+    { attribute_name: (size_in_bytes, array_reference)}
+    and string is a nice string representation of it.
+
+**get_node_size(node)**
+    Get 'node' total byte-size using ``cPickle`` with protocol=2.
+    (The byte-size is related the memory needed by the node).
+
+**progressinfo(sequence, length, style, custom)**
+    A fully configurable text-mode progress info box.
+    To get a progress info box for your loops use it like this:
+
+    .. raw:: html
+
+       <!-- ignore -->
+    
+    ::
+
+          >>> for i in progressinfo(sequence):
+          ...     do_something(i)
+
+    You can also use it with generators, files or any other iterable object,
+    but in this case you have to specify the total length of the sequence:
+
+    .. raw:: html
+
+       <!-- ignore -->
+    
+    ::
+ 
+          >>> for line in progressinfo(open_file, nlines):
+          ...     do_something(line)
+          
+
+    A few examples of the available layouts: 
+
+    .. raw:: html
+
+       <!-- ignore -->
+    
+    ::
+ 
+	[===================================73%==============>...................]
+
+	Progress:  67%[======================================>                   ]
+
+	23% [02:01:28] - [00:12:37]
+
+**QuadraticForm**
+    Define an inhomogeneous quadratic form as ``1/2 x'Hx + f'x + c``.
+
+**refcast(array, dtype)**
+    Cast the array to 'dtype' only if necessary,
+    otherwise return a reference.
+
+**rotate(mat, angle, columns, units)**
+    Rotate in-place a NxM data matrix in the plane defined by the 'columns'
+    when observation are stored on rows. Observations are rotated
+    counterclockwise. This corresponds to the following matrix-multiplication
+    for each data-point (unchanged elements omitted):
+
+    .. raw:: html
+
+       <!-- ignore -->
+    
+    ::
+ 
+         [  cos(angle) -sin(angle)     [ x_i ]
+            sin(angle)  cos(angle) ] * [ x_j ] 
+
+**random_rot(dim, dtype)**
+    Return a random rotation matrix, drawn from the Haar distribution
+    (the only uniform distribution on SO(n)).
+    The algorithm is described in the paper
+    Stewart, G.W., *The efficient generation of random orthogonal
+    matrices with an application to condition estimators*, SIAM Journal
+    on Numerical Analysis, 17(3), pp. 403-409, 1980.
+    For more information see this `Wikipedia entry
+    <http://en.wikipedia.org/wiki/Orthogonal_matrix#Randomization>`_.
+
+**symrand(dim_or_eigv, dtype)**
+    Return a random symmetric (Hermitian) matrix with eigenvalues
+    uniformly distributed on (0,1].
+
+Graph module
+~~~~~~~~~~~~
+MDP contains ``mdp.graph``, a lightweight package to handle directed graphs.
+
+**Graph**
+    Represent a directed graph. This class contains several methods
+    to create graph structures and manipulate them, among which
+    
+    - ``add_tree``: Add a tree to the graph.
+        The tree is specified with a nested list of tuple, in a LISP-like
+        notation. The values specified in the list become the values of
+        the single nodes.
+        Return an equivalent nested list with the nodes instead of the values.
+
+        Example:
+
+	.. raw:: html
+
+            <!-- ignore -->
+    
+        ::
+ 
+            >>> a=b=c=d=e=None
+            >>> g.add_tree( (a, b, (c, d ,e)) )
+            # corresponds to this tree structure, with all node values set to None:
+
+                    a
+                   / \
+                  b   c
+                     / \
+                    d   e
+
+    - ``topological_sort``: Perform a topological sort of the nodes.
+
+    - ``dfs``, ``undirected_dfs``: Perform Depth First sort.
+
+    - ``bfs``, ``undirected_bfs``: Perform Breadth First sort.
+
+    - ``connected_components``: Return a list of lists containing
+        the nodes of all connected components of the graph.
+    
+    - ``is_weakly_connected``: Return True if the graph is weakly connected.
+
+**GraphEdge**
+    Represent a graph edge and all information attached to it.
+
+**GraphNode**
+    Represent a graph node and all information attached to it.
+
+**recursive_map(func, seq)**
+    Apply a function recursively on a sequence and all subsequences.
+
+**recursive_reduce(func, seq, \*argv)**
+    Apply ``reduce(func, seq)`` recursively to a sequence and all its
+    subsequences.
+    
 To Do
 -----
 In this last section we want to give you an overview about our
@@ -1531,9 +1872,3 @@ plans for the development of MDP:
 - Wait for a good guy who wants to contribute a ``CovarianceMatrix`` class that
   uses some of the fancy sum algorithms to avoid round off errors when
   adding many numbers. 
-
-.. admonition:: A final remark
-   
-   If you want to contribute some code or a new
-   algorithm, please do not hesitate to submit it!
-

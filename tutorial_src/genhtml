@@ -44,7 +44,9 @@ rm -rf tutorial.aux tutorial.log tutorial.out tutorial_latex.txt tutorial.tex
 cp tutorial.pdf ../MDP_tutorial.pdf
 cp $TUTHTML ../html/$TUTHTML
 
-
+# generate demos
+python gendemo.py
+cp demo.py ../../mdp/demo/
 
 
 
