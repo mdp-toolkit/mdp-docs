@@ -1,0 +1,859 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mdp.nodes.sfa_nodes.SFA2Node</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="mdp-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="trees.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="indices.html">Index</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center">
+            <p class="nomargin">
+              <a class="navbar" target="_top" href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing MDP</a>
+      </p></th></tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="mdp-module.html">Package&nbsp;mdp</a> ::
+        <a href="mdp.nodes-module.html">Package&nbsp;nodes</a> ::
+        <a href="mdp.nodes.sfa_nodes-module.html">Module&nbsp;sfa_nodes</a> ::
+        Class&nbsp;SFA2Node
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript: void(0);" class="privatelink"
+    onclick="toggle_private();">hide private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mdp.nodes.sfa_nodes.SFA2Node-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h2 class="class">Class SFA2Node
+<br/><span class="codelink"><a href="mdp.nodes.sfa_nodes-pysrc.html#SFA2Node">source&nbsp;code</a></span></h2>
+<center>
+<center>  <map id="uml_class_diagram_for_classdoc_33" name="uml_class_diagram_for_classdoc_33">
+<area shape="rect" href="mdp.nodes.sfa_nodes.SFANode&#45;class.html#get_eta_values" title="Return the eta values of the data received during the training phase." alt="" coords="119,441,297,460" />
+<area shape="rect" href="mdp.nodes.sfa_nodes.SFANode&#45;class.html#time_derivative" title="Compute the linear approximation of the time derivative." alt="" coords="119,460,297,479" />
+<area shape="rect" href="mdp.nodes.sfa_nodes.SFANode&#45;class.html#execute" title="Compute the output of the slowest functions." alt="" coords="119,479,297,497" />
+<area shape="rect" href="mdp.nodes.sfa_nodes.SFANode&#45;class.html" title="mdp.nodes.sfa_nodes.SFANode" alt="" coords="107,411,309,504" />
+<area shape="rect" href="mdp.nodes.sfa_nodes.SFA2Node&#45;class.html#__init__" title="If the input dimension and the output dimension are unspecified, they will be set when the &#39;train&#39; or &#39;execute&#39; function is called for the first time." alt="" coords="17,553,399,572" />
+<area shape="rect" href="mdp.nodes.sfa_nodes.SFA2Node&#45;class.html#is_invertible" title="Return True if the node can be inverted, False otherwise." alt="" coords="17,572,399,591" />
+<area shape="rect" href="mdp.nodes.sfa_nodes.SFA2Node&#45;class.html#get_quadratic_form" title="Return the matrix H, the vector f and the constant c of the quadratic form 1/2 x&#39;Hx + f&#39;x + c that defines the output of the component &#39;nr&#39; of the SFA node." alt="" coords="17,591,399,609" />
+<area shape="rect" href="mdp.nodes.sfa_nodes.SFA2Node&#45;class.html" title="mdp.nodes.sfa_nodes.SFA2Node" alt="" coords="5,523,411,616" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#supported_dtypes" title="Supported dtypes..." alt="" coords="109,28,307,47" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#dtype" title="dtype..." alt="" coords="109,47,307,65" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#output_dim" title="Output dimensions..." alt="" coords="109,65,307,84" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#input_dim" title="Input dimensions..." alt="" coords="109,84,307,103" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#is_training" title="Return True if the node is in the training phase, False otherwise." alt="" coords="109,105,307,124" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#inverse" title="Invert &#39;y&#39;." alt="" coords="109,124,307,143" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#get_output_dim" title="Return output dimensions." alt="" coords="109,143,307,161" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#set_input_dim" title="Set input dimensions." alt="" coords="109,161,307,180" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#get_dtype" title="Return dtype." alt="" coords="109,180,307,199" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#get_current_train_phase" title="Return the index of the current training phase." alt="" coords="109,199,307,217" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#__call__" title="Calling an instance if Node is equivalent to call its &#39;execute&#39; method." alt="" coords="109,217,307,236" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#__str__" title="str(x)..." alt="" coords="109,236,307,255" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#get_input_dim" title="Return input dimensions." alt="" coords="109,255,307,273" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#stop_training" title="Stop the training phase." alt="" coords="109,273,307,292" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#copy" title="Return a deep copy of the node." alt="" coords="109,292,307,311" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#get_supported_dtypes" title="Return dtypes supported by the node as a list of numpy.dtype objects." alt="" coords="109,311,307,329" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#get_remaining_train_phase" title="Return the number of training phases still to accomplish." alt="" coords="109,329,307,348" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#is_trainable" title="Return True if the node can be trained, False otherwise." alt="" coords="109,367,307,385" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html" title="mdp.signal_node.Node" alt="" coords="97,5,319,392" />
+</map>
+  <img src="uml_class_diagram_for_classdoc_33.gif" alt='' usemap="#uml_class_diagram_for_classdoc_33" ismap="ismap" class="graph-without-title">
+</center></center>
+<hr />
+<pre class="literalblock">
+Get an input signal, expand it in the space of
+inhomogeneous polynomials of degree 2 and extract its slowly varying
+components. The 'get_quadratic_form' method returns the input-output
+function of one of the learned unit as a QuadraticForm object.
+See the documentation of mdp.utils.QuadraticForm for additional
+information.
+
+More information about Slow Feature Analysis can be found in
+Wiskott, L. and Sejnowski, T.J., Slow Feature Analysis: Unsupervised
+Learning of Invariances, Neural Computation, 14(4):715-770 (2002).
+
+</pre><br /><br />
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="summary">
+  <td colspan="2">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <th align="left" class="summary">Instance Methods</th>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.nodes.sfa_nodes.SFA2Node-class.html#__init__" class="sig-name">__init__</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">input_dim</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">output_dim</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">dtype</span>=<span class="sig-default">None</span>)</span>
+    <br />If the input dimension and the output dimension are
+unspecified, they will be set when the 'train' or 'execute'
+function is called for the first time.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.nodes.sfa_nodes.SFA2Node-class.html#is_invertible" class="sig-name">is_invertible</a>(<span class="sig-arg">self</span>)</span>
+    <br />Return True if the node can be inverted, False otherwise.
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.nodes.sfa_nodes.SFA2Node-class.html#_set_input_dim" class="sig-name">_set_input_dim</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">n</span>)</span>
+    
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.nodes.sfa_nodes.SFA2Node-class.html#_train" class="sig-name">_train</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>)</span>
+    
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.nodes.sfa_nodes.SFA2Node-class.html#_stop_training" class="sig-name">_stop_training</a>(<span class="sig-arg">self</span>)</span>
+    
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.nodes.sfa_nodes.SFA2Node-class.html#_execute" class="sig-name">_execute</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>,
+        <span class="sig-arg">range</span>=<span class="sig-default">None</span>)</span>
+    <br />Compute the output of the slowest functions.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.nodes.sfa_nodes.SFA2Node-class.html#get_quadratic_form" class="sig-name">get_quadratic_form</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">nr</span>)</span>
+    <br />Return the matrix H, the vector f and the constant c of the
+quadratic form 1/2 x'Hx + f'x + c that defines the output
+of the component 'nr' of the SFA node.
+  </td>
+</tr>
+  <tr>
+    <td colspan="2">
+    <p class="varlist"><span class="varlist-header">Inherited from <code>object</code></span>:
+      <code>__delattr__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>
+      </p>
+    </td>
+  </tr>
+<tr bgcolor="#e8f0f8" >
+  <th colspan="2" class="group"
+    >&nbsp;&nbsp;&nbsp;&nbsp;Inherited from <a href="mdp.nodes.sfa_nodes.SFANode-class.html">SFANode</a></th></tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.nodes.sfa_nodes.SFANode-class.html#_get_supported_dtypes" class="sig-name">_get_supported_dtypes</a>(<span class="sig-arg">self</span>)</span>
+    <br />Return the list of dtypes supported by this node.
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.nodes.sfa_nodes.SFANode-class.html#_inverse" class="sig-name">_inverse</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">y</span>)</span>
+    
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.nodes.sfa_nodes.SFANode-class.html#execute" class="sig-name">execute</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>,
+        <span class="sig-arg">range</span>=<span class="sig-default">None</span>)</span>
+    <br />Compute the output of the slowest functions.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.nodes.sfa_nodes.SFANode-class.html#get_eta_values" class="sig-name">get_eta_values</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">t</span>=<span class="sig-default">1</span>)</span>
+    <br />Return the eta values of the data received during the training
+phase.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.nodes.sfa_nodes.SFANode-class.html#time_derivative" class="sig-name">time_derivative</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>)</span>
+    <br />Compute the linear approximation of the time derivative.
+  </td>
+</tr>
+<tr bgcolor="#e8f0f8" >
+  <th colspan="2" class="group"
+    >&nbsp;&nbsp;&nbsp;&nbsp;Inherited from <a href="mdp.signal_node.Node-class.html">signal_node.Node</a></th></tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#__call__" class="sig-name">__call__</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>)</span>
+    <br />Calling an instance if Node is equivalent to call
+its 'execute' method.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#__repr__" class="sig-name">__repr__</a>(<span class="sig-arg">self</span>)</span>
+    <br />repr(x)...
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#__str__" class="sig-name">__str__</a>(<span class="sig-arg">self</span>)</span>
+    <br />str(x)...
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#_check_input" class="sig-name">_check_input</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>)</span>
+    
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#_check_output" class="sig-name">_check_output</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">y</span>)</span>
+    
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#_check_train_args" class="sig-name">_check_train_args</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>,
+        <span class="sig-arg">*args</span>)</span>
+    
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#_get_train_seq" class="sig-name">_get_train_seq</a>(<span class="sig-arg">self</span>)</span>
+    
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#_if_training_stop_training" class="sig-name">_if_training_stop_training</a>(<span class="sig-arg">self</span>)</span>
+    
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#_pre_execution_checks" class="sig-name">_pre_execution_checks</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>)</span>
+    <br />This method contains all pre-execution checks.
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#_refcast" class="sig-name">_refcast</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>)</span>
+    <br />Helper function to cast arrays to the internal dtype.
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#_set_dtype" class="sig-name">_set_dtype</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">t</span>)</span>
+    
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#_set_output_dim" class="sig-name">_set_output_dim</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">n</span>)</span>
+    
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#copy" class="sig-name">copy</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">protocol</span>=<span class="sig-default">-1</span>)</span>
+    <br />Return a deep copy of the node.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#get_current_train_phase" class="sig-name">get_current_train_phase</a>(<span class="sig-arg">self</span>)</span>
+    <br />Return the index of the current training phase.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#get_dtype" class="sig-name">get_dtype</a>(<span class="sig-arg">self</span>)</span>
+    <br />Return dtype.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#get_input_dim" class="sig-name">get_input_dim</a>(<span class="sig-arg">self</span>)</span>
+    <br />Return input dimensions.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#get_output_dim" class="sig-name">get_output_dim</a>(<span class="sig-arg">self</span>)</span>
+    <br />Return output dimensions.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#get_remaining_train_phase" class="sig-name">get_remaining_train_phase</a>(<span class="sig-arg">self</span>)</span>
+    <br />Return the number of training phases still to accomplish.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#get_supported_dtypes" class="sig-name">get_supported_dtypes</a>(<span class="sig-arg">self</span>)</span>
+    <br />Return dtypes supported by the node as a list of numpy.dtype
+objects.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#inverse" class="sig-name">inverse</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">y</span>,
+        <span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kargs</span>)</span>
+    <br />Invert 'y'.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#is_trainable" class="sig-name">is_trainable</a>(<span class="sig-arg">self</span>)</span>
+    <br />Return True if the node can be trained, False otherwise.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#is_training" class="sig-name">is_training</a>(<span class="sig-arg">self</span>)</span>
+    <br />Return True if the node is in the training phase,
+False otherwise.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#set_dtype" class="sig-name">set_dtype</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">t</span>)</span>
+    <br />Set Node's internal structures dtype.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#set_input_dim" class="sig-name">set_input_dim</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">n</span>)</span>
+    <br />Set input dimensions.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#set_output_dim" class="sig-name">set_output_dim</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">n</span>)</span>
+    <br />Set output dimensions.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#stop_training" class="sig-name">stop_training</a>(<span class="sig-arg">self</span>)</span>
+    <br />Stop the training phase.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#train" class="sig-name">train</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>,
+        <span class="sig-arg">*args</span>)</span>
+    <br />Update the internal structures according to the input data 'x'.
+  </td>
+</tr>
+</table>
+
+<br />
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="summary">
+  <td colspan="2">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <th align="left" class="summary">Class Variables</th>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2">
+    <p class="varlist"><span class="varlist-header">Inherited from <code>object</code></span>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+
+<br />
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="summary">
+  <td colspan="2">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <th align="left" class="summary">Properties</th>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr bgcolor="#e8f0f8" >
+  <th colspan="2" class="group"
+    >&nbsp;&nbsp;&nbsp;&nbsp;Inherited from <a href="mdp.signal_node.Node-class.html">signal_node.Node</a></th></tr>
+<tr class="private">
+  <td width="15%">
+    <strong><a href="mdp.signal_node.Node-class.html#_train_seq">_train_seq</a></strong></td>
+  <td>List of tuples: [(training-phase1, stop-training-phase1), (training-phase2, stop_training-phase2), ...</td>
+</tr>
+<tr>
+  <td width="15%">
+    <strong><a href="mdp.signal_node.Node-class.html#dtype">dtype</a></strong></td>
+  <td>dtype...</td>
+</tr>
+<tr>
+  <td width="15%">
+    <strong><a href="mdp.signal_node.Node-class.html#input_dim">input_dim</a></strong></td>
+  <td>Input dimensions...</td>
+</tr>
+<tr>
+  <td width="15%">
+    <strong><a href="mdp.signal_node.Node-class.html#output_dim">output_dim</a></strong></td>
+  <td>Output dimensions...</td>
+</tr>
+<tr>
+  <td width="15%">
+    <strong><a href="mdp.signal_node.Node-class.html#supported_dtypes">supported_dtypes</a></strong></td>
+  <td>Supported dtypes...</td>
+</tr>
+</table>
+
+<br />
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="details">
+  <td colspan="2">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <th align="left" class="details">Method Details</th>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">input_dim</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">output_dim</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">dtype</span>=<span class="sig-default">None</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.nodes.sfa_nodes-pysrc.html#SFA2Node.__init__">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  <pre class="literalblock">
+If the input dimension and the output dimension are
+unspecified, they will be set when the 'train' or 'execute'
+function is called for the first time.
+If dtype is unspecified, it will be inherited from the data
+it receives at the first call of 'train' or 'execute'. Every subclass
+must take care of up- or down-casting the internal
+structures to match this argument (use _refcast private
+method when possible).
+
+</pre>
+  <dl><dt></dt><dd>
+    <dl><dt>Overrides:
+      <a href="mdp.nodes.sfa_nodes.SFANode-class.html#__init__">SFANode.__init__</a>
+    </dt></dl>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="is_invertible"></a>
+<div>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">is_invertible</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.nodes.sfa_nodes-pysrc.html#SFA2Node.is_invertible">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  <pre class="literalblock">
+Return True if the node can be inverted, False otherwise.
+
+</pre>
+  <dl><dt></dt><dd>
+    <dl><dt>Overrides:
+      <a href="mdp.signal_node.Node-class.html#is_invertible">signal_node.Node.is_invertible</a>
+    </dt></dl>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="_set_input_dim"></a>
+<div class="private">
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">_set_input_dim</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">n</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.nodes.sfa_nodes-pysrc.html#SFA2Node._set_input_dim">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  
+  <dl><dt></dt><dd>
+    <dl><dt>Overrides:
+      <a href="mdp.signal_node.Node-class.html#_set_input_dim">signal_node.Node._set_input_dim</a>
+    </dt></dl>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="_train"></a>
+<div class="private">
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">_train</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.nodes.sfa_nodes-pysrc.html#SFA2Node._train">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  
+  <dl><dt></dt><dd>
+    <dl><dt>Overrides:
+      <a href="mdp.nodes.sfa_nodes.SFANode-class.html#_train">SFANode._train</a>
+    </dt></dl>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="_stop_training"></a>
+<div class="private">
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">_stop_training</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.nodes.sfa_nodes-pysrc.html#SFA2Node._stop_training">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  
+  <dl><dt></dt><dd>
+    <dl><dt>Overrides:
+      <a href="mdp.nodes.sfa_nodes.SFANode-class.html#_stop_training">SFANode._stop_training</a>
+    </dt></dl>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="_execute"></a>
+<div class="private">
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">_execute</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>,
+        <span class="sig-arg">range</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.nodes.sfa_nodes-pysrc.html#SFA2Node._execute">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  <pre class="literalblock">
+Compute the output of the slowest functions.
+if 'range' is a number, then use the first 'range' functions.
+if 'range' is the interval=(i,j), then use all functions
+           between i and j.
+
+</pre>
+  <dl><dt></dt><dd>
+    <dl><dt>Overrides:
+      <a href="mdp.nodes.sfa_nodes.SFANode-class.html#_execute">SFANode._execute</a>
+    </dt></dl>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="get_quadratic_form"></a>
+<div>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">get_quadratic_form</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">nr</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.nodes.sfa_nodes-pysrc.html#SFA2Node.get_quadratic_form">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  <pre class="literalblock">
+
+Return the matrix H, the vector f and the constant c of the
+quadratic form 1/2 x'Hx + f'x + c that defines the output
+of the component 'nr' of the SFA node.
+
+</pre>
+  <dl><dt></dt><dd>
+  </dd></dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="mdp-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="trees.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="indices.html">Index</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center">
+            <p class="nomargin">
+              <a class="navbar" target="_top" href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing MDP</a>
+      </p></th></tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">Generated by Epydoc
+        3.0alpha2 on Thu Jun 29 20:46:35 2006</td>
+    <td align="right" class="footer">
+      <a href="http://epydoc.sourceforge.net">http://epydoc.sf.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie()
+  // -->
+</script>
+  
+</body>
+</html>

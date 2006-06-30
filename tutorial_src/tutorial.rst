@@ -4,11 +4,11 @@ Tutorial
 :Author: Pietro Berkes and Tiziano Zito
 :Homepage: http://mdp-toolkit.sourceforge.net
 :Copyright: This document has been placed in the public domain.
-:Version: 2.0.0
+:Version: 2.0
 
 .. raw:: html
    
-   This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP_tutorial.pdf?download">pdf file</a> (250 KB).
+   This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_0_tutorial.pdf?download">pdf file</a> (250 KB).
 
 This is a guide to basic and some more advanced features of
 the MDP library. Besides the present tutorial, you can learn 

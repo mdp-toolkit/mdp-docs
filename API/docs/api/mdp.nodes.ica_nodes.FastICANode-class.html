@@ -1,0 +1,777 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mdp.nodes.ica_nodes.FastICANode</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="mdp-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="trees.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="indices.html">Index</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center">
+            <p class="nomargin">
+              <a class="navbar" target="_top" href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing MDP</a>
+      </p></th></tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="mdp-module.html">Package&nbsp;mdp</a> ::
+        <a href="mdp.nodes-module.html">Package&nbsp;nodes</a> ::
+        <a href="mdp.nodes.ica_nodes-module.html">Module&nbsp;ica_nodes</a> ::
+        Class&nbsp;FastICANode
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript: void(0);" class="privatelink"
+    onclick="toggle_private();">hide private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mdp.nodes.ica_nodes.FastICANode-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h2 class="class">Class FastICANode
+<br/><span class="codelink"><a href="mdp.nodes.ica_nodes-pysrc.html#FastICANode">source&nbsp;code</a></span></h2>
+<center>
+<center>  <map id="uml_class_diagram_for_classdoc_20" name="uml_class_diagram_for_classdoc_20">
+<area shape="rect" href="mdp.nodes.ica_nodes.ICANode&#45;class.html" title="mdp.nodes.ica_nodes.ICANode" alt="" coords="514,472,594,515" />
+<area shape="rect" href="mdp.nodes.ica_nodes.FastICANode&#45;class.html#__init__" title="Input arguments:  General: whitened &#45;&#45; Set whitened == 1 if input data are already whitened." alt="" coords="18,564,1090,583" />
+<area shape="rect" href="mdp.nodes.ica_nodes.FastICANode&#45;class.html#core" title="This is the core routine of the ICANode." alt="" coords="18,583,1090,601" />
+<area shape="rect" href="mdp.nodes.ica_nodes.FastICANode&#45;class.html" title="mdp.nodes.ica_nodes.FastICANode" alt="" coords="6,533,1102,608" />
+<area shape="rect" href="mdp.signal_node.Cumulator&#45;class.html" title="mdp.signal_node.Cumulator" alt="" coords="536,411,699,453" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#supported_dtypes" title="Supported dtypes..." alt="" coords="463,28,644,47" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#dtype" title="dtype..." alt="" coords="463,47,644,65" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#output_dim" title="Output dimensions..." alt="" coords="463,65,644,84" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#input_dim" title="Input dimensions..." alt="" coords="463,84,644,103" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#is_training" title="Return True if the node is in the training phase, False otherwise." alt="" coords="463,105,644,124" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#inverse" title="Invert &#39;y&#39;." alt="" coords="463,124,644,143" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#get_output_dim" title="Return output dimensions." alt="" coords="463,143,644,161" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#set_input_dim" title="Set input dimensions." alt="" coords="463,161,644,180" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#get_dtype" title="Return dtype." alt="" coords="463,180,644,199" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#is_invertible" title="Return True if the node can be inverted, False otherwise." alt="" coords="463,199,644,217" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#get_current_train_phase" title="Return the index of the current training phase." alt="" coords="463,217,644,236" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#__call__" title="Calling an instance if Node is equivalent to call its &#39;execute&#39; method." alt="" coords="463,236,644,255" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#__str__" title="str(x)..." alt="" coords="463,255,644,273" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#get_input_dim" title="Return input dimensions." alt="" coords="463,273,644,292" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#stop_training" title="Stop the training phase." alt="" coords="463,292,644,311" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#copy" title="Return a deep copy of the node." alt="" coords="463,311,644,329" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#get_supported_dtypes" title="Return dtypes supported by the node as a list of numpy.dtype objects." alt="" coords="463,329,644,348" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html#is_trainable" title="Return True if the node can be trained, False otherwise." alt="" coords="463,367,644,385" />
+<area shape="rect" href="mdp.signal_node.Node&#45;class.html" title="mdp.signal_node.Node" alt="" coords="451,5,656,392" />
+</map>
+  <img src="uml_class_diagram_for_classdoc_20.gif" alt='' usemap="#uml_class_diagram_for_classdoc_20" ismap="ismap" class="graph-without-title">
+</center></center>
+<hr />
+<pre class="literalblock">
+
+Perform Independent Component Analysis using the FastICA algorithm.
+Note that FastICA is a batch-algorithm. This means that it needs
+all input data before it can start and compute the ICs.
+The algorithm is here given as a Node for convenience, but it
+actually accumulates all inputs it receives. Remember that to avoid
+running out of memory when you have many components and many time samples.
+
+FastICA does not support the telescope mode (the convergence
+criterium is not robust in telescope mode).
+
+Reference:
+Aapo Hyvarinen (1999).
+Fast and Robust Fixed-Point Algorithms for Independent Component Analysis
+IEEE Transactions on Neural Networks, 10(3):626-634.
+
+History:
+- 1.4.1998  created for Matlab by Jarmo Hurri, Hugo Gavert,
+            Jaakko Sarela, and Aapo Hyvarinen
+- 7.3.2003  modified for Python by Thomas Wendler
+- 3.6.2004  rewritten and adapted for scipy and MDP by MDP's authors
+- 25.5.2005 now independent from scipy. Requires Numeric or numarray
+- 26.6.2006 converted to numpy
+
+</pre><br /><br />
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="summary">
+  <td colspan="2">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <th align="left" class="summary">Instance Methods</th>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.nodes.ica_nodes.FastICANode-class.html#__init__" class="sig-name">__init__</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">approach</span>=<span class="sig-default">'defl'</span>,
+        <span class="sig-arg">g</span>=<span class="sig-default">'pow3'</span>,
+        <span class="sig-arg">fine_tanh</span>=<span class="sig-default">10</span>,
+        <span class="sig-arg">fine_gaus</span>=<span class="sig-default">1</span>,
+        <span class="sig-arg">max_it</span>=<span class="sig-default">1000</span>,
+        <span class="sig-arg">failures</span>=<span class="sig-default">5</span>,
+        <span class="sig-arg">limit</span>=<span class="sig-default">0.001</span>,
+        <span class="sig-arg">verbose</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">whitened</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">white_comp</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">input_dim</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">dtype</span>=<span class="sig-default">None</span>)</span>
+    <br />Input arguments:
+
+General:
+whitened -- Set whitened == 1 if input data are already whitened.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.nodes.ica_nodes.FastICANode-class.html#core" class="sig-name">core</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">data</span>)</span>
+    <br />This is the core routine of the ICANode.
+  </td>
+</tr>
+  <tr>
+    <td colspan="2">
+    <p class="varlist"><span class="varlist-header">Inherited from <code>object</code></span>:
+      <code>__delattr__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__setattr__</code>
+      </p>
+    </td>
+  </tr>
+<tr bgcolor="#e8f0f8"  class="private">
+  <th colspan="2" class="group"
+    >&nbsp;&nbsp;&nbsp;&nbsp;Inherited from <a href="mdp.nodes.ica_nodes.ICANode-class.html">ICANode</a></th></tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.nodes.ica_nodes.ICANode-class.html#_execute" class="sig-name">_execute</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>)</span>
+    
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.nodes.ica_nodes.ICANode-class.html#_get_supported_dtypes" class="sig-name">_get_supported_dtypes</a>(<span class="sig-arg">self</span>)</span>
+    <br />Return the list of dtypes supported by this node.
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.nodes.ica_nodes.ICANode-class.html#_inverse" class="sig-name">_inverse</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">y</span>)</span>
+    
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.nodes.ica_nodes.ICANode-class.html#_stop_training" class="sig-name">_stop_training</a>(<span class="sig-arg">self</span>)</span>
+    <br />Whiten data if needed and call the 'core' routine to perform ICA.
+  </td>
+</tr>
+<tr bgcolor="#e8f0f8"  class="private">
+  <th colspan="2" class="group"
+    >&nbsp;&nbsp;&nbsp;&nbsp;Inherited from <a href="mdp.signal_node.Cumulator-class.html">signal_node.Cumulator</a></th></tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Cumulator-class.html#_train" class="sig-name">_train</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>)</span>
+    <br />Cumulate all imput data in a one dimensional list.
+  </td>
+</tr>
+<tr bgcolor="#e8f0f8" >
+  <th colspan="2" class="group"
+    >&nbsp;&nbsp;&nbsp;&nbsp;Inherited from <a href="mdp.signal_node.Node-class.html">signal_node.Node</a></th></tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#__call__" class="sig-name">__call__</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>)</span>
+    <br />Calling an instance if Node is equivalent to call
+its 'execute' method.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#__repr__" class="sig-name">__repr__</a>(<span class="sig-arg">self</span>)</span>
+    <br />repr(x)...
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#__str__" class="sig-name">__str__</a>(<span class="sig-arg">self</span>)</span>
+    <br />str(x)...
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#_check_input" class="sig-name">_check_input</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>)</span>
+    
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#_check_output" class="sig-name">_check_output</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">y</span>)</span>
+    
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#_check_train_args" class="sig-name">_check_train_args</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>,
+        <span class="sig-arg">*args</span>)</span>
+    
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#_get_train_seq" class="sig-name">_get_train_seq</a>(<span class="sig-arg">self</span>)</span>
+    
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#_if_training_stop_training" class="sig-name">_if_training_stop_training</a>(<span class="sig-arg">self</span>)</span>
+    
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#_pre_execution_checks" class="sig-name">_pre_execution_checks</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>)</span>
+    <br />This method contains all pre-execution checks.
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#_refcast" class="sig-name">_refcast</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>)</span>
+    <br />Helper function to cast arrays to the internal dtype.
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#_set_dtype" class="sig-name">_set_dtype</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">t</span>)</span>
+    
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#_set_input_dim" class="sig-name">_set_input_dim</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">n</span>)</span>
+    
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#_set_output_dim" class="sig-name">_set_output_dim</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">n</span>)</span>
+    
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#copy" class="sig-name">copy</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">protocol</span>=<span class="sig-default">-1</span>)</span>
+    <br />Return a deep copy of the node.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#execute" class="sig-name">execute</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>,
+        <span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kargs</span>)</span>
+    <br />Process the data contained in 'x'.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#get_current_train_phase" class="sig-name">get_current_train_phase</a>(<span class="sig-arg">self</span>)</span>
+    <br />Return the index of the current training phase.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#get_dtype" class="sig-name">get_dtype</a>(<span class="sig-arg">self</span>)</span>
+    <br />Return dtype.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#get_input_dim" class="sig-name">get_input_dim</a>(<span class="sig-arg">self</span>)</span>
+    <br />Return input dimensions.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#get_output_dim" class="sig-name">get_output_dim</a>(<span class="sig-arg">self</span>)</span>
+    <br />Return output dimensions.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#get_remaining_train_phase" class="sig-name">get_remaining_train_phase</a>(<span class="sig-arg">self</span>)</span>
+    <br />Return the number of training phases still to accomplish.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#get_supported_dtypes" class="sig-name">get_supported_dtypes</a>(<span class="sig-arg">self</span>)</span>
+    <br />Return dtypes supported by the node as a list of numpy.dtype
+objects.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#inverse" class="sig-name">inverse</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">y</span>,
+        <span class="sig-arg">*args</span>,
+        <span class="sig-arg">**kargs</span>)</span>
+    <br />Invert 'y'.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#is_invertible" class="sig-name">is_invertible</a>(<span class="sig-arg">self</span>)</span>
+    <br />Return True if the node can be inverted, False otherwise.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#is_trainable" class="sig-name">is_trainable</a>(<span class="sig-arg">self</span>)</span>
+    <br />Return True if the node can be trained, False otherwise.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#is_training" class="sig-name">is_training</a>(<span class="sig-arg">self</span>)</span>
+    <br />Return True if the node is in the training phase,
+False otherwise.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#set_dtype" class="sig-name">set_dtype</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">t</span>)</span>
+    <br />Set Node's internal structures dtype.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#set_input_dim" class="sig-name">set_input_dim</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">n</span>)</span>
+    <br />Set input dimensions.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#set_output_dim" class="sig-name">set_output_dim</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">n</span>)</span>
+    <br />Set output dimensions.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#stop_training" class="sig-name">stop_training</a>(<span class="sig-arg">self</span>)</span>
+    <br />Stop the training phase.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.signal_node.Node-class.html#train" class="sig-name">train</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">x</span>,
+        <span class="sig-arg">*args</span>)</span>
+    <br />Update the internal structures according to the input data 'x'.
+  </td>
+</tr>
+</table>
+
+<br />
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="summary">
+  <td colspan="2">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <th align="left" class="summary">Class Variables</th>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2">
+    <p class="varlist"><span class="varlist-header">Inherited from <code>object</code></span>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+
+<br />
+<!-- ==================== PROPERTIES ==================== -->
+<a name="section-Properties"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="summary">
+  <td colspan="2">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <th align="left" class="summary">Properties</th>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Properties"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr bgcolor="#e8f0f8" >
+  <th colspan="2" class="group"
+    >&nbsp;&nbsp;&nbsp;&nbsp;Inherited from <a href="mdp.signal_node.Node-class.html">signal_node.Node</a></th></tr>
+<tr class="private">
+  <td width="15%">
+    <strong><a href="mdp.signal_node.Node-class.html#_train_seq">_train_seq</a></strong></td>
+  <td>List of tuples: [(training-phase1, stop-training-phase1), (training-phase2, stop_training-phase2), ...</td>
+</tr>
+<tr>
+  <td width="15%">
+    <strong><a href="mdp.signal_node.Node-class.html#dtype">dtype</a></strong></td>
+  <td>dtype...</td>
+</tr>
+<tr>
+  <td width="15%">
+    <strong><a href="mdp.signal_node.Node-class.html#input_dim">input_dim</a></strong></td>
+  <td>Input dimensions...</td>
+</tr>
+<tr>
+  <td width="15%">
+    <strong><a href="mdp.signal_node.Node-class.html#output_dim">output_dim</a></strong></td>
+  <td>Output dimensions...</td>
+</tr>
+<tr>
+  <td width="15%">
+    <strong><a href="mdp.signal_node.Node-class.html#supported_dtypes">supported_dtypes</a></strong></td>
+  <td>Supported dtypes...</td>
+</tr>
+</table>
+
+<br />
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="details">
+  <td colspan="2">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <th align="left" class="details">Method Details</th>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">approach</span>=<span class="sig-default">'defl'</span>,
+        <span class="sig-arg">g</span>=<span class="sig-default">'pow3'</span>,
+        <span class="sig-arg">fine_tanh</span>=<span class="sig-default">10</span>,
+        <span class="sig-arg">fine_gaus</span>=<span class="sig-default">1</span>,
+        <span class="sig-arg">max_it</span>=<span class="sig-default">1000</span>,
+        <span class="sig-arg">failures</span>=<span class="sig-default">5</span>,
+        <span class="sig-arg">limit</span>=<span class="sig-default">0.001</span>,
+        <span class="sig-arg">verbose</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">whitened</span>=<span class="sig-default">0</span>,
+        <span class="sig-arg">white_comp</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">input_dim</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">dtype</span>=<span class="sig-default">None</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.nodes.ica_nodes-pysrc.html#FastICANode.__init__">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  <pre class="literalblock">
+
+Input arguments:
+
+General:
+whitened -- Set whitened == 1 if input data are already whitened.
+            Otherwise the node will whiten the data itself
+white_comp -- If whitened == 0, you can set 'white_comp' to the number
+              of whitened components to keep during the calculation
+              (i.e., the input dimensions are reduced to white_comp
+              by keeping the components of largest variance)
+limit -- convergence threshold.
+telescope -- FastICA does not support the telescope mode
+            (the convergence criterium is not robust in telescope mode).
+
+Specific for FastICA:
+approach -- Approach to use. Possible values are:
+                                  'defl' --&gt; deflation
+                                  'symm' --&gt; symmetric
+g -- Nonlinearity to use. Possible values are 'pow3','tanh' or 'gaus'
+fine_tanh -- parameter for fine-tuning of 'tanh' (see paper for details)
+fine_gaus -- parameter for fine-tuning of 'gaus' (see paper for details)
+max_it -- maximum number of iterations
+failures -- maximum number of failures to allow in deflation mode
+
+</pre>
+  <dl><dt></dt><dd>
+    <dl><dt>Overrides:
+      <a href="mdp.nodes.ica_nodes.ICANode-class.html#__init__">ICANode.__init__</a>
+    </dt></dl>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="core"></a>
+<div>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">core</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">data</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.nodes.ica_nodes-pysrc.html#FastICANode.core">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  <pre class="literalblock">
+This is the core routine of the ICANode. Each subclass must
+define this function to return the achieved convergence value.
+This function is also responsible for setting the ICA filters
+matrix self.filters.
+Note that the matrix self.filters is applied to the right of the
+matrix containing input data. This is the transposed of the matrix
+defining the linear transformation.
+
+</pre>
+  <dl><dt></dt><dd>
+    <dl><dt>Overrides:
+      <a href="mdp.nodes.ica_nodes.ICANode-class.html#core">ICANode.core</a>
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt></dl>
+  </dd></dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="mdp-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="trees.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="indices.html">Index</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center">
+            <p class="nomargin">
+              <a class="navbar" target="_top" href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing MDP</a>
+      </p></th></tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">Generated by Epydoc
+        3.0alpha2 on Thu Jun 29 20:46:10 2006</td>
+    <td align="right" class="footer">
+      <a href="http://epydoc.sourceforge.net">http://epydoc.sf.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie()
+  // -->
+</script>
+  
+</body>
+</html>

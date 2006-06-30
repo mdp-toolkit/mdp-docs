@@ -41,7 +41,7 @@ pdflatex $TUTTEX > /dev/null
 # clean up
 rm -rf tutorial.aux tutorial.log tutorial.out tutorial_latex.txt tutorial.tex
 # copy pdf to html directory
-cp tutorial.pdf ../MDP_tutorial.pdf
+cp tutorial.pdf ../MDP2_0_tutorial.pdf
 cp $TUTHTML ../html/$TUTHTML
 
 # generate demos

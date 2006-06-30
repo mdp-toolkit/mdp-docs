@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mdp.utils</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="mdp-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="trees.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="indices.html">Index</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center">
+            <p class="nomargin">
+              <a class="navbar" target="_top" href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing MDP</a>
+      </p></th></tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="mdp-module.html">Package&nbsp;mdp</a> ::
+        Package&nbsp;utils
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript: void(0);" class="privatelink"
+    onclick="toggle_private();">hide private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mdp.utils-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h2 class="py-src">Source Code for <a href="mdp.utils-module.html">Package mdp.utils</a></h2>
+<div class="py-src">
+<pre class="py-src">
+<span class="lineno"> 1</span>  <span class="py-line"><span class="py-keyword">from</span> <a class="py-name" href="mdp.utils.routines-module.html">routines</a> <span class="py-keyword">import</span> <a class="py-name" href="mdp.utils.routines-module.html#timediff">timediff</a><span class="py-op">,</span> <a class="py-name" href="mdp.utils.routines-module.html#refcast">refcast</a><span class="py-op">,</span> <a class="py-name" href="mdp.utils.routines-module.html#scast">scast</a><span class="py-op">,</span> <a class="py-name" href="mdp.utils.routines-module.html#rotate">rotate</a><span class="py-op">,</span> <a class="py-name" href="mdp.utils.routines-module.html#random_rot">random_rot</a><span class="py-op">,</span> \ </span>
+<span class="lineno"> 2</span>  <span class="py-line">     <a class="py-name" href="mdp.utils.routines-module.html#symrand">symrand</a><span class="py-op">,</span> <a class="py-name" href="mdp.utils.routines-module.html#norm2">norm2</a><span class="py-op">,</span> <a class="py-name" href="mdp.utils.routines-module.html#uniq">uniq</a><span class="py-op">,</span> <a class="py-name" href="mdp.utils.routines-module.html#ordered_uniq">ordered_uniq</a><span class="py-op">,</span> <a class="py-name" href="mdp.utils.routines-module.html#cov2">cov2</a><span class="py-op">,</span> \ </span>
+<span class="lineno"> 3</span>  <span class="py-line">     <a class="py-name" href="mdp.utils.routines-module.html#comb">comb</a><span class="py-op">,</span> <a class="py-name" href="mdp.utils.routines-module.html#sqrtm">sqrtm</a><span class="py-op">,</span> <a class="py-name" href="mdp.utils.routines.SymeigException-class.html">SymeigException</a> </span>
+<span class="lineno"> 4</span>  <span class="py-line"><span class="py-keyword">from</span> <a class="py-name" href="mdp.utils.introspection-module.html">introspection</a> <span class="py-keyword">import</span> <a class="py-name" href="mdp.utils.introspection-module.html#dig_node">dig_node</a><span class="py-op">,</span> <a class="py-name" href="mdp.utils.introspection-module.html#get_node_size">get_node_size</a> </span>
+<span class="lineno"> 5</span>  <span class="py-line"><span class="py-keyword">from</span> <a class="py-name" href="mdp.utils.quad_forms-module.html">quad_forms</a> <span class="py-keyword">import</span> <a class="py-name" href="mdp.utils.quad_forms.QuadraticForm-class.html">QuadraticForm</a> </span>
+<span class="lineno"> 6</span>  <span class="py-line"><span class="py-keyword">from</span> <a class="py-name" href="mdp.utils.covariance-module.html">covariance</a> <span class="py-keyword">import</span> <a class="py-name" href="mdp.utils.covariance.CovarianceMatrix-class.html">CovarianceMatrix</a><span class="py-op">,</span> <a class="py-name" href="mdp.utils.covariance.DelayCovarianceMatrix-class.html">DelayCovarianceMatrix</a> </span>
+<span class="lineno"> 7</span>  <span class="py-line"><span class="py-keyword">from</span> <a class="py-name" href="mdp.utils.progress_bar-module.html">progress_bar</a> <span class="py-keyword">import</span> <a class="py-name" href="mdp.utils.progress_bar-module.html#progressinfo">progressinfo</a> </span>
+<span class="lineno"> 8</span>  <span class="py-line"><span class="py-keyword">import</span> <a title="mdp" class="py-name" href="mdp-module.html">mdp</a> <span class="py-name">as</span> <a class="py-name" href="mdp-module.html">_mdp</a> </span>
+<span class="lineno"> 9</span>  <span class="py-line"> </span>
+<span class="lineno">10</span>  <span class="py-line"> </span>
+<span class="lineno">11</span>  <span class="py-line"><a class="py-name" href="mdp.utils-module.html#symeig">symeig</a> <span class="py-op">=</span> <a class="py-name" href="mdp.utils.routines-module.html">routines</a><span class="py-op">.</span><a title="mdp.utils.routines._symeig_fake" class="py-name" href="mdp.utils.routines-module.html#_symeig_fake">_symeig_fake</a> </span>
+<span class="lineno">12</span>  <span class="py-line"> </span>
+<span class="lineno">13</span>  <span class="py-line"><span class="py-comment"># matrix multiplication function</span> </span>
+<span class="lineno">14</span>  <span class="py-line"><span class="py-comment"></span><span class="py-comment"># we use an alias to be able to use the wrapper for the 'gemm' Lapack</span> </span>
+<span class="lineno">15</span>  <span class="py-line"><span class="py-comment"></span><span class="py-comment"># function in the future</span> </span>
+<span class="lineno">16</span>  <span class="py-line"><span class="py-comment"></span><a class="py-name" href="mdp.utils-module.html#mult">mult</a> <span class="py-op">=</span> <a class="py-name" href="mdp-module.html">_mdp</a><span class="py-op">.</span><span class="py-name">numx</span><span class="py-op">.</span><span class="py-name">dot</span> </span>
+<span class="lineno">17</span>  <span class="py-line"> </span>
+<span class="lineno">18</span>  <span class="py-line"><span class="py-comment"># workaround to numpy issues with dtype behavior:</span> </span>
+<span class="lineno">19</span>  <span class="py-line"><span class="py-comment"></span><span class="py-comment"># 'f' is upcasted at least in the following functions</span> </span>
+<span class="lineno">20</span>  <span class="py-line"><span class="py-comment"></span><a class="py-name" href="mdp.utils-module.html#_inv">_inv</a> <span class="py-op">=</span> <a class="py-name" href="mdp-module.html">_mdp</a><span class="py-op">.</span><span class="py-name">numx_linalg</span><span class="py-op">.</span><a class="py-name" href="mdp.utils-module.html#inv">inv</a> </span>
+<span class="lineno">21</span>  <span class="py-line"><a class="py-name" href="mdp.utils-module.html#inv">inv</a> <span class="py-op">=</span> <span class="py-keyword">lambda</span> <span class="py-name">x</span><span class="py-op">:</span> <a class="py-name" href="mdp.utils.routines-module.html#refcast">refcast</a><span class="py-op">(</span><a class="py-name" href="mdp.utils-module.html#_inv">_inv</a><span class="py-op">(</span><span class="py-name">x</span><span class="py-op">)</span><span class="py-op">,</span> <span class="py-name">x</span><span class="py-op">.</span><a title="mdp.signal_node.Node.dtype" class="py-name" href="mdp.signal_node.Node-class.html#dtype">dtype</a><span class="py-op">)</span> </span>
+<span class="lineno">22</span>  <span class="py-line"><a class="py-name" href="mdp.utils-module.html#_pinv">_pinv</a> <span class="py-op">=</span> <a class="py-name" href="mdp-module.html">_mdp</a><span class="py-op">.</span><span class="py-name">numx_linalg</span><span class="py-op">.</span><a class="py-name" href="mdp.utils-module.html#pinv">pinv</a> </span>
+<span class="lineno">23</span>  <span class="py-line"><a class="py-name" href="mdp.utils-module.html#pinv">pinv</a> <span class="py-op">=</span> <span class="py-keyword">lambda</span> <span class="py-name">x</span><span class="py-op">:</span> <a class="py-name" href="mdp.utils.routines-module.html#refcast">refcast</a><span class="py-op">(</span><a class="py-name" href="mdp.utils-module.html#_pinv">_pinv</a><span class="py-op">(</span><span class="py-name">x</span><span class="py-op">)</span><span class="py-op">,</span> <span class="py-name">x</span><span class="py-op">.</span><a title="mdp.signal_node.Node.dtype" class="py-name" href="mdp.signal_node.Node-class.html#dtype">dtype</a><span class="py-op">)</span> </span>
+<span class="lineno">24</span>  <span class="py-line"><a class="py-name" href="mdp.utils-module.html#_solve">_solve</a> <span class="py-op">=</span> <a class="py-name" href="mdp-module.html">_mdp</a><span class="py-op">.</span><span class="py-name">numx_linalg</span><span class="py-op">.</span><a class="py-name" href="mdp.utils-module.html#solve">solve</a> </span>
+<span class="lineno">25</span>  <span class="py-line"><a class="py-name" href="mdp.utils-module.html#solve">solve</a> <span class="py-op">=</span> <span class="py-keyword">lambda</span> <span class="py-name">x</span><span class="py-op">,</span><span class="py-name">y</span><span class="py-op">:</span> <a class="py-name" href="mdp.utils.routines-module.html#refcast">refcast</a><span class="py-op">(</span><a class="py-name" href="mdp.utils-module.html#_solve">_solve</a><span class="py-op">(</span><span class="py-name">x</span><span class="py-op">,</span><span class="py-name">y</span><span class="py-op">)</span><span class="py-op">,</span> <span class="py-name">x</span><span class="py-op">.</span><a title="mdp.signal_node.Node.dtype" class="py-name" href="mdp.signal_node.Node-class.html#dtype">dtype</a><span class="py-op">)</span> </span>
+<span class="lineno">26</span>  <span class="py-line"> </span>
+<a name="svd"></a><div id="svd-def"><span class="lineno">27</span> <a class="pysrc-toggle" href="#" id="svd-toggle" onclick="toggle('svd'); return false;">-</a><span class="py-line"><span class="py-keyword">def</span> <a class="py-def-name" href="mdp.utils-module.html#svd">svd</a><span class="py-op">(</span><span class="py-param">x</span><span class="py-op">,</span> <span class="py-param">_mdp</span><span class="py-op">=</span><a class="py-name" href="mdp-module.html">_mdp</a><span class="py-op">)</span><span class="py-op">:</span> </span>
+</div><div id="svd-collapsed" style="display:none;" pad="++" indent="++++"></div><div id="svd-expanded"><span class="lineno">28</span>  <span class="py-line">    <span class="py-name">tc</span> <span class="py-op">=</span> <span class="py-name">x</span><span class="py-op">.</span><a title="mdp.signal_node.Node.dtype" class="py-name" href="mdp.signal_node.Node-class.html#dtype">dtype</a> </span>
+<span class="lineno">29</span>  <span class="py-line">    <span class="py-name">u</span><span class="py-op">,</span><span class="py-name">s</span><span class="py-op">,</span><span class="py-name">v</span> <span class="py-op">=</span> <span class="py-name">_mdp</span><span class="py-op">.</span><span class="py-name">numx_linalg</span><span class="py-op">.</span><a title="mdp.utils.svd" class="py-name" href="mdp.utils-module.html#svd">svd</a><span class="py-op">(</span><span class="py-name">x</span><span class="py-op">)</span> </span>
+<span class="lineno">30</span>  <span class="py-line">    <span class="py-keyword">return</span> <a title="mdp.utils.routines.refcast" class="py-name" href="mdp.utils.routines-module.html#refcast">refcast</a><span class="py-op">(</span><span class="py-name">u</span><span class="py-op">,</span> <span class="py-name">tc</span><span class="py-op">)</span><span class="py-op">,</span> <a title="mdp.utils.routines.refcast" class="py-name" href="mdp.utils.routines-module.html#refcast">refcast</a><span class="py-op">(</span><span class="py-name">s</span><span class="py-op">,</span> <span class="py-name">tc</span><span class="py-op">)</span><span class="py-op">,</span> <a title="mdp.utils.routines.refcast" class="py-name" href="mdp.utils.routines-module.html#refcast">refcast</a><span class="py-op">(</span><span class="py-name">v</span><span class="py-op">,</span> <span class="py-name">tc</span><span class="py-op">)</span> </span>
+</div><span class="lineno">31</span>  <span class="py-line"> </span><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="mdp-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="trees.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="indices.html">Index</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center">
+            <p class="nomargin">
+              <a class="navbar" target="_top" href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing MDP</a>
+      </p></th></tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">Generated by Epydoc
+        3.0alpha2 on Thu Jun 29 20:47:04 2006</td>
+    <td align="right" class="footer">
+      <a href="http://epydoc.sourceforge.net">http://epydoc.sf.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie()
+  // -->
+</script>
+  
+</body>
+</html>

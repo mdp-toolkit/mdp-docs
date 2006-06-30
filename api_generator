@@ -1,0 +1,10 @@
+#!/bin/bash
+rm -rf API
+mkdir API
+rm -rf mdp
+cp -r ../mdp .
+rm -rf mdp/demo
+rm -rf mdp/test
+epydoc --html -o API/docs/api --name="Modular toolkit for Data Processing MDP" --url="http://mdp-toolkit.sourceforge.net" --graph=all --show-sourcecode --inheritance=grouped --docformat=plaintext ./mdp
+rm -rf mdp
+

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mdp.utils.quad_forms</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="mdp-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="trees.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="indices.html">Index</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center">
+            <p class="nomargin">
+              <a class="navbar" target="_top" href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing MDP</a>
+      </p></th></tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="mdp-module.html">Package&nbsp;mdp</a> ::
+        <a href="mdp.utils-module.html">Package&nbsp;utils</a> ::
+        Module&nbsp;quad_forms
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript: void(0);" class="privatelink"
+    onclick="toggle_private();">hide private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mdp.utils.quad_forms-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h2 class="py-src">Source Code for <a href="mdp.utils.quad_forms-module.html">Module mdp.utils.quad_forms</a></h2>
+<div class="py-src">
+<pre class="py-src">
+<span class="lineno">  1</span>  <span class="py-line"><span class="py-keyword">import</span> <a class="py-name" href="mdp-module.html">mdp</a> </span>
+<span class="lineno">  2</span>  <span class="py-line"><span class="py-keyword">from</span> <a title="mdp.utils.routines" class="py-name" href="mdp.utils.routines-module.html">routines</a> <span class="py-keyword">import</span> <a class="py-name" href="mdp.utils.routines-module.html#refcast">refcast</a> </span>
+<span class="lineno">  3</span>  <span class="py-line"><a class="py-name" href="numpy-module.html">numx</a> <span class="py-op">=</span> <a class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a class="py-name" href="numpy-module.html">numx</a> </span>
+<span class="lineno">  4</span>  <span class="py-line"><a class="py-name" href="mdp.utils.quad_forms-module.html#tr">tr</a> <span class="py-op">=</span> <a class="py-name" href="numpy-module.html">numx</a><span class="py-op">.</span><span class="py-name">transpose</span> </span>
+<span class="lineno">  5</span>  <span class="py-line"><a class="py-name" href="mdp.utils.quad_forms-module.html#epsilon">epsilon</a> <span class="py-op">=</span> <span class="py-number">1E-15</span> </span>
+<span class="lineno">  6</span>  <span class="py-line"> </span>
+<a name="QuadraticForm"></a><div id="QuadraticForm-def"><span class="lineno">  7</span> <a class="pysrc-toggle" href="#" id="QuadraticForm-toggle" onclick="toggle('QuadraticForm'); return false;">-</a><span class="py-line"><span class="py-keyword">class</span> <a class="py-def-name" href="mdp.utils.quad_forms.QuadraticForm-class.html">QuadraticForm</a><span class="py-op">(</span><span class="py-base-class">object</span><span class="py-op">)</span><span class="py-op">:</span> </span>
+</div><div id="QuadraticForm-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="QuadraticForm-expanded"><span class="lineno">  8</span>  <span class="py-line">    <span class="py-docstring">"""</span> </span>
+<span class="lineno">  9</span>  <span class="py-line"><span class="py-docstring">    Define an inhomogeneous quadratic form as 1/2 x'Hx + f'x + c .</span> </span>
+<span class="lineno"> 10</span>  <span class="py-line"><span class="py-docstring"></span> </span>
+<span class="lineno"> 11</span>  <span class="py-line"><span class="py-docstring">    WARNING: EXPERIMENTAL CODE! USE AT YOU OWN RISK!</span> </span>
+<span class="lineno"> 12</span>  <span class="py-line"><span class="py-docstring">    """</span> </span>
+<span class="lineno"> 13</span>  <span class="py-line"> </span>
+<a name="QuadraticForm.__init__"></a><div id="QuadraticForm.__init__-def"><span class="lineno"> 14</span> <a class="pysrc-toggle" href="#" id="QuadraticForm.__init__-toggle" onclick="toggle('QuadraticForm.__init__'); return false;">-</a><span class="py-line">    <span class="py-keyword">def</span> <a class="py-def-name" href="mdp.utils.quad_forms.QuadraticForm-class.html#__init__">__init__</a><span class="py-op">(</span><span class="py-param">self</span><span class="py-op">,</span> <span class="py-param">H</span><span class="py-op">,</span> <span class="py-param">f</span><span class="py-op">,</span> <span class="py-param">c</span><span class="py-op">,</span> <span class="py-param">dtype</span><span class="py-op">=</span><span class="py-string">'d'</span><span class="py-op">)</span><span class="py-op">:</span> </span>
+</div><div id="QuadraticForm.__init__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="QuadraticForm.__init__-expanded"><span class="lineno"> 15</span>  <span class="py-line">        <span class="py-docstring">"""</span> </span>
+<span class="lineno"> 16</span>  <span class="py-line"><span class="py-docstring">        The quadratic form is defined as 1/2 x'Hx + f'x + c .</span> </span>
+<span class="lineno"> 17</span>  <span class="py-line"><span class="py-docstring">        'dtype' specifies the numerical type of the internal structures.</span> </span>
+<span class="lineno"> 18</span>  <span class="py-line"><span class="py-docstring">        """</span> </span>
+<span class="lineno"> 19</span>  <span class="py-line">        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">H</span> <span class="py-op">=</span> <a title="mdp.utils.routines.refcast" class="py-name" href="mdp.utils.routines-module.html#refcast">refcast</a><span class="py-op">(</span><span class="py-name">H</span><span class="py-op">,</span> <a title="mdp.signal_node.Node.dtype" class="py-name" href="mdp.signal_node.Node-class.html#dtype">dtype</a><span class="py-op">)</span> </span>
+<span class="lineno"> 20</span>  <span class="py-line">        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">f</span> <span class="py-op">=</span> <a title="mdp.utils.routines.refcast" class="py-name" href="mdp.utils.routines-module.html#refcast">refcast</a><span class="py-op">(</span><span class="py-name">f</span><span class="py-op">,</span> <a title="mdp.signal_node.Node.dtype" class="py-name" href="mdp.signal_node.Node-class.html#dtype">dtype</a><span class="py-op">)</span> </span>
+<span class="lineno"> 21</span>  <span class="py-line">        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">c</span> <span class="py-op">=</span> <span class="py-name">c</span> </span>
+<span class="lineno"> 22</span>  <span class="py-line">        <span class="py-name">self</span><span class="py-op">.</span><a title="mdp.signal_node.Node.dtype" class="py-name" href="mdp.signal_node.Node-class.html#dtype">dtype</a> <span class="py-op">=</span> <a title="mdp.signal_node.Node.dtype" class="py-name" href="mdp.signal_node.Node-class.html#dtype">dtype</a> </span>
+</div><span class="lineno"> 23</span>  <span class="py-line"> </span>
+<a name="QuadraticForm.apply"></a><div id="QuadraticForm.apply-def"><span class="lineno"> 24</span> <a class="pysrc-toggle" href="#" id="QuadraticForm.apply-toggle" onclick="toggle('QuadraticForm.apply'); return false;">-</a><span class="py-line">    <span class="py-keyword">def</span> <a class="py-def-name" href="mdp.utils.quad_forms.QuadraticForm-class.html#apply">apply</a><span class="py-op">(</span><span class="py-param">self</span><span class="py-op">,</span> <span class="py-param">x</span><span class="py-op">)</span><span class="py-op">:</span> </span>
+</div><div id="QuadraticForm.apply-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="QuadraticForm.apply-expanded"><span class="lineno"> 25</span>  <span class="py-line">        <span class="py-docstring">"""Apply the quadratic form to the input vectors.</span> </span>
+<span class="lineno"> 26</span>  <span class="py-line"><span class="py-docstring">        Return 1/2 x'Hx + f'x + c ."""</span> </span>
+<span class="lineno"> 27</span>  <span class="py-line">        <span class="py-keyword">return</span> <span class="py-number">0.5</span><span class="py-op">*</span><span class="py-name">numx</span><span class="py-op">.</span><span class="py-name">sum</span><span class="py-op">(</span><a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a title="mdp.utils" class="py-name" href="mdp.utils-module.html">utils</a><span class="py-op">.</span><span id="link-0" class="py-name"><a title="mdp.nodes.ica_nodes.mult
+mdp.utils.mult" class="py-name" href="#" onclick="doclink('link-0', 'mult', 'Variable nodes.ica_nodes.mult=mdp.nodes.ica_nodes-module.html#mult,Variable mult=mdp.utils-module.html#mult'); return false;">mult</a></span></span><span class="py-op">(</span><span class="py-name">x</span><span class="py-op">,</span> <span class="py-name">numx</span><span class="py-op">.</span><span class="py-name">transpose</span><span class="py-op">(</span><span class="py-name">self</span><span class="py-op">.</span><span class="py-name">H</span><span class="py-op">)</span><span class="py-op">)</span><span class="py-op">*</span><span class="py-name">x</span><span class="py-op">,</span> </span>
+<span class="lineno"> 28</span>  <span class="py-line">                            <span class="py-name">axis</span><span class="py-op">=</span><span class="py-number">1</span><span class="py-op">)</span> <span class="py-op">+</span> \ </span>
+<span class="lineno"> 29</span>  <span class="py-line">               <a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a title="mdp.utils" class="py-name" href="mdp.utils-module.html">utils</a><span class="py-op">.</span><span id="link-1" class="py-name"><a title="mdp.nodes.ica_nodes.mult
+mdp.utils.mult" class="py-name" href="#" onclick="doclink('link-1', 'mult', 'Variable nodes.ica_nodes.mult=mdp.nodes.ica_nodes-module.html#mult,Variable mult=mdp.utils-module.html#mult'); return false;">mult</a></span></span><span class="py-op">(</span><span class="py-name">x</span><span class="py-op">,</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">f</span><span class="py-op">)</span> <span class="py-op">+</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">c</span> </span>
+</div><span class="lineno"> 30</span>  <span class="py-line">         </span>
+<a name="QuadraticForm.get_extrema"></a><div id="QuadraticForm.get_extrema-def"><span class="lineno"> 31</span> <a class="pysrc-toggle" href="#" id="QuadraticForm.get_extrema-toggle" onclick="toggle('QuadraticForm.get_extrema'); return false;">-</a><span class="py-line">    <span class="py-keyword">def</span> <a class="py-def-name" href="mdp.utils.quad_forms.QuadraticForm-class.html#get_extrema">get_extrema</a><span class="py-op">(</span><span class="py-param">self</span><span class="py-op">,</span> <span class="py-param">norm</span><span class="py-op">,</span> <span class="py-param">tol</span> <span class="py-op">=</span> <span class="py-number">1.E-4</span><span class="py-op">)</span><span class="py-op">:</span> </span>
+</div><div id="QuadraticForm.get_extrema-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="QuadraticForm.get_extrema-expanded"><span class="lineno"> 32</span>  <span class="py-line">        <span class="py-docstring">"""</span> </span>
+<span class="lineno"> 33</span>  <span class="py-line"><span class="py-docstring">        Find the input vectors xmax and xmin with norm 'nrm' that maximize</span> </span>
+<span class="lineno"> 34</span>  <span class="py-line"><span class="py-docstring">        or minimize the quadratic form.</span> </span>
+<span class="lineno"> 35</span>  <span class="py-line"><span class="py-docstring"></span> </span>
+<span class="lineno"> 36</span>  <span class="py-line"><span class="py-docstring">        tol: norm error tolerance</span> </span>
+<span class="lineno"> 37</span>  <span class="py-line"><span class="py-docstring">        """</span> </span>
+<span class="lineno"> 38</span>  <span class="py-line">        <span class="py-name">H</span><span class="py-op">,</span> <span class="py-name">f</span><span class="py-op">,</span> <span class="py-name">c</span> <span class="py-op">=</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">H</span><span class="py-op">,</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">f</span><span class="py-op">,</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">c</span> </span>
+<span class="lineno"> 39</span>  <span class="py-line">        <span class="py-keyword">if</span> <span class="py-name">f</span> <span class="py-keyword">is</span> <span class="py-name">None</span><span class="py-op">:</span> <span class="py-name">f</span> <span class="py-op">=</span> <span class="py-name">numx</span><span class="py-op">.</span><span class="py-name">zeros</span><span class="py-op">(</span><span class="py-op">(</span><span class="py-name">H</span><span class="py-op">.</span><span class="py-name">shape</span><span class="py-op">[</span><span class="py-number">0</span><span class="py-op">]</span><span class="py-op">,</span><span class="py-op">)</span><span class="py-op">,</span> <a title="mdp.signal_node.Node.dtype" class="py-name" href="mdp.signal_node.Node-class.html#dtype">dtype</a><span class="py-op">=</span><span class="py-name">self</span><span class="py-op">.</span><a title="mdp.signal_node.Node.dtype" class="py-name" href="mdp.signal_node.Node-class.html#dtype">dtype</a><span class="py-op">)</span> </span>
+<span class="lineno"> 40</span>  <span class="py-line">        <span class="py-keyword">if</span> <span class="py-name">c</span> <span class="py-keyword">is</span> <span class="py-name">None</span><span class="py-op">:</span> <span class="py-name">c</span> <span class="py-op">=</span> <span class="py-number">0</span> </span>
+<span class="lineno"> 41</span>  <span class="py-line">        <span class="py-name">H_definite_positive</span><span class="py-op">,</span> <span class="py-name">H_definite_negative</span> <span class="py-op">=</span> <span class="py-name">False</span><span class="py-op">,</span> <span class="py-name">False</span> </span>
+<span class="lineno"> 42</span>  <span class="py-line">        <span class="py-name">E</span> <span class="py-op">=</span> <a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a title="mdp.utils" class="py-name" href="mdp.utils-module.html">utils</a><span class="py-op">.</span><span class="py-name">symeig</span><span class="py-op">(</span><span class="py-name">H</span><span class="py-op">,</span> <span class="py-name">eigenvectors</span><span class="py-op">=</span><span class="py-number">0</span><span class="py-op">,</span> <span class="py-name">overwrite</span><span class="py-op">=</span><span class="py-number">0</span><span class="py-op">)</span> </span>
+<span class="lineno"> 43</span>  <span class="py-line">        <span class="py-keyword">if</span> <span class="py-name">E</span><span class="py-op">[</span><span class="py-number">0</span><span class="py-op">]</span> <span class="py-op">&gt;=</span> <span class="py-number">0</span><span class="py-op">:</span> </span>
+<span class="lineno"> 44</span>  <span class="py-line">            <span class="py-comment"># H is positive definite</span> </span>
+<span class="lineno"> 45</span>  <span class="py-line"><span class="py-comment"></span>            <span class="py-name">H_definite_positive</span> <span class="py-op">=</span> <span class="py-name">True</span> </span>
+<span class="lineno"> 46</span>  <span class="py-line">        <span class="py-keyword">elif</span> <span class="py-name">E</span><span class="py-op">[</span><span class="py-op">-</span><span class="py-number">1</span><span class="py-op">]</span> <span class="py-op">&lt;=</span> <span class="py-number">0</span><span class="py-op">:</span> </span>
+<span class="lineno"> 47</span>  <span class="py-line">            <span class="py-comment"># H is negative definite</span> </span>
+<span class="lineno"> 48</span>  <span class="py-line"><span class="py-comment"></span>            <span class="py-name">H_definite_negative</span> <span class="py-op">=</span> <span class="py-name">True</span> </span>
+<span class="lineno"> 49</span>  <span class="py-line"> </span>
+<span class="lineno"> 50</span>  <span class="py-line">        <span class="py-name">x0</span> <span class="py-op">=</span> <a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><span class="py-name">numx_linalg</span><span class="py-op">.</span><a title="mdp.utils.solve" class="py-name" href="mdp.utils-module.html#solve">solve</a><span class="py-op">(</span><span class="py-op">-</span><span class="py-name">H</span><span class="py-op">,</span> <span class="py-name">f</span><span class="py-op">)</span> </span>
+<span class="lineno"> 51</span>  <span class="py-line">        <span class="py-keyword">if</span> <span class="py-name">H_definite_positive</span> <span class="py-keyword">and</span> <a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a title="mdp.utils" class="py-name" href="mdp.utils-module.html">utils</a><span class="py-op">.</span><a title="mdp.utils.routines.norm2" class="py-name" href="mdp.utils.routines-module.html#norm2">norm2</a><span class="py-op">(</span><span class="py-name">x0</span><span class="py-op">)</span> <span class="py-op">&lt;=</span> <span class="py-name">norm</span><span class="py-op">:</span> </span>
+<span class="lineno"> 52</span>  <span class="py-line">            <span class="py-name">xmin</span> <span class="py-op">=</span> <span class="py-name">x0</span> </span>
+<span class="lineno"> 53</span>  <span class="py-line">            <span class="py-comment"># x0 is a minimum</span> </span>
+<span class="lineno"> 54</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-keyword">else</span><span class="py-op">:</span> </span>
+<span class="lineno"> 55</span>  <span class="py-line">            <span class="py-name">xmin</span> <span class="py-op">=</span> <span class="py-name">self</span><span class="py-op">.</span><a title="mdp.utils.quad_forms.QuadraticForm._maximize" class="py-name" href="mdp.utils.quad_forms.QuadraticForm-class.html#_maximize">_maximize</a><span class="py-op">(</span><span class="py-name">norm</span><span class="py-op">,</span> <span class="py-name">tol</span><span class="py-op">,</span> <span class="py-name">factor</span><span class="py-op">=</span><span class="py-op">-</span><span class="py-number">1</span><span class="py-op">)</span> </span>
+<span class="lineno"> 56</span>  <span class="py-line">        <span class="py-name">vmin</span> <span class="py-op">=</span> <span class="py-number">0.5</span><span class="py-op">*</span><a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a title="mdp.utils" class="py-name" href="mdp.utils-module.html">utils</a><span class="py-op">.</span><span id="link-2" class="py-name"><a title="mdp.nodes.ica_nodes.mult
+mdp.utils.mult" class="py-name" href="#" onclick="doclink('link-2', 'mult', 'Variable nodes.ica_nodes.mult=mdp.nodes.ica_nodes-module.html#mult,Variable mult=mdp.utils-module.html#mult'); return false;">mult</a></span></span><span class="py-op">(</span><a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a title="mdp.utils" class="py-name" href="mdp.utils-module.html">utils</a><span class="py-op">.</span><span id="link-3" class="py-name"><a title="mdp.nodes.ica_nodes.mult
+mdp.utils.mult" class="py-name" href="#" onclick="doclink('link-3', 'mult', 'Variable nodes.ica_nodes.mult=mdp.nodes.ica_nodes-module.html#mult,Variable mult=mdp.utils-module.html#mult'); return false;">mult</a></span></span><span class="py-op">(</span><span class="py-name">xmin</span><span class="py-op">,</span> <span class="py-name">H</span><span class="py-op">)</span><span class="py-op">,</span> <span class="py-name">xmin</span><span class="py-op">)</span> <span class="py-op">+</span> \ </span>
+<span class="lineno"> 57</span>  <span class="py-line">               <a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a title="mdp.utils" class="py-name" href="mdp.utils-module.html">utils</a><span class="py-op">.</span><span id="link-4" class="py-name"><a title="mdp.nodes.ica_nodes.mult
+mdp.utils.mult" class="py-name" href="#" onclick="doclink('link-4', 'mult', 'Variable nodes.ica_nodes.mult=mdp.nodes.ica_nodes-module.html#mult,Variable mult=mdp.utils-module.html#mult'); return false;">mult</a></span></span><span class="py-op">(</span><span class="py-name">f</span><span class="py-op">,</span> <span class="py-name">xmin</span><span class="py-op">)</span> <span class="py-op">+</span> <span class="py-name">c</span> </span>
+<span class="lineno"> 58</span>  <span class="py-line">        <span class="py-keyword">if</span> <span class="py-name">H_definite_negative</span> <span class="py-keyword">and</span> <a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a title="mdp.utils" class="py-name" href="mdp.utils-module.html">utils</a><span class="py-op">.</span><a title="mdp.utils.routines.norm2" class="py-name" href="mdp.utils.routines-module.html#norm2">norm2</a><span class="py-op">(</span><span class="py-name">x0</span><span class="py-op">)</span> <span class="py-op">&lt;=</span> <span class="py-name">norm</span> <span class="py-op">:</span> </span>
+<span class="lineno"> 59</span>  <span class="py-line">            <span class="py-name">xmax</span><span class="py-op">=</span> <span class="py-name">x0</span> </span>
+<span class="lineno"> 60</span>  <span class="py-line">            <span class="py-comment"># x0 is a maximum</span> </span>
+<span class="lineno"> 61</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-keyword">else</span><span class="py-op">:</span> </span>
+<span class="lineno"> 62</span>  <span class="py-line">            <span class="py-name">xmax</span> <span class="py-op">=</span> <span class="py-name">self</span><span class="py-op">.</span><a title="mdp.utils.quad_forms.QuadraticForm._maximize" class="py-name" href="mdp.utils.quad_forms.QuadraticForm-class.html#_maximize">_maximize</a><span class="py-op">(</span><span class="py-name">norm</span><span class="py-op">,</span> <span class="py-name">tol</span><span class="py-op">,</span> <span class="py-name">factor</span><span class="py-op">=</span><span class="py-name">None</span><span class="py-op">)</span> </span>
+<span class="lineno"> 63</span>  <span class="py-line">        <span class="py-name">vmax</span> <span class="py-op">=</span> <span class="py-number">0.5</span><span class="py-op">*</span><a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a title="mdp.utils" class="py-name" href="mdp.utils-module.html">utils</a><span class="py-op">.</span><span id="link-5" class="py-name"><a title="mdp.nodes.ica_nodes.mult
+mdp.utils.mult" class="py-name" href="#" onclick="doclink('link-5', 'mult', 'Variable nodes.ica_nodes.mult=mdp.nodes.ica_nodes-module.html#mult,Variable mult=mdp.utils-module.html#mult'); return false;">mult</a></span></span><span class="py-op">(</span><a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a title="mdp.utils" class="py-name" href="mdp.utils-module.html">utils</a><span class="py-op">.</span><span id="link-6" class="py-name"><a title="mdp.nodes.ica_nodes.mult
+mdp.utils.mult" class="py-name" href="#" onclick="doclink('link-6', 'mult', 'Variable nodes.ica_nodes.mult=mdp.nodes.ica_nodes-module.html#mult,Variable mult=mdp.utils-module.html#mult'); return false;">mult</a></span></span><span class="py-op">(</span><span class="py-name">xmax</span><span class="py-op">,</span> <span class="py-name">H</span><span class="py-op">)</span><span class="py-op">,</span> <span class="py-name">xmax</span><span class="py-op">)</span> <span class="py-op">+</span> \ </span>
+<span class="lineno"> 64</span>  <span class="py-line">               <a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a title="mdp.utils" class="py-name" href="mdp.utils-module.html">utils</a><span class="py-op">.</span><span id="link-7" class="py-name"><a title="mdp.nodes.ica_nodes.mult
+mdp.utils.mult" class="py-name" href="#" onclick="doclink('link-7', 'mult', 'Variable nodes.ica_nodes.mult=mdp.nodes.ica_nodes-module.html#mult,Variable mult=mdp.utils-module.html#mult'); return false;">mult</a></span></span><span class="py-op">(</span><span class="py-name">f</span><span class="py-op">,</span> <span class="py-name">xmax</span><span class="py-op">)</span> <span class="py-op">+</span> <span class="py-name">c</span>  </span>
+<span class="lineno"> 65</span>  <span class="py-line">        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">xmax</span><span class="py-op">,</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">xmin</span><span class="py-op">,</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">vmax</span><span class="py-op">,</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">vmin</span> <span class="py-op">=</span> <span class="py-name">xmax</span><span class="py-op">,</span> <span class="py-name">xmin</span><span class="py-op">,</span> <span class="py-name">vmax</span><span class="py-op">,</span> <span class="py-name">vmin</span> </span>
+<span class="lineno"> 66</span>  <span class="py-line">        <span class="py-keyword">return</span> <span class="py-name">xmax</span><span class="py-op">,</span> <span class="py-name">xmin</span><span class="py-op">,</span> <span class="py-name">vmax</span><span class="py-op">,</span> <span class="py-name">vmin</span> </span>
+</div><span class="lineno"> 67</span>  <span class="py-line"> </span>
+<a name="QuadraticForm._maximize"></a><div id="QuadraticForm._maximize-def"><span class="lineno"> 68</span> <a class="pysrc-toggle" href="#" id="QuadraticForm._maximize-toggle" onclick="toggle('QuadraticForm._maximize'); return false;">-</a><span class="py-line">    <span class="py-keyword">def</span> <a class="py-def-name" href="mdp.utils.quad_forms.QuadraticForm-class.html#_maximize">_maximize</a><span class="py-op">(</span><span class="py-param">self</span><span class="py-op">,</span> <span class="py-param">norm</span><span class="py-op">,</span> <span class="py-param">tol</span> <span class="py-op">=</span> <span class="py-number">1.E-4</span><span class="py-op">,</span> <span class="py-param">x0</span> <span class="py-op">=</span> <span class="py-name">None</span><span class="py-op">,</span> <span class="py-param">factor</span> <span class="py-op">=</span> <span class="py-name">None</span><span class="py-op">)</span><span class="py-op">:</span> </span>
+</div><div id="QuadraticForm._maximize-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="QuadraticForm._maximize-expanded"><span class="lineno"> 69</span>  <span class="py-line">        <span class="py-name">H</span><span class="py-op">,</span> <span class="py-name">f</span> <span class="py-op">=</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">H</span><span class="py-op">,</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">f</span> </span>
+<span class="lineno"> 70</span>  <span class="py-line">        <span class="py-keyword">if</span> <span class="py-name">f</span> <span class="py-keyword">is</span> <span class="py-name">None</span><span class="py-op">:</span> <span class="py-name">f</span> <span class="py-op">=</span> <span class="py-name">numx</span><span class="py-op">.</span><span class="py-name">zeros</span><span class="py-op">(</span><span class="py-op">(</span><span class="py-name">H</span><span class="py-op">.</span><span class="py-name">shape</span><span class="py-op">[</span><span class="py-number">0</span><span class="py-op">]</span><span class="py-op">,</span><span class="py-op">)</span><span class="py-op">,</span> <a title="mdp.signal_node.Node.dtype" class="py-name" href="mdp.signal_node.Node-class.html#dtype">dtype</a><span class="py-op">=</span><span class="py-name">self</span><span class="py-op">.</span><a title="mdp.signal_node.Node.dtype" class="py-name" href="mdp.signal_node.Node-class.html#dtype">dtype</a><span class="py-op">)</span> </span>
+<span class="lineno"> 71</span>  <span class="py-line">        <span class="py-keyword">if</span> <span class="py-name">factor</span> <span class="py-keyword">is</span> <span class="py-keyword">not</span> <span class="py-name">None</span><span class="py-op">:</span> </span>
+<span class="lineno"> 72</span>  <span class="py-line">            <span class="py-name">H</span> <span class="py-op">=</span> <span class="py-name">factor</span><span class="py-op">*</span><span class="py-name">H</span> </span>
+<span class="lineno"> 73</span>  <span class="py-line">            <span class="py-name">f</span> <span class="py-op">=</span> <span class="py-name">factor</span><span class="py-op">*</span><span class="py-name">f</span> </span>
+<span class="lineno"> 74</span>  <span class="py-line">        <span class="py-keyword">if</span> <span class="py-name">x0</span> <span class="py-keyword">is</span> <span class="py-keyword">not</span> <span class="py-name">None</span><span class="py-op">:</span> </span>
+<span class="lineno"> 75</span>  <span class="py-line">            <span class="py-name">x0</span> <span class="py-op">=</span> <a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a title="mdp.utils" class="py-name" href="mdp.utils-module.html">utils</a><span class="py-op">.</span><a title="mdp.utils.routines.refcast" class="py-name" href="mdp.utils.routines-module.html#refcast">refcast</a><span class="py-op">(</span><span class="py-name">x0</span><span class="py-op">,</span> <span class="py-name">self</span><span class="py-op">.</span><a title="mdp.signal_node.Node.dtype" class="py-name" href="mdp.signal_node.Node-class.html#dtype">dtype</a><span class="py-op">)</span> </span>
+<span class="lineno"> 76</span>  <span class="py-line">            <span class="py-name">f</span> <span class="py-op">=</span> <a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a title="mdp.utils" class="py-name" href="mdp.utils-module.html">utils</a><span class="py-op">.</span><span id="link-8" class="py-name"><a title="mdp.nodes.ica_nodes.mult
+mdp.utils.mult" class="py-name" href="#" onclick="doclink('link-8', 'mult', 'Variable mdp.nodes.ica_nodes.mult=mdp.nodes.ica_nodes-module.html#mult,Variable mdp.utils.mult=mdp.utils-module.html#mult'); return false;">mult</a></span></span><span class="py-op">(</span><span class="py-name">H</span><span class="py-op">,</span> <span class="py-name">x0</span><span class="py-op">)</span><span class="py-op">+</span> <span class="py-name">f</span> </span>
+<span class="lineno"> 77</span>  <span class="py-line">            <span class="py-comment"># c = 0.5*x0'*H*x0 + f'*x0 + c -&gt; do we need it?</span> </span>
+<span class="lineno"> 78</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">mu</span><span class="py-op">,</span> <span class="py-name">V</span> <span class="py-op">=</span> <a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a title="mdp.utils" class="py-name" href="mdp.utils-module.html">utils</a><span class="py-op">.</span><span class="py-name">symeig</span><span class="py-op">(</span><span class="py-name">H</span><span class="py-op">,</span> <span class="py-name">overwrite</span><span class="py-op">=</span><span class="py-number">0</span><span class="py-op">)</span> </span>
+<span class="lineno"> 79</span>  <span class="py-line">        <span class="py-name">alpha</span> <span class="py-op">=</span> <span class="py-name">numx</span><span class="py-op">.</span><span class="py-name">reshape</span><span class="py-op">(</span><a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a title="mdp.utils" class="py-name" href="mdp.utils-module.html">utils</a><span class="py-op">.</span><span id="link-9" class="py-name"><a title="mdp.nodes.ica_nodes.mult
+mdp.utils.mult" class="py-name" href="#" onclick="doclink('link-9', 'mult', 'Variable nodes.ica_nodes.mult=mdp.nodes.ica_nodes-module.html#mult,Variable mult=mdp.utils-module.html#mult'); return false;">mult</a></span></span><span class="py-op">(</span><span id="link-10" class="py-name"><a title="mdp.utils.covariance.tr
+mdp.utils.quad_forms.tr" class="py-name" href="#" onclick="doclink('link-10', 'tr', 'Variable covariance.tr=mdp.utils.covariance-module.html#tr,Variable tr=mdp.utils.quad_forms-module.html#tr'); return false;">tr</a></span></span><span class="py-op">(</span><span class="py-name">V</span><span class="py-op">)</span><span class="py-op">,</span> <span class="py-name">f</span><span class="py-op">)</span><span class="py-op">,</span> <span class="py-op">(</span><span class="py-name">H</span><span class="py-op">.</span><span class="py-name">shape</span><span class="py-op">[</span><span class="py-number">0</span><span class="py-op">]</span><span class="py-op">,</span><span class="py-op">)</span> <span class="py-op">)</span> </span>
+<span class="lineno"> 80</span>  <span class="py-line">        <span class="py-comment"># v_i = alpha_i * v_i (alpha is a raw_vector)</span> </span>
+<span class="lineno"> 81</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">V</span> <span class="py-op">=</span> <span class="py-name">V</span><span class="py-op">*</span><span class="py-name">alpha</span> </span>
+<span class="lineno"> 82</span>  <span class="py-line">        <span class="py-comment"># left bound for lambda</span> </span>
+<span class="lineno"> 83</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">ll</span> <span class="py-op">=</span> <span class="py-name">mu</span><span class="py-op">[</span><span class="py-op">-</span><span class="py-number">1</span><span class="py-op">]</span> <span class="py-comment"># eigenvalue's maximum</span> </span>
+<span class="lineno"> 84</span>  <span class="py-line">        <span class="py-comment"># right bound for lambda</span> </span>
+<span class="lineno"> 85</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">lr</span> <span class="py-op">=</span> <a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a title="mdp.utils" class="py-name" href="mdp.utils-module.html">utils</a><span class="py-op">.</span><a title="mdp.utils.routines.norm2" class="py-name" href="mdp.utils.routines-module.html#norm2">norm2</a><span class="py-op">(</span><span class="py-name">f</span><span class="py-op">)</span><span class="py-op">/</span><span class="py-name">norm</span> <span class="py-op">+</span> <span class="py-name">ll</span> </span>
+<span class="lineno"> 86</span>  <span class="py-line">        <span class="py-comment"># search by bisection until norm(x)**2 = norm**2</span> </span>
+<span class="lineno"> 87</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">norm_2</span> <span class="py-op">=</span> <span class="py-name">norm</span><span class="py-op">**</span><span class="py-number">2</span> </span>
+<span class="lineno"> 88</span>  <span class="py-line">        <span class="py-name">norm_x_2</span> <span class="py-op">=</span> <span class="py-number">0</span> </span>
+<span class="lineno"> 89</span>  <span class="py-line">        <span class="py-keyword">while</span> <span class="py-name">abs</span><span class="py-op">(</span><span class="py-name">norm_x_2</span><span class="py-op">-</span><span class="py-name">norm_2</span><span class="py-op">)</span> <span class="py-op">&gt;</span> <span class="py-name">tol</span> <span class="py-keyword">and</span> <span class="py-op">(</span><span class="py-name">lr</span><span class="py-op">-</span><span class="py-name">ll</span><span class="py-op">)</span><span class="py-op">/</span><span class="py-name">lr</span> <span class="py-op">&gt;</span> <a title="mdp.utils.quad_forms.epsilon" class="py-name" href="mdp.utils.quad_forms-module.html#epsilon">epsilon</a><span class="py-op">:</span> </span>
+<span class="lineno"> 90</span>  <span class="py-line">            <span class="py-comment"># bisection of the lambda-interval</span> </span>
+<span class="lineno"> 91</span>  <span class="py-line"><span class="py-comment"></span>            <span class="py-name">lambd</span> <span class="py-op">=</span> <span class="py-number">0.5</span><span class="py-op">*</span><span class="py-op">(</span><span class="py-name">lr</span><span class="py-op">-</span><span class="py-name">ll</span><span class="py-op">)</span><span class="py-op">+</span><span class="py-name">ll</span> </span>
+<span class="lineno"> 92</span>  <span class="py-line">            <span class="py-comment"># eigenvalues of (lambda*Id - H)^-1</span> </span>
+<span class="lineno"> 93</span>  <span class="py-line"><span class="py-comment"></span>            <span class="py-name">beta</span> <span class="py-op">=</span> <span class="py-op">(</span><span class="py-name">lambd</span><span class="py-op">-</span><span class="py-name">mu</span><span class="py-op">)</span><span class="py-op">**</span><span class="py-op">(</span><span class="py-op">-</span><span class="py-number">1</span><span class="py-op">)</span> </span>
+<span class="lineno"> 94</span>  <span class="py-line">            <span class="py-comment"># solution to the second lagragian equation</span> </span>
+<span class="lineno"> 95</span>  <span class="py-line"><span class="py-comment"></span>            <span class="py-name">norm_x_2</span> <span class="py-op">=</span> <span class="py-name">numx</span><span class="py-op">.</span><span class="py-name">sum</span><span class="py-op">(</span><span class="py-name">alpha</span><span class="py-op">**</span><span class="py-number">2</span><span class="py-op">*</span><span class="py-name">beta</span><span class="py-op">**</span><span class="py-number">2</span><span class="py-op">)</span> </span>
+<span class="lineno"> 96</span>  <span class="py-line">            <span class="py-comment">#%[ll,lr]</span> </span>
+<span class="lineno"> 97</span>  <span class="py-line"><span class="py-comment"></span>            <span class="py-keyword">if</span> <span class="py-name">norm_x_2</span> <span class="py-op">&gt;</span> <span class="py-name">norm_2</span><span class="py-op">:</span> </span>
+<span class="lineno"> 98</span>  <span class="py-line">                <span class="py-name">ll</span><span class="py-op">=</span><span class="py-name">lambd</span> </span>
+<span class="lineno"> 99</span>  <span class="py-line">            <span class="py-keyword">else</span><span class="py-op">:</span> </span>
+<span class="lineno">100</span>  <span class="py-line">                <span class="py-name">lr</span><span class="py-op">=</span><span class="py-name">lambd</span> </span>
+<span class="lineno">101</span>  <span class="py-line">        <span class="py-name">x</span> <span class="py-op">=</span> <span class="py-name">numx</span><span class="py-op">.</span><span class="py-name">sum</span><span class="py-op">(</span><span class="py-name">V</span><span class="py-op">*</span><span class="py-name">beta</span><span class="py-op">,</span> <span class="py-name">axis</span><span class="py-op">=</span><span class="py-number">1</span><span class="py-op">)</span> </span>
+<span class="lineno">102</span>  <span class="py-line">        <span class="py-keyword">if</span> <span class="py-name">x0</span><span class="py-op">:</span> </span>
+<span class="lineno">103</span>  <span class="py-line">            <span class="py-name">x</span> <span class="py-op">=</span> <span class="py-name">x</span> <span class="py-op">+</span> <span class="py-name">x0</span> </span>
+<span class="lineno">104</span>  <span class="py-line">        <span class="py-keyword">return</span> <span class="py-name">x</span> </span>
+</div><span class="lineno">105</span>  <span class="py-line"> </span>
+<a name="QuadraticForm.invariances"></a><div id="QuadraticForm.invariances-def"><span class="lineno">106</span> <a class="pysrc-toggle" href="#" id="QuadraticForm.invariances-toggle" onclick="toggle('QuadraticForm.invariances'); return false;">-</a><span class="py-line">    <span class="py-keyword">def</span> <a class="py-def-name" href="mdp.utils.quad_forms.QuadraticForm-class.html#invariances">invariances</a><span class="py-op">(</span><span class="py-param">self</span><span class="py-op">)</span><span class="py-op">:</span> </span>
+</div><div id="QuadraticForm.invariances-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="QuadraticForm.invariances-expanded"><span class="lineno">107</span>  <span class="py-line">        <span class="py-keyword">raise</span> <span class="py-name">NotImplementedError</span> </span>
+</div></div><span class="lineno">108</span>  <span class="py-line"> </span><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="mdp-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="trees.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="indices.html">Index</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center">
+            <p class="nomargin">
+              <a class="navbar" target="_top" href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing MDP</a>
+      </p></th></tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">Generated by Epydoc
+        3.0alpha2 on Thu Jun 29 20:46:54 2006</td>
+    <td align="right" class="footer">
+      <a href="http://epydoc.sourceforge.net">http://epydoc.sf.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie()
+  // -->
+</script>
+  
+</body>
+</html>

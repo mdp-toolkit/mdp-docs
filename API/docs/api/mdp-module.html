@@ -1,0 +1,320 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mdp</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th bgcolor="#70b0f0" class="navselect"
+          >&nbsp;&nbsp;&nbsp;Home&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="trees.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="indices.html">Index</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center">
+            <p class="nomargin">
+              <a class="navbar" target="_top" href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing MDP</a>
+      </p></th></tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        Package&nbsp;mdp
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript: void(0);" class="privatelink"
+    onclick="toggle_private();">hide private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mdp-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== PACKAGE DESCRIPTION ==================== -->
+<h2 class="package">Package mdp
+<br/><span class="codelink"><a href="mdp-pysrc.html">source&nbsp;code</a></span></h2>
+<pre class="literalblock">
+
+Modular toolkit for Data Processing (MDP) is a data processing
+framework written in Python.
+
+From the user's perspective, MDP consists of a collection of trainable
+supervised and unsupervised algorithms or other data processing units
+(nodes) that can be combined into data processing flows. Given a
+sequence of input data, MDP takes care of successively training or
+executing all nodes in the flow. This structure allows to specify
+complex algorithms as a sequence of simpler data processing steps in a
+natural way. Training can be performed using small chunks of input
+data, so that the use of very large data sets becomes possible while
+reducing the memory requirements. Memory usage can also be minimized
+by defining the internals of the nodes to be single precision.
+
+The base of readily available algorithms includes Principal Component
+Analysis, two flavors of Independent Component Analysis, Slow Feature
+Analysis, Gaussian Classifiers, Growing Neural Gas, Fisher
+Discriminant Analysis, and Factor Analysis.
+
+From the developer's perspective, MDP is a framework to make the
+implementation of new algorithms easier. The basic class 'Node' takes
+care of tedious tasks like numerical type and dimensionality checking,
+leaving the developer free to concentrate on the implementation of the
+training and execution phases. The node then automatically integrates
+with the rest of the library and can be used in a flow together with
+other nodes. A node can have multiple training phases and even an
+undetermined number of phases. This allows for example the
+implementation of algorithms that need to collect some statistics on
+the whole input before proceeding with the actual training, or others
+that need to iterate over a training phase until a convergence
+criterion is satisfied. The ability to train each phase using chunks
+of input data is maintained if the chunks are generated with
+iterators. Moreover, crash recovery is optionally available: in case
+of failure, the current state of the flow is saved for later
+inspection.
+
+MDP has been written in the context of theoretical research in
+neuroscience, but it has been designed to be helpful in any context
+where trainable data processing algorithms are used. Its simplicity on
+the user side together with the reusability of the implemented nodes
+make it also a valid educational tool.
+
+As its user base is steadily increasing, MDP appears as a good
+candidate for becoming a common repository of user-supplied, freely
+available, Python implemented data processing algorithms.
+
+http://mdp-toolkit.sourceforge.net
+
+</pre><br /><br />
+
+<!-- ==================== SUBMODULES ==================== -->
+<a name="section-Submodules"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="details">
+  <td colspan="2">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <th align="left" class="details">Submodules</th>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Submodules"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr><td><ul>
+    <li> <strong class="uidlink"><a href="mdp.graph-module.html">mdp.graph</a></strong></li>
+    <ul>
+    <li> <strong class="uidlink"><a href="mdp.graph.graph-module.html">mdp.graph.graph</a></strong></li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="mdp.helper_funcs-module.html">mdp.helper_funcs</a></strong></li>
+    <li> <strong class="uidlink"><a href="mdp.linear_flows-module.html">mdp.linear_flows</a></strong></li>
+    <li> <strong class="uidlink"><a href="mdp.nodes-module.html">mdp.nodes</a></strong></li>
+    <ul>
+    <li> <strong class="uidlink"><a href="mdp.nodes.em_nodes-module.html">mdp.nodes.em_nodes</a></strong></li>
+    <li> <strong class="uidlink"><a href="mdp.nodes.expansion_nodes-module.html">mdp.nodes.expansion_nodes</a></strong></li>
+    <li> <strong class="uidlink"><a href="mdp.nodes.fda_nodes-module.html">mdp.nodes.fda_nodes</a></strong></li>
+    <li> <strong class="uidlink"><a href="mdp.nodes.ica_nodes-module.html">mdp.nodes.ica_nodes</a></strong></li>
+    <li> <strong class="uidlink"><a href="mdp.nodes.misc_nodes-module.html">mdp.nodes.misc_nodes</a></strong></li>
+    <li> <strong class="uidlink"><a href="mdp.nodes.neural_gas_nodes-module.html">mdp.nodes.neural_gas_nodes</a></strong></li>
+    <li> <strong class="uidlink"><a href="mdp.nodes.pca_nodes-module.html">mdp.nodes.pca_nodes</a></strong></li>
+    <li> <strong class="uidlink"><a href="mdp.nodes.sfa_nodes-module.html">mdp.nodes.sfa_nodes</a></strong></li>
+    </ul>
+    </li>
+    <li> <strong class="uidlink"><a href="mdp.signal_node-module.html">mdp.signal_node</a></strong></li>
+    <li> <strong class="uidlink"><a href="mdp.utils-module.html">mdp.utils</a></strong></li>
+    <ul>
+    <li> <strong class="uidlink"><a href="mdp.utils.covariance-module.html">mdp.utils.covariance</a></strong></li>
+    <li> <strong class="uidlink"><a href="mdp.utils.introspection-module.html">mdp.utils.introspection</a></strong></li>
+    <li> <strong class="uidlink"><a href="mdp.utils.progress_bar-module.html">mdp.utils.progress_bar</a></strong></li>
+    <li> <strong class="uidlink"><a href="mdp.utils.quad_forms-module.html">mdp.utils.quad_forms</a></strong></li>
+    <li> <strong class="uidlink"><a href="mdp.utils.routines-module.html">mdp.utils.routines</a></strong></li>
+    </ul>
+    </li>
+  </ul></td></tr>
+</table>
+
+<br />
+<!-- ==================== CLASSES ==================== -->
+<a name="section-Classes"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="summary">
+  <td colspan="2">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <th align="left" class="summary">Classes</th>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Classes"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+  <td width="15%">
+    <strong><a href="mdp.MDPWarning-class.html">MDPWarning</a></strong></td>
+  <td>Base class for warnings in MDP.</td>
+</tr>
+</table>
+
+<br />
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="summary">
+  <td colspan="2">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <th align="left" class="summary">Variables</th>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Variables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+  <td width="15%">
+    <strong><a href="mdp-module.html#__version__">__version__</a></strong></td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td width="15%">
+    <strong><a href="mdp-module.html#numx_description">numx_description</a></strong></td>
+  <td>&nbsp;</td>
+</tr>
+</table>
+
+<br />
+<!-- ==================== VARIABLES DETAILS ==================== -->
+<a name="section-VariablesDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="details">
+  <td colspan="2">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <th align="left" class="details">Variables Details</th>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-VariablesDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__version__"></a>
+<div>
+<table width="100%" class="var-details" bgcolor="#e0e0e0"><tr><td>
+  <h3>__version__</h3>
+  
+  <dl><dt></dt><dd>
+    <dl title="'2.0RC'"><dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<span class="variable-quote">'</span>2.0RC<span class="variable-quote">'</span>                                                                
+      </pre></td></tr></table></dd>
+    </dl>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="numx_description"></a>
+<div>
+<table width="100%" class="var-details" bgcolor="#e0e0e0"><tr><td>
+  <h3>numx_description</h3>
+  
+  <dl><dt></dt><dd>
+    <dl title="'numpy'"><dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+<span class="variable-quote">'</span>numpy<span class="variable-quote">'</span>                                                                
+      </pre></td></tr></table></dd>
+    </dl>
+  </dd></dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th bgcolor="#70b0f0" class="navselect"
+          >&nbsp;&nbsp;&nbsp;Home&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="trees.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="indices.html">Index</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center">
+            <p class="nomargin">
+              <a class="navbar" target="_top" href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing MDP</a>
+      </p></th></tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">Generated by Epydoc
+        3.0alpha2 on Thu Jun 29 20:45:45 2006</td>
+    <td align="right" class="footer">
+      <a href="http://epydoc.sourceforge.net">http://epydoc.sf.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie()
+  // -->
+</script>
+  
+</body>
+</html>

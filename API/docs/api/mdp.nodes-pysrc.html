@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mdp.nodes</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="mdp-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="trees.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="indices.html">Index</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center">
+            <p class="nomargin">
+              <a class="navbar" target="_top" href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing MDP</a>
+      </p></th></tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="mdp-module.html">Package&nbsp;mdp</a> ::
+        Package&nbsp;nodes
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript: void(0);" class="privatelink"
+    onclick="toggle_private();">hide private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mdp.nodes-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h2 class="py-src">Source Code for <a href="mdp.nodes-module.html">Package mdp.nodes</a></h2>
+<div class="py-src">
+<pre class="py-src">
+<span class="lineno"> 1</span>  <span class="py-line"><span class="py-keyword">from</span> <a class="py-name" href="mdp.nodes.expansion_nodes-module.html">expansion_nodes</a> <span class="py-keyword">import</span> <a class="py-name" href="mdp.nodes.expansion_nodes.QuadraticExpansionNode-class.html">QuadraticExpansionNode</a><span class="py-op">,</span> <a class="py-name" href="mdp.nodes.expansion_nodes.PolynomialExpansionNode-class.html">PolynomialExpansionNode</a> </span>
+<span class="lineno"> 2</span>  <span class="py-line"><span class="py-keyword">from</span> <a class="py-name" href="mdp.nodes.pca_nodes-module.html">pca_nodes</a> <span class="py-keyword">import</span> <a class="py-name" href="mdp.nodes.pca_nodes.WhiteningNode-class.html">WhiteningNode</a><span class="py-op">,</span> <a class="py-name" href="mdp.nodes.pca_nodes.PCANode-class.html">PCANode</a> </span>
+<span class="lineno"> 3</span>  <span class="py-line"><span class="py-keyword">from</span> <a class="py-name" href="mdp.nodes.sfa_nodes-module.html">sfa_nodes</a> <span class="py-keyword">import</span> <a class="py-name" href="mdp.nodes.sfa_nodes.SFANode-class.html">SFANode</a><span class="py-op">,</span> <a class="py-name" href="mdp.nodes.sfa_nodes.SFA2Node-class.html">SFA2Node</a> </span>
+<span class="lineno"> 4</span>  <span class="py-line"><span class="py-keyword">from</span> <a class="py-name" href="mdp.nodes.ica_nodes-module.html">ica_nodes</a> <span class="py-keyword">import</span> <a class="py-name" href="mdp.nodes.ica_nodes.ICANode-class.html">ICANode</a><span class="py-op">,</span><a class="py-name" href="mdp.nodes.ica_nodes.CuBICANode-class.html">CuBICANode</a><span class="py-op">,</span><a class="py-name" href="mdp.nodes.ica_nodes.FastICANode-class.html">FastICANode</a> </span>
+<span class="lineno"> 5</span>  <span class="py-line"><span class="py-keyword">from</span> <a class="py-name" href="mdp.nodes.neural_gas_nodes-module.html">neural_gas_nodes</a> <span class="py-keyword">import</span> <a class="py-name" href="mdp.nodes.neural_gas_nodes.GrowingNeuralGasNode-class.html">GrowingNeuralGasNode</a> </span>
+<span class="lineno"> 6</span>  <span class="py-line"><span class="py-keyword">from</span> <a class="py-name" href="mdp.nodes.fda_nodes-module.html">fda_nodes</a> <span class="py-keyword">import</span> <a class="py-name" href="mdp.nodes.fda_nodes.FDANode-class.html">FDANode</a> </span>
+<span class="lineno"> 7</span>  <span class="py-line"><span class="py-keyword">from</span> <a class="py-name" href="mdp.nodes.em_nodes-module.html">em_nodes</a> <span class="py-keyword">import</span> <a class="py-name" href="mdp.nodes.em_nodes.FANode-class.html">FANode</a> </span>
+<span class="lineno"> 8</span>  <span class="py-line"><span class="py-keyword">from</span> <a class="py-name" href="mdp.nodes.misc_nodes-module.html">misc_nodes</a> <span class="py-keyword">import</span> <a class="py-name" href="mdp.nodes.misc_nodes.HitParadeNode-class.html">HitParadeNode</a><span class="py-op">,</span> <a class="py-name" href="mdp.nodes.misc_nodes.TimeFramesNode-class.html">TimeFramesNode</a><span class="py-op">,</span> <a class="py-name" href="mdp.nodes.misc_nodes.EtaComputerNode-class.html">EtaComputerNode</a><span class="py-op">,</span> \ </span>
+<span class="lineno"> 9</span>  <span class="py-line">     <a class="py-name" href="mdp.nodes.misc_nodes.NoiseNode-class.html">NoiseNode</a><span class="py-op">,</span> <a class="py-name" href="mdp.nodes.misc_nodes.GaussianClassifierNode-class.html">GaussianClassifierNode</a> </span>
+<span class="lineno">10</span>  <span class="py-line"> </span><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="mdp-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="trees.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="indices.html">Index</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center">
+            <p class="nomargin">
+              <a class="navbar" target="_top" href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing MDP</a>
+      </p></th></tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">Generated by Epydoc
+        3.0alpha2 on Thu Jun 29 20:46:58 2006</td>
+    <td align="right" class="footer">
+      <a href="http://epydoc.sourceforge.net">http://epydoc.sf.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie()
+  // -->
+</script>
+  
+</body>
+</html>

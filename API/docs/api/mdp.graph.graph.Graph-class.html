@@ -1,0 +1,804 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mdp.graph.graph.Graph</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="mdp-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="trees.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="indices.html">Index</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center">
+            <p class="nomargin">
+              <a class="navbar" target="_top" href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing MDP</a>
+      </p></th></tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="mdp-module.html">Package&nbsp;mdp</a> ::
+        <a href="mdp.graph-module.html">Package&nbsp;graph</a> ::
+        <a href="mdp.graph.graph-module.html">Module&nbsp;graph</a> ::
+        Class&nbsp;Graph
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript: void(0);" class="privatelink"
+    onclick="toggle_private();">hide private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mdp.graph.graph.Graph-class.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== CLASS DESCRIPTION ==================== -->
+<h2 class="class">Class Graph
+<br/><span class="codelink"><a href="mdp.graph.graph-pysrc.html#Graph">source&nbsp;code</a></span></h2>
+<center>
+<center>  <map id="uml_class_diagram_for_classdoc_2" name="uml_class_diagram_for_classdoc_2">
+<area shape="rect" href="mdp.graph.graph.Graph&#45;class.html#connected_components" title="Return a list of lists containing the nodes of all connected components of the graph." alt="" coords="17,36,319,55" />
+<area shape="rect" href="mdp.graph.graph.Graph&#45;class.html#add_tree" title="Add a tree to the graph." alt="" coords="17,55,319,73" />
+<area shape="rect" href="mdp.graph.graph.Graph&#45;class.html#add_node" title="mdp.graph.graph.Graph.add_node" alt="" coords="17,73,319,92" />
+<area shape="rect" href="mdp.graph.graph.Graph&#45;class.html#undirected_dfs" title="Perform Depth First sort." alt="" coords="17,92,319,111" />
+<area shape="rect" href="mdp.graph.graph.Graph&#45;class.html#topological_sort" title="Perform a topological sort of the nodes." alt="" coords="17,111,319,129" />
+<area shape="rect" href="mdp.graph.graph.Graph&#45;class.html#__init__" title="x.__init__(...) initializes x; see x.__class__.__doc__ for signature..." alt="" coords="17,129,319,148" />
+<area shape="rect" href="mdp.graph.graph.Graph&#45;class.html#dfs" title="Return a list of nodes in some Depth First order starting from a root node." alt="" coords="17,148,319,167" />
+<area shape="rect" href="mdp.graph.graph.Graph&#45;class.html#bfs" title="Return a list of nodes in some Breadth First order starting from a root node." alt="" coords="17,167,319,185" />
+<area shape="rect" href="mdp.graph.graph.Graph&#45;class.html#remove_node" title="mdp.graph.graph.Graph.remove_node" alt="" coords="17,185,319,204" />
+<area shape="rect" href="mdp.graph.graph.Graph&#45;class.html#add_full_connectivity" title="Add full connectivity from a group of nodes to another one." alt="" coords="17,204,319,223" />
+<area shape="rect" href="mdp.graph.graph.Graph&#45;class.html#add_edge" title="Add an edge going from head to tail." alt="" coords="17,223,319,241" />
+<area shape="rect" href="mdp.graph.graph.Graph&#45;class.html#undirected_bfs" title="Perform Breadth First sort." alt="" coords="17,241,319,260" />
+<area shape="rect" href="mdp.graph.graph.Graph&#45;class.html#is_weakly_connected" title="Return True if the graph is weakly connected." alt="" coords="17,260,319,279" />
+<area shape="rect" href="mdp.graph.graph.Graph&#45;class.html#add_nodes" title="Add many nodes at once." alt="" coords="17,279,319,297" />
+<area shape="rect" href="mdp.graph.graph.Graph&#45;class.html#remove_edge" title="mdp.graph.graph.Graph.remove_edge" alt="" coords="17,297,319,316" />
+<area shape="rect" href="mdp.graph.graph.Graph&#45;class.html" title="mdp.graph.graph.Graph" alt="" coords="5,5,331,323" />
+</map>
+  <img src="uml_class_diagram_for_classdoc_2.gif" alt='' usemap="#uml_class_diagram_for_classdoc_2" ismap="ismap" class="graph-without-title">
+</center></center>
+<hr />
+<pre class="literalblock">
+Represent a directed graph.
+
+</pre><br /><br />
+
+<!-- ==================== INSTANCE METHODS ==================== -->
+<a name="section-InstanceMethods"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="summary">
+  <td colspan="2">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <th align="left" class="summary">Instance Methods</th>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-InstanceMethods"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.graph.graph.Graph-class.html#__init__" class="sig-name">__init__</a>(<span class="sig-arg">self</span>)</span>
+    <br />x.__init__(...) initializes x; see x.__class__.__doc__ for signature...
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.graph.graph.Graph-class.html#add_node" class="sig-name">add_node</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">data</span>=<span class="sig-default">None</span>)</span>
+    
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.graph.graph.Graph-class.html#remove_node" class="sig-name">remove_node</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">node</span>)</span>
+    
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.graph.graph.Graph-class.html#add_edge" class="sig-name">add_edge</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">head</span>,
+        <span class="sig-arg">tail</span>,
+        <span class="sig-arg">data</span>=<span class="sig-default">None</span>)</span>
+    <br />Add an edge going from head to tail.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.graph.graph.Graph-class.html#remove_edge" class="sig-name">remove_edge</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">edge</span>)</span>
+    
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.graph.graph.Graph-class.html#add_nodes" class="sig-name">add_nodes</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">data</span>)</span>
+    <br />Add many nodes at once.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.graph.graph.Graph-class.html#add_tree" class="sig-name">add_tree</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">tree</span>)</span>
+    <br />Add a tree to the graph.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.graph.graph.Graph-class.html#add_full_connectivity" class="sig-name">add_full_connectivity</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">from_nodes</span>,
+        <span class="sig-arg">to_nodes</span>)</span>
+    <br />Add full connectivity from a group of nodes to another one.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.graph.graph.Graph-class.html#topological_sort" class="sig-name">topological_sort</a>(<span class="sig-arg">self</span>)</span>
+    <br />Perform a topological sort of the nodes.
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.graph.graph.Graph-class.html#_dfs" class="sig-name">_dfs</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">neighbors_fct</span>,
+        <span class="sig-arg">root</span>,
+        <span class="sig-arg">visit_fct</span>=<span class="sig-default">None</span>)</span>
+    
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.graph.graph.Graph-class.html#dfs" class="sig-name">dfs</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">root</span>,
+        <span class="sig-arg">visit_fct</span>=<span class="sig-default">None</span>)</span>
+    <br />Return a list of nodes in some Depth First order starting from
+a root node.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.graph.graph.Graph-class.html#undirected_dfs" class="sig-name">undirected_dfs</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">root</span>,
+        <span class="sig-arg">visit_fct</span>=<span class="sig-default">None</span>)</span>
+    <br />Perform Depth First sort.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.graph.graph.Graph-class.html#connected_components" class="sig-name">connected_components</a>(<span class="sig-arg">self</span>)</span>
+    <br />Return a list of lists containing the nodes of all connected
+components of the graph.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.graph.graph.Graph-class.html#is_weakly_connected" class="sig-name">is_weakly_connected</a>(<span class="sig-arg">self</span>)</span>
+    <br />Return True if the graph is weakly connected.
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.graph.graph.Graph-class.html#_bfs" class="sig-name">_bfs</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">neighbors_fct</span>,
+        <span class="sig-arg">root</span>,
+        <span class="sig-arg">visit_fct</span>=<span class="sig-default">None</span>)</span>
+    
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.graph.graph.Graph-class.html#bfs" class="sig-name">bfs</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">root</span>,
+        <span class="sig-arg">visit_fct</span>=<span class="sig-default">None</span>)</span>
+    <br />Return a list of nodes in some Breadth First order starting from
+a root node.
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.graph.graph.Graph-class.html#undirected_bfs" class="sig-name">undirected_bfs</a>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">root</span>,
+        <span class="sig-arg">visit_fct</span>=<span class="sig-default">None</span>)</span>
+    <br />Perform Breadth First sort.
+  </td>
+</tr>
+  <tr>
+    <td colspan="2">
+    <p class="varlist"><span class="varlist-header">Inherited from <code>object</code></span>:
+      <code>__delattr__</code>,
+      <code>__getattribute__</code>,
+      <code>__hash__</code>,
+      <code>__new__</code>,
+      <code>__reduce__</code>,
+      <code>__reduce_ex__</code>,
+      <code>__repr__</code>,
+      <code>__setattr__</code>,
+      <code>__str__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+
+<br />
+<!-- ==================== CLASS VARIABLES ==================== -->
+<a name="section-ClassVariables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="summary">
+  <td colspan="2">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <th align="left" class="summary">Class Variables</th>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-ClassVariables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+  <tr>
+    <td colspan="2">
+    <p class="varlist"><span class="varlist-header">Inherited from <code>object</code></span>:
+      <code>__class__</code>
+      </p>
+    </td>
+  </tr>
+</table>
+
+<br />
+<!-- ==================== METHOD DETAILS ==================== -->
+<a name="section-MethodDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="details">
+  <td colspan="2">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <th align="left" class="details">Method Details</th>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-MethodDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="__init__"></a>
+<div>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">__init__</span>(<span class="sig-arg">self</span>)</span>
+    <br /><em class="fname">(Constructor)</em>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.graph.graph-pysrc.html#Graph.__init__">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  <pre class="literalblock">
+x.__init__(...) initializes x; see x.__class__.__doc__ for signature
+
+</pre>
+  <dl><dt></dt><dd>
+    <dl><dt>Overrides:
+      object.__init__
+        <dd><em class="note">(inherited documentation)</em></dd>
+    </dt></dl>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="add_node"></a>
+<div>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">add_node</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">data</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.graph.graph-pysrc.html#Graph.add_node">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  
+  <dl><dt></dt><dd>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="remove_node"></a>
+<div>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">remove_node</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">node</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.graph.graph-pysrc.html#Graph.remove_node">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  
+  <dl><dt></dt><dd>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="add_edge"></a>
+<div>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">add_edge</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">head</span>,
+        <span class="sig-arg">tail</span>,
+        <span class="sig-arg">data</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.graph.graph-pysrc.html#Graph.add_edge">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  <pre class="literalblock">
+Add an edge going from head to tail.
+head : head node
+tail : tail node
+
+</pre>
+  <dl><dt></dt><dd>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="remove_edge"></a>
+<div>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">remove_edge</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">edge</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.graph.graph-pysrc.html#Graph.remove_edge">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  
+  <dl><dt></dt><dd>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="add_nodes"></a>
+<div>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">add_nodes</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">data</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.graph.graph-pysrc.html#Graph.add_nodes">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  <pre class="literalblock">
+Add many nodes at once.
+
+data -- number of nodes to add or sequence of data values, one for
+        each new node
+
+</pre>
+  <dl><dt></dt><dd>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="add_tree"></a>
+<div>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">add_tree</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">tree</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.graph.graph-pysrc.html#Graph.add_tree">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  <pre class="literalblock">
+Add a tree to the graph.
+
+The tree is specified with a nested list of tuple, in a LISP-like
+notation. The values specified in the list become the values of
+the single nodes.
+
+Return an equivalent nested list with the nodes instead of the values.
+
+Example:
+&gt;&gt;&gt; a=b=c=d=e=None
+&gt;&gt;&gt; g.add_tree( (a, b, (c, d ,e)) )
+corresponds to this tree structure, with all node values set to None:
+
+        a
+       /               b   c
+         /                 d   e
+
+</pre>
+  <dl><dt></dt><dd>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="add_full_connectivity"></a>
+<div>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">add_full_connectivity</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">from_nodes</span>,
+        <span class="sig-arg">to_nodes</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.graph.graph-pysrc.html#Graph.add_full_connectivity">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  <pre class="literalblock">
+Add full connectivity from a group of nodes to another one.
+Return a list of lists of edges, one for each node in 'from_nodes'.
+
+Example: create a two-layer graph with full connectivity.
+&gt;&gt;&gt; g = Graph()
+&gt;&gt;&gt; layer1 = g.add_nodes(10)
+&gt;&gt;&gt; layer2 = g.add_nodes(5)
+&gt;&gt;&gt; g.add_full_connectivity(layer1, layer2)
+
+</pre>
+  <dl><dt></dt><dd>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="topological_sort"></a>
+<div>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">topological_sort</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.graph.graph-pysrc.html#Graph.topological_sort">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  <pre class="literalblock">
+Perform a topological sort of the nodes. If the graph has a cycle,
+throw a GraphTopologicalException with the list of successfully
+ordered nodes.
+
+</pre>
+  <dl><dt></dt><dd>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="_dfs"></a>
+<div class="private">
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">_dfs</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">neighbors_fct</span>,
+        <span class="sig-arg">root</span>,
+        <span class="sig-arg">visit_fct</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.graph.graph-pysrc.html#Graph._dfs">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  
+  <dl><dt></dt><dd>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="dfs"></a>
+<div>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">dfs</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">root</span>,
+        <span class="sig-arg">visit_fct</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.graph.graph-pysrc.html#Graph.dfs">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  <pre class="literalblock">
+Return a list of nodes in some Depth First order starting from
+a root node. If defined, visit_fct is applied on each visited node.
+
+The returned list does not have to contain all nodes in the
+graph, but only the ones reachable from the root.
+
+</pre>
+  <dl><dt></dt><dd>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="undirected_dfs"></a>
+<div>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">undirected_dfs</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">root</span>,
+        <span class="sig-arg">visit_fct</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.graph.graph-pysrc.html#Graph.undirected_dfs">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  <pre class="literalblock">
+Perform Depth First sort.
+
+This function is identical to dfs, but the sort is performed on
+the equivalent undirected version of the graph.
+
+</pre>
+  <dl><dt></dt><dd>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="connected_components"></a>
+<div>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">connected_components</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.graph.graph-pysrc.html#Graph.connected_components">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  <pre class="literalblock">
+Return a list of lists containing the nodes of all connected
+components of the graph.
+
+</pre>
+  <dl><dt></dt><dd>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="is_weakly_connected"></a>
+<div>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">is_weakly_connected</span>(<span class="sig-arg">self</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.graph.graph-pysrc.html#Graph.is_weakly_connected">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  <pre class="literalblock">
+Return True if the graph is weakly connected.
+
+</pre>
+  <dl><dt></dt><dd>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="_bfs"></a>
+<div class="private">
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">_bfs</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">neighbors_fct</span>,
+        <span class="sig-arg">root</span>,
+        <span class="sig-arg">visit_fct</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.graph.graph-pysrc.html#Graph._bfs">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  
+  <dl><dt></dt><dd>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="bfs"></a>
+<div>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">bfs</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">root</span>,
+        <span class="sig-arg">visit_fct</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.graph.graph-pysrc.html#Graph.bfs">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  <pre class="literalblock">
+Return a list of nodes in some Breadth First order starting from
+a root node. If defined, visit_fct is applied on each visited node.
+
+Note the returned list does not have to contain all nodes in the
+graph, but only the ones reachable from the root.
+
+</pre>
+  <dl><dt></dt><dd>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="undirected_bfs"></a>
+<div>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">undirected_bfs</span>(<span class="sig-arg">self</span>,
+        <span class="sig-arg">root</span>,
+        <span class="sig-arg">visit_fct</span>=<span class="sig-default">None</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.graph.graph-pysrc.html#Graph.undirected_bfs">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  <pre class="literalblock">
+Perform Breadth First sort.
+
+This function is identical to bfs, but the sort is performed on
+the equivalent undirected version of the graph.
+
+</pre>
+  <dl><dt></dt><dd>
+  </dd></dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="mdp-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="trees.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="indices.html">Index</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center">
+            <p class="nomargin">
+              <a class="navbar" target="_top" href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing MDP</a>
+      </p></th></tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">Generated by Epydoc
+        3.0alpha2 on Thu Jun 29 20:45:48 2006</td>
+    <td align="right" class="footer">
+      <a href="http://epydoc.sourceforge.net">http://epydoc.sf.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie()
+  // -->
+</script>
+  
+</body>
+</html>

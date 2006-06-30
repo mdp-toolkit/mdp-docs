@@ -56,8 +56,9 @@ H1 {
 
 #news-box {
   margin-top: 2em;
+  margin-right: 35%;
   padding: .5em; 
-  border: 1px solid #708090;
+  border: 3px solid #708090;
   font-size:smaller;
 }
 

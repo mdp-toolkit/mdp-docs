@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mdp.utils.covariance</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="mdp-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="trees.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="indices.html">Index</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center">
+            <p class="nomargin">
+              <a class="navbar" target="_top" href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing MDP</a>
+      </p></th></tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="mdp-module.html">Package&nbsp;mdp</a> ::
+        <a href="mdp.utils-module.html">Package&nbsp;utils</a> ::
+        Module&nbsp;covariance
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript: void(0);" class="privatelink"
+    onclick="toggle_private();">hide private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mdp.utils.covariance-pysrc.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h2 class="py-src">Source Code for <a href="mdp.utils.covariance-module.html">Module mdp.utils.covariance</a></h2>
+<div class="py-src">
+<pre class="py-src">
+<span class="lineno">  1</span>  <span class="py-line"><span class="py-keyword">import</span> <a class="py-name" href="mdp-module.html">mdp</a> </span>
+<span class="lineno">  2</span>  <span class="py-line"><span class="py-keyword">import</span> <span class="py-name">warnings</span> </span>
+<span class="lineno">  3</span>  <span class="py-line"> </span>
+<span class="lineno">  4</span>  <span class="py-line"><span class="py-comment"># import numeric module (scipy, Numeric or numarray)</span> </span>
+<span class="lineno">  5</span>  <span class="py-line"><span class="py-comment"></span><a class="py-name" href="numpy-module.html">numx</a> <span class="py-op">=</span> <a class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a class="py-name" href="numpy-module.html">numx</a> </span>
+<span class="lineno">  6</span>  <span class="py-line"><a class="py-name" href="mdp.utils.covariance-module.html#tr">tr</a> <span class="py-op">=</span> <a class="py-name" href="numpy-module.html">numx</a><span class="py-op">.</span><span class="py-name">transpose</span> </span>
+<span class="lineno">  7</span>  <span class="py-line"> </span>
+<span class="lineno">  8</span>  <span class="py-line"><span class="py-comment"># precision warning parameters</span> </span>
+<span class="lineno">  9</span>  <span class="py-line"><span class="py-comment"></span><a class="py-name" href="mdp.utils.covariance-module.html#_limits">_limits</a> <span class="py-op">=</span> <span class="py-op">{</span> <span class="py-string">'d'</span> <span class="py-op">:</span> <span class="py-number">1e13</span><span class="py-op">,</span> <span class="py-string">'f'</span> <span class="py-op">:</span> <span class="py-number">1e5</span><span class="py-op">}</span> </span>
+<span class="lineno"> 10</span>  <span class="py-line"> </span>
+<a name="_check_roundoff"></a><div id="_check_roundoff-def"><span class="lineno"> 11</span> <a class="pysrc-toggle" href="#" id="_check_roundoff-toggle" onclick="toggle('_check_roundoff'); return false;">-</a><span class="py-line"><span class="py-keyword">def</span> <a class="py-def-name" href="mdp.utils.covariance-module.html#_check_roundoff">_check_roundoff</a><span class="py-op">(</span><span class="py-param">t</span><span class="py-op">,</span> <span class="py-param">type</span><span class="py-op">)</span><span class="py-op">:</span> </span>
+</div><div id="_check_roundoff-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="_check_roundoff-expanded"><span class="lineno"> 12</span>  <span class="py-line">    <span class="py-docstring">"""Check if t is so large that t+1 == t up to 2 precision digits"""</span>    </span>
+<span class="lineno"> 13</span>  <span class="py-line">    <span class="py-keyword">if</span> <span class="py-name">type</span><span class="py-op">.</span><span class="py-name">char</span> <span class="py-keyword">in</span> <a title="mdp.utils.covariance._limits" class="py-name" href="mdp.utils.covariance-module.html#_limits">_limits</a><span class="py-op">:</span> </span>
+<span class="lineno"> 14</span>  <span class="py-line">        <span class="py-keyword">if</span> <span class="py-name">int</span><span class="py-op">(</span><a title="mdp.nodes.ica_nodes.t" class="py-name" href="mdp.nodes.ica_nodes-module.html#t">t</a><span class="py-op">)</span> <span class="py-op">&gt;=</span> <a title="mdp.utils.covariance._limits" class="py-name" href="mdp.utils.covariance-module.html#_limits">_limits</a><span class="py-op">[</span><span class="py-name">type</span><span class="py-op">.</span><span class="py-name">char</span><span class="py-op">]</span><span class="py-op">:</span> </span>
+<span class="lineno"> 15</span>  <span class="py-line">            <span class="py-name">wr</span> <span class="py-op">=</span> <span class="py-string">'You have summed %e entries in the covariance matrix.'</span><span class="py-op">%</span><a title="mdp.nodes.ica_nodes.t" class="py-name" href="mdp.nodes.ica_nodes-module.html#t">t</a><span class="py-op">+</span>\ </span>
+<span class="lineno"> 16</span>  <span class="py-line">                 <span class="py-string">'\nAs you are using dtype \'%s\', you are '</span><span class="py-op">%</span><span class="py-name">type</span><span class="py-op">+</span>\ </span>
+<span class="lineno"> 17</span>  <span class="py-line">                 <span class="py-string">'probably getting severe round off'</span><span class="py-op">+</span>\ </span>
+<span class="lineno"> 18</span>  <span class="py-line">                 <span class="py-string">'\nerrors. See CovarianceMatrix docstring for more'</span><span class="py-op">+</span>\ </span>
+<span class="lineno"> 19</span>  <span class="py-line">                 <span class="py-string">' information.'</span> </span>
+<span class="lineno"> 20</span>  <span class="py-line">            <span class="py-name">warnings</span><span class="py-op">.</span><span class="py-name">warn</span><span class="py-op">(</span><span class="py-name">wr</span><span class="py-op">,</span> <a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a title="mdp.MDPWarning" class="py-name" href="mdp.MDPWarning-class.html">MDPWarning</a><span class="py-op">)</span> </span>
+</div><span class="lineno"> 21</span>  <span class="py-line"> </span>
+<a name="CovarianceMatrix"></a><div id="CovarianceMatrix-def"><span class="lineno"> 22</span> <a class="pysrc-toggle" href="#" id="CovarianceMatrix-toggle" onclick="toggle('CovarianceMatrix'); return false;">-</a><span class="py-line"><span class="py-keyword">class</span> <a class="py-def-name" href="mdp.utils.covariance.CovarianceMatrix-class.html">CovarianceMatrix</a><span class="py-op">(</span><span class="py-base-class">object</span><span class="py-op">)</span><span class="py-op">:</span> </span>
+</div><div id="CovarianceMatrix-collapsed" style="display:none;" pad="+++" indent="++++"></div><div id="CovarianceMatrix-expanded"><span class="lineno"> 23</span>  <span class="py-line">    <span class="py-docstring">"""This class stores an empirical covariance matrix that can be updated</span> </span>
+<span class="lineno"> 24</span>  <span class="py-line"><span class="py-docstring">    incrementally. A call to the 'fix' method returns the current state of</span> </span>
+<span class="lineno"> 25</span>  <span class="py-line"><span class="py-docstring">    the covariance matrix, the average and the number of observations, and</span> </span>
+<span class="lineno"> 26</span>  <span class="py-line"><span class="py-docstring">    resets the internal data.</span> </span>
+<span class="lineno"> 27</span>  <span class="py-line"><span class="py-docstring"></span> </span>
+<span class="lineno"> 28</span>  <span class="py-line"><span class="py-docstring">    Note that the internal sum is a standard __add__ operation. We are not</span> </span>
+<span class="lineno"> 29</span>  <span class="py-line"><span class="py-docstring">    using any of the fancy sum algorithms to avoid round off errors when</span> </span>
+<span class="lineno"> 30</span>  <span class="py-line"><span class="py-docstring">    adding many numbers. If you want to contribute a CovarianceMatrix class</span> </span>
+<span class="lineno"> 31</span>  <span class="py-line"><span class="py-docstring">    that uses such algorithms we would be happy to include it in MDP.</span> </span>
+<span class="lineno"> 32</span>  <span class="py-line"><span class="py-docstring">    For a start see the Python recipe by Raymond Hettinger at</span> </span>
+<span class="lineno"> 33</span>  <span class="py-line"><span class="py-docstring">    http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/393090</span> </span>
+<span class="lineno"> 34</span>  <span class="py-line"><span class="py-docstring">    For a review about floating point arithmetic and its pitfalls see</span> </span>
+<span class="lineno"> 35</span>  <span class="py-line"><span class="py-docstring">    http://docs.sun.com/source/806-3568/ncg_goldberg.html</span> </span>
+<span class="lineno"> 36</span>  <span class="py-line"><span class="py-docstring">    """</span> </span>
+<span class="lineno"> 37</span>  <span class="py-line"> </span>
+<a name="CovarianceMatrix.__init__"></a><div id="CovarianceMatrix.__init__-def"><span class="lineno"> 38</span> <a class="pysrc-toggle" href="#" id="CovarianceMatrix.__init__-toggle" onclick="toggle('CovarianceMatrix.__init__'); return false;">-</a><span class="py-line">    <span class="py-keyword">def</span> <a class="py-def-name" href="mdp.utils.covariance.CovarianceMatrix-class.html#__init__">__init__</a><span class="py-op">(</span><span class="py-param">self</span><span class="py-op">,</span> <span class="py-param">dtype</span> <span class="py-op">=</span> <span class="py-name">None</span><span class="py-op">,</span> <span class="py-param">bias</span> <span class="py-op">=</span> <span class="py-name">False</span><span class="py-op">)</span><span class="py-op">:</span> </span>
+</div><div id="CovarianceMatrix.__init__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="CovarianceMatrix.__init__-expanded"><span class="lineno"> 39</span>  <span class="py-line">        <span class="py-docstring">"""If dtype is not defined, it will be inherited from the first</span> </span>
+<span class="lineno"> 40</span>  <span class="py-line"><span class="py-docstring">        data bunch received by 'update'.</span> </span>
+<span class="lineno"> 41</span>  <span class="py-line"><span class="py-docstring">        All the matrices in this class are set up with the given dtype and</span> </span>
+<span class="lineno"> 42</span>  <span class="py-line"><span class="py-docstring">        no upcast is possible.</span> </span>
+<span class="lineno"> 43</span>  <span class="py-line"><span class="py-docstring">        If bias is True, the covariance matrix is normalized by dividing</span> </span>
+<span class="lineno"> 44</span>  <span class="py-line"><span class="py-docstring">        by T instead of the usual T-1.</span> </span>
+<span class="lineno"> 45</span>  <span class="py-line"><span class="py-docstring">        """</span> </span>
+<span class="lineno"> 46</span>  <span class="py-line">         </span>
+<span class="lineno"> 47</span>  <span class="py-line">        <span class="py-keyword">if</span> <a title="mdp.signal_node.Node.dtype" class="py-name" href="mdp.signal_node.Node-class.html#dtype">dtype</a> <span class="py-keyword">is</span> <span class="py-name">None</span><span class="py-op">:</span> </span>
+<span class="lineno"> 48</span>  <span class="py-line">            <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_dtype</span> <span class="py-op">=</span> <span class="py-name">None</span> </span>
+<span class="lineno"> 49</span>  <span class="py-line">        <span class="py-keyword">else</span><span class="py-op">:</span> </span>
+<span class="lineno"> 50</span>  <span class="py-line">            <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_dtype</span> <span class="py-op">=</span> <span class="py-name">numx</span><span class="py-op">.</span><a title="mdp.signal_node.Node.dtype" class="py-name" href="mdp.signal_node.Node-class.html#dtype">dtype</a><span class="py-op">(</span><a title="mdp.signal_node.Node.dtype" class="py-name" href="mdp.signal_node.Node-class.html#dtype">dtype</a><span class="py-op">)</span> </span>
+<span class="lineno"> 51</span>  <span class="py-line"> </span>
+<span class="lineno"> 52</span>  <span class="py-line">        <span class="py-comment"># covariance matrix, updated during the training phase</span> </span>
+<span class="lineno"> 53</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_cov_mtx</span> <span class="py-op">=</span> <span class="py-name">None</span> </span>
+<span class="lineno"> 54</span>  <span class="py-line">        <span class="py-comment"># average, updated during the training phase</span> </span>
+<span class="lineno"> 55</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_avg</span> <span class="py-op">=</span> <span class="py-name">None</span> </span>
+<span class="lineno"> 56</span>  <span class="py-line">         <span class="py-comment"># number of observation so far during the training phase</span> </span>
+<span class="lineno"> 57</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_tlen</span> <span class="py-op">=</span> <span class="py-number">0</span> </span>
+<span class="lineno"> 58</span>  <span class="py-line"> </span>
+<span class="lineno"> 59</span>  <span class="py-line">        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">bias</span> <span class="py-op">=</span> <span class="py-name">bias</span> </span>
+</div><span class="lineno"> 60</span>  <span class="py-line"> </span>
+<a name="CovarianceMatrix._init_internals"></a><div id="CovarianceMatrix._init_internals-def"><span class="lineno"> 61</span> <a class="pysrc-toggle" href="#" id="CovarianceMatrix._init_internals-toggle" onclick="toggle('CovarianceMatrix._init_internals'); return false;">-</a><span class="py-line">    <span class="py-keyword">def</span> <a class="py-def-name" href="mdp.utils.covariance.CovarianceMatrix-class.html#_init_internals">_init_internals</a><span class="py-op">(</span><span class="py-param">self</span><span class="py-op">,</span> <span class="py-param">x</span><span class="py-op">)</span><span class="py-op">:</span> </span>
+</div><div id="CovarianceMatrix._init_internals-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="CovarianceMatrix._init_internals-expanded"><span class="lineno"> 62</span>  <span class="py-line">        <span class="py-docstring">"""Inits some internals structures. The reason this is not done in</span> </span>
+<span class="lineno"> 63</span>  <span class="py-line"><span class="py-docstring">        the constructor is that we want to be able to derive the input</span> </span>
+<span class="lineno"> 64</span>  <span class="py-line"><span class="py-docstring">        dimension and the dtype directly from the data this class receives.</span> </span>
+<span class="lineno"> 65</span>  <span class="py-line"><span class="py-docstring">        """</span> </span>
+<span class="lineno"> 66</span>  <span class="py-line">         </span>
+<span class="lineno"> 67</span>  <span class="py-line">        <span class="py-comment"># init dtype</span> </span>
+<span class="lineno"> 68</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-keyword">if</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_dtype</span> <span class="py-keyword">is</span> <span class="py-name">None</span><span class="py-op">:</span> </span>
+<span class="lineno"> 69</span>  <span class="py-line">            <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_dtype</span> <span class="py-op">=</span> <span class="py-name">x</span><span class="py-op">.</span><a title="mdp.signal_node.Node.dtype" class="py-name" href="mdp.signal_node.Node-class.html#dtype">dtype</a> </span>
+<span class="lineno"> 70</span>  <span class="py-line">        <span class="py-name">dim</span> <span class="py-op">=</span> <span class="py-name">x</span><span class="py-op">.</span><span class="py-name">shape</span><span class="py-op">[</span><span class="py-number">1</span><span class="py-op">]</span> </span>
+<span class="lineno"> 71</span>  <span class="py-line">        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_input_dim</span> <span class="py-op">=</span> <span class="py-name">dim</span> </span>
+<span class="lineno"> 72</span>  <span class="py-line">        <span class="py-name">type</span> <span class="py-op">=</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_dtype</span> </span>
+<span class="lineno"> 73</span>  <span class="py-line">        <span class="py-comment"># init covariance matrix</span> </span>
+<span class="lineno"> 74</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_cov_mtx</span> <span class="py-op">=</span> <span class="py-name">numx</span><span class="py-op">.</span><span class="py-name">zeros</span><span class="py-op">(</span><span class="py-op">(</span><span class="py-name">dim</span><span class="py-op">,</span><span class="py-name">dim</span><span class="py-op">)</span><span class="py-op">,</span> <span class="py-name">type</span><span class="py-op">)</span> </span>
+<span class="lineno"> 75</span>  <span class="py-line">        <span class="py-comment"># init average</span> </span>
+<span class="lineno"> 76</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_avg</span> <span class="py-op">=</span> <span class="py-name">numx</span><span class="py-op">.</span><span class="py-name">zeros</span><span class="py-op">(</span><span class="py-name">dim</span><span class="py-op">,</span> <span class="py-name">type</span><span class="py-op">)</span> </span>
+</div><span class="lineno"> 77</span>  <span class="py-line"> </span>
+<a name="CovarianceMatrix.update"></a><div id="CovarianceMatrix.update-def"><span class="lineno"> 78</span> <a class="pysrc-toggle" href="#" id="CovarianceMatrix.update-toggle" onclick="toggle('CovarianceMatrix.update'); return false;">-</a><span class="py-line">    <span class="py-keyword">def</span> <a class="py-def-name" href="mdp.utils.covariance.CovarianceMatrix-class.html#update">update</a><span class="py-op">(</span><span class="py-param">self</span><span class="py-op">,</span> <span class="py-param">x</span><span class="py-op">)</span><span class="py-op">:</span> </span>
+</div><div id="CovarianceMatrix.update-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="CovarianceMatrix.update-expanded"><span class="lineno"> 79</span>  <span class="py-line">        <span class="py-keyword">if</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_cov_mtx</span> <span class="py-keyword">is</span> <span class="py-name">None</span><span class="py-op">:</span> </span>
+<span class="lineno"> 80</span>  <span class="py-line">            <span class="py-name">self</span><span class="py-op">.</span><span id="link-0" class="py-name"><a title="mdp.nodes.misc_nodes.EtaComputerNode._init_internals
+mdp.utils.covariance.CovarianceMatrix._init_internals
+mdp.utils.covariance.DelayCovarianceMatrix._init_internals" class="py-name" href="#" onclick="doclink('link-0', '_init_internals', 'Method mdp.nodes.misc_nodes.EtaComputerNode._init_internals()=mdp.nodes.misc_nodes.EtaComputerNode-class.html#_init_internals,Method mdp.utils.covariance.CovarianceMatrix._init_internals()=mdp.utils.covariance.CovarianceMatrix-class.html#_init_internals,Method mdp.utils.covariance.DelayCovarianceMatrix._init_internals()=mdp.utils.covariance.DelayCovarianceMatrix-class.html#_init_internals'); return false;">_init_internals</a></span></span><span class="py-op">(</span><span class="py-name">x</span><span class="py-op">)</span> </span>
+<span class="lineno"> 81</span>  <span class="py-line">             </span>
+<span class="lineno"> 82</span>  <span class="py-line">        <span class="py-comment">#?? check the input dimension</span> </span>
+<span class="lineno"> 83</span>  <span class="py-line"><span class="py-comment"></span> </span>
+<span class="lineno"> 84</span>  <span class="py-line">        <span class="py-comment"># cast input</span> </span>
+<span class="lineno"> 85</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">x</span> <span class="py-op">=</span> <a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a title="mdp.utils" class="py-name" href="mdp.utils-module.html">utils</a><span class="py-op">.</span><a title="mdp.utils.routines.refcast" class="py-name" href="mdp.utils.routines-module.html#refcast">refcast</a><span class="py-op">(</span><span class="py-name">x</span><span class="py-op">,</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_dtype</span><span class="py-op">)</span> </span>
+<span class="lineno"> 86</span>  <span class="py-line">         </span>
+<span class="lineno"> 87</span>  <span class="py-line">        <span class="py-comment"># update the covariance matrix, the average and the number of</span> </span>
+<span class="lineno"> 88</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-comment"># observations (try to do everything inplace)</span> </span>
+<span class="lineno"> 89</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_cov_mtx</span> <span class="py-op">+=</span> <a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a title="mdp.utils" class="py-name" href="mdp.utils-module.html">utils</a><span class="py-op">.</span><span id="link-1" class="py-name"><a title="mdp.nodes.ica_nodes.mult
+mdp.utils.mult" class="py-name" href="#" onclick="doclink('link-1', 'mult', 'Variable nodes.ica_nodes.mult=mdp.nodes.ica_nodes-module.html#mult,Variable mult=mdp.utils-module.html#mult'); return false;">mult</a></span></span><span class="py-op">(</span><span id="link-2" class="py-name"><a title="mdp.utils.covariance.tr
+mdp.utils.quad_forms.tr" class="py-name" href="#" onclick="doclink('link-2', 'tr', 'Variable tr=mdp.utils.covariance-module.html#tr,Variable quad_forms.tr=mdp.utils.quad_forms-module.html#tr'); return false;">tr</a></span></span><span class="py-op">(</span><span class="py-name">x</span><span class="py-op">)</span><span class="py-op">,</span> <span class="py-name">x</span><span class="py-op">)</span> </span>
+<span class="lineno"> 90</span>  <span class="py-line">        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_avg</span> <span class="py-op">+=</span> <span class="py-name">numx</span><span class="py-op">.</span><span class="py-name">sum</span><span class="py-op">(</span><span class="py-name">x</span><span class="py-op">,</span> <span class="py-number">0</span><span class="py-op">)</span> </span>
+<span class="lineno"> 91</span>  <span class="py-line">        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_tlen</span> <span class="py-op">+=</span> <span class="py-name">x</span><span class="py-op">.</span><span class="py-name">shape</span><span class="py-op">[</span><span class="py-number">0</span><span class="py-op">]</span> </span>
+</div><span class="lineno"> 92</span>  <span class="py-line"> </span>
+<a name="CovarianceMatrix.fix"></a><div id="CovarianceMatrix.fix-def"><span class="lineno"> 93</span> <a class="pysrc-toggle" href="#" id="CovarianceMatrix.fix-toggle" onclick="toggle('CovarianceMatrix.fix'); return false;">-</a><span class="py-line">    <span class="py-keyword">def</span> <a class="py-def-name" href="mdp.utils.covariance.CovarianceMatrix-class.html#fix">fix</a><span class="py-op">(</span><span class="py-param">self</span><span class="py-op">)</span><span class="py-op">:</span> </span>
+</div><div id="CovarianceMatrix.fix-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="CovarianceMatrix.fix-expanded"><span class="lineno"> 94</span>  <span class="py-line">        <span class="py-docstring">"""Returns a triple containing the covariance matrix, the average and</span> </span>
+<span class="lineno"> 95</span>  <span class="py-line"><span class="py-docstring">        the number of observations. The covariance matrix is then reset to</span> </span>
+<span class="lineno"> 96</span>  <span class="py-line"><span class="py-docstring">        a zero-state."""</span> </span>
+<span class="lineno"> 97</span>  <span class="py-line">        <span class="py-comment"># local variables</span> </span>
+<span class="lineno"> 98</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">type</span> <span class="py-op">=</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_dtype</span> </span>
+<span class="lineno"> 99</span>  <span class="py-line">        <span class="py-name">tlen</span> <span class="py-op">=</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_tlen</span> </span>
+<span class="lineno">100</span>  <span class="py-line">        <a title="mdp.utils.covariance._check_roundoff" class="py-name" href="mdp.utils.covariance-module.html#_check_roundoff">_check_roundoff</a><span class="py-op">(</span><span class="py-name">tlen</span><span class="py-op">,</span> <span class="py-name">type</span><span class="py-op">)</span> </span>
+<span class="lineno">101</span>  <span class="py-line">        <span class="py-name">avg</span> <span class="py-op">=</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_avg</span> </span>
+<span class="lineno">102</span>  <span class="py-line">        <span class="py-name">cov_mtx</span> <span class="py-op">=</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_cov_mtx</span> </span>
+<span class="lineno">103</span>  <span class="py-line"> </span>
+<span class="lineno">104</span>  <span class="py-line">        <span class="py-comment">##### fix the training variables</span> </span>
+<span class="lineno">105</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-comment"># fix the covariance matrix (try to do everything inplace)</span> </span>
+<span class="lineno">106</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">avg_mtx</span> <span class="py-op">=</span> <span class="py-name">numx</span><span class="py-op">.</span><span class="py-name">outer</span><span class="py-op">(</span><span class="py-name">avg</span><span class="py-op">,</span><span class="py-name">avg</span><span class="py-op">)</span> </span>
+<span class="lineno">107</span>  <span class="py-line"> </span>
+<span class="lineno">108</span>  <span class="py-line">        <span class="py-keyword">if</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">bias</span><span class="py-op">:</span> </span>
+<span class="lineno">109</span>  <span class="py-line">            <span class="py-name">avg_mtx</span> <span class="py-op">/=</span> <span class="py-name">tlen</span><span class="py-op">*</span><span class="py-op">(</span><span class="py-name">tlen</span><span class="py-op">)</span> </span>
+<span class="lineno">110</span>  <span class="py-line">            <span class="py-name">cov_mtx</span> <span class="py-op">/=</span> <span class="py-name">tlen</span> </span>
+<span class="lineno">111</span>  <span class="py-line">        <span class="py-keyword">else</span><span class="py-op">:</span> </span>
+<span class="lineno">112</span>  <span class="py-line">            <span class="py-name">avg_mtx</span> <span class="py-op">/=</span> <span class="py-name">tlen</span><span class="py-op">*</span><span class="py-op">(</span><span class="py-name">tlen</span> <span class="py-op">-</span> <span class="py-number">1</span><span class="py-op">)</span> </span>
+<span class="lineno">113</span>  <span class="py-line">            <span class="py-name">cov_mtx</span> <span class="py-op">/=</span> <span class="py-name">tlen</span> <span class="py-op">-</span> <span class="py-number">1</span> </span>
+<span class="lineno">114</span>  <span class="py-line">        <span class="py-name">cov_mtx</span> <span class="py-op">-=</span> <span class="py-name">avg_mtx</span> </span>
+<span class="lineno">115</span>  <span class="py-line">        <span class="py-comment"># fix the average</span> </span>
+<span class="lineno">116</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">avg</span> <span class="py-op">/=</span> <span class="py-name">tlen</span> </span>
+<span class="lineno">117</span>  <span class="py-line"> </span>
+<span class="lineno">118</span>  <span class="py-line">        <span class="py-comment">##### clean up</span> </span>
+<span class="lineno">119</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-comment"># covariance matrix, updated during the training phase</span> </span>
+<span class="lineno">120</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_cov_mtx</span> <span class="py-op">=</span> <span class="py-name">None</span> </span>
+<span class="lineno">121</span>  <span class="py-line">        <span class="py-comment"># average, updated during the training phase</span> </span>
+<span class="lineno">122</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_avg</span> <span class="py-op">=</span> <span class="py-name">None</span> </span>
+<span class="lineno">123</span>  <span class="py-line">         <span class="py-comment"># number of observation so far during the training phase</span> </span>
+<span class="lineno">124</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_tlen</span> <span class="py-op">=</span> <span class="py-number">0</span> </span>
+<span class="lineno">125</span>  <span class="py-line"> </span>
+<span class="lineno">126</span>  <span class="py-line">        <span class="py-keyword">return</span> <span class="py-name">cov_mtx</span><span class="py-op">,</span> <span class="py-name">avg</span><span class="py-op">,</span> <span class="py-name">tlen</span> </span>
+</div></div><span class="lineno">127</span>  <span class="py-line"> </span>
+<span class="lineno">128</span>  <span class="py-line"> </span>
+<a name="DelayCovarianceMatrix"></a><div id="DelayCovarianceMatrix-def"><span class="lineno">129</span> <a class="pysrc-toggle" href="#" id="DelayCovarianceMatrix-toggle" onclick="toggle('DelayCovarianceMatrix'); return false;">-</a><span class="py-line"><span class="py-keyword">class</span> <a class="py-def-name" href="mdp.utils.covariance.DelayCovarianceMatrix-class.html">DelayCovarianceMatrix</a><span class="py-op">(</span><span class="py-base-class">object</span><span class="py-op">)</span><span class="py-op">:</span>     </span>
+</div><span class="lineno">130</span>  <span class="py-line">    <span class="py-docstring">"""This class stores an empirical covariance matrix between the signal and</span> </span>
+<span class="lineno">131</span>  <span class="py-line"><span class="py-docstring">    time delayed signal that can be updated incrementally.</span> </span>
+<span class="lineno">132</span>  <span class="py-line"><span class="py-docstring"></span> </span>
+<span class="lineno">133</span>  <span class="py-line"><span class="py-docstring">    Note that the internal sum is a standard __add__ operation. We are not</span> </span>
+<span class="lineno">134</span>  <span class="py-line"><span class="py-docstring">    using any of the fancy sum algorithms to avoid round off errors when</span> </span>
+<span class="lineno">135</span>  <span class="py-line"><span class="py-docstring">    adding many numbers. If you want to contribute a CovarianceMatrix class</span> </span>
+<span class="lineno">136</span>  <span class="py-line"><span class="py-docstring">    that uses such algorithms we would be happy to include it in MDP.</span> </span>
+<span class="lineno">137</span>  <span class="py-line"><span class="py-docstring">    For a start see the Python recipe by Raymond Hettinger at</span> </span>
+<span class="lineno">138</span>  <span class="py-line"><span class="py-docstring">    http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/393090</span> </span>
+<span class="lineno">139</span>  <span class="py-line"><span class="py-docstring">    For a review about floating point arithmetic and its pitfalls see</span> </span>
+<span class="lineno">140</span>  <span class="py-line"><span class="py-docstring">    http://docs.sun.com/source/806-3568/ncg_goldberg.html</span> </span>
+<span class="lineno">141</span>  <span class="py-line"><span class="py-docstring">    """</span> </span>
+<span class="lineno">142</span>  <span class="py-line"> </span>
+<a name="DelayCovarianceMatrix.__init__"></a><div id="DelayCovarianceMatrix.__init__-def"><span class="lineno">143</span> <a class="pysrc-toggle" href="#" id="DelayCovarianceMatrix.__init__-toggle" onclick="toggle('DelayCovarianceMatrix.__init__'); return false;">-</a><span class="py-line">    <span class="py-keyword">def</span> <a class="py-def-name" href="mdp.utils.covariance.DelayCovarianceMatrix-class.html#__init__">__init__</a><span class="py-op">(</span><span class="py-param">self</span><span class="py-op">,</span> <span class="py-param">dt</span><span class="py-op">,</span> <span class="py-param">dtype</span> <span class="py-op">=</span> <span class="py-name">None</span><span class="py-op">,</span> <span class="py-param">bias</span> <span class="py-op">=</span> <span class="py-name">False</span><span class="py-op">)</span><span class="py-op">:</span> </span>
+</div><div id="DelayCovarianceMatrix.__init__-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="DelayCovarianceMatrix.__init__-expanded"><span class="lineno">144</span>  <span class="py-line">        <span class="py-docstring">"""dt is the time delay. If dt==0, DelayCovarianceMatrix equals</span> </span>
+<span class="lineno">145</span>  <span class="py-line"><span class="py-docstring">        CovarianceMatrix. If dtype is not defined, it will be inherited from</span> </span>
+<span class="lineno">146</span>  <span class="py-line"><span class="py-docstring">        the first data bunch received by 'update'.</span> </span>
+<span class="lineno">147</span>  <span class="py-line"><span class="py-docstring">        All the matrices in this class are set up with the given dtype and</span> </span>
+<span class="lineno">148</span>  <span class="py-line"><span class="py-docstring">        no upcast is possible.</span> </span>
+<span class="lineno">149</span>  <span class="py-line"><span class="py-docstring">        If bias is True, the covariance matrix is normalized by dividing</span> </span>
+<span class="lineno">150</span>  <span class="py-line"><span class="py-docstring">        by T instead of the usual T-1.</span> </span>
+<span class="lineno">151</span>  <span class="py-line"><span class="py-docstring">        """</span> </span>
+<span class="lineno">152</span>  <span class="py-line"> </span>
+<span class="lineno">153</span>  <span class="py-line">        <span class="py-comment"># time delay</span> </span>
+<span class="lineno">154</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_dt</span> <span class="py-op">=</span> <span class="py-name">int</span><span class="py-op">(</span><span class="py-name">dt</span><span class="py-op">)</span> </span>
+<span class="lineno">155</span>  <span class="py-line"> </span>
+<span class="lineno">156</span>  <span class="py-line">        <span class="py-keyword">if</span> <a title="mdp.signal_node.Node.dtype" class="py-name" href="mdp.signal_node.Node-class.html#dtype">dtype</a> <span class="py-keyword">is</span> <span class="py-name">None</span><span class="py-op">:</span> </span>
+<span class="lineno">157</span>  <span class="py-line">            <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_dtype</span> <span class="py-op">=</span> <span class="py-name">None</span> </span>
+<span class="lineno">158</span>  <span class="py-line">        <span class="py-keyword">else</span><span class="py-op">:</span> </span>
+<span class="lineno">159</span>  <span class="py-line">            <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_dtype</span> <span class="py-op">=</span> <span class="py-name">numx</span><span class="py-op">.</span><a title="mdp.signal_node.Node.dtype" class="py-name" href="mdp.signal_node.Node-class.html#dtype">dtype</a><span class="py-op">(</span><a title="mdp.signal_node.Node.dtype" class="py-name" href="mdp.signal_node.Node-class.html#dtype">dtype</a><span class="py-op">)</span> </span>
+<span class="lineno">160</span>  <span class="py-line"> </span>
+<span class="lineno">161</span>  <span class="py-line">        <span class="py-comment"># clean up variables to spare on space</span> </span>
+<span class="lineno">162</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_cov_mtx</span> <span class="py-op">=</span> <span class="py-name">None</span> </span>
+<span class="lineno">163</span>  <span class="py-line">        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_avg</span> <span class="py-op">=</span> <span class="py-name">None</span> </span>
+<span class="lineno">164</span>  <span class="py-line">        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_avg_dt</span> <span class="py-op">=</span> <span class="py-name">None</span> </span>
+<span class="lineno">165</span>  <span class="py-line">        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_tlen</span> <span class="py-op">=</span> <span class="py-number">0</span> </span>
+<span class="lineno">166</span>  <span class="py-line"> </span>
+<span class="lineno">167</span>  <span class="py-line">        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">bias</span> <span class="py-op">=</span> <span class="py-name">bias</span> </span>
+</div><span class="lineno">168</span>  <span class="py-line"> </span>
+<a name="DelayCovarianceMatrix._init_internals"></a><div id="DelayCovarianceMatrix._init_internals-def"><span class="lineno">169</span> <a class="pysrc-toggle" href="#" id="DelayCovarianceMatrix._init_internals-toggle" onclick="toggle('DelayCovarianceMatrix._init_internals'); return false;">-</a><span class="py-line">    <span class="py-keyword">def</span> <a class="py-def-name" href="mdp.utils.covariance.DelayCovarianceMatrix-class.html#_init_internals">_init_internals</a><span class="py-op">(</span><span class="py-param">self</span><span class="py-op">,</span> <span class="py-param">x</span><span class="py-op">)</span><span class="py-op">:</span> </span>
+</div><div id="DelayCovarianceMatrix._init_internals-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="DelayCovarianceMatrix._init_internals-expanded"><span class="lineno">170</span>  <span class="py-line">        <span class="py-docstring">"""Inits some internals structures. The reason this is not done in</span> </span>
+<span class="lineno">171</span>  <span class="py-line"><span class="py-docstring">        the constructor is that we want to be able to derive the input</span> </span>
+<span class="lineno">172</span>  <span class="py-line"><span class="py-docstring">        dimension and the dtype directly from the data this class receives.</span> </span>
+<span class="lineno">173</span>  <span class="py-line"><span class="py-docstring">        """</span> </span>
+<span class="lineno">174</span>  <span class="py-line">         </span>
+<span class="lineno">175</span>  <span class="py-line">        <span class="py-comment"># init dtype</span> </span>
+<span class="lineno">176</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-keyword">if</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_dtype</span> <span class="py-keyword">is</span> <span class="py-name">None</span><span class="py-op">:</span> </span>
+<span class="lineno">177</span>  <span class="py-line">            <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_dtype</span> <span class="py-op">=</span> <span class="py-name">x</span><span class="py-op">.</span><a title="mdp.signal_node.Node.dtype" class="py-name" href="mdp.signal_node.Node-class.html#dtype">dtype</a> </span>
+<span class="lineno">178</span>  <span class="py-line">        <span class="py-name">dim</span> <span class="py-op">=</span> <span class="py-name">x</span><span class="py-op">.</span><span class="py-name">shape</span><span class="py-op">[</span><span class="py-number">1</span><span class="py-op">]</span> </span>
+<span class="lineno">179</span>  <span class="py-line">        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_input_dim</span> <span class="py-op">=</span> <span class="py-name">dim</span> </span>
+<span class="lineno">180</span>  <span class="py-line">        <span class="py-comment"># init covariance matrix</span> </span>
+<span class="lineno">181</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_cov_mtx</span> <span class="py-op">=</span> <span class="py-name">numx</span><span class="py-op">.</span><span class="py-name">zeros</span><span class="py-op">(</span><span class="py-op">(</span><span class="py-name">dim</span><span class="py-op">,</span><span class="py-name">dim</span><span class="py-op">)</span><span class="py-op">,</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_dtype</span><span class="py-op">)</span> </span>
+<span class="lineno">182</span>  <span class="py-line">        <span class="py-comment"># init averages</span> </span>
+<span class="lineno">183</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_avg</span> <span class="py-op">=</span> <span class="py-name">numx</span><span class="py-op">.</span><span class="py-name">zeros</span><span class="py-op">(</span><span class="py-name">dim</span><span class="py-op">,</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_dtype</span><span class="py-op">)</span> </span>
+<span class="lineno">184</span>  <span class="py-line">        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_avg_dt</span> <span class="py-op">=</span> <span class="py-name">numx</span><span class="py-op">.</span><span class="py-name">zeros</span><span class="py-op">(</span><span class="py-name">dim</span><span class="py-op">,</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_dtype</span><span class="py-op">)</span> </span>
+</div><span class="lineno">185</span>  <span class="py-line"> </span>
+<a name="DelayCovarianceMatrix.update"></a><div id="DelayCovarianceMatrix.update-def"><span class="lineno">186</span> <a class="pysrc-toggle" href="#" id="DelayCovarianceMatrix.update-toggle" onclick="toggle('DelayCovarianceMatrix.update'); return false;">-</a><span class="py-line">    <span class="py-keyword">def</span> <a class="py-def-name" href="mdp.utils.covariance.DelayCovarianceMatrix-class.html#update">update</a><span class="py-op">(</span><span class="py-param">self</span><span class="py-op">,</span> <span class="py-param">x</span><span class="py-op">)</span><span class="py-op">:</span> </span>
+</div><div id="DelayCovarianceMatrix.update-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="DelayCovarianceMatrix.update-expanded"><span class="lineno">187</span>  <span class="py-line">        <span class="py-keyword">if</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_cov_mtx</span> <span class="py-keyword">is</span> <span class="py-name">None</span><span class="py-op">:</span> </span>
+<span class="lineno">188</span>  <span class="py-line">            <span class="py-name">self</span><span class="py-op">.</span><span id="link-3" class="py-name"><a title="mdp.nodes.misc_nodes.EtaComputerNode._init_internals
+mdp.utils.covariance.CovarianceMatrix._init_internals
+mdp.utils.covariance.DelayCovarianceMatrix._init_internals" class="py-name" href="#" onclick="doclink('link-3', '_init_internals', 'Method mdp.nodes.misc_nodes.EtaComputerNode._init_internals()=mdp.nodes.misc_nodes.EtaComputerNode-class.html#_init_internals,Method mdp.utils.covariance.CovarianceMatrix._init_internals()=mdp.utils.covariance.CovarianceMatrix-class.html#_init_internals,Method mdp.utils.covariance.DelayCovarianceMatrix._init_internals()=mdp.utils.covariance.DelayCovarianceMatrix-class.html#_init_internals'); return false;">_init_internals</a></span></span><span class="py-op">(</span><span class="py-name">x</span><span class="py-op">)</span> </span>
+<span class="lineno">189</span>  <span class="py-line"> </span>
+<span class="lineno">190</span>  <span class="py-line">        <span class="py-comment"># cast input</span> </span>
+<span class="lineno">191</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">x</span> <span class="py-op">=</span> <a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a title="mdp.utils" class="py-name" href="mdp.utils-module.html">utils</a><span class="py-op">.</span><a title="mdp.utils.routines.refcast" class="py-name" href="mdp.utils.routines-module.html#refcast">refcast</a><span class="py-op">(</span><span class="py-name">x</span><span class="py-op">,</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_dtype</span><span class="py-op">)</span> </span>
+<span class="lineno">192</span>  <span class="py-line"> </span>
+<span class="lineno">193</span>  <span class="py-line">        <span class="py-name">dt</span> <span class="py-op">=</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_dt</span> </span>
+<span class="lineno">194</span>  <span class="py-line"> </span>
+<span class="lineno">195</span>  <span class="py-line">        <span class="py-comment"># the number of data points in each block should be at least dt+1</span> </span>
+<span class="lineno">196</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">tlen</span> <span class="py-op">=</span> <span class="py-name">x</span><span class="py-op">.</span><span class="py-name">shape</span><span class="py-op">[</span><span class="py-number">0</span><span class="py-op">]</span> </span>
+<span class="lineno">197</span>  <span class="py-line">        <span class="py-keyword">if</span> <span class="py-name">tlen</span> <span class="py-op">&lt;</span> <span class="py-op">(</span><span class="py-name">dt</span><span class="py-op">+</span><span class="py-number">1</span><span class="py-op">)</span><span class="py-op">:</span> </span>
+<span class="lineno">198</span>  <span class="py-line">            <span class="py-name">errstr</span> <span class="py-op">=</span> <span class="py-string">'Block length is %d, should be at least %d.'</span> <span class="py-op">%</span> <span class="py-op">(</span><span class="py-name">tlen</span><span class="py-op">,</span><span class="py-name">dt</span><span class="py-op">+</span><span class="py-number">1</span><span class="py-op">)</span> </span>
+<span class="lineno">199</span>  <span class="py-line">            <span class="py-keyword">raise</span> <a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><span class="py-name">MDPException</span><span class="py-op">,</span> <span class="py-name">errstr</span> </span>
+<span class="lineno">200</span>  <span class="py-line">         </span>
+<span class="lineno">201</span>  <span class="py-line">        <span class="py-comment"># update the covariance matrix, the average and the number of</span> </span>
+<span class="lineno">202</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-comment"># observations (try to do everything inplace)</span> </span>
+<span class="lineno">203</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_cov_mtx</span> <span class="py-op">+=</span> <a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a title="mdp.utils" class="py-name" href="mdp.utils-module.html">utils</a><span class="py-op">.</span><span id="link-4" class="py-name"><a title="mdp.nodes.ica_nodes.mult
+mdp.utils.mult" class="py-name" href="#" onclick="doclink('link-4', 'mult', 'Variable nodes.ica_nodes.mult=mdp.nodes.ica_nodes-module.html#mult,Variable mult=mdp.utils-module.html#mult'); return false;">mult</a></span></span><span class="py-op">(</span><span id="link-5" class="py-name"><a title="mdp.utils.covariance.tr
+mdp.utils.quad_forms.tr" class="py-name" href="#" onclick="doclink('link-5', 'tr', 'Variable tr=mdp.utils.covariance-module.html#tr,Variable quad_forms.tr=mdp.utils.quad_forms-module.html#tr'); return false;">tr</a></span></span><span class="py-op">(</span><span class="py-name">x</span><span class="py-op">[</span><span class="py-op">:</span><span class="py-name">tlen</span><span class="py-op">-</span><span class="py-name">dt</span><span class="py-op">,</span><span class="py-op">:</span><span class="py-op">]</span><span class="py-op">)</span><span class="py-op">,</span> <span class="py-name">x</span><span class="py-op">[</span><span class="py-name">dt</span><span class="py-op">:</span><span class="py-name">tlen</span><span class="py-op">,</span><span class="py-op">:</span><span class="py-op">]</span><span class="py-op">)</span> </span>
+<span class="lineno">204</span>  <span class="py-line">        <span class="py-name">totalsum</span> <span class="py-op">=</span> <span class="py-name">numx</span><span class="py-op">.</span><span class="py-name">sum</span><span class="py-op">(</span><span class="py-name">x</span><span class="py-op">,</span> <span class="py-number">0</span><span class="py-op">)</span> </span>
+<span class="lineno">205</span>  <span class="py-line">        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_avg</span> <span class="py-op">+=</span> <span class="py-name">totalsum</span> <span class="py-op">-</span> <span class="py-name">numx</span><span class="py-op">.</span><span class="py-name">sum</span><span class="py-op">(</span><span class="py-name">x</span><span class="py-op">[</span><span class="py-name">tlen</span><span class="py-op">-</span><span class="py-name">dt</span><span class="py-op">:</span><span class="py-op">,</span><span class="py-op">:</span><span class="py-op">]</span><span class="py-op">,</span> <span class="py-number">0</span><span class="py-op">)</span> </span>
+<span class="lineno">206</span>  <span class="py-line">        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_avg_dt</span> <span class="py-op">+=</span> <span class="py-name">totalsum</span> <span class="py-op">-</span> <span class="py-name">numx</span><span class="py-op">.</span><span class="py-name">sum</span><span class="py-op">(</span><span class="py-name">x</span><span class="py-op">[</span><span class="py-op">:</span><span class="py-name">dt</span><span class="py-op">,</span><span class="py-op">:</span><span class="py-op">]</span><span class="py-op">,</span> <span class="py-number">0</span><span class="py-op">)</span> </span>
+<span class="lineno">207</span>  <span class="py-line">        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_tlen</span> <span class="py-op">+=</span> <span class="py-name">tlen</span><span class="py-op">-</span><span class="py-name">dt</span> </span>
+</div><span class="lineno">208</span>  <span class="py-line"> </span>
+<a name="DelayCovarianceMatrix.fix"></a><div id="DelayCovarianceMatrix.fix-def"><span class="lineno">209</span> <a class="pysrc-toggle" href="#" id="DelayCovarianceMatrix.fix-toggle" onclick="toggle('DelayCovarianceMatrix.fix'); return false;">-</a><span class="py-line">    <span class="py-keyword">def</span> <a class="py-def-name" href="mdp.utils.covariance.DelayCovarianceMatrix-class.html#fix">fix</a><span class="py-op">(</span><span class="py-param">self</span><span class="py-op">,</span> <span class="py-param">A</span><span class="py-op">=</span><span class="py-name">None</span><span class="py-op">)</span><span class="py-op">:</span> </span>
+</div><div id="DelayCovarianceMatrix.fix-collapsed" style="display:none;" pad="+++" indent="++++++++"></div><div id="DelayCovarianceMatrix.fix-expanded"><span class="lineno">210</span>  <span class="py-line">        <span class="py-docstring">"""The collected data is adjusted to compute the covariance matrix of</span> </span>
+<span class="lineno">211</span>  <span class="py-line"><span class="py-docstring">        the signal x(1)...x(N-dt) and the delayed signal x(dt)...x(N),</span> </span>
+<span class="lineno">212</span>  <span class="py-line"><span class="py-docstring">        which is defined as &lt;(x(t)-&lt;x(t)&gt;)*(x(t+dt)-&lt;x(t+dt)&gt;)&gt; .</span> </span>
+<span class="lineno">213</span>  <span class="py-line"><span class="py-docstring">        The function returns a tuple containing the covariance matrix,</span> </span>
+<span class="lineno">214</span>  <span class="py-line"><span class="py-docstring">        the average &lt;x(t)&gt; over the first N-dt points, the average of the</span> </span>
+<span class="lineno">215</span>  <span class="py-line"><span class="py-docstring">        delayed signal &lt;x(t+dt)&gt; and the number of observations. The internal</span> </span>
+<span class="lineno">216</span>  <span class="py-line"><span class="py-docstring">        data is then reset to a zero-state.</span> </span>
+<span class="lineno">217</span>  <span class="py-line"><span class="py-docstring">        </span> </span>
+<span class="lineno">218</span>  <span class="py-line"><span class="py-docstring">        If A is defined, the covariance matrix is transformed by the linear</span> </span>
+<span class="lineno">219</span>  <span class="py-line"><span class="py-docstring">        transformation Ax . E.g. to whiten the data, A is the whitening matrix.</span> </span>
+<span class="lineno">220</span>  <span class="py-line"><span class="py-docstring">        """</span> </span>
+<span class="lineno">221</span>  <span class="py-line">         </span>
+<span class="lineno">222</span>  <span class="py-line">        <span class="py-comment"># local variables</span> </span>
+<span class="lineno">223</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">type</span> <span class="py-op">=</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_dtype</span> </span>
+<span class="lineno">224</span>  <span class="py-line">        <span class="py-name">tlen</span> <span class="py-op">=</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_tlen</span> </span>
+<span class="lineno">225</span>  <span class="py-line">        <a title="mdp.utils.covariance._check_roundoff" class="py-name" href="mdp.utils.covariance-module.html#_check_roundoff">_check_roundoff</a><span class="py-op">(</span><span class="py-name">tlen</span><span class="py-op">,</span> <span class="py-name">type</span><span class="py-op">)</span> </span>
+<span class="lineno">226</span>  <span class="py-line">        <span class="py-name">avg</span> <span class="py-op">=</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_avg</span> </span>
+<span class="lineno">227</span>  <span class="py-line">        <span class="py-name">avg_dt</span> <span class="py-op">=</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_avg_dt</span> </span>
+<span class="lineno">228</span>  <span class="py-line">        <span class="py-name">cov_mtx</span> <span class="py-op">=</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_cov_mtx</span> </span>
+<span class="lineno">229</span>  <span class="py-line"> </span>
+<span class="lineno">230</span>  <span class="py-line">        <span class="py-comment">##### fix the training variables</span> </span>
+<span class="lineno">231</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-comment"># fix the covariance matrix (try to do everything inplace)</span> </span>
+<span class="lineno">232</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">avg_mtx</span> <span class="py-op">=</span> <span class="py-name">numx</span><span class="py-op">.</span><span class="py-name">outer</span><span class="py-op">(</span><span class="py-name">avg</span><span class="py-op">,</span> <span class="py-name">avg_dt</span><span class="py-op">)</span> </span>
+<span class="lineno">233</span>  <span class="py-line">        <span class="py-name">avg_mtx</span> <span class="py-op">/=</span> <span class="py-name">tlen</span> </span>
+<span class="lineno">234</span>  <span class="py-line">                  </span>
+<span class="lineno">235</span>  <span class="py-line">        <span class="py-name">cov_mtx</span> <span class="py-op">-=</span> <span class="py-name">avg_mtx</span> </span>
+<span class="lineno">236</span>  <span class="py-line">        <span class="py-keyword">if</span> <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">bias</span><span class="py-op">:</span> </span>
+<span class="lineno">237</span>  <span class="py-line">            <span class="py-name">cov_mtx</span> <span class="py-op">/=</span> <span class="py-name">tlen</span> </span>
+<span class="lineno">238</span>  <span class="py-line">        <span class="py-keyword">else</span><span class="py-op">:</span> </span>
+<span class="lineno">239</span>  <span class="py-line">            <span class="py-name">cov_mtx</span> <span class="py-op">/=</span> <span class="py-name">tlen</span> <span class="py-op">-</span> <span class="py-number">1</span> </span>
+<span class="lineno">240</span>  <span class="py-line"> </span>
+<span class="lineno">241</span>  <span class="py-line">        <span class="py-keyword">if</span> <span class="py-name">A</span> <span class="py-keyword">is</span> <span class="py-keyword">not</span> <span class="py-name">None</span><span class="py-op">:</span> </span>
+<span class="lineno">242</span>  <span class="py-line">            <span class="py-name">cov_mtx</span> <span class="py-op">=</span> <a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a title="mdp.utils" class="py-name" href="mdp.utils-module.html">utils</a><span class="py-op">.</span><span id="link-6" class="py-name"><a title="mdp.nodes.ica_nodes.mult
+mdp.utils.mult" class="py-name" href="#" onclick="doclink('link-6', 'mult', 'Variable mdp.nodes.ica_nodes.mult=mdp.nodes.ica_nodes-module.html#mult,Variable mdp.utils.mult=mdp.utils-module.html#mult'); return false;">mult</a></span></span><span class="py-op">(</span><span class="py-name">A</span><span class="py-op">,</span> <a title="mdp" class="py-name" href="mdp-module.html">mdp</a><span class="py-op">.</span><a title="mdp.utils" class="py-name" href="mdp.utils-module.html">utils</a><span class="py-op">.</span><span id="link-7" class="py-name"><a title="mdp.nodes.ica_nodes.mult
+mdp.utils.mult" class="py-name" href="#" onclick="doclink('link-7', 'mult', 'Variable mdp.nodes.ica_nodes.mult=mdp.nodes.ica_nodes-module.html#mult,Variable mdp.utils.mult=mdp.utils-module.html#mult'); return false;">mult</a></span></span><span class="py-op">(</span><span class="py-name">cov_mtx</span><span class="py-op">,</span> <span id="link-8" class="py-name"><a title="mdp.utils.covariance.tr
+mdp.utils.quad_forms.tr" class="py-name" href="#" onclick="doclink('link-8', 'tr', 'Variable mdp.utils.covariance.tr=mdp.utils.covariance-module.html#tr,Variable mdp.utils.quad_forms.tr=mdp.utils.quad_forms-module.html#tr'); return false;">tr</a></span></span><span class="py-op">(</span><span class="py-name">A</span><span class="py-op">)</span><span class="py-op">)</span><span class="py-op">)</span> </span>
+<span class="lineno">243</span>  <span class="py-line">         </span>
+<span class="lineno">244</span>  <span class="py-line">        <span class="py-comment"># fix the average</span> </span>
+<span class="lineno">245</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">avg</span> <span class="py-op">/=</span> <span class="py-name">tlen</span> </span>
+<span class="lineno">246</span>  <span class="py-line">        <span class="py-name">avg_dt</span> <span class="py-op">/=</span> <span class="py-name">tlen</span> </span>
+<span class="lineno">247</span>  <span class="py-line"> </span>
+<span class="lineno">248</span>  <span class="py-line">        <span class="py-comment">##### clean up variables to spare on space</span> </span>
+<span class="lineno">249</span>  <span class="py-line"><span class="py-comment"></span>        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_cov_mtx</span> <span class="py-op">=</span> <span class="py-name">None</span> </span>
+<span class="lineno">250</span>  <span class="py-line">        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_avg</span> <span class="py-op">=</span> <span class="py-name">None</span> </span>
+<span class="lineno">251</span>  <span class="py-line">        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_avg_dt</span> <span class="py-op">=</span> <span class="py-name">None</span> </span>
+<span class="lineno">252</span>  <span class="py-line">        <span class="py-name">self</span><span class="py-op">.</span><span class="py-name">_tlen</span> <span class="py-op">=</span> <span class="py-number">0</span> </span>
+<span class="lineno">253</span>  <span class="py-line"> </span>
+<span class="lineno">254</span>  <span class="py-line">        <span class="py-keyword">return</span> <span class="py-name">cov_mtx</span><span class="py-op">,</span> <span class="py-name">avg</span><span class="py-op">,</span> <span class="py-name">avg_dt</span><span class="py-op">,</span> <span class="py-name">tlen</span> </span>
+</div></div><span class="lineno">255</span>  <span class="py-line"> </span><script type="text/javascript">
+<!--
+expandto(location.href);
+// -->
+</script>
+</pre>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="mdp-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="trees.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="indices.html">Index</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center">
+            <p class="nomargin">
+              <a class="navbar" target="_top" href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing MDP</a>
+      </p></th></tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">Generated by Epydoc
+        3.0alpha2 on Thu Jun 29 20:47:04 2006</td>
+    <td align="right" class="footer">
+      <a href="http://epydoc.sourceforge.net">http://epydoc.sf.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie()
+  // -->
+</script>
+  
+</body>
+</html>

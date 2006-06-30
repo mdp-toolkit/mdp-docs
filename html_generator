@@ -5,16 +5,12 @@ mkdir html
 mkdir html/docs
 mkdir html/docs/api
 # copy CHANGES to html
-cp LASTCHANGES html/CHANGES 
+cp ../mdp_dist/CHANGES html/CHANGES 
 # generate API documentation:
-echo 'Generating API documentation...'
-rm -rf mdp
-cp -r ../mdp .
-rm -rf mdp/demo
-rm -rf mdp/test
-#epydoc --html -o html/docs/api --name="Modular toolkit for Data Processing MDP" --url="http://mdp-toolkit.sourceforge.net" --graph=all --show-sourcecode --inheritance=grouped --docformat=plaintext ./mdp
-rm -rf mdp
-echo 'Done.'
+# echo 'Generating API documentation...'
+# ./api_generator
+cp -r API/docs html/
+# echo 'Done.'
 echo 'Generating tutorial HTML and PDF...'
 cd tutorial_src/
 ./genhtml

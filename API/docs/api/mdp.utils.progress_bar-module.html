@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="ascii"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>mdp.utils.progress_bar</title>
+  <link rel="stylesheet" href="epydoc.css" type="text/css" />
+  <script type="text/javascript" src="epydoc.js"></script>
+</head>
+
+<body bgcolor="white" text="black" link="blue" vlink="#204080"
+      alink="#204080">
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="mdp-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="trees.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="indices.html">Index</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center">
+            <p class="nomargin">
+              <a class="navbar" target="_top" href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing MDP</a>
+      </p></th></tr></table></th>
+  </tr>
+</table>
+<table width="100%" cellpadding="0" cellspacing="0">
+  <tr valign="top">
+    <td width="100%">
+      <span class="breadcrumbs">
+        <a href="mdp-module.html">Package&nbsp;mdp</a> ::
+        <a href="mdp.utils-module.html">Package&nbsp;utils</a> ::
+        Module&nbsp;progress_bar
+      </span>
+    </td>
+    <td>
+      <table cellpadding="0" cellspacing="0">
+        <!-- hide/show private -->
+        <tr><td align="right"><span class="options">[<a href="javascript: void(0);" class="privatelink"
+    onclick="toggle_private();">hide private</a>]</span></td></tr>
+        <tr><td align="right"><span class="options"
+            >[<a href="frames.html" target="_top">frames</a
+            >]&nbsp;|&nbsp;<a href="mdp.utils.progress_bar-module.html"
+            target="_top">no&nbsp;frames</a>]</span></td></tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<!-- ==================== MODULE DESCRIPTION ==================== -->
+<h2 class="module">Module progress_bar
+<br/><span class="codelink"><a href="mdp.utils.progress_bar-pysrc.html">source&nbsp;code</a></span></h2>
+<!-- ==================== FUNCTIONS ==================== -->
+<a name="section-Functions"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="summary">
+  <td colspan="2">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <th align="left" class="summary">Functions</th>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Functions"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.utils.progress_bar-module.html#get_termsize" class="sig-name">get_termsize</a>()</span>
+    
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.utils.progress_bar-module.html#fmt_time" class="sig-name">fmt_time</a>(<span class="sig-arg">t</span>,
+        <span class="sig-arg">delimiters</span>)</span>
+    
+  </td>
+</tr>
+<tr class="private">
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.utils.progress_bar-module.html#_progress" class="sig-name">_progress</a>(<span class="sig-arg">percent</span>,
+        <span class="sig-arg">last</span>,
+        <span class="sig-arg">style</span>,
+        <span class="sig-arg">layout</span>)</span>
+    
+  </td>
+</tr>
+<tr>
+  <td width="15%" align="right" valign="top" class="rtype">
+    &nbsp;
+   </td>
+  <td>
+    <span class="sig"><a href="mdp.utils.progress_bar-module.html#progressinfo" class="sig-name">progressinfo</a>(<span class="sig-arg">sequence</span>,
+        <span class="sig-arg">length</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">style</span>=<span class="sig-default">'bar'</span>,
+        <span class="sig-arg">custom</span>=<span class="sig-default">{}</span>)</span>
+    <br />A fully configurable text-mode progress info box.
+  </td>
+</tr>
+</table>
+
+<br />
+<!-- ==================== VARIABLES ==================== -->
+<a name="section-Variables"></a>
+<table class="summary" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="summary">
+  <td colspan="2">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <th align="left" class="summary">Variables</th>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-Variables"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+<tr>
+  <td width="15%">
+    <strong><a href="mdp.utils.progress_bar-module.html#inp_list">inp_list</a></strong></td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td width="15%">
+    <strong><a href="mdp.utils.progress_bar-module.html#string">string</a></strong></td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td width="15%">
+    <strong><a href="mdp.utils.progress_bar-module.html#cust_list">cust_list</a></strong></td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td width="15%">
+    <strong><a href="mdp.utils.progress_bar-module.html#fl">fl</a></strong></td>
+  <td>&nbsp;</td>
+</tr>
+<tr>
+  <td width="15%">
+    <strong><a href="mdp.utils.progress_bar-module.html#lines">lines</a></strong></td>
+  <td>&nbsp;</td>
+</tr>
+</table>
+
+<br />
+<!-- ==================== FUNCTION DETAILS ==================== -->
+<a name="section-FunctionDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="details">
+  <td colspan="2">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <th align="left" class="details">Function Details</th>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-FunctionDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="get_termsize"></a>
+<div>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">get_termsize</span>()</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.utils.progress_bar-pysrc.html#get_termsize">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  
+  <dl><dt></dt><dd>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="fmt_time"></a>
+<div>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">fmt_time</span>(<span class="sig-arg">t</span>,
+        <span class="sig-arg">delimiters</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.utils.progress_bar-pysrc.html#fmt_time">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  
+  <dl><dt></dt><dd>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="_progress"></a>
+<div class="private">
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">_progress</span>(<span class="sig-arg">percent</span>,
+        <span class="sig-arg">last</span>,
+        <span class="sig-arg">style</span>,
+        <span class="sig-arg">layout</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.utils.progress_bar-pysrc.html#_progress">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  
+  <dl><dt></dt><dd>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="progressinfo"></a>
+<div>
+<table width="100%" class="func-details" bgcolor="#e0e0e0"><tr><td>
+  <table width="100%" cellpadding="0" cellspacing="0" border="0">
+  <tr valign="top"><td>
+  <h3><span class="sig"><span class="sig-name">progressinfo</span>(<span class="sig-arg">sequence</span>,
+        <span class="sig-arg">length</span>=<span class="sig-default">None</span>,
+        <span class="sig-arg">style</span>=<span class="sig-default">'bar'</span>,
+        <span class="sig-arg">custom</span>=<span class="sig-default">{}</span>)</span>
+  </h3>
+  </td><td align="right" valign="top"
+    ><span class="codelink"><a href="mdp.utils.progress_bar-pysrc.html#progressinfo">source&nbsp;code</a></span>&nbsp;</span
+    ></td>
+  </table>
+  
+  <pre class="literalblock">
+A fully configurable text-mode progress info box.
+  To get a progress info box for your loops use it like this:
+
+     &gt;&gt;&gt; for i in progressinfo(sequence):
+     ...     do_something(i)
+
+ You can also use it with generators, files or any other iterable object,
+ but in this case you have to specify the total length of the sequence:
+
+     &gt;&gt;&gt; for line in progressinfo(open_file, nlines):
+     ...     do_something(line)
+     
+  
+Arguments:
+
+sequence    - if it is a Python container object (list,
+              dict, string, etc...) and it supports the
+              __len__ method call, the length argument can
+              be omitted. If it is an iterator (generators,
+              file objects, etc...) the length argument must
+              be specified. 
+
+Keyword arguments:
+
+length     - length of the sequence. Automatically set
+             if `sequence' has the __len__ method.
+
+style      - If style == 'bar', display a progress bar. The
+             default layout is:
+             
+             [===========60%===&gt;.........]
+
+             If style == 'timer', display a time elapsed / time
+             remaining info box. The default layout is:
+
+             23% [02:01:28] - [00:12:37]
+
+             where fields have the following meaning:
+  
+             percent_done% [time_elapsed] - [time_remaining]
+
+custom     - a dictionary for customizing the layout.
+             Default layout for the 'bar' style:
+              custom = { 'indent': '',
+                         'width' : terminal_width - 1,
+                         'position' : 'middle',
+                         'delimiters' : '[]',
+                         'char1' : '=',
+                         'char2' : '&gt;',
+                         'char3' : '.' }
+
+
+             Default layout for the 'timer' style:
+              custom = { 'indent': '',
+                         'position' : 'left',
+                         'delimiters' : '[]',
+                         'separator' : ' - ' }
+
+             Description:
+               indent = string used for indenting the progress info box
+               position = position of the percent done string,
+                          must be one out of ['left', 'middle', 'right']
+   
+
+Note 1: by default sys.stdout is flushed each time a new box is drawn.
+        If you need to rely on buffered stdout you'd better not use this
+        (any?) progress info box.
+Note 2: progressinfo slows down your loops. Always profile your scripts
+        and check that you are not wasting 99% of the time in drawing
+        the progress info box.
+
+</pre>
+  <dl><dt></dt><dd>
+  </dd></dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== VARIABLES DETAILS ==================== -->
+<a name="section-VariablesDetails"></a>
+<table class="details" border="1" cellpadding="3"
+       cellspacing="0" width="100%" bgcolor="white">
+<tr bgcolor="#70b0f0" class="details">
+  <td colspan="2">
+    <table border="0" cellpadding="0" cellspacing="0" width="100%">
+      <tr valign="top">
+        <th align="left" class="details">Variables Details</th>
+        <td align="right" valign="top"
+         ><span class="options">[<a href="#section-VariablesDetails"
+         class="privatelink" onclick="toggle_private();"
+         >hide private</a>]</span></td>
+      </tr>
+    </table>
+  </td>
+</tr>
+</table>
+<a name="inp_list"></a>
+<div>
+<table width="100%" class="var-details" bgcolor="#e0e0e0"><tr><td>
+  <h3>inp_list</h3>
+  
+  <dl><dt></dt><dd>
+    <dl title="[]"><dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+[]                                                                     
+      </pre></td></tr></table></dd>
+    </dl>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="string"></a>
+<div>
+<table width="100%" class="var-details" bgcolor="#e0e0e0"><tr><td>
+  <h3>string</h3>
+  
+  <dl><dt></dt><dd>
+    <dl title="''.join(inp_list)"><dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+''.join(inp_list)                                                      
+      </pre></td></tr></table></dd>
+    </dl>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="cust_list"></a>
+<div>
+<table width="100%" class="var-details" bgcolor="#e0e0e0"><tr><td>
+  <h3>cust_list</h3>
+  
+  <dl><dt></dt><dd>
+    <dl title="[{'position':'left','separator':' | ','delimiters':'()'}, {'position':'right'}]"><dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+[{'position':'left','separator':' | ','delimiters':'()'}, {'position':<span class="variable-linewrap">\</span>
+'right'}]                                                              
+      </pre></td></tr></table></dd>
+    </dl>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="fl"></a>
+<div>
+<table width="100%" class="var-details" bgcolor="#e0e0e0"><tr><td>
+  <h3>fl</h3>
+  
+  <dl><dt></dt><dd>
+    <dl title="tempfile.TemporaryFile(mode='r+')"><dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+tempfile.TemporaryFile(mode='r+')                                      
+      </pre></td></tr></table></dd>
+    </dl>
+  </dd></dl>
+</td></tr></table>
+</div>
+<a name="lines"></a>
+<div>
+<table width="100%" class="var-details" bgcolor="#e0e0e0"><tr><td>
+  <h3>lines</h3>
+  
+  <dl><dt></dt><dd>
+    <dl title="[]"><dt>Value:</dt>
+      <dd><table><tr><td><pre class="variable">
+[]                                                                     
+      </pre></td></tr></table></dd>
+    </dl>
+  </dd></dl>
+</td></tr></table>
+</div>
+<br />
+<!-- ==================== NAVIGATION BAR ==================== -->
+<table class="navbar" border="0" width="100%" cellpadding="0"
+       bgcolor="#a0c0ff" cellspacing="0">
+  <tr valign="middle">
+  <!-- Home link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="mdp-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Tree link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="trees.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Index link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="indices.html">Index</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Help link -->
+      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+        href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
+
+  <!-- Project homepage -->
+      <th class="navbar" align="right" width="100%">
+        <table border="0" cellpadding="0" cellspacing="0">
+          <tr><th class="navbar" align="center">
+            <p class="nomargin">
+              <a class="navbar" target="_top" href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing MDP</a>
+      </p></th></tr></table></th>
+  </tr>
+</table>
+<table border="0" cellpadding="0" cellspacing="0" width="100%%">
+  <tr>
+    <td align="left" class="footer">Generated by Epydoc
+        3.0alpha2 on Thu Jun 29 20:45:45 2006</td>
+    <td align="right" class="footer">
+      <a href="http://epydoc.sourceforge.net">http://epydoc.sf.net</a>
+    </td>
+  </tr>
+</table>
+
+<script type="text/javascript">
+  <!--
+  // Private objects are initially displayed (because if
+  // javascript is turned off then we want them to be
+  // visible); but by default, we want to hide them.  So hide
+  // them unless we have a cookie that says to show them.
+  checkCookie()
+  // -->
+</script>
+  
+</body>
+</html>
