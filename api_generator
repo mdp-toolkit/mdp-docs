@@ -1,6 +1,8 @@
 #!/bin/bash
 rm -rf API
 mkdir API
+mkdir API/docs
+mkdir API/docs/api
 rm -rf mdp
 cp -r ../mdp .
 rm -rf mdp/demo
