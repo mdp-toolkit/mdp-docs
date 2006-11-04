@@ -15,28 +15,27 @@
        bgcolor="#a0c0ff" cellspacing="0">
   <tr valign="middle">
   <!-- Home link -->
-      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+      <th>&nbsp;&nbsp;&nbsp;<a
         href="mdp-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Tree link -->
-      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
-        href="trees.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Index link -->
-      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
-        href="indices.html">Index</a>&nbsp;&nbsp;&nbsp;</th>
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Help link -->
-      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+      <th>&nbsp;&nbsp;&nbsp;<a
         href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Project homepage -->
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
-          <tr><th class="navbar" align="center">
-            <p class="nomargin">
-              <a class="navbar" target="_top" href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing MDP</a>
-      </p></th></tr></table></th>
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing MDP</a></th>
+          </tr></table></th>
   </tr>
 </table>
 <table width="100%" cellpadding="0" cellspacing="0">
@@ -60,61 +59,75 @@
     </td>
   </tr>
 </table>
-<h2 class="py-src">Source Code for <a href="mdp.nodes-module.html">Package mdp.nodes</a></h2>
-<div class="py-src">
+<h1 class="epydoc">Source Code for <a href="mdp.nodes-module.html">Package mdp.nodes</a></h1>
 <pre class="py-src">
-<span class="lineno"> 1</span>  <span class="py-line"><span class="py-keyword">from</span> <a class="py-name" href="mdp.nodes.expansion_nodes-module.html">expansion_nodes</a> <span class="py-keyword">import</span> <a class="py-name" href="mdp.nodes.expansion_nodes.QuadraticExpansionNode-class.html">QuadraticExpansionNode</a><span class="py-op">,</span> <a class="py-name" href="mdp.nodes.expansion_nodes.PolynomialExpansionNode-class.html">PolynomialExpansionNode</a> </span>
-<span class="lineno"> 2</span>  <span class="py-line"><span class="py-keyword">from</span> <a class="py-name" href="mdp.nodes.pca_nodes-module.html">pca_nodes</a> <span class="py-keyword">import</span> <a class="py-name" href="mdp.nodes.pca_nodes.WhiteningNode-class.html">WhiteningNode</a><span class="py-op">,</span> <a class="py-name" href="mdp.nodes.pca_nodes.PCANode-class.html">PCANode</a> </span>
-<span class="lineno"> 3</span>  <span class="py-line"><span class="py-keyword">from</span> <a class="py-name" href="mdp.nodes.sfa_nodes-module.html">sfa_nodes</a> <span class="py-keyword">import</span> <a class="py-name" href="mdp.nodes.sfa_nodes.SFANode-class.html">SFANode</a><span class="py-op">,</span> <a class="py-name" href="mdp.nodes.sfa_nodes.SFA2Node-class.html">SFA2Node</a> </span>
-<span class="lineno"> 4</span>  <span class="py-line"><span class="py-keyword">from</span> <a class="py-name" href="mdp.nodes.ica_nodes-module.html">ica_nodes</a> <span class="py-keyword">import</span> <a class="py-name" href="mdp.nodes.ica_nodes.ICANode-class.html">ICANode</a><span class="py-op">,</span><a class="py-name" href="mdp.nodes.ica_nodes.CuBICANode-class.html">CuBICANode</a><span class="py-op">,</span><a class="py-name" href="mdp.nodes.ica_nodes.FastICANode-class.html">FastICANode</a> </span>
-<span class="lineno"> 5</span>  <span class="py-line"><span class="py-keyword">from</span> <a class="py-name" href="mdp.nodes.neural_gas_nodes-module.html">neural_gas_nodes</a> <span class="py-keyword">import</span> <a class="py-name" href="mdp.nodes.neural_gas_nodes.GrowingNeuralGasNode-class.html">GrowingNeuralGasNode</a> </span>
-<span class="lineno"> 6</span>  <span class="py-line"><span class="py-keyword">from</span> <a class="py-name" href="mdp.nodes.fda_nodes-module.html">fda_nodes</a> <span class="py-keyword">import</span> <a class="py-name" href="mdp.nodes.fda_nodes.FDANode-class.html">FDANode</a> </span>
-<span class="lineno"> 7</span>  <span class="py-line"><span class="py-keyword">from</span> <a class="py-name" href="mdp.nodes.em_nodes-module.html">em_nodes</a> <span class="py-keyword">import</span> <a class="py-name" href="mdp.nodes.em_nodes.FANode-class.html">FANode</a> </span>
-<span class="lineno"> 8</span>  <span class="py-line"><span class="py-keyword">from</span> <a class="py-name" href="mdp.nodes.misc_nodes-module.html">misc_nodes</a> <span class="py-keyword">import</span> <a class="py-name" href="mdp.nodes.misc_nodes.HitParadeNode-class.html">HitParadeNode</a><span class="py-op">,</span> <a class="py-name" href="mdp.nodes.misc_nodes.TimeFramesNode-class.html">TimeFramesNode</a><span class="py-op">,</span> <a class="py-name" href="mdp.nodes.misc_nodes.EtaComputerNode-class.html">EtaComputerNode</a><span class="py-op">,</span> \ </span>
-<span class="lineno"> 9</span>  <span class="py-line">     <a class="py-name" href="mdp.nodes.misc_nodes.NoiseNode-class.html">NoiseNode</a><span class="py-op">,</span> <a class="py-name" href="mdp.nodes.misc_nodes.GaussianClassifierNode-class.html">GaussianClassifierNode</a> </span>
-<span class="lineno">10</span>  <span class="py-line"> </span><script type="text/javascript">
+<span class="py-lineno"> 1</span>  <span class="py-line"><span class="py-keyword">from</span> <span id="link-0" class="py-name"><a title="mdp.nodes.expansion_nodes" class="py-name" href="#" onclick="doclink('link-0', 'expansion_nodes', 'Module mdp.nodes.expansion_nodes=mdp.nodes.expansion_nodes-module.html'); return false;">expansion_nodes</a></span></span> <span class="py-keyword">import</span> <span id="link-1" class="py-name"><a title="mdp.nodes.expansion_nodes.QuadraticExpansionNode" class="py-name" href="#" onclick="doclink('link-1', 'QuadraticExpansionNode', 'Class mdp.nodes.expansion_nodes.QuadraticExpansionNode=mdp.nodes.expansion_nodes.QuadraticExpansionNode-class.html'); return false;">QuadraticExpansionNode</a></span></span><span class="py-op">,</span> <span id="link-2" class="py-name"><a title="mdp.nodes.expansion_nodes.PolynomialExpansionNode" class="py-name" href="#" onclick="doclink('link-2', 'PolynomialExpansionNode', 'Class mdp.nodes.expansion_nodes.PolynomialExpansionNode=mdp.nodes.expansion_nodes.PolynomialExpansionNode-class.html'); return false;">PolynomialExpansionNode</a></span></span> </span>
+<span class="py-lineno"> 2</span>  <span class="py-line"><span class="py-keyword">from</span> <span id="link-3" class="py-name"><a title="mdp.nodes.pca_nodes" class="py-name" href="#" onclick="doclink('link-3', 'pca_nodes', 'Module mdp.nodes.pca_nodes=mdp.nodes.pca_nodes-module.html'); return false;">pca_nodes</a></span></span> <span class="py-keyword">import</span> <span id="link-4" class="py-name"><a title="mdp.nodes.pca_nodes.WhiteningNode" class="py-name" href="#" onclick="doclink('link-4', 'WhiteningNode', 'Class mdp.nodes.pca_nodes.WhiteningNode=mdp.nodes.pca_nodes.WhiteningNode-class.html'); return false;">WhiteningNode</a></span></span><span class="py-op">,</span> <span id="link-5" class="py-name"><a title="mdp.nodes.pca_nodes.PCANode" class="py-name" href="#" onclick="doclink('link-5', 'PCANode', 'Class mdp.nodes.pca_nodes.PCANode=mdp.nodes.pca_nodes.PCANode-class.html'); return false;">PCANode</a></span></span> </span>
+<span class="py-lineno"> 3</span>  <span class="py-line"><span class="py-keyword">from</span> <span id="link-6" class="py-name"><a title="mdp.nodes.sfa_nodes" class="py-name" href="#" onclick="doclink('link-6', 'sfa_nodes', 'Module mdp.nodes.sfa_nodes=mdp.nodes.sfa_nodes-module.html'); return false;">sfa_nodes</a></span></span> <span class="py-keyword">import</span> <span id="link-7" class="py-name"><a title="mdp.nodes.sfa_nodes.SFANode" class="py-name" href="#" onclick="doclink('link-7', 'SFANode', 'Class mdp.nodes.sfa_nodes.SFANode=mdp.nodes.sfa_nodes.SFANode-class.html'); return false;">SFANode</a></span></span><span class="py-op">,</span> <span id="link-8" class="py-name"><a title="mdp.nodes.sfa_nodes.SFA2Node" class="py-name" href="#" onclick="doclink('link-8', 'SFA2Node', 'Class mdp.nodes.sfa_nodes.SFA2Node=mdp.nodes.sfa_nodes.SFA2Node-class.html'); return false;">SFA2Node</a></span></span> </span>
+<span class="py-lineno"> 4</span>  <span class="py-line"><span class="py-keyword">from</span> <span id="link-9" class="py-name"><a title="mdp.nodes.ica_nodes" class="py-name" href="#" onclick="doclink('link-9', 'ica_nodes', 'Module mdp.nodes.ica_nodes=mdp.nodes.ica_nodes-module.html'); return false;">ica_nodes</a></span></span> <span class="py-keyword">import</span> <span id="link-10" class="py-name"><a title="mdp.nodes.ica_nodes.ICANode" class="py-name" href="#" onclick="doclink('link-10', 'ICANode', 'Class mdp.nodes.ica_nodes.ICANode=mdp.nodes.ica_nodes.ICANode-class.html'); return false;">ICANode</a></span></span><span class="py-op">,</span><span id="link-11" class="py-name"><a title="mdp.nodes.ica_nodes.CuBICANode" class="py-name" href="#" onclick="doclink('link-11', 'CuBICANode', 'Class mdp.nodes.ica_nodes.CuBICANode=mdp.nodes.ica_nodes.CuBICANode-class.html'); return false;">CuBICANode</a></span></span><span class="py-op">,</span><span id="link-12" class="py-name"><a title="mdp.nodes.ica_nodes.FastICANode" class="py-name" href="#" onclick="doclink('link-12', 'FastICANode', 'Class mdp.nodes.ica_nodes.FastICANode=mdp.nodes.ica_nodes.FastICANode-class.html'); return false;">FastICANode</a></span></span> </span>
+<span class="py-lineno"> 5</span>  <span class="py-line"><span class="py-keyword">from</span> <span id="link-13" class="py-name"><a title="mdp.nodes.neural_gas_nodes" class="py-name" href="#" onclick="doclink('link-13', 'neural_gas_nodes', 'Module mdp.nodes.neural_gas_nodes=mdp.nodes.neural_gas_nodes-module.html'); return false;">neural_gas_nodes</a></span></span> <span class="py-keyword">import</span> <span id="link-14" class="py-name"><a title="mdp.nodes.neural_gas_nodes.GrowingNeuralGasNode" class="py-name" href="#" onclick="doclink('link-14', 'GrowingNeuralGasNode', 'Class mdp.nodes.neural_gas_nodes.GrowingNeuralGasNode=mdp.nodes.neural_gas_nodes.GrowingNeuralGasNode-class.html'); return false;">GrowingNeuralGasNode</a></span></span> </span>
+<span class="py-lineno"> 6</span>  <span class="py-line"><span class="py-keyword">from</span> <span id="link-15" class="py-name"><a title="mdp.nodes.fda_nodes" class="py-name" href="#" onclick="doclink('link-15', 'fda_nodes', 'Module mdp.nodes.fda_nodes=mdp.nodes.fda_nodes-module.html'); return false;">fda_nodes</a></span></span> <span class="py-keyword">import</span> <span id="link-16" class="py-name"><a title="mdp.nodes.fda_nodes.FDANode" class="py-name" href="#" onclick="doclink('link-16', 'FDANode', 'Class mdp.nodes.fda_nodes.FDANode=mdp.nodes.fda_nodes.FDANode-class.html'); return false;">FDANode</a></span></span> </span>
+<span class="py-lineno"> 7</span>  <span class="py-line"><span class="py-keyword">from</span> <span id="link-17" class="py-name"><a title="mdp.nodes.em_nodes" class="py-name" href="#" onclick="doclink('link-17', 'em_nodes', 'Module mdp.nodes.em_nodes=mdp.nodes.em_nodes-module.html'); return false;">em_nodes</a></span></span> <span class="py-keyword">import</span> <span id="link-18" class="py-name"><a title="mdp.nodes.em_nodes.FANode" class="py-name" href="#" onclick="doclink('link-18', 'FANode', 'Class mdp.nodes.em_nodes.FANode=mdp.nodes.em_nodes.FANode-class.html'); return false;">FANode</a></span></span> </span>
+<span class="py-lineno"> 8</span>  <span class="py-line"><span class="py-keyword">from</span> <span id="link-19" class="py-name"><a title="mdp.nodes.misc_nodes" class="py-name" href="#" onclick="doclink('link-19', 'misc_nodes', 'Module mdp.nodes.misc_nodes=mdp.nodes.misc_nodes-module.html'); return false;">misc_nodes</a></span></span> <span class="py-keyword">import</span> <span id="link-20" class="py-name"><a title="mdp.nodes.misc_nodes.HitParadeNode" class="py-name" href="#" onclick="doclink('link-20', 'HitParadeNode', 'Class mdp.nodes.misc_nodes.HitParadeNode=mdp.nodes.misc_nodes.HitParadeNode-class.html'); return false;">HitParadeNode</a></span></span><span class="py-op">,</span> <span id="link-21" class="py-name"><a title="mdp.nodes.misc_nodes.TimeFramesNode" class="py-name" href="#" onclick="doclink('link-21', 'TimeFramesNode', 'Class mdp.nodes.misc_nodes.TimeFramesNode=mdp.nodes.misc_nodes.TimeFramesNode-class.html'); return false;">TimeFramesNode</a></span></span><span class="py-op">,</span> <span id="link-22" class="py-name"><a title="mdp.nodes.misc_nodes.EtaComputerNode" class="py-name" href="#" onclick="doclink('link-22', 'EtaComputerNode', 'Class mdp.nodes.misc_nodes.EtaComputerNode=mdp.nodes.misc_nodes.EtaComputerNode-class.html'); return false;">EtaComputerNode</a></span></span><span class="py-op">,</span> \ </span>
+<span class="py-lineno"> 9</span>  <span class="py-line">     <span id="link-23" class="py-name"><a title="mdp.nodes.misc_nodes.NoiseNode" class="py-name" href="#" onclick="doclink('link-23', 'NoiseNode', 'Class mdp.nodes.misc_nodes.NoiseNode=mdp.nodes.misc_nodes.NoiseNode-class.html'); return false;">NoiseNode</a></span></span><span class="py-op">,</span> <span id="link-24" class="py-name"><a title="mdp.nodes.misc_nodes.GaussianClassifierNode" class="py-name" href="#" onclick="doclink('link-24', 'GaussianClassifierNode', 'Class mdp.nodes.misc_nodes.GaussianClassifierNode=mdp.nodes.misc_nodes.GaussianClassifierNode-class.html'); return false;">GaussianClassifierNode</a></span></span> </span>
+<span class="py-lineno">10</span>  <span class="py-line"> </span>
+<span class="py-lineno">11</span>  <span class="py-line"><span class="py-comment"># import internals for use in test_suites</span> </span>
+<span class="py-lineno">12</span>  <span class="py-line"><span class="py-comment"></span><span class="py-keyword">from</span> <span id="link-25" class="py-name"><a title="mdp.nodes.misc_nodes" class="py-name" href="#" onclick="doclink('link-25', 'misc_nodes', 'Module mdp.nodes.misc_nodes=mdp.nodes.misc_nodes-module.html'); return false;">misc_nodes</a></span></span> <span class="py-keyword">import</span> <span id="link-26" class="py-name"><a title="mdp.nodes.misc_nodes.OneDimensionalHitParade" class="py-name" href="#" onclick="doclink('link-26', 'OneDimensionalHitParade', 'Class mdp.nodes.misc_nodes.OneDimensionalHitParade=mdp.nodes.misc_nodes.OneDimensionalHitParade-class.html'); return false;">OneDimensionalHitParade</a></span></span> <span class="py-name">as</span> <span class="py-name">_OneDimensionalHitParade</span> </span>
+<span class="py-lineno">13</span>  <span class="py-line"><span class="py-keyword">from</span> <span id="link-27" class="py-name"><a title="mdp.nodes.expansion_nodes" class="py-name" href="#" onclick="doclink('link-27', 'expansion_nodes', 'Module mdp.nodes.expansion_nodes=mdp.nodes.expansion_nodes-module.html'); return false;">expansion_nodes</a></span></span> <span class="py-keyword">import</span> <span id="link-28" class="py-name"><a title="mdp.nodes.expansion_nodes.PolynomialExpansionNode.expanded_dim
+mdp.nodes.expansion_nodes._ExpansionNode.expanded_dim
+mdp.nodes.expansion_nodes.expanded_dim" class="py-name" href="#" onclick="doclink('link-28', 'expanded_dim', 'Method mdp.nodes.expansion_nodes.PolynomialExpansionNode.expanded_dim()=mdp.nodes.expansion_nodes.PolynomialExpansionNode-class.html#expanded_dim,Method mdp.nodes.expansion_nodes._ExpansionNode.expanded_dim()=mdp.nodes.expansion_nodes._ExpansionNode-class.html#expanded_dim,Function mdp.nodes.expansion_nodes.expanded_dim()=mdp.nodes.expansion_nodes-module.html#expanded_dim'); return false;">expanded_dim</a></span></span> <span class="py-name">as</span> <span class="py-name">_expanded_dim</span> </span>
+<span class="py-lineno">14</span>  <span class="py-line"> </span>
+<span class="py-lineno">15</span>  <span class="py-line"> </span>
+<span class="py-lineno">16</span>  <span class="py-line"><span class="py-comment"># clean up namespace</span> </span>
+<span class="py-lineno">17</span>  <span class="py-line"><span class="py-comment"></span><span class="py-keyword">del</span> <span id="link-29" class="py-name"><a title="mdp.nodes.expansion_nodes" class="py-name" href="#" onclick="doclink('link-29', 'expansion_nodes', 'Module mdp.nodes.expansion_nodes=mdp.nodes.expansion_nodes-module.html'); return false;">expansion_nodes</a></span></span> </span>
+<span class="py-lineno">18</span>  <span class="py-line"><span class="py-keyword">del</span> <span id="link-30" class="py-name"><a title="mdp.nodes.pca_nodes" class="py-name" href="#" onclick="doclink('link-30', 'pca_nodes', 'Module mdp.nodes.pca_nodes=mdp.nodes.pca_nodes-module.html'); return false;">pca_nodes</a></span></span> </span>
+<span class="py-lineno">19</span>  <span class="py-line"><span class="py-keyword">del</span> <span id="link-31" class="py-name"><a title="mdp.nodes.sfa_nodes" class="py-name" href="#" onclick="doclink('link-31', 'sfa_nodes', 'Module mdp.nodes.sfa_nodes=mdp.nodes.sfa_nodes-module.html'); return false;">sfa_nodes</a></span></span> </span>
+<span class="py-lineno">20</span>  <span class="py-line"><span class="py-keyword">del</span> <span id="link-32" class="py-name"><a title="mdp.nodes.ica_nodes" class="py-name" href="#" onclick="doclink('link-32', 'ica_nodes', 'Module mdp.nodes.ica_nodes=mdp.nodes.ica_nodes-module.html'); return false;">ica_nodes</a></span></span> </span>
+<span class="py-lineno">21</span>  <span class="py-line"><span class="py-keyword">del</span> <span id="link-33" class="py-name"><a title="mdp.nodes.neural_gas_nodes" class="py-name" href="#" onclick="doclink('link-33', 'neural_gas_nodes', 'Module mdp.nodes.neural_gas_nodes=mdp.nodes.neural_gas_nodes-module.html'); return false;">neural_gas_nodes</a></span></span> </span>
+<span class="py-lineno">22</span>  <span class="py-line"><span class="py-keyword">del</span> <span id="link-34" class="py-name"><a title="mdp.nodes.fda_nodes" class="py-name" href="#" onclick="doclink('link-34', 'fda_nodes', 'Module mdp.nodes.fda_nodes=mdp.nodes.fda_nodes-module.html'); return false;">fda_nodes</a></span></span> </span>
+<span class="py-lineno">23</span>  <span class="py-line"><span class="py-keyword">del</span> <span id="link-35" class="py-name"><a title="mdp.nodes.em_nodes" class="py-name" href="#" onclick="doclink('link-35', 'em_nodes', 'Module mdp.nodes.em_nodes=mdp.nodes.em_nodes-module.html'); return false;">em_nodes</a></span></span> </span>
+<span class="py-lineno">24</span>  <span class="py-line"><span class="py-keyword">del</span> <span id="link-36" class="py-name"><a title="mdp.nodes.misc_nodes" class="py-name" href="#" onclick="doclink('link-36', 'misc_nodes', 'Module mdp.nodes.misc_nodes=mdp.nodes.misc_nodes-module.html'); return false;">misc_nodes</a></span></span> </span>
+<span class="py-lineno">25</span>  <span class="py-line"> </span><script type="text/javascript">
 <!--
 expandto(location.href);
 // -->
 </script>
 </pre>
-</div>
 <br />
 <!-- ==================== NAVIGATION BAR ==================== -->
 <table class="navbar" border="0" width="100%" cellpadding="0"
        bgcolor="#a0c0ff" cellspacing="0">
   <tr valign="middle">
   <!-- Home link -->
-      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+      <th>&nbsp;&nbsp;&nbsp;<a
         href="mdp-module.html">Home</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Tree link -->
-      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
-        href="trees.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="module-tree.html">Trees</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Index link -->
-      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
-        href="indices.html">Index</a>&nbsp;&nbsp;&nbsp;</th>
+      <th>&nbsp;&nbsp;&nbsp;<a
+        href="identifier-index.html">Indices</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Help link -->
-      <th class="navbar">&nbsp;&nbsp;&nbsp;<a class="navbar"
+      <th>&nbsp;&nbsp;&nbsp;<a
         href="help.html">Help</a>&nbsp;&nbsp;&nbsp;</th>
 
   <!-- Project homepage -->
       <th class="navbar" align="right" width="100%">
         <table border="0" cellpadding="0" cellspacing="0">
-          <tr><th class="navbar" align="center">
-            <p class="nomargin">
-              <a class="navbar" target="_top" href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing MDP</a>
-      </p></th></tr></table></th>
+          <tr><th class="navbar" align="center"
+            ><a class="navbar" target="_top" href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing MDP</a></th>
+          </tr></table></th>
   </tr>
 </table>
 <table border="0" cellpadding="0" cellspacing="0" width="100%%">
   <tr>
     <td align="left" class="footer">Generated by Epydoc
-        3.0alpha2 on Thu Jun 29 20:46:58 2006</td>
+        3.0alpha3 on Sat Nov  4 17:32:26 2006</td>
     <td align="right" class="footer">
-      <a href="http://epydoc.sourceforge.net">http://epydoc.sf.net</a>
+      <a href="http://epydoc.sourceforge.net">http://epydoc.sourceforge.net</a>
     </td>
   </tr>
 </table>

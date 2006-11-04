@@ -101,9 +101,9 @@ function collapse(id) {
   if (elt) {
     elt.style.display = "block";
     
-    var indent = elt.indent;
-    var pad = elt.pad;
-    var s = "<span class='lineno'>";
+    var indent = elt.getAttribute("indent");
+    var pad = elt.getAttribute("pad");
+    var s = "<span class='py-lineno'>";
     for (var i=0; i<pad.length; i++) { s += "&nbsp;" }
     s += "</span>";
     s += "&nbsp;&nbsp;<span class='py-line'>";
@@ -123,11 +123,11 @@ function toggle(id) {
 }
 function highlight(id) {
   var elt = document.getElementById(id+"-def");
-  if (elt) elt.className = "highlight-hdr";
+  if (elt) elt.className = "py-highlight-hdr";
   var elt = document.getElementById(id+"-expanded");
-  if (elt) elt.className = "highlight";
+  if (elt) elt.className = "py-highlight";
   var elt = document.getElementById(id+"-collapsed");
-  if (elt) elt.className = "highlight";
+  if (elt) elt.className = "py-highlight";
 }
 
 function num_lines(s) {
@@ -155,7 +155,7 @@ function collapse_all(min_lines) {
 
 function expandto(href) {
   var start = href.indexOf("#")+1;
-  if (start != 0) {
+  if (start != 0 && start != href.length) {
     if (href.substring(start, href.length) != "-") {
       collapse_all(4);
       pos = href.indexOf(".", start);
