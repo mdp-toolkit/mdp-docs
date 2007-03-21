@@ -1632,7 +1632,7 @@ for the full documentation and interface description.
    principal components.
    More information about Principal Component Analysis, a.k.a. discrete
    Karhunen-Loeve transform can be found among others in
-   I.T. Jolliffe, *Principal Component Analysis*, Springer-Verlag (1986)."""
+   I.T. Jolliffe, *Principal Component Analysis*, Springer-Verlag (1986).
 
 **PolynomialExpansionNode**
    Perform expansion in a polynomial space.
