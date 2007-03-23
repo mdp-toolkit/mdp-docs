@@ -1,12 +1,11 @@
 <DIV ID="news-box">
 <B>News</B>
 <table>
-  <tr><td>23.08.2006:<td>Test failures with the new <a href="http://sourceforge.net/project/showfiles.php?group_id=1369&amp;package_id=175103">numpy 1.0b3</a> are solved in <a href="#DOWINS">svn repository</a>. 
-  <tr><td>03.07.2006:<td>MDP 2.0 <a href="#EUROPYTALK">presented</a> at the <a href="http://www.europython.org">Europython</a> conference.
-  <tr><td>30.06.2006:<td>MDP 2.0RC release
+  <tr><td>26.03.2007:<td>MDP 2.1 released
 			  (<A HREF="CHANGES">changes since last release</A>).
-  <tr><td>30.06.2005:<td>The <a href="tutorial.html">Tutorial</a> has been updated.
-.
+  <tr><td>23.03.2007:<td>The <a href="tutorial.html">Tutorial</a> has been updated.
+  <tr><td>23.03.2007:<td>The <a href="symeig.html">symeig</a> package has been updated to
+                         use NumPy 1.0.
 </table>
 </DIV>
 
@@ -14,9 +13,12 @@
 <span class="highlight">Modular toolkit for Data Processing
 (MDP)</span> is a Python data processing framework. Implemented
 algorithms include: Principal Component Analysis (PCA), Independent
-Component Analysis (ICA), Slow Feature Analysis (SFA), Growing Neural
+Component Analysis (ICA), Slow Feature Analysis (SFA), Independent
+Slow Feature Analysis, Growing Neural
 Gas (GNG), Factor Analysis, Fisher Discriminant Analysis (FDA), and Gaussian
 Classifiers. Read the <a href="tutorial.html#node-list">full list</a>.
+
+<HR>
 
 <H2 ID="QUICK_INTRO">Quick start</H2>
 
@@ -41,7 +43,7 @@ To learn more about MDP:
 <UL>
 <LI>Read the <A HREF="#INTRO">long description</A>
 <LI>Take a look at the <a href="tutorial.html">Tutorial</a>
-    (<a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_0_tutorial.pdf?download">pdf</a> 250 KB)
+    (<a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_1_tutorial.pdf?download">pdf</a> 250 KB)
 <LI ID="EUROPYTALK"> See the presentation given at the <a href="http://www.europython.org/">Europython</a> conference in Geneva, Switzerland, July 3-5 2006:
  <a href="EuroPython2006MDPTalk.sxi">OpenOffice</a> (603 KB), <a href="EuroPython2006MDPTalk.pdf">pdf</a> (250 KB). 
 <!-- <li>Read the <a href="faq.html">FAQ</a> -->
@@ -70,9 +72,10 @@ by defining the internals of the nodes to be single precision.
 <P>
 The base of <a href="tutorial.html#node-list">readily available
 algorithms</a> includes Principal Component Analysis, two flavors of
-Independent Component Analysis, Slow Feature Analysis, Gaussian
-Classifiers, Growing Neural Gas, Fisher Discriminant Analysis, and
-Factor Analysis.
+Independent Component Analysis, Slow Feature Analysis, Independent 
+Slow Feature Analysis, Gaussian
+Classifiers, Growing Neural Gas, Fisher Discriminant Analysis,
+Factor Analysis, and many more.
 
 <P>
 From the developer's perspective, MDP is a framework to make the
@@ -109,13 +112,16 @@ available, Python implemented data processing algorithms.
 <H2 ID="DOWINS">Installation</H2>
 
 <B>Requirements:</B>
-<A HREF="http://www.python.org/">Python</A> &ge; 2.4, 
-<a href="http://numpy.sf.net/">NumPY</a> &ge; 0.9.8
+<A HREF="http://www.python.org/">Python</A> &ge; 2.4, and
+<a href="http://numpy.scipy.org/">NumPy</a> &ge; 1.0 or
+<a href="http://www.scipy.org/">Scipy</a> &ge; 0.5.2. The
+<a href="symeig.html">symeig</a> package is automatically
+used if installed. 
 
 <P>
 <B>Download:</B>
 <A HREF="http://sourceforge.net/project/showfiles.php?group_id=116959">
-Download MDP 2.0RC at SourceForge</A>. If you want to live on the bleeding 
+Download MDP 2.1 at SourceForge</A>. If you want to live on the bleeding 
 edge, check out the MDP 
 <a href="http://sourceforge.net/svn/?group_id=116959">svn repository</a>: you 
 can <a href="http://svn.sourceforge.net/mdp-toolkit">browse the repository</a>
@@ -171,8 +177,8 @@ If you use MDP for scientific purposes, you may want to cite it. This
 is the official way to do it:
 
 <P>
-Berkes, P. and Zito, T. (2005)<BR>
-<B>Modular Toolkit for Data Processing (version 2.0)</B><BR>
+Berkes, P. and Zito, T. (2007)<BR>
+<B>Modular Toolkit for Data Processing (version 2.1)</B><BR>
 <a href="http://mdp-toolkit.sourceforge.net">http://mdp-toolkit.sourceforge.net</a>
 
 <P>

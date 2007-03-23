@@ -38,7 +38,7 @@ UL { padding-left:1em; }
 :link { color:#506758; }
 
 #header {
-	background:#acdebe;
+	background:#f9c852;
 	text-align:center;
         border: 1px solid #708090;
 	padding:5px;
@@ -67,7 +67,7 @@ IMG.whiteb  {
 }
 
 .abox {
-	background:#acdebe;
+	background:#f9c852;
 	padding:3px;
 	margin:0px;
 	margin-bottom:-1px;
@@ -259,7 +259,7 @@ pre.line-block {
 
 pre.literal-block, pre.doctest-block {
   overflow: auto;
-  background: #acdebe; 
+  background: #f9c852; 
   padding: .5em; 
   margin: 1em;
   border: 1px solid #708090;
@@ -315,8 +315,10 @@ h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
   font-size: 100% }
 
 tt.docutils { 
-  border: 1px solid #708090;
-  background-color: #acdebe; }
+  font-weight: bold ;
+  /*border: 1px solid #708090;*/
+  /*background-color: #f9c852;*/ 
+}
 
 ul.auto-toc {
   list-style-type: none }
@@ -328,7 +330,7 @@ ul.auto-toc {
 
 <table width="100%">
 <tr>
-<td align="left" class="td_header">Modular toolkit for<br></br>Data Processing</td>
+<td align="left" class="td_header">Modular toolkit for<br>Data Processing</td>
 <td align="right">
 <a href="logo_animation.html">
 <img src="logo.png" alt="MDP logo" title="click to see the animated logo!" class="whiteb"/></a></td></tr>
@@ -337,17 +339,13 @@ ul.auto-toc {
 
 <div id="sidebar">
 <div class="abox"><a href="index.html">Home</a></div>
-<div class="abox"><a href="index.html#QUICK_INTRO">Quick start</a></div>
 <div class="abox"><a href="tutorial.html">Tutorial</a></div>
-<div class="abox"><a href="docs/api/index.html">API</a></div>
-<div class="abox"><a href="index.html#INTRO">Description</a></div>
-<div class="abox"><a href="index.html#DOWINS">Installation</a></div>
-<div class="abox"><a href="index.html#CONT">Mantainers</a></div>
-<div class="abox"><a href="index.html#CITE">Citations</a></div>
-<div class="abox"><a href="index.html#MIGRATE">Migration</a></div>
+<div class="abox"><a href="index.html#DOWINS">Download</a></div>
 <div class="abox"><a href="tutorial.html#node-list">Node list</a></div>
 <div class="abox"><a href="screenshots.html">Screenshots</a></div>
+<div class="abox"><a href="docs/api/index.html">API</a></div>
 <div class="abox"><a href="http://sourceforge.net/mail/?group_id=116959">Mailing list</a></div>
+<div class="abox"><a href="symeig.html">symeig</a></div>
 </div>
 
 <div id="content">
@@ -365,10 +363,10 @@ ul.auto-toc {
 <tr><th class="docinfo-name">Copyright:</th>
 <td>This document has been placed in the public domain.</td></tr>
 <tr><th class="docinfo-name">Version:</th>
-<td>2.0</td></tr>
+<td>2.1</td></tr>
 </tbody>
 </table>
-This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_0_tutorial.pdf?download">pdf file</a> (250 KB).<p>This is a guide to basic and some more advanced features of
+This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_1_tutorial.pdf?download">pdf file</a> (250 KB).<p>This is a guide to basic and some more advanced features of
 the MDP library. Besides the present tutorial, you can learn
 more about MDP by using the standard Python tools.
 All MDP nodes have doc-strings, the public
@@ -492,8 +490,8 @@ can be obtained as follows:</p>
 algorithms and other data processing elements (nodes) into data
 processing sequences (flows). Moreover, it provides a framework that
 makes the implementation of new algorithms easy and intuitive.</p>
-<p>MDP requires the numerical Python extension <a class="reference" href="http://numpy.scipy.org/">numpy</a> or <a class="reference" href="http://www.scipy.org/">scipy</a>.
-MDP offers in its namespace references
+<p>MDP requires the numerical Python extensions <a class="reference" href="http://numpy.scipy.org/">numpy</a> or <a class="reference" href="http://www.scipy.org/">scipy</a>.
+In its namespace MDP offers references
 to the main modules <tt class="docutils literal"><span class="pre">numpy</span></tt> or <tt class="docutils literal"><span class="pre">scipy</span></tt>, and the subpackages
 <tt class="docutils literal"><span class="pre">linalg</span></tt>, <tt class="docutils literal"><span class="pre">random</span></tt>, and <tt class="docutils literal"><span class="pre">fft</span></tt>
 as <tt class="docutils literal"><span class="pre">mdp.numx</span></tt>, <tt class="docutils literal"><span class="pre">mdp.numx_linalg</span></tt>, <tt class="docutils literal"><span class="pre">mdp.numx_rand</span></tt>, and
@@ -1830,14 +1828,11 @@ Processing Systems 7</em>, pages 625-632. MIT Press, Cambridge MA, 1995.</dd>
 <dd>Collect the first 'n' local maxima and minima of the training signal
 which are separated by a minimum gap 'd'.</dd>
 <dt><strong>ISFANode</strong></dt>
-<dd><p class="first">Perform Independent Slow Feature Analysis on the input data.</p>
-<dl class="last docutils">
-<dt>More information about ISFA can be found in:</dt>
-<dd>Blaschke, T. , Zito, T., and Wiskott, L.
+<dd>Perform Independent Slow Feature Analysis on the input data.
+More information about ISFA can be found in:
+Blaschke, T. , Zito, T., and Wiskott, L.
 Independent Slow Feature Analysis and Nonlinear Blind Source Separation.
 <em>Neural Computation</em> 19(4):994-1021 (2007).</dd>
-</dl>
-</dd>
 <dt><strong>NoiseNode</strong></dt>
 <dd>Inject multiplicative or additive noise into the input data.</dd>
 <dt><strong>PCANode</strong></dt>
@@ -1949,13 +1944,12 @@ Progress:  67%[======================================&gt;                   ]
 </pre>
 </dd>
 <dt><strong>QuadraticForm</strong></dt>
-<dd><p class="first">Define an inhomogeneous quadratic form as <tt class="docutils literal"><span class="pre">1/2</span> <span class="pre">x'Hx</span> <span class="pre">+</span> <span class="pre">f'x</span> <span class="pre">+</span> <span class="pre">c</span></tt>.
+<dd>Define an inhomogeneous quadratic form as <tt class="docutils literal"><span class="pre">1/2</span> <span class="pre">x'Hx</span> <span class="pre">+</span> <span class="pre">f'x</span> <span class="pre">+</span> <span class="pre">c</span></tt>.
 This class implements the quadratic form analysis methods
-presented in:</p>
-<p class="last">Berkes, P. and Wiskott, L. On the analysis and interpretation
+presented in:
+Berkes, P. and Wiskott, L. On the analysis and interpretation
 of inhomogeneous quadratic forms as receptive fields. <em>Neural
-Computation</em>, 18(8): 1868-1895. (2006).</p>
-</dd>
+Computation</em>, 18(8): 1868-1895. (2006).</dd>
 <dt><strong>refcast(array, dtype)</strong></dt>
 <dd>Cast the array to 'dtype' only if necessary,
 otherwise return a reference.</dd>
@@ -2055,7 +2049,7 @@ adding many numbers.</li>
 </div>
 <div class="footer">
 <hr class="footer" />
-Generated on: 2007-03-23 14:20 UTC.
+Generated on: 2007-03-23 16:53 UTC.
 Generated by <a class="reference" href="http://docutils.sourceforge.net/">Docutils</a> from <a class="reference" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> source.
 
 </div>
