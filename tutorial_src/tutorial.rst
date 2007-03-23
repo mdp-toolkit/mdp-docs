@@ -108,7 +108,7 @@ Using MDP is as easy as:
     >>> y = mdp.pca(x) 
     >>> # perform ica on some data x using single precision
     ...
-    >>> y = mdp.fastica(x, dtype='f') 
+    >>> y = mdp.fastica(x, dtype='float32') 
 
 A complete list of all short-cut functions like ``pca`` or ``fastica``
 can be obtained as follows:
@@ -116,21 +116,27 @@ can be obtained as follows:
 ::
 
     >>> dir(mdp.helper_funcs)
-    ['__builtins__', '__doc__', '__file__', '__name__',
-    'cubica', 'factor_analysis', 'fastica', 'get_eta', 'mdp',
-    'pca', 'sfa', 'sfa2', 'whitening']
+    ['__builtins__', '__doc__', '__file__', '__name__', 
+    'cubica', 'factor_analysis', 'fastica', 'get_eta', 
+    'isfa', 'mdp', 'pca', 'sfa', 'sfa2', 'whitening']
 
+    
 MDP is, of course, much more than this: it allows to combine different
 algorithms and other data processing elements (nodes) into data
 processing sequences (flows). Moreover, it provides a framework that
 makes the implementation of new algorithms easy and intuitive.
 
-MDP requires the numerical Python extension `numpy
-<http://numeric.scipy.org/>`_.  MDP offers in its namespace references
-to the main modules ``numpy``, ``numpy.linalg``, and ``numpy.random``
-as ``mdp.numx``, ``mdp.numx_linalg`` and ``mdp.numx_rand``. This is
-done to possibly support additional numerical extensions in the
-future.
+MDP requires the numerical Python extensions `numpy
+<http://numpy.scipy.org/>`_ or `scipy <http://www.scipy.org/>`_.  
+In its namespace MDP offers references
+to the main modules ``numpy`` or ``scipy``, and the subpackages
+``linalg``, ``random``, and ``fft``
+as ``mdp.numx``, ``mdp.numx_linalg``, ``mdp.numx_rand``, and 
+``mdp.numx_fft``. This is done to possibly support additional 
+numerical extensions in the future. At import time MDP will select
+``scipy`` if available, otherwise ``numpy`` will be loaded. You can 
+force the use of a numerical extension by setting the environment
+variable ``MDPNUMX=numpy`` or ``MDPNUMX=scipy``.
 
 Nodes
 -----
@@ -151,6 +157,8 @@ long sets of data: the internal structures can be updated
 incrementally by sending chunks of the input data (this is equivalent
 to online learning if the chunks consists of single observations, or
 to batch learning if the whole data is sent in a single chunk).
+A ``Node`` can be copied or saved using the corresponding ``copy`` and
+``save`` methods.
  
 Node Instantiation
 ~~~~~~~~~~~~~~~~~~~
@@ -195,23 +203,23 @@ Some examples of node instantiation:
       >>> pcanode3.desired_variance
       0.80000000000000004
 
-- If ``dtype`` is set to ``f`` (32-bit float), the input 
+- If ``dtype`` is set to ``float32`` (32-bit float), the input 
   data is cast to single precision when received and the internal 
-  structures are also stored as ``f``. ``dtype`` influences the 
+  structures are also stored as ``float32``. ``dtype`` influences the 
   memory space necessary for a node and the precision with which the 
   computations are performed.
   ::
 
-      >>> pcanode4 = mdp.nodes.PCANode(dtype = 'f')
+      >>> pcanode4 = mdp.nodes.PCANode(dtype = 'float32')
       >>> pcanode4
-      PCANode(input_dim=None, output_dim=None, dtype='f')
+      PCANode(input_dim=None, output_dim=None, dtype='float32')
 
   You can obtain a list of the numerical types supported by a node
-  by calling its ``get_supported_dtypes`` method:
+  lookng at its ``supported_dtypes`` property:
   ::
 
-      >>> pcanode4.get_supported_dtypes()
-      [dtype('<f4'), dtype('<f8')]
+      >>> pcanode4.supported_dtypes
+      [dtype('float32'), dtype('float64')]
 
   This method returns a list of ``numpy.dtype`` objects
   (see the ``numpy`` documentation for more details.
@@ -388,8 +396,10 @@ implemented nodes with your own nodes you can subclass
 the Node class, overriding some of the methods according
 to your needs.
 
-It is recommended to refer to the ``numpy`` numerical extension
-through the MDP aliases ``mdp.numx``, ``mdp.numx_linalg``, and
+It is recommended to refer to the ``numpy`` or ``scipy`` numerical 
+extensions
+through the MDP aliases ``mdp.numx``, ``mdp.numx_linalg``, 
+``mdp.numx_fft``, and
 ``mdp.numx_rand`` when writing ``Node`` subclasses. This shall ensure
 that your nodes can be used without modifications should MDP support
 alternative numerical extensions in the future.
@@ -437,7 +447,7 @@ We'll illustrate this with some toy examples.
   Test the new node:
   ::
 
-      >>> node = TimesTwoNode(dtype = 'i')
+      >>> node = TimesTwoNode(dtype = 'int32')
       >>> x = mdp.numx.array([[1.0, 2.0, 3.0]])
       >>> y = node(x)
       >>> print x, '* 2 =  ', y
@@ -484,11 +494,12 @@ We'll illustrate this with some toy examples.
   ::
 
       ...     def _get_supported_dtypes(self):
-      ...         return ['f', 'd']
+      ...         return ['float32', 'float64']
 
   The supported types can be specified in any format allowed by
   ``numpy.dtype``. The interface method ``get_supported_dtypes``
-  converts them and returns a list of ``dtype`` objects.
+  converts them and sets the property ``supported_dtypes``, which is
+  a list of ``dtype`` objects.
 
   The ``_execute`` method:
   ::
@@ -668,7 +679,7 @@ We'll illustrate this with some toy examples.
       ...
       >>> # execute
       ... y = node.execute(x)
-      >>> print 'Standard deviation of y (should be one): ', mdp.numx.std(y, 0)
+      >>> print 'Standard deviation of y (should be one): ', mdp.numx.std(y, axis=0)
       Standard deviation of y (should be one):  [ 1.  1.  1.  1.]
     
 
@@ -746,7 +757,8 @@ basic flow class (``CheckpointFlow``) allows user-supplied checkpoint
 functions to be executed at the end of each phase, for example to save
 the internal structures of a node for later analysis.
 Flow objects are Python containers. Most of the builtin ``list``
-methods are available.
+methods are available. A ``Flow`` can be saved or copied using the
+corresponding ``save`` and ``copy`` methods.
 
 Flow instantiation, training and execution
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -822,10 +834,6 @@ we also create a test set `x_test`.
       >>> flow = mdp.Flow([mdp.nodes.PCANode(output_dim=5), mdp.nodes.CuBICANode()])
       >>> flow.train(x)
 
-  You will probably get some warnings here. This is expected, see the
-  section about Iterators_ to learn more about that, for the moment
-  you can simply ignore them. 
-
   Now the training phase of PCA and ICA are completed. Next we append
   a ``HitParadeNode`` which we want to train on the test data:
   ::
@@ -862,8 +870,8 @@ Calculate covariance between input mix and reconstructed mix:
 (should be approximately 1)
 ::
 
-    >>> cov = mdp.numx.amax(abs(mdp.utils.cov2(x/mdp.numx.std(x,0),
-    ...                                        rec/mdp.numx.std(rec,0))))
+    >>> cov = mdp.numx.amax(abs(mdp.utils.cov2(x/mdp.numx.std(x,axis=0),
+    ...                                        rec/mdp.numx.std(rec,axis=0))))
     >>> print cov
     [ 0.99839606  0.99744461  0.99616208  0.99772863  0.99690947  
       0.99864056  0.99734378  0.98722502  0.98118101  0.99407939
@@ -944,7 +952,7 @@ Attempt to train the flow:
 
 ::
 
-    >>> flow.train([None])
+    >>> flow.train(x)
     Traceback (most recent call last):
       File "<stdin>", line 1, in ?
       [...]
@@ -1028,11 +1036,11 @@ array of data:
   ::
 
       >>> flow.train([gen_data(5000),gen_data(3000)])
-      Training node #0 (IdentityNode)
+      Training node #0 (BogusNode)
       [===================================100%==================================>]  
 
       Training finished
-      Training node #1 (IdentityNode)
+      Training node #1 (BogusNode)
       [===================================100%==================================>]  
 
       Training finished
@@ -1056,48 +1064,23 @@ for the non-trainable nodes:
     >>> flow.train([None, gen_data(5000)])
     Training node #0 (BogusNode2)
     Training finished
-    Training node #1 (IdentityNode)
+    Training node #1 (BogusNode)
     [===================================100%==================================>]  
 
     Training finished
     Close the training phase of the last node
 
 
-If in this case you try the one-shot training you'll get a warning like
-the following one:
+You can use the one-shot training:
 ::
 
     >>> flow = mdp.Flow([BogusNode2(),BogusNode()], verbose=1)
     >>> flow.train(single_block)
     Training node #0 (BogusNode2)
-    /.../linear_flows.py:94: MDPWarning: 
-    ! Node 0 in not trainable
-    You probably need a 'None' generator for this node. Continuing anyway.
-      warnings.warn(wrnstr, mdp.MDPWarning)
     Training finished
-    Training node #1 (IdentityNode)
+    Training node #1 (BogusNode)
     Training finished
     Close the training phase of the last node
-
-You can get rid of this warning either by doing what the warning asks you,
-namely use the iterator syntax and provide a ``None`` iterator for the
-non-trainable nodes, or by switching off MDP warnings altogether:
-::
-
-    >>> import warnings
-    >>> warnings.filterwarnings("ignore",'.*',mdp.MDPWarning)
-    >>> flow = mdp.Flow([BogusNode2(),BogusNode()], verbose=1)
-    >>> flow.train(single_block)
-    Training node #0 (BogusNode2)
-    Training finished
-    Training node #1 (IdentityNode)
-    Training finished
-    Close the training phase of the last node
-
-To switch on ``MDPWarnings`` again:
-::
-
-    >>> warnings.filterwarnings("always",'.*',mdp.MDPWarning)
 
 Iterators can be used also for execution (and inversion):
 ::
@@ -1125,7 +1108,7 @@ since training is finished you are not going to get a warning
 
 If a node requires multiple training phases (e.g., ``GaussianClassifierNode``),
 ``Flow`` automatically takes care of reusing the iterator multiple times.
-In this case generators are not allowed, since they "expire" after
+In this case generators are not allowed, since they *expire* after
 yielding the last data block. If you try to restart them, they raise
 a ``StopIteration`` exception. General iterators, instead, can always be
 restarted. For example, you can loop over a list as many times as you need.
@@ -1396,7 +1379,7 @@ going to get two warnings (``Training Interrupted``). We can safely
 ignore them. Execute the flow to get the slow feature
 ::
 
-    >>> slow = flow.execute(series)
+    >>> slow = flow(series)
 
 The slow feautre should match the driving force
 up to a scaling factor, a constant offset and the sign.
@@ -1499,7 +1482,7 @@ Shuffle the points to make the statistics stationary
 ::
 
     >>> x = mdp.numx.concatenate([cf1, cf2, cl1, cl2, r1,r2,r3,r4], axis=0)
-    >>> x = mdp.numx.take(x,mdp.numx_rand.permutation(x.shape[0]))
+    >>> x = mdp.numx.take(x,mdp.numx_rand.permutation(x.shape[0]), axis=0)
 
 If you have a plotting package ``x`` should look like this:
 
@@ -1624,6 +1607,13 @@ for the full documentation and interface description.
    Collect the first 'n' local maxima and minima of the training signal
    which are separated by a minimum gap 'd'.
 
+**ISFANode**
+   Perform Independent Slow Feature Analysis on the input data.
+   More information about ISFA can be found in:
+   Blaschke, T. , Zito, T., and Wiskott, L.
+   Independent Slow Feature Analysis and Nonlinear Blind Source Separation.
+   *Neural Computation* 19(4):994-1021 (2007).
+
 **NoiseNode**
    Inject multiplicative or additive noise into the input data.
 
@@ -1658,7 +1648,6 @@ for the full documentation and interface description.
 
 **TimeFramesNode**
    Copy delayed version of the input signal on the space dimensions.
-
    .. raw:: html
 
       <!-- ignore -->
@@ -1715,6 +1704,10 @@ for the full documentation and interface description.
     This class stores an empirical covariance matrix between the signal and
     time delayed signal that can be updated incrementally.
 
+**MultipleCovarianceMatrices**
+    Container class for multiple covariance matrices to easily
+    execute operations on all matrices at the same time.
+    
 **dig_node(node)**
     Crawl recursively an MDP ``Node`` looking for arrays.
     Return (dictionary, string), where the dictionary is:
@@ -1767,6 +1760,12 @@ for the full documentation and interface description.
 
 **QuadraticForm**
     Define an inhomogeneous quadratic form as ``1/2 x'Hx + f'x + c``.
+    This class implements the quadratic form analysis methods
+    presented in:
+    Berkes, P. and Wiskott, L. On the analysis and interpretation
+    of inhomogeneous quadratic forms as receptive fields. *Neural
+    Computation*, 18(8): 1868-1895. (2006).
+
 
 **refcast(array, dtype)**
     Cast the array to 'dtype' only if necessary,

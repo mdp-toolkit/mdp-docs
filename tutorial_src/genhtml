@@ -20,7 +20,7 @@ TEMP=$PWD/temp
 TEMPD=$PWD/tempd
 python modify_header.py > $TEMP 
 TUTHTML=tutorial.html
-RST="rst2html.py -g -t --stylesheet=docutils.css" 
+RST="rst2html -g -t --stylesheet=docutils.css" 
 $RST $TEMP $TEMPD
 # enclose body of $TEMP with our headers and footers
 # and copy it into the right place
@@ -29,7 +29,7 @@ rm -f $TEMP $TEMPD
 
 # generate pdf totorial
 TEMP=$PWD/temp
-RST2="rst2latex.py -g -t " 
+RST2="rst2latex -g -t " 
 $RST2 $TUTL $TEMP
 TUTTEX=$PWD/tutorial.tex
 # adjust \includegraphics --> \includegraphics[width=0.9\textwidth]
