@@ -2,6 +2,8 @@ import mdp, numpy, pylab
 
 fontPath = "Verdana.ttf"
 fontSize = 300
+bg_color = 'k'
+fg_color = 'r'
 imgsize = (865, 400)
 imgorig = (50, 0)
 text = "MDP"
@@ -62,12 +64,17 @@ gng.stop_training()
 lines = []
 for e in gng.graph.edges:
     x0, y0 = e.head.data.pos
+    c0 = x[int(y0), int(x0)]<0.5 and bg_color or fg_color 
     x1, y1 = e.tail.data.pos
-    lines.extend(([x0,x1], [y0,y1], "r-",
-                  [x0,x1], [y0,y1], "r."))
+    c1 = x[int(y1), int(x1)]<0.5 and bg_color or fg_color
+    cline = c0==c1 and c0 or bg_color
+    lines.extend(([x0,x1], [y0,y1], cline+'-',
+                  [x0,x0], [y0,y0], c0+'.',
+                  [x1,x1], [y1,y1], c1+'.'))
 
 print 'Plot.'
-pylab.plot(*lines)
+pylab.clf()
 pylab.plot(data[::10,0], data[::10,1], "k.")
+pylab.plot(linewidth=2, ms=14, *lines)
 pylab.axis('scaled')
 raw_input('Press ENTER to quit!\n')
