@@ -1,4 +1,4 @@
-import mdp, numpy, pylab, Image, ImageDraw, ImageFont
+import mdp, numpy, pylab
 
 fontPath = "Verdana.ttf"
 fontSize = 300
@@ -8,20 +8,33 @@ text = "MDP"
 N = 10000 # data points
 filling = 0.9 # probability that a data point belongs to the foreground
 max_nodes = 500
+new_image = False
 
 # set random seed
 numpy.random.seed(1)
-print 'Generate image.'
-image = Image.new("F", imgsize)
-draw = ImageDraw.Draw(image)
-draw.text(imgorig, text, font=ImageFont.truetype(fontPath, fontSize), fill=1)
-image = image.transpose(Image.FLIP_TOP_BOTTOM)
+
+if new_image:
+    import Image, ImageDraw, ImageFont
+    print 'Generate image.'
+    image = Image.new("F", imgsize)
+    draw = ImageDraw.Draw(image)
+    draw.text(imgorig,text,font=ImageFont.truetype(fontPath,fontSize),fill=1)
+    image = image.transpose(Image.FLIP_TOP_BOTTOM)
+    fl = file('text2.raw', 'wb')
+    fl.write(image.tostring())
+    fl.close()
+    del image, draw
+
+print 'Load image.'
+fl = file('text.raw', 'rb')
+imgstr = fl.read()
+fl.close()
 
 print 'Create 2-D data distribution.'
 # read image as array (1 is black, 0 is white)
-x = numpy.fromstring(image.tostring(), numpy.float32)
-x.shape = (image.size[1], image.size[0])
-del image, draw
+x = numpy.fromstring(imgstr, numpy.float32)
+x.shape = (imgsize[1], imgsize[0])
+
 
 # create 2-D data distribution correspondent to the image
 
