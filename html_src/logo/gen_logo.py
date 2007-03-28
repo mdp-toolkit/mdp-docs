@@ -20,7 +20,7 @@ if new_image:
     draw = ImageDraw.Draw(image)
     draw.text(imgorig,text,font=ImageFont.truetype(fontPath,fontSize),fill=1)
     image = image.transpose(Image.FLIP_TOP_BOTTOM)
-    fl = file('text2.raw', 'wb')
+    fl = file('text.raw', 'wb')
     fl.write(image.tostring())
     fl.close()
     del image, draw
