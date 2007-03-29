@@ -17,7 +17,6 @@ NITER = 50 # number of iterations
 noise = 0.1 # noise ratio 0.1 = 10%
 max_nodes = 500
 
-
 import mdp, numpy, pylab, pickle, os, shutil
 # set random seed
 numpy.random.seed(1)
@@ -96,4 +95,4 @@ if save:
 raw_input('Press ENTER to quit!\n')
 
 # to generate a gif animation use for example:
-# convert -delay 10 animation/*png -loop 0  animation.gif
+# convert -dispose Background -delay 10 animation/*png -loop 1  animation.gif
