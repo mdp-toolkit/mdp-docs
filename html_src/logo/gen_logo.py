@@ -31,7 +31,14 @@ fl.close()
 # cast x to be float32
 x = x.astype(numpy.float32)
 
+# set figure size
+# note: the pylab canvas is still too large! how to fit it to the figure
 pylab.ion()
+fig = pylab.figure()
+fig.set_size_inches((3*x.shape[1]/float(x.shape[0])),3)
+fig.add_axes([0.01,0.01,0.98,0.98])
+
+#.set_figsize_inches( (w,h) )
 
 def plot_graph(gng, iter):
     lines = []
@@ -49,6 +56,7 @@ def plot_graph(gng, iter):
     pylab.clf()
     pylab.ioff()
     # the order of the axis command is important!
+    fig.add_axes([0.01,0.01,0.98,0.98])
     pylab.axis('scaled')
     #pylab.plot(data[:,0], data[:,1], "k.")
     pylab.plot(linewidth=2, ms=14, *lines)
@@ -56,7 +64,7 @@ def plot_graph(gng, iter):
     pylab.axis('off')
     pylab.draw()
     if save:
-        fig = pylab.gcf()
+        #fig = pylab.gcf()
         fig.frameon = not transparent
         pylab.savefig('animation/img'+('%d'%iter).zfill(4)+'.png',dpi=dpi)
         fig.frameon = True
