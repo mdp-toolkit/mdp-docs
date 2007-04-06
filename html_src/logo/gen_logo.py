@@ -104,3 +104,10 @@ raw_input('Press ENTER to quit!\n')
 
 # to generate a gif animation use for example:
 # convert -dispose Background -delay 10 animation/*png -loop 1  animation.gif
+
+# to generate a logo usable for the web page (height=100 pixel)
+# convert -resize x100 logo.png logo_small.png
+
+# to put them in the webpage:
+# cp logo_small.png ../images/logo.png
+# cp animation.gif ../images/logo_animation.gif
