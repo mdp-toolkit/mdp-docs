@@ -105,8 +105,15 @@ raw_input('Press ENTER to quit!\n')
 # to generate a gif animation use for example:
 # convert -dispose Background -delay 10 animation/*png -loop 1  animation.gif
 
+# to reduce the size of the image, generate an indexed png with 4 colors:
+# convert logo.png -matte -colors 4 gif:- | convert - logo_idx.png
+# the image is reduced from 79K to 12K!
+# reconvert to png and add re-add transparency
+
 # to generate a logo usable for the web page (height=100 pixel)
+# either reduce the full logo.png and get a 39K logo:
 # convert -resize x100 logo.png logo_small.png
+# or put the indexed logo into the website and let the browser scale down.
 
 # to put them in the webpage:
 # cp logo_small.png ../images/logo.png
