@@ -4,11 +4,11 @@ Tutorial
 :Author: Pietro Berkes and Tiziano Zito
 :Homepage: http://mdp-toolkit.sourceforge.net
 :Copyright: This document has been placed in the public domain.
-:Version: 2.1
+:Version: 2.2
 
 .. raw:: html
    
-   This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_1_tutorial.pdf?download">pdf file</a> (250 KB).
+   This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_2_tutorial.pdf?download">pdf file</a> (250 KB).
 
 This is a guide to basic and some more advanced features of
 the MDP library. Besides the present tutorial, you can learn 
@@ -575,8 +575,13 @@ We'll illustrate this with some toy examples.
 
       ...     def _stop_training(self):
       ...         self.avg /= self.tlen
+      ...         if self.output_dim is None:
+      ...             self.output_dim = self.input_dim
 
-  The ``_execute`` and ``_inverse`` methods:
+  Note that we ``input_dim`` are set autoamtically by the ``train`` method,
+  and we want to ensure that the node has ``output_dim`` set after training.
+  For nodes that do not need training, the setting is performed automatically
+  upon execution. The ``_execute`` and ``_inverse`` methods:
   ::
 
       ...     def _execute(self, x):
