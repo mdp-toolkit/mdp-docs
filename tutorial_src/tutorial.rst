@@ -1616,8 +1616,21 @@ for the full documentation and interface description.
    Perform Independent Slow Feature Analysis on the input data.
    More information about ISFA can be found in:
    Blaschke, T. , Zito, T., and Wiskott, L.
-   Independent Slow Feature Analysis and Nonlinear Blind Source Separation.
-   *Neural Computation* 19(4):994-1021 (2007).
+   *Independent Slow Feature Analysis and Nonlinear Blind Source Separation.*
+   Neural Computation 19(4):994-1021 (2007).
+
+**JADENode**
+   Perform Independent Component Analysis using the JADE algorithm.
+   References:
+   Cardoso, J.-F, and Souloumiac, A.
+   *Blind beamforming for non Gaussian signals.
+   Radar and Signal Processing, IEE Proceedings F, 140(6): 362-370 (1993), and
+   Cardoso, J.-F.
+   *High-order contrasts for independent component analysis.*
+   Neural Computation, 11(1): 157-192 (1999).   
+   More information about ICA can be found among others in
+   Hyvarinen A., Karhunen J., Oja E. (2001). *Independent Component Analysis*,
+   Wiley.
 
 **NoiseNode**
    Inject multiplicative or additive noise into the input data.
