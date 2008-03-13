@@ -28,7 +28,7 @@ Default cascading style sheet for the HTML output of Docutils.
 body {
 	background:white;
 	/*font-family:'Trebuchet MS',Verdana,sans-serif;*/
-	font-family:helvetica,sans-serif;
+	font-family:sans-serif;
 	text-align:justify;
 	margin-bottom:50px;
 	}
@@ -363,10 +363,10 @@ ul.auto-toc {
 <tr><th class="docinfo-name">Copyright:</th>
 <td>This document has been placed in the public domain.</td></tr>
 <tr><th class="docinfo-name">Version:</th>
-<td>2.1</td></tr>
+<td>2.2</td></tr>
 </tbody>
 </table>
-This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_1_tutorial.pdf?download">pdf file</a> (250 KB).<p>This is a guide to basic and some more advanced features of
+This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_2_tutorial.pdf?download">pdf file</a> (250 KB).<p>This is a guide to basic and some more advanced features of
 the MDP library. Besides the present tutorial, you can learn
 more about MDP by using the standard Python tools.
 All MDP nodes have doc-strings, the public
@@ -415,11 +415,13 @@ in the MDP installation path.</p>
 <li><a class="reference" href="#a-real-life-example-logistic-maps" id="id18" name="id18">A real life example (Logistic maps)</a></li>
 <li><a class="reference" href="#another-real-life-example-growing-neural-gas" id="id19" name="id19">Another real life example (Growing neural gas)</a></li>
 <li><a class="reference" href="#node-list" id="id20" name="id20">Node List</a></li>
-<li><a class="reference" href="#additional-utilities" id="id21" name="id21">Additional utilities</a><ul>
-<li><a class="reference" href="#graph-module" id="id22" name="id22">Graph module</a></li>
+<li><a class="reference" href="#contributed-nodes" id="id21" name="id21">Contributed Nodes</a></li>
+<li><a class="reference" href="#additional-utilities" id="id22" name="id22">Additional utilities</a><ul>
+<li><a class="reference" href="#graph-module" id="id23" name="id23">Graph module</a></li>
 </ul>
 </li>
-<li><a class="reference" href="#to-do" id="id23" name="id23">To Do</a></li>
+<li><a class="reference" href="#to-do" id="id24" name="id24">To Do</a></li>
+<li><a class="reference" href="#contributors" id="id25" name="id25">Contributors</a></li>
 </ul>
 </div>
 <div class="section">
@@ -906,8 +908,13 @@ data by the number of training vectors to obtain the mean:</p>
 <pre class="literal-block">
 ...     def _stop_training(self):
 ...         self.avg /= self.tlen
+...         if self.output_dim is None:
+...             self.output_dim = self.input_dim
 </pre>
-<p>The <tt class="docutils literal"><span class="pre">_execute</span></tt> and <tt class="docutils literal"><span class="pre">_inverse</span></tt> methods:</p>
+<p>Note that we <tt class="docutils literal"><span class="pre">input_dim</span></tt> are set autoamtically by the <tt class="docutils literal"><span class="pre">train</span></tt> method,
+and we want to ensure that the node has <tt class="docutils literal"><span class="pre">output_dim</span></tt> set after training.
+For nodes that do not need training, the setting is performed automatically
+upon execution. The <tt class="docutils literal"><span class="pre">_execute</span></tt> and <tt class="docutils literal"><span class="pre">_inverse</span></tt> methods:</p>
 <pre class="literal-block">
 ...     def _execute(self, x):
 ...         return x - self.avg
@@ -1831,8 +1838,8 @@ which are separated by a minimum gap 'd'.</dd>
 <dd>Perform Independent Slow Feature Analysis on the input data.
 More information about ISFA can be found in:
 Blaschke, T. , Zito, T., and Wiskott, L.
-Independent Slow Feature Analysis and Nonlinear Blind Source Separation.
-<em>Neural Computation</em> 19(4):994-1021 (2007).</dd>
+<em>Independent Slow Feature Analysis and Nonlinear Blind Source Separation.</em>
+Neural Computation 19(4):994-1021 (2007).</dd>
 <dt><strong>NoiseNode</strong></dt>
 <dd>Inject multiplicative or additive noise into the input data.</dd>
 <dt><strong>PCANode</strong></dt>
@@ -1880,6 +1887,40 @@ For example, for time_frames=3 and gap=2:
 significatives of its principal components. All output
 signals have zero mean, unit variance and are decorrelated.</dd>
 </dl>
+</div>
+<div class="section">
+<h1><a class="toc-backref" href="#id21" id="contributed-nodes" name="contributed-nodes">Contributed Nodes</a></h1>
+<p>Here is a list of nodes that have been contributed by MDP users:</p>
+<dl class="docutils">
+<dt><strong>JADENode</strong></dt>
+<dd><p class="first">Perform Independent Component Analysis using the JADE algorithm.
+References:
+Cardoso, J.-F, and Souloumiac, A.
+<em>Blind beamforming for non Gaussian signals.</em>
+Radar and Signal Processing, IEE Proceedings F, 140(6): 362-370 (1993), and
+Cardoso, J.-F.
+<em>High-order contrasts for independent component analysis.</em>
+Neural Computation, 11(1): 157-192 (1999).
+More information about ICA can be found among others in
+Hyvarinen A., Karhunen J., Oja E. (2001). <em>Independent Component Analysis</em>,
+Wiley.</p>
+<p class="last">Code contributed by:
+Gabriel Beckers</p>
+</dd>
+<dt><strong>NIPALSNode</strong></dt>
+<dd><p class="first">Perform Principal Component Analysis using the NIPALS algorithm.
+Reference for NIPALS (Nonlinear Iterative Partial Least Squares):
+Wold, H.
+<em>Nonlinear estimation by iterative least squares procedures.</em>
+in David, F. (Editor), Research Papers in Statistics, Wiley,
+New York, pp 411-444 (1966).</p>
+<p>More information about Principal Component Analysis, a.k.a. discrete
+Karhunen-Loeve transform can be found among others in
+I.T. Jolliffe, <em>Principal Component Analysis</em>, Springer-Verlag (1986).</p>
+<p class="last">Code contributed by:
+Michael Schmuker, Susanne Lezius, and Farzad Farkhooi (2008).</p>
+</dd>
+</dl>
 <div class="admonition-didn-t-you-find-what-you-were-looking-for admonition">
 <p class="first admonition-title">Didn't you find what you were looking for?</p>
 <p class="last">If you want to contribute some code or a new
@@ -1887,7 +1928,7 @@ algorithm, please do not hesitate to submit it!</p>
 </div>
 </div>
 <div class="section">
-<h1><a class="toc-backref" href="#id21" id="additional-utilities" name="additional-utilities">Additional utilities</a></h1>
+<h1><a class="toc-backref" href="#id22" id="additional-utilities" name="additional-utilities">Additional utilities</a></h1>
 <p>MDP offers some additional utilities of general interest
 in the <tt class="docutils literal"><span class="pre">mdp.utils</span></tt> module. Refer to the
 <a class="reference" href="http://mdp-toolkit.sourceforge.net/docs/api/index.html">API</a>
@@ -1976,7 +2017,7 @@ For more information see this <a class="reference" href="http://en.wikipedia.org
 uniformly distributed on (0,1].</dd>
 </dl>
 <div class="section">
-<h2><a class="toc-backref" href="#id22" id="graph-module" name="graph-module">Graph module</a></h2>
+<h2><a class="toc-backref" href="#id23" id="graph-module" name="graph-module">Graph module</a></h2>
 <p>MDP contains <tt class="docutils literal"><span class="pre">mdp.graph</span></tt>, a lightweight package to handle directed graphs.</p>
 <dl class="docutils">
 <dt><strong>Graph</strong></dt>
@@ -2033,8 +2074,8 @@ subsequences.</dd>
 </div>
 </div>
 <div class="section">
-<h1><a class="toc-backref" href="#id23" id="to-do" name="to-do">To Do</a></h1>
-<p>In this last section we want to give you an overview about our
+<h1><a class="toc-backref" href="#id24" id="to-do" name="to-do">To Do</a></h1>
+<p>In this section we want to give you an overview about our
 plans for the development of MDP:</p>
 <ul class="simple">
 <li>Add more data processing algorithms.</li>
@@ -2046,10 +2087,21 @@ uses some of the fancy sum algorithms to avoid round off errors when
 adding many numbers.</li>
 </ul>
 </div>
+<div class="section">
+<h1><a class="toc-backref" href="#id25" id="contributors" name="contributors">Contributors</a></h1>
+<p>In this final section we want to thank all users who have contributed
+code to the MDP project. Strictly in alphabetical order:</p>
+<ul class="simple">
+<li><a class="reference" href="http://www.gbeckers.nl/">Gabriel Beckers</a></li>
+<li><a class="reference" href="http://www.bccn-berlin.de/People/farkhooi">Farzad Farkhooi</a></li>
+<li>Susanne Lezius</li>
+<li><a class="reference" href="http://userpage.fu-berlin.de/~schmuker/">Michael Schmuker</a></li>
+</ul>
+</div>
 </div>
 <div class="footer">
 <hr class="footer" />
-Generated on: 2007-03-23 17:34 UTC.
+Generated on: 2008-03-13 16:00 UTC.
 Generated by <a class="reference" href="http://docutils.sourceforge.net/">Docutils</a> from <a class="reference" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> source.
 
 </div>
