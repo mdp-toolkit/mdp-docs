@@ -1625,6 +1625,7 @@ for the full documentation and interface description.
 **PCANode**
    Filter the input data throug the most significatives of its
    principal components.
+
    More information about Principal Component Analysis, a.k.a. discrete
    Karhunen-Loeve transform can be found among others in
    I.T. Jolliffe, *Principal Component Analysis*, Springer-Verlag (1986).
@@ -1638,6 +1639,7 @@ for the full documentation and interface description.
 
 **SFANode**
    Extract the slowly varying components from the input data.
+
    More information about Slow Feature Analysis can be found in
    Wiskott, L. and Sejnowski, T.J., *Slow Feature Analysis: Unsupervised
    Learning of Invariances*, Neural Computation, 14(4):715-770 (2002).
@@ -1647,6 +1649,7 @@ for the full documentation and interface description.
    inhomogeneous polynomials of degree 2 and extract its slowly varying
    components. The ``get_quadratic_form`` method returns the input-output
    function of one of the learned unit as a ``mdp.utils.QuadraticForm`` object.
+
    More information about Slow Feature Analysis can be found in
    Wiskott, L. and Sejnowski, T.J., *Slow Feature Analysis: Unsupervised
    Learning of Invariances*, Neural Computation, 14(4):715-770 (2002).
@@ -1683,6 +1686,7 @@ Here is a list of nodes that have been contributed by MDP users:
 
 **JADENode**
    Perform Independent Component Analysis using the JADE algorithm.
+
    References:
    Cardoso, J.-F, and Souloumiac, A.
    *Blind beamforming for non Gaussian signals.*
@@ -1694,11 +1698,18 @@ Here is a list of nodes that have been contributed by MDP users:
    Hyvarinen A., Karhunen J., Oja E. (2001). *Independent Component Analysis*,
    Wiley.
 
-   Code contributed by:
+   Original code contributed by:
    Gabriel Beckers
 
 **NIPALSNode**
    Perform Principal Component Analysis using the NIPALS algorithm.
+   This algorithm is particularyl useful if you have more variable than
+   observations, or in general when the number of variables is huge and
+   calculating a full covariance matrix may be unfeasable. It's also more
+   efficient of the standard PCANode if you expect the number of significant
+   principal components to be a small. In this case setting output_dim to be
+   a certain fraction of the total variance, say 90%, may be of some help.
+
    Reference for NIPALS (Nonlinear Iterative Partial Least Squares):
    Wold, H.
    *Nonlinear estimation by iterative least squares procedures.*
@@ -1709,7 +1720,7 @@ Here is a list of nodes that have been contributed by MDP users:
    Karhunen-Loeve transform can be found among others in
    I.T. Jolliffe, *Principal Component Analysis*, Springer-Verlag (1986).
 
-   Code contributed by:
+   Original code contributed by:
    Michael Schmuker, Susanne Lezius, and Farzad Farkhooi (2008).
 
 
