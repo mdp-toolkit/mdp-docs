@@ -1675,6 +1675,26 @@ for the full documentation and interface description.
    Perform expansion in the space formed by all linear and quadratic
    monomials
 
+**RBMNode**
+   Implementation of a Restricted Boltzmann Machine.
+
+   For more information on RBMs, see
+   Geoffrey E. Hinton (2007) `Boltzmann machine.
+   <http://www.scholarpedia.org/article/Boltzmann_machine>`_
+   Scholarpedia, 2(5):1668
+
+**RBMWithLabelsNode**
+   Implementation of a Restricted Boltzmann Machine with softmax labels.
+
+   For more information on RBMs, see
+   Geoffrey E. Hinton (2007) `*Boltzmann machine*
+   <http://www.scholarpedia.org/article/Boltzmann_machine>`_
+   Scholarpedia, 2(5):1668
+
+   Hinton, G. E, Osindero, S., and Teh, Y. W. *A fast learning
+   algorithm for deep belief nets*, Neural Computation, 18:1527-1554 (2006). 
+   
+
 **SFANode**
    Extract the slowly varying components from the input data.
 
