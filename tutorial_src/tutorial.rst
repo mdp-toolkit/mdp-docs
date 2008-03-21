@@ -8,7 +8,7 @@ Tutorial
 
 .. raw:: html
    
-   This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_2_tutorial.pdf?download">pdf file</a> (250 KB).
+   This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_2_tutorial.pdf?download">pdf file</a> (260 KB).
 
 This is a guide to basic and some more advanced features of
 the MDP library. Besides the present tutorial, you can learn 
@@ -50,9 +50,10 @@ framework written in Python.
 
 From the user's perspective, MDP consists of a collection of trainable
 supervised and unsupervised algorithms or other data processing units
-(nodes) that can be combined into data processing flows. Given a
+(nodes) that can be combined into data processing flows and more 
+complex feed-forward network architectures. Given a
 sequence of input data, MDP takes care of successively training or
-executing all nodes in the flow. This structure allows to specify
+executing all nodes in the network. This structure allows to specify
 complex algorithms as a sequence of simpler data processing steps in a
 natural way. Training can be performed using small chunks of input
 data, so that the use of very large data sets becomes possible while
@@ -60,13 +61,16 @@ reducing the memory requirements. Memory usage can also be minimized
 by defining the internals of the nodes to be single precision.
 
 The base of readily available algorithms includes Principal Component
-Analysis, two flavors of Independent Component Analysis, Slow Feature
-Analysis, Gaussian Classifiers, Growing Neural Gas, Fisher
-Discriminant Analysis, and Factor Analysis. The full list
-of implemented nodes can be found in the `Node List`_ section.
+Analysis (PCA and NIPALS), three flavors of Independent Component
+Analysis (CuBICA, FastICA, and JADE), Slow Feature Analysis,
+Independent Slow Feature Analysis, Gaussian Classifiers, Growing
+Neural Gas, Fisher Discriminant Analysis, Factor Analysis, Restricted
+Boltzmann Machine, and many more.  The full list of implemented nodes
+can be found in the `Node List`_ section.
 
 From the developer's perspective, MDP is a framework to make the
-implementation of new algorithms easier. The basic class 'Node' takes
+implementation of new supervised and unsupervised algorithms easier. 
+The basic class ``Node`` takes
 care of tedious tasks like numerical type and dimensionality checking,
 leaving the developer free to concentrate on the implementation of the
 training and execution phases. The node then automatically integrates
@@ -88,9 +92,10 @@ where trainable data processing algorithms are used. Its simplicity on
 the user side together with the reusability of the implemented nodes
 make it also a valid educational tool.
 
-As its user base is steadily increasing, MDP appears as a good
+As its user and contributor base is steadily increasing, MDP appears as a good
 candidate for becoming a common repository of user-supplied, freely
 available, Python implemented data processing algorithms.
+
 
 Quick Start
 -----------
@@ -121,9 +126,11 @@ can be obtained as follows:
     'isfa', 'mdp', 'pca', 'sfa', 'sfa2', 'whitening']
 
     
-MDP is, of course, much more than this: it allows to combine different
+MDP is of course much more than this: it allows to combine different
 algorithms and other data processing elements (nodes) into data
-processing sequences (flows). Moreover, it provides a framework that
+processing sequences (flows), and more general feed-forward architectures
+(with the new ``hinet`` subpackage). 
+Moreover, it provides a framework that
 makes the implementation of new algorithms easy and intuitive.
 
 MDP requires the numerical Python extensions `numpy
@@ -1292,6 +1299,10 @@ Don't forget to clean the rubbish:
     >>> import os
     >>> os.remove('dummy.pic')
 
+Hierarchical Networks
+---------------------
+TODO!
+
 A real life example (Logistic maps)
 -----------------------------------
 We show an application of Slow Feature Analysis to the analysis of
@@ -1544,6 +1555,7 @@ for the full documentation and interface description.
 
 **CuBICANode**
    Perform Independent Component Analysis using the CuBICA algorithm.
+
    Reference: Blaschke, T. and Wiskott, L. (2003).
    *CuBICA: Independent Component Analysis by Simultaneous Third- and
    Fourth-Order Cumulant Diagonalization*.
@@ -1563,6 +1575,7 @@ for the full documentation and interface description.
    defined as ``eta(x) = T/(2*pi) * sqrt(delta(x))``.
    If 'x' is a signal of length 'T' which consists of a sine function
    that accomplishes exactly 'N' oscillations, then ``eta(x) = N``.
+   
    Reference: Wiskott, L. and Sejnowski, T.J. (2002).
    *Slow Feature Analysis:
    Unsupervised Learning of Invariances*, Neural Computation,
@@ -1579,6 +1592,7 @@ for the full documentation and interface description.
 
 **FastICANode**
    Perform Independent Component Analysis using the FastICA algorithm.
+   
    Reference:
    Aapo Hyvarinen (1999).
    *Fast and Robust Fixed-Point Algorithms for Independent Component Analysis*,
@@ -1591,6 +1605,7 @@ for the full documentation and interface description.
    Perform a (generalized) Fisher Discriminant Analysis of its
    input. It is a supervised node that implements FDA using a
    generalized eigenvalue approach.
+   
    More information on Fisher Discriminant Analysis can be found for
    example in C. Bishop, *Neural Networks for Pattern Recognition*,
    Oxford Press, pp. 105-112.
@@ -1603,6 +1618,7 @@ for the full documentation and interface description.
 **GrowingNeuralGasNode**
    Learn the topological structure of the input data by building a corresponding
    graph approximation. 
+   
    More information about the Growing Neural Gas algorithm can be found in B.
    Fritzke, *A Growing Neural Gas Network Learns Topologies*, in G. Tesauro, D. S.
    Touretzky, and T. K. Leen (editors), *Advances in Neural Information
@@ -1614,6 +1630,7 @@ for the full documentation and interface description.
 
 **ISFANode**
    Perform Independent Slow Feature Analysis on the input data.
+   
    More information about ISFA can be found in:
    Blaschke, T. , Zito, T., and Wiskott, L.
    *Independent Slow Feature Analysis and Nonlinear Blind Source Separation.*
@@ -1687,7 +1704,7 @@ for the full documentation and interface description.
    Implementation of a Restricted Boltzmann Machine with softmax labels.
 
    For more information on RBMs, see
-   Geoffrey E. Hinton (2007) `*Boltzmann machine*
+   Geoffrey E. Hinton (2007) `Boltzmann machine
    <http://www.scholarpedia.org/article/Boltzmann_machine>`_
    Scholarpedia, 2(5):1668
 
