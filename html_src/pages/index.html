@@ -1,11 +1,8 @@
 <DIV ID="news-box">
 <B>News</B>
 <table>
-  <tr><td>26.03.2007:<td>MDP 2.1 released
+  <tr><td>22.03.2008:<td>MDP 2.2 released
 			  (<A HREF="CHANGES">changes since last release</A>).
-  <tr><td>23.03.2007:<td>The <a href="tutorial.html">Tutorial</a> has been updated.
-  <tr><td>23.03.2007:<td>The <a href="symeig.html">symeig</a> package has been updated to
-                         use NumPy 1.0.
 </table>
 </DIV>
 
@@ -15,8 +12,9 @@
 algorithms include: Principal Component Analysis (PCA), Independent
 Component Analysis (ICA), Slow Feature Analysis (SFA), Independent
 Slow Feature Analysis (ISFA), Growing Neural
-Gas (GNG), Factor Analysis, Fisher Discriminant Analysis (FDA), and Gaussian
-Classifiers. Read the <a href="tutorial.html#node-list">full list</a>.
+Gas (GNG), Factor Analysis, Fisher Discriminant Analysis (FDA), Gaussian
+Classifiers, and Restricted Boltzmann Machines. 
+Read the <a href="tutorial.html#node-list">full list</a>.
 
 <HR>
 
@@ -34,7 +32,9 @@ Using MDP is as easy as:
 </pre>
 MDP is of course much more than this: it allows to combine different
 algorithms and other data processing elements (nodes) into data
-processing sequences (flows). Moreover, it provides a framework that
+processing sequences (flows), and more general feed-forward architectures
+(with the new <CODE>hinet</CODE> subpackage). 
+Moreover, it provides a framework that
 makes the implementation of new algorithms easy and intuitive.
 
 <P>
@@ -43,7 +43,7 @@ To learn more about MDP:
 <UL>
 <LI>Read the <A HREF="#INTRO">long description</A>
 <LI>Take a look at the <a href="tutorial.html">Tutorial</a>
-    (<a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_1_tutorial.pdf?download">pdf</a> 250 KB)
+    (<a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_1_tutorial.pdf?download">pdf</a> 260 KB)
 <LI ID="EUROPYTALK"> See the presentation given at the <a href="http://www.europython.org/">Europython</a> conference in Geneva, Switzerland, July 3-5 2006:
  <a href="EuroPython2006MDPTalk.sxi">OpenOffice</a> (603 KB), <a href="EuroPython2006MDPTalk.pdf">pdf</a> (250 KB). 
 <!-- <li>Read the <a href="faq.html">FAQ</a> -->
@@ -60,9 +60,10 @@ To learn more about MDP:
 <P>
 From the user's perspective, MDP consists of a collection of trainable
 supervised and unsupervised algorithms or other data processing units
-(nodes) that can be combined into data processing flows. Given a
+(nodes) that can be combined into data processing flows and more 
+complex feed-forward network architectures. Given a
 sequence of input data, MDP takes care of successively training or
-executing all nodes in the flow. This structure allows to specify
+executing all nodes in the network. This structure allows to specify
 complex algorithms as a sequence of simpler data processing steps in a
 natural way. Training can be performed using small chunks of input
 data, so that the use of very large data sets becomes possible while
@@ -71,15 +72,16 @@ by defining the internals of the nodes to be single precision.
 
 <P>
 The base of <a href="tutorial.html#node-list">readily available
-algorithms</a> includes Principal Component Analysis, three flavors of
-Independent Component Analysis, Slow Feature Analysis, Independent 
-Slow Feature Analysis, Gaussian
+algorithms</a> includes Principal Component Analysis (PCA and NIPALS), 
+three flavors of Independent Component Analysis (CuBICA, FastICA, and JADE), 
+Slow Feature Analysis, Independent Slow Feature Analysis, Gaussian
 Classifiers, Growing Neural Gas, Fisher Discriminant Analysis,
-Factor Analysis, and many more.
+Factor Analysis, Restricted Boltzmann Machine, and many more.
 
 <P>
 From the developer's perspective, MDP is a framework to make the
-implementation of new algorithms easier. The basic class 'Node' takes
+implementation of new supervised and unsupervised algorithms easier. 
+The basic class <CODE>Node</CODE> takes
 care of tedious tasks like numerical type and dimensionality checking,
 leaving the developer free to concentrate on the implementation of the
 training and execution phases. The node then automatically integrates
@@ -103,7 +105,7 @@ the user side together with the reusability of the implemented nodes
 make it also a valid educational tool.
 
 <P>
-As its user base is steadily increasing, MDP appears as a good
+As its user and contributor base is steadily increasing, MDP appears as a good
 candidate for becoming a common repository of user-supplied, freely
 available, Python implemented data processing algorithms.
 
@@ -121,7 +123,7 @@ used if installed.
 <P>
 <B>Download:</B>
 <A HREF="http://sourceforge.net/project/showfiles.php?group_id=116959">
-Download MDP 2.1 at SourceForge</A>. If you want to live on the bleeding 
+Download MDP 2.2 at SourceForge</A>. If you want to live on the bleeding 
 edge, check out the MDP 
 <a href="http://sourceforge.net/svn/?group_id=116959">svn repository</a>: you 
 can <a href="http://mdp-toolkit.svn.sourceforge.net/">browse the repository</a>
@@ -129,6 +131,8 @@ or just check out the trunk with:
 <pre class="literal-block">
 svn co https://mdp-toolkit.svn.sourceforge.net/svnroot/mdp-toolkit/mdp/trunk/mdp mdp
 </pre>
+Thanks to Yaroslav Halchenko, Debian unstable users can install 
+the <CODE>python-mdp</CODE> package. 
 
 <P>
 <B>Installation:</B><BR>
@@ -178,6 +182,10 @@ Current maintainers are:
 <li> <a href="http://itb.biologie.hu-berlin.de/~wilbert">Niko Wilbert</a>
 <li> <a href="http://itb.biologie.hu-berlin.de/~zito">Tiziano Zito</a>
 </ul>
+<a href="http://www.onerussian.com/">Yaroslav Halchenko</a> maintains the 
+<a href="http://packages.debian.org/sid/python-mdp">python-mdp</a> Debian 
+package.
+<p>
  For comments, patches, feature requests, support requests,
 and bug reports (if any) you can use the
 users <a href="http://sourceforge.net/mail/?group_id=116959">mailing
@@ -195,7 +203,7 @@ If you use MDP for scientific purposes, you may want to cite it. This
 is the official way to do it:
 
 <P>
-Berkes, P. and Zito, T. (2008)<BR>
+Berkes, P., Wilbert, N., and Zito, T. (2008)<BR>
 <B>Modular Toolkit for Data Processing (version 2.2)</B><BR>
 <a href="http://mdp-toolkit.sourceforge.net">http://mdp-toolkit.sourceforge.net</a>
 
@@ -205,12 +213,3 @@ if you don't mind).
 
 <HR>
 
-<H2 ID="MIGRATE">Migration from old versions</H2>
-
-In the transition to MDP 2.0 it was necessary to implement some
-non-backward compatible changes. This should not affect you, unless
-you wrote your own subclasses. Read
-<a href="tutorial.html#writing-your-own-nodes-subclassing-node">this section</a>
- of the tutorial, after which migration should be straightforward. If you
-still experience difficulties, please write a message on the 
-<a href="http://sourceforge.net/mail/?group_id=116959">mailing list</a>.
