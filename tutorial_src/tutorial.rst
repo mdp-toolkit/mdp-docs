@@ -1619,6 +1619,44 @@ for the full documentation and interface description.
    *Independent Slow Feature Analysis and Nonlinear Blind Source Separation.*
    Neural Computation 19(4):994-1021 (2007).
 
+**JADENode**
+   Original code contributed by Gabriel Beckers.
+
+   Perform Independent Component Analysis using the JADE algorithm.
+
+   References:
+   Cardoso, J.-F, and Souloumiac, A.
+   *Blind beamforming for non Gaussian signals.*
+   Radar and Signal Processing, IEE Proceedings F, 140(6): 362-370 (1993), and
+   Cardoso, J.-F.
+   *High-order contrasts for independent component analysis.*
+   Neural Computation, 11(1): 157-192 (1999).   
+   More information about ICA can be found among others in
+   Hyvarinen A., Karhunen J., Oja E. (2001). *Independent Component Analysis*,
+   Wiley.
+
+
+**NIPALSNode**
+   Original code contributed by Michael Schmuker, Susanne Lezius, and Farzad Farkhooi.
+
+   Perform Principal Component Analysis using the NIPALS algorithm.
+   This algorithm is particularyl useful if you have more variable than
+   observations, or in general when the number of variables is huge and
+   calculating a full covariance matrix may be unfeasable. It's also more
+   efficient of the standard PCANode if you expect the number of significant
+   principal components to be a small. In this case setting output_dim to be
+   a certain fraction of the total variance, say 90%, may be of some help.
+
+   Reference for NIPALS (Nonlinear Iterative Partial Least Squares):
+   Wold, H.
+   *Nonlinear estimation by iterative least squares procedures.*
+   in David, F. (Editor), Research Papers in Statistics, Wiley,
+   New York, pp 411-444 (1966).
+   
+   More information about Principal Component Analysis, a.k.a. discrete
+   Karhunen-Loeve transform can be found among others in
+   I.T. Jolliffe, *Principal Component Analysis*, Springer-Verlag (1986).
+
 **NoiseNode**
    Inject multiplicative or additive noise into the input data.
 
@@ -1679,50 +1717,6 @@ for the full documentation and interface description.
    'Whiten' the input data by filtering it through the most
    significatives of its principal components. All output
    signals have zero mean, unit variance and are decorrelated.
-
-Contributed Nodes
------------------
-Here is a list of nodes that have been contributed by MDP users:
-
-**JADENode**
-   Perform Independent Component Analysis using the JADE algorithm.
-
-   References:
-   Cardoso, J.-F, and Souloumiac, A.
-   *Blind beamforming for non Gaussian signals.*
-   Radar and Signal Processing, IEE Proceedings F, 140(6): 362-370 (1993), and
-   Cardoso, J.-F.
-   *High-order contrasts for independent component analysis.*
-   Neural Computation, 11(1): 157-192 (1999).   
-   More information about ICA can be found among others in
-   Hyvarinen A., Karhunen J., Oja E. (2001). *Independent Component Analysis*,
-   Wiley.
-
-   Original code contributed by:
-   Gabriel Beckers
-
-**NIPALSNode**
-   Perform Principal Component Analysis using the NIPALS algorithm.
-   This algorithm is particularyl useful if you have more variable than
-   observations, or in general when the number of variables is huge and
-   calculating a full covariance matrix may be unfeasable. It's also more
-   efficient of the standard PCANode if you expect the number of significant
-   principal components to be a small. In this case setting output_dim to be
-   a certain fraction of the total variance, say 90%, may be of some help.
-
-   Reference for NIPALS (Nonlinear Iterative Partial Least Squares):
-   Wold, H.
-   *Nonlinear estimation by iterative least squares procedures.*
-   in David, F. (Editor), Research Papers in Statistics, Wiley,
-   New York, pp 411-444 (1966).
-   
-   More information about Principal Component Analysis, a.k.a. discrete
-   Karhunen-Loeve transform can be found among others in
-   I.T. Jolliffe, *Principal Component Analysis*, Springer-Verlag (1986).
-
-   Original code contributed by:
-   Michael Schmuker, Susanne Lezius, and Farzad Farkhooi (2008).
-
 
 .. admonition:: Didn't you find what you were looking for?
    
