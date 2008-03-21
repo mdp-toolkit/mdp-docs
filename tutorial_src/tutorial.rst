@@ -1965,5 +1965,6 @@ code to the MDP project. Strictly in alphabetical order:
 
 - `Gabriel Beckers <http://www.gbeckers.nl/>`_
 - `Farzad Farkhooi <http://www.bccn-berlin.de/People/farkhooi>`_
+- Mathias Franzius
 - Susanne Lezius
 - `Michael Schmuker <http://userpage.fu-berlin.de/~schmuker/>`_
