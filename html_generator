@@ -11,10 +11,10 @@ cp ../mdp_dist/CHANGES html/CHANGES
 #./api_generator
 #cp -r API/docs html/
 echo 'Done.'
-#echo 'Generating tutorial HTML and PDF...'
-#cd tutorial_src/
-#./genhtml
-#cd ..
+echo 'Generating tutorial HTML and PDF...'
+cd tutorial_src/
+./genhtml
+cd ..
 echo 'Generating MDP website...'
 cd html_src
 python granparser.py

@@ -7,13 +7,13 @@ body {
 	}
 
 a:visited, a:link { 
-	   color:#286ea0; 
+	   color:#878F30; 
 	   text-decoration:none;
 }
 
 a:hover {
-	background: #eaeaea;
-	color: #286ea0;
+	background: #DAE55C;
+	color: black;
 }
 
 /* tables */
@@ -27,6 +27,7 @@ td { vertical-align:top; }
 /* lists */
 
 UL { padding-left:1em; 
+list-style-image: url('blkpearl.png');
    }
 
 UL LI {
@@ -41,13 +42,13 @@ UL.nice { list-style-type:none; }
 
 UL.nice LI {
         background: #F0F8FF;
-	border: 1px solid #708090;
+	border: 1px solid #878F30;
 	padding:0.5em 0.5em 0.5em 0.5em;
 }
 
 OL.nice LI {
         background: #F0F8FF;
-	border: 1px solid #708090;
+	border: 1px solid #878F30;
 	padding:0.5em 0.5em 0.5em 0.5em;
 	list-style-type:lower-roman;
 }
@@ -63,10 +64,10 @@ H1 {
 	}
 
 #news-box {
-  margin-top: 2em;
-  margin-right: 35%;
+  margin-top: 28px;
+  /*margin-right: 35%;*/
   padding: .5em; 
-  border: 3px solid #708090;
+  border: 1px solid #878F30;
   font-size:smaller;
 }
 
@@ -81,22 +82,22 @@ H1 {
 
 code {
 	text-align:left;
-	color:#000080;
+	color:#878F30;
 }
 
 pycode {
 	text-align:left;
-	color:#000080;
+	color:#878F30;
 	margin-left:2em;
 	font-weight:bold;
 }
 
 pre.literal-block {
   overflow: auto;
-  background: #5A6375; 
+  background: #DAE55C; 
   padding: .5em; 
   margin: 1em;
-  border: 1px solid #708090;
+  border: 1px solid #878F30;
 }
 
 .pycomment {
@@ -125,13 +126,14 @@ pre.literal-block {
 }
 
 #header {
-	background:#5A6375;
+	background:#DAE55C;
 	text-align:center;
-        border: 1px solid #708090;
+    border: 1px solid #878F30;
 	padding:5px;
 	text-decoration:none;
 	font-size:250%;
 	font-weight:bold;
+    color:#878F30;
 	/*margin-left:3.5em;*/
 }
 
@@ -141,36 +143,47 @@ IMG.whiteb  {
 	border-style:solid;
  }
 
-#sidebar {
-/*	top:auto;
-    position:fixed;
-	text-align:left; */
-	margin-top:2em;
-    width:8em;
-	float:left;
+.img_header a:hover {
+background:#DAE55C;
 }
 
-.abox {
-	background:#5A6375;
-	padding:3px;
-	margin:0px;
-	margin-bottom:-1px;
-	width:inherit;
-	text-align:center;
-        border: 1px solid #708090;
+#sidebar{ 
+clear: left;
+float: left;
+width: 9em;
+margin: 10px 10px 10px 0;
+padding: 0;
+/*font-size: 0.9em;*/
 }
 
+#sidebar ul {	
+list-style: none;
+width: auto;
+margin: 18px 0 20px 0;
+padding: 0;
+text-align:center; 
+/*font-size:1em;*/
+}	
 
-DIV.abox > A {
-	color:black;
- 	text-decoration:none;
+#sidebar li {
+margin-top:4px;
+margin-bottom: 4px;
 }
 
-DIV.abox > A:hover {
-	background:#eaeaea;
-	color: #286ea0;
+#sidebar li a {
+font-weight: bold;
+/*height: 20px;*/
+text-decoration: none;
+color: #878F30;
+display: block;
+padding: 4px 0px 4px 0px;
+background:#DAE55C;
+border: 1px solid #878F30;
 }
-
+	
+#sidebar li a:hover {
+color:black;
+}
 
 #container {
 	padding-right:30px;
@@ -186,3 +199,222 @@ DIV.abox > A:hover {
 
 #footer {
 }
+
+
+/*------------ docutils ---------------*/
+.first {
+  margin-top: 0 ! important }
+
+.last {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: 1px solid #708090;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font-family: serif ;
+  font-size: 100% }
+
+pre.line-block {
+  font-family: serif ;
+  font-size: 100% }
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+table.citation {
+  border-left: solid thin gray }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid thin black }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+tt.docutils { 
+  font-weight: bold ;
+  /*border: 1px solid #708090;*/
+  /*background-color: #5A6375#f9c852;*/ 
+}
+
+ul.auto-toc {
+  list-style-type: none }

@@ -20,7 +20,7 @@ TEMP=$PWD/temp
 TEMPD=$PWD/tempd
 python modify_header.py > $TEMP 
 TUTHTML=tutorial.html
-RST="rst2html -g -t --stylesheet=docutils.css" 
+RST="rst2html -g -t --stylesheet=styles.css" 
 $RST $TEMP $TEMPD
 # enclose body of $TEMP with our headers and footers
 # and copy it into the right place
