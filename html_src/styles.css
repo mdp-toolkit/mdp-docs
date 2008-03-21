@@ -6,7 +6,15 @@ body {
 	margin-bottom:50px;
 	}
 
-:link { color:#506758; }
+a:visited, a:link { 
+	   color:#286ea0; 
+	   text-decoration:none;
+}
+
+a:hover {
+	background: #eaeaea;
+	color: #286ea0;
+}
 
 /* tables */
 table { border-style:none; }
@@ -85,7 +93,7 @@ pycode {
 
 pre.literal-block {
   overflow: auto;
-  background: #f9c852; 
+  background: #5A6375; 
   padding: .5em; 
   margin: 1em;
   border: 1px solid #708090;
@@ -117,7 +125,7 @@ pre.literal-block {
 }
 
 #header {
-	background:#f9c852;
+	background:#5A6375;
 	text-align:center;
         border: 1px solid #708090;
 	padding:5px;
@@ -143,7 +151,7 @@ IMG.whiteb  {
 }
 
 .abox {
-	background:#f9c852;
+	background:#5A6375;
 	padding:3px;
 	margin:0px;
 	margin-bottom:-1px;
@@ -152,10 +160,17 @@ IMG.whiteb  {
         border: 1px solid #708090;
 }
 
+
 DIV.abox > A {
 	color:black;
  	text-decoration:none;
 }
+
+DIV.abox > A:hover {
+	background:#eaeaea;
+	color: #286ea0;
+}
+
 
 #container {
 	padding-right:30px;

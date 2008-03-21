@@ -22,10 +22,19 @@ body {
 
 UL { padding-left:1em; }
 
-:link { color:#506758; }
+a:visited, a:link { 
+	   color:#286ea0; 
+	   text-decoration:none;
+}
+
+a:hover {
+	background: #eaeaea;
+	color: #286ea0;
+}
+
 
 #header {
-	background:#f9c852;
+	background:#5A6375;
 	text-align:center;
         border: 1px solid #708090;
 	padding:5px;
@@ -54,7 +63,7 @@ IMG.whiteb  {
 }
 
 .abox {
-	background:#f9c852;
+	background:#5A6375;
 	padding:3px;
 	margin:0px;
 	margin-bottom:-1px;
@@ -246,7 +255,7 @@ pre.line-block {
 
 pre.literal-block, pre.doctest-block {
   overflow: auto;
-  background: #f9c852; 
+  background: #5A6375; 
   padding: .5em; 
   margin: 1em;
   border: 1px solid #708090;
@@ -304,7 +313,7 @@ h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
 tt.docutils { 
   font-weight: bold ;
   /*border: 1px solid #708090;*/
-  /*background-color: #f9c852;*/ 
+  /*background-color: #5A6375#f9c852;*/ 
 }
 
 ul.auto-toc {
