@@ -1949,9 +1949,7 @@ plans for the development of MDP:
 
 - Add more data processing algorithms.
 
-- Extend the linear flows to handle general acyclic graphs of nodes.
-
-- Actual use of the graph structure will be possible only in presence of 
+- Advanced usage of the hinet package will be possible only in presence of 
   an easy and intuitive GUI :)
 
 - Wait for a good guy who wants to contribute a ``CovarianceMatrix`` class that
