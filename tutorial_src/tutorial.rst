@@ -1553,7 +1553,7 @@ Refer to the
 `API <http://mdp-toolkit.sourceforge.net/docs/api/index.html>`_
 for the full documentation and interface description.
 
-- `CuBICANode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.ica_nodes.CuBICANode-class.html>`_
+- `CuBICANode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.CuBICANode-class.html>`_
    Perform Independent Component Analysis using the CuBICA algorithm.
 
    Reference: Blaschke, T. and Wiskott, L. (2003).
@@ -1564,7 +1564,7 @@ for the full documentation and interface description.
    Hyvarinen A., Karhunen J., Oja E. (2001). *Independent Component Analysis*,
    Wiley.
 
-- `EtaComputerNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.misc_nodes.EtaComputerNode-class.html>`_
+- `EtaComputerNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.EtaComputerNode-class.html>`_
    Compute the eta values of the normalized training data.
    The delta value of a signal is a measure of its temporal
    variation, and is defined as the mean of the derivative squared,
@@ -1581,7 +1581,7 @@ for the full documentation and interface description.
    Unsupervised Learning of Invariances*, Neural Computation,
    14(4):715-770.
 
-- `FANode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.em_nodes.FANode-class.html>`_
+- `FANode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.FANode-class.html>`_
    Perform Factor Analysis. The current implementation should be most
    efficient for long data sets: the sufficient statistics are
    collected in the training phase, and all EM-cycles are performed at
@@ -1590,7 +1590,7 @@ for the full documentation and interface description.
    <http://www.ics.uci.edu/~welling/classnotes/classnotes.html>`_
    in the chapter "Linear Models".
 
-- `FastICANode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.ica_nodes.FastICANode-class.html>`_
+- `FastICANode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.FastICANode-class.html>`_
    Perform Independent Component Analysis using the FastICA algorithm.
    
    Reference:
@@ -1601,7 +1601,7 @@ for the full documentation and interface description.
    Hyvarinen A., Karhunen J., Oja E. (2001). *Independent Component Analysis*,
    Wiley.
 
-- `FDANode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.fda_nodes.FDANode-class.html>`_
+- `FDANode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.FDANode-class.html>`_
    Perform a (generalized) Fisher Discriminant Analysis of its
    input. It is a supervised node that implements FDA using a
    generalized eigenvalue approach.
@@ -1610,12 +1610,12 @@ for the full documentation and interface description.
    example in C. Bishop, *Neural Networks for Pattern Recognition*,
    Oxford Press, pp. 105-112.
 
-- `GaussianClassifierNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.misc_nodes.GaussianClassifierNode-class.html>`_
+- `GaussianClassifierNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.GaussianClassifierNode-class.html>`_
    Perform a supervised Gaussian classification.  Given a set of
    labelled data, the node fits a gaussian distribution to each
    class.
 
-- `GrowingNeuralGasNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.neural_gas_nodes.GrowingNeuralGasNode-class.html>`_
+- `GrowingNeuralGasNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.GrowingNeuralGasNode-class.html>`_
    Learn the topological structure of the input data by building a corresponding
    graph approximation. 
    
@@ -1624,11 +1624,11 @@ for the full documentation and interface description.
    Touretzky, and T. K. Leen (editors), *Advances in Neural Information
    Processing Systems 7*, pages 625-632. MIT Press, Cambridge MA, 1995.
 
-- `HitParadeNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.misc_nodes.HitParadeNode-class.html>`_
+- `HitParadeNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.HitParadeNode-class.html>`_
    Collect the first 'n' local maxima and minima of the training signal
    which are separated by a minimum gap 'd'.
 
-- `ISFANode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.isfa_nodes.ISFANode-class.html>`_
+- `ISFANode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.ISFANode-class.html>`_
    Perform Independent Slow Feature Analysis on the input data.
    
    More information about ISFA can be found in:
@@ -1636,7 +1636,7 @@ for the full documentation and interface description.
    *Independent Slow Feature Analysis and Nonlinear Blind Source Separation.*
    Neural Computation 19(4):994-1021 (2007).
 
-- `JADENode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.contrib.jade.JADENode-class.html>`_
+- `JADENode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.contrib.JADENode-class.html>`_
    Original code contributed by Gabriel Beckers.
 
    Perform Independent Component Analysis using the JADE algorithm.
@@ -1653,7 +1653,7 @@ for the full documentation and interface description.
    Wiley.
 
 
-- `NIPALSNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.contrib.nipals.NIPALSNode-class.html>`_
+- `NIPALSNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.contrib.NIPALSNode-class.html>`_
    Original code contributed by Michael Schmuker, Susanne Lezius, and Farzad Farkhooi.
 
    Perform Principal Component Analysis using the NIPALS algorithm.
@@ -1674,12 +1674,12 @@ for the full documentation and interface description.
    Karhunen-Loeve transform can be found among others in
    I.T. Jolliffe, *Principal Component Analysis*, Springer-Verlag (1986).
 
-- `NoiseNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.misc_nodes.NoiseNode-class.html>`_
+- `NoiseNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.NoiseNode-class.html>`_
    Original code contributed by Mathias Franzius.
    
    Inject multiplicative or additive noise into the input data.
 
-- `PCANode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.pca_nodes.PCANode-class.html>`_
+- `PCANode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.PCANode-class.html>`_
    Filter the input data throug the most significatives of its
    principal components.
 
@@ -1687,14 +1687,14 @@ for the full documentation and interface description.
    Karhunen-Loeve transform can be found among others in
    I.T. Jolliffe, *Principal Component Analysis*, Springer-Verlag (1986).
 
-- `PolynomialExpansionNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.expansion_nodes.PolynomialExpansionNode-class.html>`_
+- `PolynomialExpansionNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.PolynomialExpansionNode-class.html>`_
    Perform expansion in a polynomial space.
 
-- `QuadraticExpansionNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.expansion_nodes.QuadraticExpansionNode-class.html>`_
+- `QuadraticExpansionNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.QuadraticExpansionNode-class.html>`_
    Perform expansion in the space formed by all linear and quadratic
    monomials
 
-- `RBMNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.rbm_nodes.RBMNode-class.html>`_
+- `RBMNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.RBMNode-class.html>`_
    Implementation of a Restricted Boltzmann Machine.
 
    For more information on RBMs, see
@@ -1702,7 +1702,7 @@ for the full documentation and interface description.
    <http://www.scholarpedia.org/article/Boltzmann_machine>`_
    Scholarpedia, 2(5):1668
 
-- `RBMWithLabelsNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.rbm_nodes.RBMWithLabelsNode-class.html>`_
+- `RBMWithLabelsNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.RBMWithLabelsNode-class.html>`_
    Implementation of a Restricted Boltzmann Machine with softmax labels.
 
    For more information on RBMs, see
@@ -1714,14 +1714,14 @@ for the full documentation and interface description.
    algorithm for deep belief nets*, Neural Computation, 18:1527-1554 (2006). 
    
 
-- `SFANode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.sfa_nodes.SFANode-class.html>`_
+- `SFANode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.SFANode-class.html>`_
    Extract the slowly varying components from the input data.
 
    More information about Slow Feature Analysis can be found in
    Wiskott, L. and Sejnowski, T.J., *Slow Feature Analysis: Unsupervised
    Learning of Invariances*, Neural Computation, 14(4):715-770 (2002).
 
-- `SFA2Node <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.sfa_nodes.SFA2Node-class.html>`_
+- `SFA2Node <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.SFA2Node-class.html>`_
    Get an input signal, expand it in the space of
    inhomogeneous polynomials of degree 2 and extract its slowly varying
    components. The ``get_quadratic_form`` method returns the input-output
@@ -1731,7 +1731,7 @@ for the full documentation and interface description.
    Wiskott, L. and Sejnowski, T.J., *Slow Feature Analysis: Unsupervised
    Learning of Invariances*, Neural Computation, 14(4):715-770 (2002).
 
-- `TimeFramesNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.misc_nodes.TimeFramesNode-class.html>`_
+- `TimeFramesNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.TimeFramesNode-class.html>`_
    Copy delayed version of the input signal on the space dimensions.
 
    .. raw:: html
@@ -1752,7 +1752,7 @@ for the full documentation and interface description.
         X(8) Y(8)
         ...  ...  ]
 
-- `WhiteningNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.pca_nodes.WhiteningNode-class.html>`_
+- `WhiteningNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.WhiteningNode-class.html>`_
    'Whiten' the input data by filtering it through the most
    significatives of its principal components. All output
    signals have zero mean, unit variance and are decorrelated.

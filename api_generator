@@ -5,8 +5,24 @@ mkdir API/docs
 mkdir API/docs/api
 rm -rf mdp
 cp -r ../mdp .
-rm -rf mdp/demo
-rm -rf mdp/test
-epydoc --html -o API/docs/api --name="Modular toolkit for Data Processing MDP" --url="http://mdp-toolkit.sourceforge.net" --show-sourcecode --inheritance=grouped --docformat=plaintext ./mdp
+#rm -rf mdp/demo
+#rm -rf mdp/test
+#epydoc --html -o API/docs/api --name="Modular toolkit for Data Processing MDP" --url="http://mdp-toolkit.sourceforge.net" --show-sourcecode --inheritance=grouped --docformat=plaintext ./mdp
+/home/tiziano/svn/epydoc/scripts/epydoc \
+--html -o API/docs/api --name="Modular toolkit for Data Processing MDP" \
+--url="http://mdp-toolkit.sourceforge.net"  \
+--css=html_src/API.css \
+--show-frames \
+--introspect-only --no-sourcecode --no-imports --redundant-details \
+--inheritance=grouped \
+--no-imports \
+--redundant-details \
+--show-submodule-list \
+--no-inherit-from-object \
+--graph all --graph-image-format png --graph-font-size 9 \
+--verbose \
+--docformat=plaintext \
+mdp/__init__.py
+
 rm -rf mdp
 
