@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="generator" content="Docutils 0.4.1: http://docutils.sourceforge.net/" />
 <title>Tutorial</title>
-<meta name="author" content="Pietro Berkes and Tiziano Zito" />
+<meta name="author" content="Pietro Berkes, Tiziano Zito and Niko Wilbert" />
 <meta name="copyright" content="This document has been placed in the public domain." />
 <meta content="Modular toolkit for Data Processing (MDP) Tutorial" name="description" />
 <meta content="data processing, toolkit, scipy, python, SFA, ICA, PCA" name="keywords" />
@@ -467,16 +467,16 @@ ul.auto-toc {
 <col class="docinfo-content" />
 <tbody valign="top">
 <tr><th class="docinfo-name">Author:</th>
-<td>Pietro Berkes and Tiziano Zito</td></tr>
+<td>Pietro Berkes, Tiziano Zito and Niko Wilbert</td></tr>
 <tr class="field"><th class="docinfo-name">Homepage:</th><td class="field-body"><a class="reference" href="http://mdp-toolkit.sourceforge.net">http://mdp-toolkit.sourceforge.net</a></td>
 </tr>
 <tr><th class="docinfo-name">Copyright:</th>
 <td>This document has been placed in the public domain.</td></tr>
 <tr><th class="docinfo-name">Version:</th>
-<td>2.2</td></tr>
+<td>2.3</td></tr>
 </tbody>
 </table>
-This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_2_tutorial.pdf?download">pdf file</a> (260 KB).<p>This is a guide to basic and some more advanced features of
+This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_3_tutorial.pdf?download">pdf file</a> (260 KB).<p>This is a guide to basic and some more advanced features of
 the MDP library. Besides the present tutorial, you can learn
 more about MDP by using the standard Python tools.
 All MDP nodes have doc-strings, the public
@@ -522,16 +522,21 @@ in the MDP installation path.</p>
 </li>
 <li><a class="reference" href="#iterators" id="id17" name="id17">Iterators</a></li>
 <li><a class="reference" href="#checkpoints" id="id18" name="id18">Checkpoints</a></li>
-<li><a class="reference" href="#hierarchical-networks" id="id19" name="id19">Hierarchical Networks</a></li>
-<li><a class="reference" href="#a-real-life-example-logistic-maps" id="id20" name="id20">A real life example (Logistic maps)</a></li>
-<li><a class="reference" href="#another-real-life-example-growing-neural-gas" id="id21" name="id21">Another real life example (Growing neural gas)</a></li>
-<li><a class="reference" href="#node-list" id="id22" name="id22">Node List</a></li>
-<li><a class="reference" href="#additional-utilities" id="id23" name="id23">Additional utilities</a><ul>
-<li><a class="reference" href="#graph-module" id="id24" name="id24">Graph module</a></li>
+<li><a class="reference" href="#hierarchical-networks" id="id19" name="id19">Hierarchical Networks</a><ul>
+<li><a class="reference" href="#building-blocks" id="id20" name="id20">Building blocks</a></li>
+<li><a class="reference" href="#html-representation" id="id21" name="id21">HTML representation</a></li>
+<li><a class="reference" href="#example-application-2d-image-data" id="id22" name="id22">Example application (2d image data)</a></li>
 </ul>
 </li>
-<li><a class="reference" href="#to-do" id="id25" name="id25">To Do</a></li>
-<li><a class="reference" href="#contributors" id="id26" name="id26">Contributors</a></li>
+<li><a class="reference" href="#a-real-life-example-logistic-maps" id="id23" name="id23">A real life example (Logistic maps)</a></li>
+<li><a class="reference" href="#another-real-life-example-growing-neural-gas" id="id24" name="id24">Another real life example (Growing neural gas)</a></li>
+<li><a class="reference" href="#node-list" id="id25" name="id25">Node List</a></li>
+<li><a class="reference" href="#additional-utilities" id="id26" name="id26">Additional utilities</a><ul>
+<li><a class="reference" href="#graph-module" id="id27" name="id27">Graph module</a></li>
+</ul>
+</li>
+<li><a class="reference" href="#to-do" id="id28" name="id28">To Do</a></li>
+<li><a class="reference" href="#contributors" id="id29" name="id29">Contributors</a></li>
 </ul>
 </div>
 <div class="section">
@@ -1682,10 +1687,155 @@ SFANode(input_dim=35, output_dim=35, dtype='d')
 </div>
 <div class="section">
 <h1><a class="toc-backref" href="#id19" id="hierarchical-networks" name="hierarchical-networks">Hierarchical Networks</a></h1>
-<p>TODO!</p>
+<p>The <tt class="docutils literal"><span class="pre">hinet</span></tt> package makes it possible to construct graph-like Node structures,
+especially hierarchical networks.</p>
+<div class="section">
+<h2><a class="toc-backref" href="#id20" id="building-blocks" name="building-blocks">Building blocks</a></h2>
+<p>The <tt class="docutils literal"><span class="pre">hinet</span></tt> package contains three basic buiding blocks (which are all nodes
+themselves) to construct hierarchical node networks:</p>
+<ul>
+<li><p class="first">The most important building block is the new <tt class="docutils literal"><span class="pre">Layer</span></tt> node, which works like a
+horizontal version of flow. It encapsulates a list of Nodes, which are trained
+and executed in parallel.
+For example we can combine two Nodes with 100 dimensional input to
+construct a layer with a 200 dimensional input:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; node1 = mdp.nodes.PCANode(input_dim=100, output_dim=10)
+&gt;&gt;&gt; node2 = mdp.nodes.SFANode(input_dim=100, output_dim=20)
+&gt;&gt;&gt; layer = mdp.hinet.Layer([node1, node2])
+&gt;&gt;&gt; layer
+Layer(input_dim=200, output_dim=30, dtype=None)
+</pre>
+<p>The first half of the 200 dimensional input data is then automatically fed into
+<tt class="docutils literal"><span class="pre">node1</span></tt> and the second half into <tt class="docutils literal"><span class="pre">node2</span></tt>. We can train and execute
+<tt class="docutils literal"><span class="pre">layer</span></tt> just like any other node. Note that the dimensions of the nodes must
+be already set when the layer is constructed.</p>
+</li>
+<li><p class="first">Since one might also want to use Flows (i.e. vertical stacks of Nodes) in a
+<tt class="docutils literal"><span class="pre">Layer</span></tt>, a wrapper class for flows is provided.
+The <tt class="docutils literal"><span class="pre">FlowNode</span></tt> class wraps any <tt class="docutils literal"><span class="pre">Flow</span></tt> so that it becomes a <tt class="docutils literal"><span class="pre">Node</span></tt>
+(and can be used like any other Node). For example we can replace <tt class="docutils literal"><span class="pre">node1</span></tt>
+in the above example with a <tt class="docutils literal"><span class="pre">FlowNode</span></tt>:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; node1_1 = mdp.nodes.PCANode(input_dim=100, output_dim=50)
+&gt;&gt;&gt; node1_2 = mdp.nodes.SFANode(input_dim=50, output_dim=10)
+&gt;&gt;&gt; node1_flow = mdp.Flow([node1_1, node1_2])
+&gt;&gt;&gt; node1 = mdp.hinet.FlowNode(node1_flow)
+&gt;&gt;&gt; layer = mdp.hinet.Layer([node1, node2])
+&gt;&gt;&gt; layer
+Layer(input_dim=200, output_dim=30, dtype=None)
+</pre>
+<p>Note that <tt class="docutils literal"><span class="pre">node1</span></tt> now has two training phases (in this case one for each
+internal node). Therefore <tt class="docutils literal"><span class="pre">layer</span></tt> now has two training phases as well and
+behaves like any other Node with two training phases. So you could stick
+<tt class="docutils literal"><span class="pre">layer</span></tt> into another <tt class="docutils literal"><span class="pre">FlowNode</span></tt> in another <tt class="docutils literal"><span class="pre">Layer</span></tt> and build arbitrary
+node structures this way.</p>
+</li>
+<li><p class="first">For complicated hierarchical networks one might have to route different parts of the
+data to different nodes in a layer in complex ways. This is done by the
+<tt class="docutils literal"><span class="pre">Switchboard</span></tt> node, which can handle all the routing. A <tt class="docutils literal"><span class="pre">Switchboard</span></tt>
+gets initialised with a 1d Array with an entry for each output connection,
+containing the corresponding index of the input connection, e.g.:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; switchboard = mdp.hinet.Switchboard(input_dim=6, connections=[0,1,2,3,4,3,4,5])
+&gt;&gt;&gt; switchboard
+Switchboard(input_dim=3, output_dim=2, dtype=None)
+&gt;&gt;&gt; x = mdp.numx.array([[2,4,6,8,10,12]])
+&gt;&gt;&gt; switchboard.execute(x)
+array([[ 2,  4,  6,  8, 10,  8, 10, 12]])
+</pre>
+<p>One could then combine <tt class="docutils literal"><span class="pre">switchboard</span></tt> with a layer, like in the following picture:</p>
+<img alt="switchboard example" src="hinet_switchboard.png" />
+<p>By combining layers with switchboards one can realize any feed-forward network topology.
+Defining the switchboard routing manually can be quite tedious. One way to automatize
+this is by defining switchboard subclasses for special routing situations. The
+<tt class="docutils literal"><span class="pre">Rectangular2dSwitchboard</span></tt> class is one such example and will be briefly described in the
+later example.</p>
+</li>
+</ul>
 </div>
 <div class="section">
-<h1><a class="toc-backref" href="#id20" id="a-real-life-example-logistic-maps" name="a-real-life-example-logistic-maps">A real life example (Logistic maps)</a></h1>
+<h2><a class="toc-backref" href="#id21" id="html-representation" name="html-representation">HTML representation</a></h2>
+<p>Since hierarchical networks can be quite complicated, <tt class="docutils literal"><span class="pre">mdp.hinet</span></tt> includes the class
+<tt class="docutils literal"><span class="pre">HiNetHTML</span></tt> to translate a given flow into an HTML visualisation. After instanciating
+the class with a given HTML file one can pass any flow to it (we use the layer from above):</p>
+<!-- ignore --><pre class="literal-block">
+&gt;&gt;&gt; file = open(&quot;test.html&quot;)
+&gt;&gt;&gt; file.write('&lt;html&gt;\n&lt;head&gt;\n&lt;title&gt;HiNetHTML Test&lt;/title&gt;\n&lt;/head&gt;\n&lt;body&gt;\n')
+&gt;&gt;&gt; hinet_html = mdp.hinet.HiNetHTML(file)
+&gt;&gt;&gt; flow = mdp.Flow([layer])
+&gt;&gt;&gt; hinet_html.parse_flow(flow)
+&gt;&gt;&gt; file.write('&lt;/body&gt;\n&lt;/html&gt;')
+&gt;&gt;&gt; file.close()
+</pre>
+<p><tt class="docutils literal"><span class="pre">file</span></tt> now includes the HTML representation for the flow consisting of the layer.
+In the example below we will show such a representation for a more complicated example.</p>
+<p>It is possible to include some internal node parameters in the representation
+(especially for newly defined custom nodes). This is actually very easy, the
+source code of this module contains more instructions on how to do this.
+It is also possible to modify the HTML presentation by providing a custom CSS string.</p>
+</div>
+<div class="section">
+<h2><a class="toc-backref" href="#id22" id="example-application-2d-image-data" name="example-application-2d-image-data">Example application (2d image data)</a></h2>
+<p>As promised we now present a more complicated example. We define the lowest layer
+for some kind of image processing system. So the input data is assumed to consist
+of image sequences, with each image having a size of 50 by 50 pixels. We take color
+images, so after converting the images to one dimensional numpy arrays each pixel
+corresponds to three numeric values in the array, which the values just next to
+each other (one for each color channel).</p>
+<p>The processing layer consists of many parallel units, which only see a small image
+region with a size of 10 by 10 pixels. These so called receptive fields cover the whole
+image and have an overlap of five pixels. Note that the image data is represented
+as an 1d array. Therefore we need the <tt class="docutils literal"><span class="pre">Rectangular2dSwitchboard</span></tt> class to correctly
+route the data for each receptive field to the corresponding unit in the following layer.
+We also call the switchboard output for a single receptive field an output channel and
+the three RGB values for a single pixel form an input channel.
+Each processing unit is a flow consisting of an <tt class="docutils literal"><span class="pre">SFANode</span></tt> (to somewhat reduce the
+dimensionality) that is followed by an <tt class="docutils literal"><span class="pre">SFA2Node</span></tt>. Since we assume that
+the statistics are similar in each receptive filed we actually use the same nodes
+for each receptive field. Therefore we use a <tt class="docutils literal"><span class="pre">CloneLayer</span></tt> instead of the
+standard <tt class="docutils literal"><span class="pre">Layer</span></tt>. Here is the actual code:</p>
+<!-- ignore --><pre class="literal-block">
+&gt;&gt;&gt; switchboard = mdp.hinet.Rectangular2dSwitchboard(x_in_channels=50,
+...                                                  y_in_channels=50,
+...                                                  x_field_channels=10,
+...                                                  y_field_channels=10,
+...                                                  x_field_spacing=5,
+...                                                  y_field_spacing=5,
+...                                                  in_channel_dim=3)
+&gt;&gt;&gt; sfa_dim = 48
+&gt;&gt;&gt; sfa_node = mdp.nodes.SFANode(input_dim=switchboard.out_channel_dim,
+...                              output_dim=sfa_dim)
+&gt;&gt;&gt; sfa2_dim = 32
+&gt;&gt;&gt; sfa2_node = mdp.nodes.SFA2Node(input_dim=sfa_dim,
+...                                output_dim=sfa2_dim)
+&gt;&gt;&gt; flownode = mdp.hinet.FlowNode(mdp.Flow([sfa_node, sfa2_node]))
+&gt;&gt;&gt; sfa_layer = mdp.hinet.CloneLayer(flownode,
+...                                  n_nodes=switchboard.output_channels)
+&gt;&gt;&gt; flow = mdp.Flow([switchboard, sfa_layer])
+</pre>
+<p>The HTML representition of the the constructed flow looks like this in your
+browser:</p>
+<blockquote>
+<img alt="hinet HTML rendering" src="hinet_html.png" />
+</blockquote>
+<p>Now one can train this flow for example with image sequences from a movie.
+After the training phase one can compute the image pattern that produces
+the highest response in a given output coordinate
+(use <tt class="docutils literal"><span class="pre">mdp.utils.QuadraticForm</span></tt>). One such optimal image pattern may
+look like this (only a grayscale version is shown):</p>
+<blockquote>
+<img alt="optimal stimulus" src="hinet_opt_stim.png" />
+</blockquote>
+<p>So the network units have developed some kind of primitive line detector.
+One could then add more layers on top of this first layer to do more complicated stuff.
+Note that the <tt class="docutils literal"><span class="pre">in_channel_dim</span></tt> in the next <tt class="docutils literal"><span class="pre">Rectangular2dSwitchboard</span></tt> would
+be 32, since this is the output dimension of one unit in the <tt class="docutils literal"><span class="pre">CloneLayer</span></tt>
+(instead of 3 in the first switchboard, corresponding to the three RGB colors).</p>
+</div>
+</div>
+<div class="section">
+<h1><a class="toc-backref" href="#id23" id="a-real-life-example-logistic-maps" name="a-real-life-example-logistic-maps">A real life example (Logistic maps)</a></h1>
 <p>We show an application of Slow Feature Analysis to the analysis of
 non-stationary time series. We consider a chaotic time series generated
 by the logistic map based on the logistic equation (a demographic model
@@ -1791,7 +1941,7 @@ Eta value (slow feature):  [ 10.2185087]
 <img alt="SFA estimate" src="results.png" style="width: 700px;" />
 </div>
 <div class="section">
-<h1><a class="toc-backref" href="#id21" id="another-real-life-example-growing-neural-gas" name="another-real-life-example-growing-neural-gas">Another real life example (Growing neural gas)</a></h1>
+<h1><a class="toc-backref" href="#id24" id="another-real-life-example-growing-neural-gas" name="another-real-life-example-growing-neural-gas">Another real life example (Growing neural gas)</a></h1>
 <p>We generate uniformly distributed random data points confined on different
 2-D geometrical objects. The Growing Neural Gas Node builds a graph with the
 same topological structure.</p>
@@ -1887,7 +2037,7 @@ adapted to the topological structure of the data distribution:</p>
 </pre>
 </div>
 <div class="section">
-<h1><a class="toc-backref" href="#id22" id="node-list" name="node-list">Node List</a></h1>
+<h1><a class="toc-backref" href="#id25" id="node-list" name="node-list">Node List</a></h1>
 <p>Here is the complete list of implemented nodes.
 Refer to the
 <a class="reference" href="http://mdp-toolkit.sourceforge.net/docs/api/index.html">API</a>
@@ -2140,7 +2290,7 @@ algorithm, please do not hesitate to submit it!</p>
 </div>
 </div>
 <div class="section">
-<h1><a class="toc-backref" href="#id23" id="additional-utilities" name="additional-utilities">Additional utilities</a></h1>
+<h1><a class="toc-backref" href="#id26" id="additional-utilities" name="additional-utilities">Additional utilities</a></h1>
 <p>MDP offers some additional utilities of general interest
 in the <tt class="docutils literal"><span class="pre">mdp.utils</span></tt> module. Refer to the
 <a class="reference" href="http://mdp-toolkit.sourceforge.net/docs/api/index.html">API</a>
@@ -2229,7 +2379,7 @@ For more information see this <a class="reference" href="http://en.wikipedia.org
 uniformly distributed on (0,1].</dd>
 </dl>
 <div class="section">
-<h2><a class="toc-backref" href="#id24" id="graph-module" name="graph-module">Graph module</a></h2>
+<h2><a class="toc-backref" href="#id27" id="graph-module" name="graph-module">Graph module</a></h2>
 <p>MDP contains <tt class="docutils literal"><span class="pre">mdp.graph</span></tt>, a lightweight package to handle directed graphs.</p>
 <dl class="docutils">
 <dt><strong>Graph</strong></dt>
@@ -2286,7 +2436,7 @@ subsequences.</dd>
 </div>
 </div>
 <div class="section">
-<h1><a class="toc-backref" href="#id25" id="to-do" name="to-do">To Do</a></h1>
+<h1><a class="toc-backref" href="#id28" id="to-do" name="to-do">To Do</a></h1>
 <p>In this section we want to give you an overview about our
 plans for the development of MDP:</p>
 <ul class="simple">
@@ -2299,7 +2449,7 @@ adding many numbers.</li>
 </ul>
 </div>
 <div class="section">
-<h1><a class="toc-backref" href="#id26" id="contributors" name="contributors">Contributors</a></h1>
+<h1><a class="toc-backref" href="#id29" id="contributors" name="contributors">Contributors</a></h1>
 <p>In this final section we want to thank all users who have contributed
 code to the MDP project. Strictly in alphabetical order:</p>
 <ul class="simple">
@@ -2313,7 +2463,7 @@ code to the MDP project. Strictly in alphabetical order:</p>
 </div>
 <div class="footer">
 <hr class="footer" />
-Generated on: 2008-04-03 10:39 UTC.
+Generated on: 2008-04-16 12:53 UTC.
 Generated by <a class="reference" href="http://docutils.sourceforge.net/">Docutils</a> from <a class="reference" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> source.
 
 </div>

@@ -1,14 +1,14 @@
 Tutorial
 ========
 
-:Author: Pietro Berkes and Tiziano Zito
+:Author: Pietro Berkes, Tiziano Zito and Niko Wilbert
 :Homepage: http://mdp-toolkit.sourceforge.net
 :Copyright: This document has been placed in the public domain.
-:Version: 2.2
+:Version: 2.3
 
 .. raw:: html
    
-   This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_2_tutorial.pdf?download">pdf file</a> (260 KB).
+   This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_3_tutorial.pdf?download">pdf file</a> (260 KB).
 
 This is a guide to basic and some more advanced features of
 the MDP library. Besides the present tutorial, you can learn 
@@ -1299,9 +1299,176 @@ Don't forget to clean the rubbish:
     >>> import os
     >>> os.remove('dummy.pic')
 
+
 Hierarchical Networks
 ---------------------
-TODO!
+The ``hinet`` package makes it possible to construct graph-like Node structures,
+especially hierarchical networks.
+
+Building blocks
+~~~~~~~~~~~~~~~
+The ``hinet`` package contains three basic buiding blocks (which are all nodes
+themselves) to construct hierarchical node networks:
+
+- The most important building block is the new ``Layer`` node, which works like a 
+  horizontal version of flow. It encapsulates a list of Nodes, which are trained
+  and executed in parallel. 
+  For example we can combine two Nodes with 100 dimensional input to
+  construct a layer with a 200 dimensional input:
+  ::
+
+      >>> node1 = mdp.nodes.PCANode(input_dim=100, output_dim=10)
+      >>> node2 = mdp.nodes.SFANode(input_dim=100, output_dim=20)
+      >>> layer = mdp.hinet.Layer([node1, node2])
+      >>> layer
+      Layer(input_dim=200, output_dim=30, dtype=None) 
+
+  The first half of the 200 dimensional input data is then automatically fed into 
+  ``node1`` and the second half into ``node2``. We can train and execute
+  ``layer`` just like any other node. Note that the dimensions of the nodes must
+  be already set when the layer is constructed.
+
+- Since one might also want to use Flows (i.e. vertical stacks of Nodes) in a
+  ``Layer``, a wrapper class for flows is provided.
+  The ``FlowNode`` class wraps any ``Flow`` so that it becomes a ``Node`` 
+  (and can be used like any other Node). For example we can replace ``node1``
+  in the above example with a ``FlowNode``:
+  ::
+
+      >>> node1_1 = mdp.nodes.PCANode(input_dim=100, output_dim=50)
+      >>> node1_2 = mdp.nodes.SFANode(input_dim=50, output_dim=10)
+      >>> node1_flow = mdp.Flow([node1_1, node1_2])	
+      >>> node1 = mdp.hinet.FlowNode(node1_flow)
+      >>> layer = mdp.hinet.Layer([node1, node2])
+      >>> layer
+      Layer(input_dim=200, output_dim=30, dtype=None) 
+
+  Note that ``node1`` now has two training phases (in this case one for each 
+  internal node). Therefore ``layer`` now has two training phases as well and 
+  behaves like any other Node with two training phases. So you could stick
+  ``layer`` into another ``FlowNode`` in another ``Layer`` and build arbitrary
+  node structures this way.
+
+- For complicated hierarchical networks one might have to route different parts of the
+  data to different nodes in a layer in complex ways. This is done by the
+  ``Switchboard`` node, which can handle all the routing. A ``Switchboard``
+  gets initialised with a 1d Array with an entry for each output connection,
+  containing the corresponding index of the input connection, e.g.:
+  ::
+
+      >>> switchboard = mdp.hinet.Switchboard(input_dim=6, connections=[0,1,2,3,4,3,4,5])
+      >>> switchboard
+      Switchboard(input_dim=3, output_dim=2, dtype=None)
+      >>> x = mdp.numx.array([[2,4,6,8,10,12]])	
+      >>> switchboard.execute(x)
+      array([[ 2,  4,  6,  8, 10,  8, 10, 12]])
+
+  One could then combine ``switchboard`` with a layer, like in the following picture:
+
+  .. image:: hinet_switchboard.png
+          :alt: switchboard example
+
+  By combining layers with switchboards one can realize any feed-forward network topology.
+  Defining the switchboard routing manually can be quite tedious. One way to automatize 
+  this is by defining switchboard subclasses for special routing situations. The
+  ``Rectangular2dSwitchboard`` class is one such example and will be briefly described in the 
+  later example.
+
+HTML representation
+~~~~~~~~~~~~~~~~~~~
+Since hierarchical networks can be quite complicated, ``mdp.hinet`` includes the class
+``HiNetHTML`` to translate a given flow into an HTML visualisation. After instanciating
+the class with a given HTML file one can pass any flow to it (we use the layer from above):
+
+.. raw:: html
+
+   <!-- ignore -->
+
+::
+
+    >>> file = open("test.html")
+    >>> file.write('<html>\n<head>\n<title>HiNetHTML Test</title>\n</head>\n<body>\n')
+    >>> hinet_html = mdp.hinet.HiNetHTML(file)
+    >>> flow = mdp.Flow([layer])
+    >>> hinet_html.parse_flow(flow)
+    >>> file.write('</body>\n</html>')
+    >>> file.close()
+
+``file`` now includes the HTML representation for the flow consisting of the layer. 
+In the example below we will show such a representation for a more complicated example.
+
+It is possible to include some internal node parameters in the representation 
+(especially for newly defined custom nodes). This is actually very easy, the 
+source code of this module contains more instructions on how to do this. 
+It is also possible to modify the HTML presentation by providing a custom CSS string. 
+
+Example application (2d image data)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+As promised we now present a more complicated example. We define the lowest layer
+for some kind of image processing system. So the input data is assumed to consist
+of image sequences, with each image having a size of 50 by 50 pixels. We take color
+images, so after converting the images to one dimensional numpy arrays each pixel
+corresponds to three numeric values in the array, which the values just next to 
+each other (one for each color channel).
+
+The processing layer consists of many parallel units, which only see a small image 
+region with a size of 10 by 10 pixels. These so called receptive fields cover the whole
+image and have an overlap of five pixels. Note that the image data is represented
+as an 1d array. Therefore we need the ``Rectangular2dSwitchboard`` class to correctly 
+route the data for each receptive field to the corresponding unit in the following layer.
+We also call the switchboard output for a single receptive field an output channel and
+the three RGB values for a single pixel form an input channel.
+Each processing unit is a flow consisting of an ``SFANode`` (to somewhat reduce the
+dimensionality) that is followed by an ``SFA2Node``. Since we assume that
+the statistics are similar in each receptive filed we actually use the same nodes
+for each receptive field. Therefore we use a ``CloneLayer`` instead of the
+standard ``Layer``. Here is the actual code:
+
+.. raw:: html
+
+   <!-- ignore -->
+
+::
+
+    >>> switchboard = mdp.hinet.Rectangular2dSwitchboard(x_in_channels=50, 
+    ...                                                  y_in_channels=50, 
+    ...                                                  x_field_channels=10, 
+    ...                                                  y_field_channels=10,
+    ...                                                  x_field_spacing=5, 
+    ...                                                  y_field_spacing=5,
+    ...                                                  in_channel_dim=3)
+    >>> sfa_dim = 48
+    >>> sfa_node = mdp.nodes.SFANode(input_dim=switchboard.out_channel_dim, 
+    ...                              output_dim=sfa_dim)
+    >>> sfa2_dim = 32
+    >>> sfa2_node = mdp.nodes.SFA2Node(input_dim=sfa_dim, 
+    ...                                output_dim=sfa2_dim)
+    >>> flownode = mdp.hinet.FlowNode(mdp.Flow([sfa_node, sfa2_node]))
+    >>> sfa_layer = mdp.hinet.CloneLayer(flownode, 
+    ...                                  n_nodes=switchboard.output_channels)
+    >>> flow = mdp.Flow([switchboard, sfa_layer])
+
+The HTML representition of the the constructed flow looks like this in your
+browser:
+
+  .. image:: hinet_html.png
+          :alt: hinet HTML rendering
+
+Now one can train this flow for example with image sequences from a movie.
+After the training phase one can compute the image pattern that produces
+the highest response in a given output coordinate 
+(use ``mdp.utils.QuadraticForm``). One such optimal image pattern may
+look like this (only a grayscale version is shown): 
+
+  .. image:: hinet_opt_stim.png
+          :alt: optimal stimulus
+
+So the network units have developed some kind of primitive line detector. 
+One could then add more layers on top of this first layer to do more complicated stuff. 
+Note that the ``in_channel_dim`` in the next ``Rectangular2dSwitchboard`` would
+be 32, since this is the output dimension of one unit in the ``CloneLayer``
+(instead of 3 in the first switchboard, corresponding to the three RGB colors).
 
 A real life example (Logistic maps)
 -----------------------------------
