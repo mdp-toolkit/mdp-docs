@@ -1464,11 +1464,17 @@ look like this (only a grayscale version is shown):
   .. image:: hinet_opt_stim.png
           :alt: optimal stimulus
 
-So the network units have developed some kind of primitive line detector. 
-One could then add more layers on top of this first layer to do more complicated stuff. 
-Note that the ``in_channel_dim`` in the next ``Rectangular2dSwitchboard`` would
-be 32, since this is the output dimension of one unit in the ``CloneLayer``
-(instead of 3 in the first switchboard, corresponding to the three RGB colors).
+So the network units have developed some kind of primitive line detector. More
+on this topic can be found in: Berkes, P. and Wiskott, L., `Slow feature analysis 
+yields a rich repertoire of complex cell properties`. 
+Journal of Vision, 5(6):579-602,
+http://journalofvision.org/5/6/9/
+
+One could also add more layers on top of this first layer to do more 
+complicated stuff. Note that the ``in_channel_dim`` in the next 
+``Rectangular2dSwitchboard`` would be 32, since this is the output dimension 
+of one unit in the ``CloneLayer`` (instead of 3 in the first switchboard, 
+corresponding to the three RGB colors).
 
 A real life example (Logistic maps)
 -----------------------------------
