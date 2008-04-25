@@ -1,7 +1,7 @@
 Tutorial
 ========
 
-:Author: Pietro Berkes, Tiziano Zito and Niko Wilbert
+:Author: Pietro Berkes, Niko Wilbert, and Tiziano Zito
 :Homepage: http://mdp-toolkit.sourceforge.net
 :Copyright: This document has been placed in the public domain.
 :Version: 2.3
@@ -61,8 +61,8 @@ reducing the memory requirements. Memory usage can also be minimized
 by defining the internals of the nodes to be single precision.
 
 The base of readily available algorithms includes Principal Component
-Analysis (PCA and NIPALS), three flavors of Independent Component
-Analysis (CuBICA, FastICA, and JADE), Slow Feature Analysis,
+Analysis (PCA and NIPALS), four flavors of Independent Component
+Analysis (CuBICA, FastICA, TDSEP, and JADE), Slow Feature Analysis,
 Independent Slow Feature Analysis, Gaussian Classifiers, Growing
 Neural Gas, Fisher Discriminant Analysis, Factor Analysis, Restricted
 Boltzmann Machine, and many more.  The full list of implemented nodes
@@ -1903,6 +1903,18 @@ for the full documentation and interface description.
    More information about Slow Feature Analysis can be found in
    Wiskott, L. and Sejnowski, T.J., *Slow Feature Analysis: Unsupervised
    Learning of Invariances*, Neural Computation, 14(4):715-770 (2002).
+
+- `TDSEPNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.TDSEPNode-class.html>`_
+   Perform Independent Component Analysis using the TDSEP algorithm.
+   Note that TDSEP, as implemented in this Node, is an online algorithm,
+   i.e. it is suited to be trained on huge data sets, provided that the
+   training is done sending small chunks of data for each time.
+
+   Reference:
+   Ziehe, Andreas and Muller, Klaus-Robert (1998).
+   *TDSEP an efficient algorithm for blind separation using time structure.*
+   in Niklasson, L, Boden, M, and Ziemke, T (Editors), Proc. 8th Int. Conf. 
+   Artificial Neural Networks (ICANN 1998).
 
 - `TimeFramesNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.TimeFramesNode-class.html>`_
    Copy delayed version of the input signal on the space dimensions.
