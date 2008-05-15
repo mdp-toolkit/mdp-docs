@@ -1,8 +1,9 @@
 <DIV ID="news-box">
 <B>News</B>
 <table>
-  <tr><td>22.03.2008:<td>MDP 2.2 released
+  <tr><td>15.05.2008:<td>MDP 2.3 released
 			  (<A HREF="CHANGES">changes since last release</A>).
+  <tr><td>22.03.2008:<td>MDP 2.2 released.
 </table>
 </DIV>
 
@@ -43,7 +44,7 @@ To learn more about MDP:
 <UL>
 <LI>Read the <A HREF="#INTRO">long description</A>
 <LI>Take a look at the <a href="tutorial.html">Tutorial</a>
-    (<a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_1_tutorial.pdf?download">pdf</a> 260 KB)
+    (<a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_3_tutorial.pdf?download">pdf</a> 290 KB)
 <LI ID="EUROPYTALK"> See the presentation given at the <a href="http://www.europython.org/">Europython</a> conference in Geneva, Switzerland, July 3-5 2006:
  <a href="EuroPython2006MDPTalk.sxi">OpenOffice</a> (603 KB), <a href="EuroPython2006MDPTalk.pdf">pdf</a> (250 KB). 
 <!-- <li>Read the <a href="faq.html">FAQ</a> -->
@@ -132,7 +133,7 @@ or just check out the trunk with:
 <pre class="literal-block">
 svn co https://mdp-toolkit.svn.sourceforge.net/svnroot/mdp-toolkit/mdp/trunk/mdp mdp
 </pre>
-Thanks to Yaroslav Halchenko, Debian unstable users can install 
+Thanks to Yaroslav Halchenko, Debian lenny/sid users can install 
 the <CODE>python-mdp</CODE> package. 
 
 <P>
@@ -147,6 +148,12 @@ If you want to use MDP without installing it on the system Python path:
 <pre class="literal-block">
 python setup.py install --prefix=/some_dir_in_PYTHONPATH/
 </pre>
+On Debian lenny/sid you can just type:
+<pre class="literal-block">
+aptitude update
+aptitude install python-mdp
+</pre>
+
 On Windows, the installation of the binary distribution is as easy as
 executing the installer and following the instructions.
 

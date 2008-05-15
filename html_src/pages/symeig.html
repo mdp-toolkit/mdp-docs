@@ -86,12 +86,12 @@ please send a message to the
 <LI><B>symeig docstring:</B>
 <pre class="literal-block">
     """Solve standard and generalized eigenvalue problem for symmetric
-       (hermitian) definite positive matrices.
+(hermitian) definite positive matrices.
 
     Syntax:
 
       w,Z = symeig(A) 
-      w = symeig(A,eigvectors=0)
+      w = symeig(A,eigenvectors=0)
       w,Z = symeig(A,range=(lo,hi))
       w,Z = symeig(A,B,range=(lo,hi))
 
@@ -106,7 +106,7 @@ please send a message to the
                (faster but expensive in memory)
       range -- the tuple (lo,hi) represent the indexes of the smallest and
                largest (in ascending order) eigenvalues to be returned.
-               1 &lt;= lo &lt; hi &lt;= N
+               1 <= lo < hi <= N
                if range = None, returns all eigenvalues and eigenvectors. 
       type  -- (only for generalized eigenvalue problem)
                Specifies the problem type to be solved:
