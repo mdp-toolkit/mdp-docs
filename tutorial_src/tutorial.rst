@@ -1099,9 +1099,9 @@ Iterators can be used also for execution (and inversion):
 
     >>> flow = mdp.Flow([BogusNode(),BogusNode()], verbose=1)
     >>> flow.train([gen_data(1), gen_data(1)])
-    Training node #0 (BogusNode2)
+    Training node #0 (BogusNode)
     Training finished
-    Training node #1 (IdentityNode)
+    Training node #1 (BosgusNode)
     [===================================100%==================================>]  
 
     Training finished
