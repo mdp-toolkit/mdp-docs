@@ -585,7 +585,7 @@ We'll illustrate this with some toy examples.
       ...         if self.output_dim is None:
       ...             self.output_dim = self.input_dim
 
-  Note that we ``input_dim`` are set autoamtically by the ``train`` method,
+  Note that we ``input_dim`` are set automatically by the ``train`` method,
   and we want to ensure that the node has ``output_dim`` set after training.
   For nodes that do not need training, the setting is performed automatically
   upon execution. The ``_execute`` and ``_inverse`` methods:
@@ -1013,7 +1013,7 @@ Let us define two bogus node classes to be used as examples of nodes:
 
 
 This generator generates ``blocks`` input blocks to be used as training set.
-In this example one block is a 2-dimensional time-series. The first variable
+In this example one block is a 2-dimensional time series. The first variable
 is [2,4,6,....,1000] and the second one [0,1,3,5,...,999].
 All blocks are equal, this of course would not be the case in a real-life
 example.
@@ -1517,8 +1517,8 @@ Fix the initial condition:
     >>> series[0] = 0.6
 
 
-Generate the time-series using the logistic equation
-the driving force modifies the logistic equation parameter ``r``:
+Generate the time series using the logistic equation.
+The driving force modifies the logistic equation parameter ``r``:
 ::
 
     >>> for i in range(1,10000):
@@ -1533,14 +1533,14 @@ If you have a plotting package ``series`` should look like this:
         :alt: chaotic time series
 
 Define a flow to perform SFA in the space of polynomials of degree 3.
-We need a node that embeds the time-series in a 10 dimensional
+We need a node that embeds the time series in a 10 dimensional
 space, where different variables correspond to time-delayed copies
-of the original time-series: the ``TimeFramesNode(10)``.
+of the original time series: the ``TimeFramesNode(10)``.
 Then we need a node that expands the new signal in the space
 of polynomials of degree 3: the ``PolynomialExpansionNode(3)``.
 Finally we perform SFA onto the expanded signal
 and keep the slowest feature: ``SFANode(output_dim=1)``.
-We also measure the *slowness* of the input time-series and
+We also measure the *slowness* of the input time series and
 of the slow feature obtained by SFA. Therefore we put at the
 beginning and at the end of the sequence an *analysis node*
 that computes the *eta-value* (a measure of slowness) 
@@ -1556,7 +1556,7 @@ of its input (see docs for the definition of eta-value): the ``EtaComputerNode()
     >>>
     >>> flow = mdp.Flow(sequence, verbose=1)
 
-Since the time-series is short enough to be kept in memory
+Since the time series is short enough to be kept in memory
 we don't need to define generators and we can feed the flow
 directly with the whole signal:
 ::
@@ -1570,7 +1570,7 @@ ignore them. Execute the flow to get the slow feature
 
     >>> slow = flow(series)
 
-The slow feautre should match the driving force
+The slow feature should match the driving force
 up to a scaling factor, a constant offset and the sign.
 To allow a comparison we rescale the driving force
 to have zero mean and unit variance:
@@ -1579,19 +1579,19 @@ to have zero mean and unit variance:
     >>> resc_dforce = (dforce - mdp.numx.mean(dforce,0))/mdp.numx.std(dforce,0)
 
 Print covariance between the rescaled driving force and
-the slow feature. Note that embedding the time-series with
-10 time frames leads to a time-series with 9 observations less:
+the slow feature. Note that embedding the time series with
+10 time frames leads to a time series with 9 observations less:
 ::
 
     >>> mdp.utils.cov2(resc_dforce[:-9],slow)
     0.99992501533859179
 
-Print the *eta-values* of the chaotic time-series and of
+Print the *eta-values* of the chaotic time series and of
 the slow feature
 ::
 
-    >>> print 'Eta value (time-series): ', flow[0].get_eta(t=10000)
-    Eta value (time-series):  [ 3002.53380245]
+    >>> print 'Eta value (time series): ', flow[0].get_eta(t=10000)
+    Eta value (time series):  [ 3002.53380245]
     >>> print 'Eta value (slow feature): ', flow[-1].get_eta(t=9996)
     Eta value (slow feature):  [ 10.2185087]
 
