@@ -1544,13 +1544,16 @@ PCA and quadratic SFA, so that it makes use of two cores on a modern CPU:
     >>> scheduler = mdp.parallel.ProcessScheduler(n_processes=2)
     >>> parallel_flow = mdp.parallel.make_parallel(flow)
     >>> parallel_flow.train(data_iterable, scheduler=scheduler)
+    >>> scheduler.shutdown()
 
-So only two additional lines were needed to parallelize the training
+So only three additional lines were needed to parallelize the training
 of the flow.  The ``make_parallel`` function tries to find parallel
 versions of the nodes in the given flow. It then modifies the nodes
 such that they make use of the parallel version. A new
 ``ParallelFlow`` is then constructed and returned. One can also
-reverse this with the ``unmake_parallel`` function.
+reverse this with the ``unmake_parallel`` function. Note that the ``shutdown``
+method should be always called at the end to make sure that the threads and
+processes used by the scheduler are cleaned up properly.
 
 We can 	alternatively implement this example by manually constructing a 
 parallel flow:
@@ -1562,10 +1565,14 @@ parallel flow:
     >>> parallel_flow = mdp.parallel.ParallelFlow([node1, node2])
     >>> data_iterable = mdp.numx_rand.random((6, 200, 100))
     >>> scheduler = mdp.parallel.ProcessScheduler(n_processes=2)
-    >>> parallel_flow.train(data_iterable, scheduler=scheduler)
+    >>> try:
+    ...     parallel_flow.train(data_iterable, scheduler=scheduler)
+    >>> finally:
+    ...     scheduler.shutdown()
 
 This approach gives more control over the used classes and is in general
-more robust. The following sections contain more details about the 
+more robust. Here we also put the ``shutdown`` call into a safer try/finally
+statement. The following sections contain more details about the 
 working of this package. But as long as you only want to use the already 
 existing classes for parallelization you can actually skip large parts of that.
 
@@ -1597,6 +1604,8 @@ normally in a list. If there are open tasks in the scheduler
 ``get_results`` will wait until all the tasks are finished. You can
 also check the status of the scheduler by looking at the
 ``n_open_tasks`` attribute, which tells you the number of open tasks.
+After using the scheduler you should always call the ``shutdown`` method,
+otherwise you might get error messages from not properly closed processes.
 
 Internally an instance of the base class ``mdp.parallel.ResultContainer`` is
 used for the storage of the results in the scheduler. By providing your own
