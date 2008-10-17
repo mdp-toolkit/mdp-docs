@@ -467,14 +467,14 @@ in the MDP installation path.</p>
 <li><a class="reference internal" href="#hierarchical-networks" id="id19">Hierarchical Networks</a><ul>
 <li><a class="reference internal" href="#building-blocks" id="id20">Building blocks</a></li>
 <li><a class="reference internal" href="#html-representation" id="id21">HTML representation</a></li>
+<li><a class="reference internal" href="#example-application-2-d-image-data" id="id22">Example application (2-D image data)</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#parallelization" id="id22">Parallelization</a><ul>
-<li><a class="reference internal" href="#basic-examples" id="id23">Basic Examples</a></li>
-<li><a class="reference internal" href="#scheduler" id="id24">Scheduler</a></li>
-<li><a class="reference internal" href="#parallel-nodes" id="id25">Parallel Nodes</a></li>
-<li><a class="reference internal" href="#parallel-flows" id="id26">Parallel Flows</a></li>
-<li><a class="reference internal" href="#example-application-2-d-image-data" id="id27">Example application (2-D image data)</a></li>
+<li><a class="reference internal" href="#parallelization" id="id23">Parallelization</a><ul>
+<li><a class="reference internal" href="#basic-examples" id="id24">Basic Examples</a></li>
+<li><a class="reference internal" href="#scheduler" id="id25">Scheduler</a></li>
+<li><a class="reference internal" href="#parallel-nodes" id="id26">Parallel Nodes</a></li>
+<li><a class="reference internal" href="#parallel-flows" id="id27">Parallel Flows</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#real-life-examples" id="id28">Real life examples</a><ul>
@@ -680,7 +680,7 @@ lookng at its <tt class="docutils literal"><span class="pre">supported_dtypes</s
 <p>This attribute is a list of <tt class="docutils literal"><span class="pre">numpy.dtype</span></tt> objects.</p>
 </li>
 <li><p class="first">A <tt class="docutils literal"><span class="pre">PolynomialExpansionNode</span></tt> expands its input in the space
-of polynomals of a given degree by computing all monomials up
+of polynomials of a given degree by computing all monomials up
 to the specified degree. Its constructor needs as first argument
 the degree of the polynomials space (3 in this case).</p>
 <pre class="literal-block">
@@ -1060,7 +1060,7 @@ Here we'll define a node that returns a meanfree, unit variance signal.
 We define two training phases: first we compute the mean of the
 signal and next we sum the squared, meanfree input to compute
 the standard deviation  (of course it is possible to solve this
-problem in one single step - remeber this is just a toy example).</p>
+problem in one single step - remember this is just a toy example).</p>
 <pre class="literal-block">
 &gt;&gt;&gt; class UnitVarianceNode(mdp.Node):
 ...     def __init__(self, input_dim=None, dtype=None):
@@ -1144,7 +1144,7 @@ from the input data, it calls the methods <tt class="docutils literal"><span cla
 <tt class="docutils literal"><span class="pre">set_output_dim</span></tt>, and <tt class="docutils literal"><span class="pre">set_dtype</span></tt>. Those are the setters for
 <tt class="docutils literal"><span class="pre">input_dim</span></tt>, <tt class="docutils literal"><span class="pre">output_dim</span></tt> and <tt class="docutils literal"><span class="pre">dtype</span></tt>, which are Python
 <a class="reference external" href="http://www.python.org/2.2/descrintro.html">properties</a>.
-If a subclass needs to change the default behaviour, the internal methods
+If a subclass needs to change the default behavior, the internal methods
 <tt class="docutils literal"><span class="pre">_set_input_dim</span></tt>, <tt class="docutils literal"><span class="pre">_set_output_dim</span></tt> and <tt class="docutils literal"><span class="pre">_set_dtype</span></tt> can
 be overwritten. The property setter will call the internal method after
 some basic testing and internal settings. The private methods
@@ -1246,7 +1246,7 @@ we also create a test set <tt class="docutils literal"><span class="pre">x_test<
 </pre>
 <ul>
 <li><p class="first">We could now perform our analysis using only nodes, that's the
-lenghty way...</p>
+lengthy way...</p>
 <p>1. Perform PCA:</p>
 <pre class="literal-block">
 &gt;&gt;&gt; pca = mdp.nodes.PCANode(output_dim=5)
@@ -1721,7 +1721,7 @@ construct arbitrary feed-forward architectures, and in particular
 hierarchical networks.</p>
 <div class="section" id="building-blocks">
 <h2><a class="toc-backref" href="#id20">Building blocks</a></h2>
-<p>The <tt class="docutils literal"><span class="pre">hinet</span></tt> package contains three basic buiding blocks (which are all nodes
+<p>The <tt class="docutils literal"><span class="pre">hinet</span></tt> package contains three basic building blocks (which are all nodes
 themselves) to construct hierarchical node networks: <tt class="docutils literal"><span class="pre">Layer</span></tt>,
 <tt class="docutils literal"><span class="pre">FlowNode</span></tt>, <tt class="docutils literal"><span class="pre">Switchboard</span></tt>.</p>
 <ul>
@@ -1814,132 +1814,8 @@ actually very easy, the source code of this module contains more
 instructions on how to do this.  It is also possible to modify the
 HTML presentation by providing a custom CSS string.</p>
 </div>
-</div>
-<div class="section" id="parallelization">
-<h1><a class="toc-backref" href="#id22">Parallelization</a></h1>
-<p>The <tt class="docutils literal"><span class="pre">parallel</span></tt> adds the ability to parallelize the training and execution
-of MPD flows. This package is split into two decoupled parts:</p>
-<ul class="simple">
-<li>The first part consists of parallel versions of the familiar MDP
-structures of nodes and flows. The first basic building block is the
-abstact base class <tt class="docutils literal"><span class="pre">ParallelNode</span></tt> for nodes which can be trained
-in a parallelized way. Secondly there is the <tt class="docutils literal"><span class="pre">ParallelFlow</span></tt> class,
-which splits the training or execution into tasks which can then be
-processes in parallel.</li>
-<li>The second part consists of the schedulers. A scheduker takes tasks
-and processes them in a more or less parallel way (e.g. in multiple
-python processes). A scheduler deals with the more technical aspects
-of the parallelization, but does not need to know anything about
-nodes and flows.</li>
-</ul>
-<p>Practically all the complexities of parallelization are hidden in this
-package. There are also helper functions so that the parallel trainign
-or execuition can be done in one line of code.</p>
-<div class="section" id="basic-examples">
-<h2><a class="toc-backref" href="#id23">Basic Examples</a></h2>
-<p>In the following example we parallelize a simple Flow consisting of
-PCA and quadratic SFA, so that it uses two cores on a modern CPU:</p>
-<pre class="literal-block">
-&gt;&gt;&gt; node1 = mdp.nodes.PCANode(input_dim=100, output_dim=10)
-&gt;&gt;&gt; node2 = mdp.nodes.SFA2Node(input_dim=10, output_dim=10)
-&gt;&gt;&gt; flow = node1 + node2
-&gt;&gt;&gt; data_iterable = mdp.numx_rand.random((6, 200, 100))
-&gt;&gt;&gt; scheduler = mdp.parallel.ProcessScheduler(n_processes=2)
-&gt;&gt;&gt; parallel_flow = mdp.parallel.make_parallel(flow)
-&gt;&gt;&gt; parallel_flow.train(data_iterable, scheduler=scheduler)
-</pre>
-<p>So only two additional lines were needed to parallelize the training
-of the flow.  The <tt class="docutils literal"><span class="pre">make_parallel</span></tt> function tries to find parallel
-versions of the nodes in the given flow. It then modifies the nodes
-such that they make use of the parallel version. A new
-<tt class="docutils literal"><span class="pre">ParallelFlow</span></tt> is then constructed and returned. One can also
-reverse this with the function <tt class="docutils literal"><span class="pre">unmake_parallel</span></tt>.</p>
-<p>We can also implement this example by directly constructing a parallel flow:</p>
-<pre class="literal-block">
-&gt;&gt;&gt; node1 = mdp.parallel.ParallelPCANode(input_dim=100, output_dim=10)
-&gt;&gt;&gt; node2 = mdp.parallel.ParallelSFA2Node(input_dim=10, output_dim=10)
-&gt;&gt;&gt; parallel_flow = mdp.parallel.ParallelFlow([node1, node2])
-&gt;&gt;&gt; data_iterable = mdp.numx_rand.random((6, 200, 100))
-&gt;&gt;&gt; scheduler = mdp.parallel.ProcessScheduler(n_processes=2)
-&gt;&gt;&gt; parallel_flow.train(data_iterable, scheduler=scheduler)
-</pre>
-<p>This gives you more control over which parallel node classes are
-used. In the following sections we will go into more details. As long
-as you only want to use the already existing classes for
-parallelization you can actually skip large parts of the follwing
-sections.</p>
-</div>
-<div class="section" id="scheduler">
-<h2><a class="toc-backref" href="#id24">Scheduler</a></h2>
-<p>A scheduler is an instance of one of the scheduler classes we
-provide. They are all derived from the <tt class="docutils literal"><span class="pre">Scheduler</span></tt> base
-class. Currently we provide the <tt class="docutils literal"><span class="pre">Scheduler</span></tt> base class (which does
-not do any real parallelization) and the <tt class="docutils literal"><span class="pre">ProcessScheduler</span></tt> class
-which can distributes the incoming tasks over mutltiple python
-processes (circumventing the global interpreter lock). There is also
-experimental support for the
-<a class="reference external" href="http://www.parallelpython.com">Parallel Python library</a>
-in the <tt class="docutils literal"><span class="pre">mdp.parallel.pp_support</span></tt> package.</p>
-<p>The first important method of the scheduler class is
-<tt class="docutils literal"><span class="pre">add_task</span></tt>. This method takes two arguments: <tt class="docutils literal"><span class="pre">data</span></tt> and
-<tt class="docutils literal"><span class="pre">task_callable</span></tt>, which can be a function or an object with a
-<tt class="docutils literal"><span class="pre">__call__</span></tt> method. The return value of the <tt class="docutils literal"><span class="pre">task_callable</span></tt> is the
-result of the task. If <tt class="docutils literal"><span class="pre">task_callable</span></tt> is None then the last
-provided <tt class="docutils literal"><span class="pre">task_callable</span></tt> will be used. This splitting of callable
-and data in principle makes it possible to implement caching of the
-<tt class="docutils literal"><span class="pre">task_callable</span></tt> in the scheduler (but so far none of our schedulers
-actually implement this feature).</p>
-<p>After submitteing all the tasks with <tt class="docutils literal"><span class="pre">add_task</span></tt> you can then call
-the <tt class="docutils literal"><span class="pre">get_results</span></tt> method. This method returns all the task results,
-normally in a list. If there are open tasks in the scheduler
-<tt class="docutils literal"><span class="pre">get_results</span></tt> will wait until all the tasks are finished. You can
-also check the status of the scheduler by looking at the
-<tt class="docutils literal"><span class="pre">n_open_tasks</span></tt> attribute, which tells you the number of open tasks.</p>
-<p>Internally an instance of the base class <tt class="docutils literal"><span class="pre">mdp.parallel.ResultContainer</span></tt> is
-used for the storage of the results in the scheduler. By providing your own
-result container to the scheduler you modify the storage. For example the
-default result container is an instance of <tt class="docutils literal"><span class="pre">OrderedResultContainer</span></tt></p>
-</div>
-<div class="section" id="parallel-nodes">
-<h2><a class="toc-backref" href="#id25">Parallel Nodes</a></h2>
-<p>The parallel package introduces the new base class <tt class="docutils literal"><span class="pre">ParallelNode</span></tt> for nodes
-that support parallel training. Derived from this are parallel node
-versions like <tt class="docutils literal"><span class="pre">ParallelPCANode</span></tt> for the <tt class="docutils literal"><span class="pre">PCANode</span></tt>. Parallel execution on
-the other hand works with any normal node as well (only the <tt class="docutils literal"><span class="pre">copy</span></tt> method
-of the node is needed for this).</p>
-<p>If you want to write your own parallel nodes you have to derive your
-node from <tt class="docutils literal"><span class="pre">ParallelNode</span></tt>. <tt class="docutils literal"><span class="pre">ParallelNode</span></tt> has the new template
-methods <tt class="docutils literal"><span class="pre">fork</span></tt> and <tt class="docutils literal"><span class="pre">join</span></tt>. <tt class="docutils literal"><span class="pre">fork</span></tt> should return a new parallel
-node instance. This new instance can then be trained somewhere else
-(e.g. in a different process) with the usual <tt class="docutils literal"><span class="pre">train</span></tt>
-method. Afterwards one calls <tt class="docutils literal"><span class="pre">join</span></tt> on the original node, with the
-forked node as the argument. This is effectively the same as calling
-<tt class="docutils literal"><span class="pre">train</span></tt> directly on the original node.</p>
-<p>In your own parallel nodes you should only overwrite the <tt class="docutils literal"><span class="pre">_fork</span></tt> and
-<tt class="docutils literal"><span class="pre">_join</span></tt> methods, which are automatically called by <tt class="docutils literal"><span class="pre">fork</span></tt> and
-<tt class="docutils literal"><span class="pre">join</span></tt>. The <tt class="docutils literal"><span class="pre">fork</span></tt> and <tt class="docutils literal"><span class="pre">join</span></tt> take care of the standard node
-attritbutes like the dimensions. You should also look at the source
-code of a parallel node like <tt class="docutils literal"><span class="pre">ParallelPCANode</span></tt> to get a better idea
-about how to write parallel nodes.</p>
-<p>Currently we provide the following parallel nodes:
-<tt class="docutils literal"><span class="pre">ParallelPCANode</span></tt>, <tt class="docutils literal"><span class="pre">ParallelWhiteningNode</span></tt>, <tt class="docutils literal"><span class="pre">ParallelSFANode</span></tt>,
-<tt class="docutils literal"><span class="pre">ParallelSFA2Node</span></tt>, <tt class="docutils literal"><span class="pre">ParallelFlowNode</span></tt>, <tt class="docutils literal"><span class="pre">ParallelLayer</span></tt>,
-<tt class="docutils literal"><span class="pre">ParallelCloneLayer</span></tt> (the last three are from the <tt class="docutils literal"><span class="pre">hinet</span></tt>
-package).</p>
-</div>
-<div class="section" id="parallel-flows">
-<h2><a class="toc-backref" href="#id26">Parallel Flows</a></h2>
-<p>As shown earlier in the basic example a parallel flow implements the
-parallel training (and execution) using a provided scheduler. The
-scheduler is simplyprovided as an additional argumet for the train
-or execute method of the parallel flow. If no scheduler is provided
-the node behaves just like a normal flow.</p>
-<p>You can also do the parallel training in a more custom way by manually
-fetching tasks and assigning them to a scheduler. However, this should
-rarely be required.</p>
-</div>
 <div class="section" id="example-application-2-d-image-data">
-<h2><a class="toc-backref" href="#id27">Example application (2-D image data)</a></h2>
+<h2><a class="toc-backref" href="#id22">Example application (2-D image data)</a></h2>
 <p>As promised we now present a more complicated example. We define the
 lowest layer for some kind of image processing system. The input
 data is assumed to consist of image sequences, with each image having
@@ -2004,6 +1880,142 @@ complicated stuff. Note that the <tt class="docutils literal"><span class="pre">
 <tt class="docutils literal"><span class="pre">Rectangular2dSwitchboard</span></tt> would be 32, since this is the output dimension
 of one unit in the <tt class="docutils literal"><span class="pre">CloneLayer</span></tt> (instead of 3 in the first switchboard,
 corresponding to the three RGB colors).</p>
+</div>
+</div>
+<div class="section" id="parallelization">
+<h1><a class="toc-backref" href="#id23">Parallelization</a></h1>
+<p>The <tt class="docutils literal"><span class="pre">parallel</span></tt> package adds the ability to parallelize the training
+and execution of MPD flows. This package is split into two decoupled parts:</p>
+<ul class="simple">
+<li>The first part consists of parallel versions of the familiar MDP
+structures of nodes and flows. The first basic building block is the
+abstract base class <tt class="docutils literal"><span class="pre">ParallelNode</span></tt> for nodes which can be trained
+in a parallelized way. Secondly there is the <tt class="docutils literal"><span class="pre">ParallelFlow</span></tt> class,
+which internally splits the training or execution into tasks which can
+then be processed in parallel.</li>
+<li>The second part consists of the schedulers. A scheduler takes tasks
+and processes them in a more or less parallel way (e.g. in multiple
+Python processes). A scheduler deals with the more technical aspects
+of the parallelization, but does not need to know anything about
+nodes and flows.</li>
+</ul>
+<div class="section" id="basic-examples">
+<h2><a class="toc-backref" href="#id24">Basic Examples</a></h2>
+<p>In the following example we parallelize a simple <tt class="docutils literal"><span class="pre">Flow</span></tt> consisting of
+PCA and quadratic SFA, so that it makes use of two cores on a modern CPU:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; node1 = mdp.nodes.PCANode(input_dim=100, output_dim=10)
+&gt;&gt;&gt; node2 = mdp.nodes.SFA2Node(input_dim=10, output_dim=10)
+&gt;&gt;&gt; flow = node1 + node2
+&gt;&gt;&gt; n_data_chunks = 2
+&gt;&gt;&gt; data_iterables = [[mdp.numx_rand.random((200, 100))
+...                    for _ in range(n_data_chunks)]
+...                    for _ in range(2)]
+&gt;&gt;&gt; scheduler = mdp.parallel.ProcessScheduler(n_processes=2)
+&gt;&gt;&gt; parallel_flow = mdp.parallel.make_flow_parallel(flow)
+&gt;&gt;&gt; parallel_flow.train(data_iterables, scheduler=scheduler)
+&gt;&gt;&gt; scheduler.shutdown()
+</pre>
+<p>So only three additional lines were needed to parallelize the training
+of the flow.  The <tt class="docutils literal"><span class="pre">make_flow_parallel</span></tt> function tries to find
+parallel versions of the nodes in the given flow. It then modifies the
+nodes such that they make use of the parallel version. A new
+<tt class="docutils literal"><span class="pre">ParallelFlow</span></tt> is then constructed and returned. One can also
+reverse this with the <tt class="docutils literal"><span class="pre">unmake_flow_parallel</span></tt> function. Note that the
+<tt class="docutils literal"><span class="pre">shutdown</span></tt> method should be always called at the end to make sure
+that the threads and processes used by the scheduler are cleaned up
+properly.</p>
+<p>We can  alternatively implement this example by manually constructing a
+parallel flow:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; node1 = mdp.parallel.ParallelPCANode(input_dim=100, output_dim=10)
+&gt;&gt;&gt; node2 = mdp.parallel.ParallelSFA2Node(input_dim=10, output_dim=10)
+&gt;&gt;&gt; parallel_flow = mdp.parallel.ParallelFlow([node1, node2])
+&gt;&gt;&gt; n_data_chunks = 2
+&gt;&gt;&gt; data_iterables = [[mdp.numx_rand.random((200, 100))
+...                    for _ in range(n_data_chunks)]
+...                    for _ in range(2)]
+&gt;&gt;&gt; scheduler = mdp.parallel.ProcessScheduler(n_processes=2)
+&gt;&gt;&gt; try:
+...     parallel_flow.train(data_iterables, scheduler=scheduler)
+&gt;&gt;&gt; finally:
+...     scheduler.shutdown()
+</pre>
+<p>This approach gives more control over the used classes and is in general
+more robust. Here we also put the <tt class="docutils literal"><span class="pre">shutdown</span></tt> call into a safer try/finally
+statement. The following sections contain more details about the
+working of this package. But as long as you only want to use the already
+existing classes for parallelization you can actually skip large parts of that.</p>
+</div>
+<div class="section" id="scheduler">
+<h2><a class="toc-backref" href="#id25">Scheduler</a></h2>
+<p>A scheduler is an instance of one of the scheduler classes we
+provide. They are all derived from the <tt class="docutils literal"><span class="pre">Scheduler</span></tt> base class. Apart
+from the base class we currently only provide  the <tt class="docutils literal"><span class="pre">ProcessScheduler</span></tt>
+which distributes the incoming tasks over multiple Python
+processes (circumventing the global interpreter lock). There is also
+experimental support for the
+<a class="reference external" href="http://www.parallelpython.com">Parallel Python library</a>
+in the <tt class="docutils literal"><span class="pre">mdp.parallel.pp_support</span></tt> package.</p>
+<p>The first important method of the scheduler class is
+<tt class="docutils literal"><span class="pre">add_task</span></tt>. This method takes two arguments: <tt class="docutils literal"><span class="pre">data</span></tt> and
+<tt class="docutils literal"><span class="pre">task_callable</span></tt>, which can be a function or an object with a
+<tt class="docutils literal"><span class="pre">__call__</span></tt> method. The return value of the <tt class="docutils literal"><span class="pre">task_callable</span></tt> is the
+result of the task. If <tt class="docutils literal"><span class="pre">task_callable</span></tt> is <tt class="docutils literal"><span class="pre">None</span></tt> then the last
+provided <tt class="docutils literal"><span class="pre">task_callable</span></tt> will be used. This splitting into callable
+and data in principle makes it possible to implement caching of the
+<tt class="docutils literal"><span class="pre">task_callable</span></tt> in the scheduler (but so far none of our schedulers
+actually implement this feature).</p>
+<p>After submitting all the tasks with <tt class="docutils literal"><span class="pre">add_task</span></tt> you can then call
+the <tt class="docutils literal"><span class="pre">get_results</span></tt> method. This method returns all the task results,
+normally in a list. If there are open tasks in the scheduler
+<tt class="docutils literal"><span class="pre">get_results</span></tt> will wait until all the tasks are finished. You can
+also check the status of the scheduler by looking at the
+<tt class="docutils literal"><span class="pre">n_open_tasks</span></tt> attribute, which tells you the number of open tasks.
+After using the scheduler you should always call the <tt class="docutils literal"><span class="pre">shutdown</span></tt> method,
+otherwise you might get error messages from not properly closed processes.</p>
+<p>Internally an instance of the base class <tt class="docutils literal"><span class="pre">mdp.parallel.ResultContainer</span></tt> is
+used for the storage of the results in the scheduler. By providing your own
+result container to the scheduler you modify the storage. For example the
+default result container is an instance of <tt class="docutils literal"><span class="pre">OrderedResultContainer</span></tt></p>
+</div>
+<div class="section" id="parallel-nodes">
+<h2><a class="toc-backref" href="#id26">Parallel Nodes</a></h2>
+<p>The parallel package introduces the new base class <tt class="docutils literal"><span class="pre">ParallelNode</span></tt> for nodes
+that support parallel training. Derived from this are parallel node
+versions like <tt class="docutils literal"><span class="pre">ParallelPCANode</span></tt> for the <tt class="docutils literal"><span class="pre">PCANode</span></tt>. Parallel execution on
+the other hand works with any normal node as well (only the <tt class="docutils literal"><span class="pre">copy</span></tt> method
+of the node is needed for this).</p>
+<p>If you want to write your own parallel nodes you have to derive your
+node from <tt class="docutils literal"><span class="pre">ParallelNode</span></tt>. <tt class="docutils literal"><span class="pre">ParallelNode</span></tt> has the new template
+methods <tt class="docutils literal"><span class="pre">fork</span></tt> and <tt class="docutils literal"><span class="pre">join</span></tt>. <tt class="docutils literal"><span class="pre">fork</span></tt> should return a new parallel
+node instance. This new instance can then be trained somewhere else
+(e.g. in a different process) with the usual <tt class="docutils literal"><span class="pre">train</span></tt>
+method. Afterwards one calls <tt class="docutils literal"><span class="pre">join</span></tt> on the original node, with the
+forked node as the argument. This is effectively the same as calling
+<tt class="docutils literal"><span class="pre">train</span></tt> directly on the original node.</p>
+<p>When writing your own parallel nodes you should only overwrite the
+<tt class="docutils literal"><span class="pre">_fork</span></tt> and <tt class="docutils literal"><span class="pre">_join</span></tt> methods, which are automatically called by <tt class="docutils literal"><span class="pre">fork</span></tt> and
+<tt class="docutils literal"><span class="pre">join</span></tt>. The <tt class="docutils literal"><span class="pre">fork</span></tt> and <tt class="docutils literal"><span class="pre">join</span></tt> take care of the standard node
+attributes like the dimensions. You should also look at the source
+code of a parallel node like <tt class="docutils literal"><span class="pre">ParallelPCANode</span></tt> to get a better idea
+about how to write parallel nodes.</p>
+<p>Currently we provide the following parallel nodes:
+<tt class="docutils literal"><span class="pre">ParallelPCANode</span></tt>, <tt class="docutils literal"><span class="pre">ParallelWhiteningNode</span></tt>, <tt class="docutils literal"><span class="pre">ParallelSFANode</span></tt>,
+<tt class="docutils literal"><span class="pre">ParallelSFA2Node</span></tt>, <tt class="docutils literal"><span class="pre">ParallelFlowNode</span></tt>, <tt class="docutils literal"><span class="pre">ParallelLayer</span></tt>,
+<tt class="docutils literal"><span class="pre">ParallelCloneLayer</span></tt> (the last three are derived from the <tt class="docutils literal"><span class="pre">hinet</span></tt>
+package).</p>
+</div>
+<div class="section" id="parallel-flows">
+<h2><a class="toc-backref" href="#id27">Parallel Flows</a></h2>
+<p>As shown earlier in the example a parallel flow implements the
+parallel training (and execution) using a provided scheduler. The
+scheduler is simply provided as an additional argument for the train
+or execute method of the parallel flow. If no scheduler is provided
+the parallel flow behaves just like a normal flow.</p>
+<p>You can also do the parallel training in a customized way by manually
+fetching tasks and assigning them to a scheduler. However, this should
+rarely be required.</p>
 </div>
 </div>
 <div class="section" id="real-life-examples">
@@ -2246,7 +2258,7 @@ node to obtain the projected data:</p>
 &gt;&gt;&gt; data = mdp.numx.array([x,y,z]).T
 &gt;&gt;&gt; lle_projected_data = mdp.nodes.LLENode(k, output_dim=2)(data)
 </pre>
-<p>The projected data forms a nice parameteric representation of the
+<p>The projected data forms a nice parametric representation of the
 S-shaped surface:</p>
 <img alt="LLE projection of the S-shaped surface" src="s_shape_lle_proj.png" style="width: 500px;" />
 <p>The problem becomes more difficult if the surface has a hole in the
@@ -2719,15 +2731,6 @@ will extend MDP with more complex data flows, including
 back-propagation and loops. This framework will be integrated with
 both the <tt class="docutils literal"><span class="pre">parallel</span></tt> and the <tt class="docutils literal"><span class="pre">hinet</span></tt> packages to allow for large and
 complex data processing networks.</p>
-<p>Finally, some more ToDos:</p>
-<ul class="simple">
-<li>Add more data processing algorithms.</li>
-<li>Advanced usage of the hinet package will be possible only in presence of
-an easy and intuitive GUI :)</li>
-<li>Wait for a good guy who wants to contribute a <tt class="docutils literal"><span class="pre">CovarianceMatrix</span></tt> class that
-uses some of the fancy sum algorithms to avoid round off errors when
-adding many numbers.</li>
-</ul>
 </div>
 <div class="section" id="contributors">
 <h1><a class="toc-backref" href="#id36">Contributors</a></h1>
@@ -2746,7 +2749,7 @@ code to the MDP project. Strictly in alphabetical order:</p>
 </div>
 <div class="footer">
 <hr class="footer" />
-Generated on: 2008-10-17 18:09 UTC.
+Generated on: 2008-10-17 20:33 UTC.
 Generated by <a class="reference external" href="http://docutils.sourceforge.net/">Docutils</a> from <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> source.
 
 </div>

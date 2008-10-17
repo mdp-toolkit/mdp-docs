@@ -1512,6 +1512,85 @@ actually very easy, the source code of this module contains more
 instructions on how to do this.  It is also possible to modify the
 HTML presentation by providing a custom CSS string.
 
+Example application (2-D image data)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+As promised we now present a more complicated example. We define the
+lowest layer for some kind of image processing system. The input
+data is assumed to consist of image sequences, with each image having
+a size of 50 by 50 pixels. We take color images, so after converting
+the images to one dimensional numpy arrays each pixel corresponds to
+three numeric values in the array, which the values just next to each
+other (one for each color channel).
+
+The processing layer consists of many parallel units, which only see a
+small image region with a size of 10 by 10 pixels. These so called
+receptive fields cover the whole image and have an overlap of five
+pixels. Note that the image data is represented as an 1-D
+array. Therefore we need the ``Rectangular2dSwitchboard`` class to
+correctly route the data for each receptive field to the corresponding
+unit in the following layer.  We also call the switchboard output for
+a single receptive field an output channel and the three RGB values
+for a single pixel form an input channel.  Each processing unit is a
+flow consisting of an ``SFANode`` (to somewhat reduce the
+dimensionality) that is followed by an ``SFA2Node``. Since we assume
+that the statistics are similar in each receptive filed we actually
+use the same nodes for each receptive field. Therefore we use a
+``CloneLayer`` instead of the standard ``Layer``. Here is the actual
+code:
+
+.. raw:: html
+
+   <!-- ignore -->
+
+::
+
+    >>> switchboard = mdp.hinet.Rectangular2dSwitchboard(x_in_channels=50, 
+    ...                                                  y_in_channels=50, 
+    ...                                                  x_field_channels=10, 
+    ...                                                  y_field_channels=10,
+    ...                                                  x_field_spacing=5, 
+    ...                                                  y_field_spacing=5,
+    ...                                                  in_channel_dim=3)
+    >>> sfa_dim = 48
+    >>> sfa_node = mdp.nodes.SFANode(input_dim=switchboard.out_channel_dim, 
+    ...                              output_dim=sfa_dim)
+    >>> sfa2_dim = 32
+    >>> sfa2_node = mdp.nodes.SFA2Node(input_dim=sfa_dim, 
+    ...                                output_dim=sfa2_dim)
+    >>> flownode = mdp.hinet.FlowNode(mdp.Flow([sfa_node, sfa2_node]))
+    >>> sfa_layer = mdp.hinet.CloneLayer(flownode, 
+    ...                                  n_nodes=switchboard.output_channels)
+    >>> flow = mdp.Flow([switchboard, sfa_layer])
+
+The HTML representation of the the constructed flow looks like this in your
+browser:
+
+  .. image:: hinet_html.png
+          :alt: hinet HTML rendering
+
+Now one can train this flow for example with image sequences from a movie.
+After the training phase one can compute the image pattern that produces
+the highest response in a given output coordinate 
+(use ``mdp.utils.QuadraticForm``). One such optimal image pattern may
+look like this (only a grayscale version is shown): 
+
+  .. image:: hinet_opt_stim.png
+          :alt: optimal stimulus
+
+So the network units have developed some kind of primitive line
+detector. More on this topic can be found in: Berkes, P. and Wiskott,
+L., `Slow feature analysis yields a rich repertoire of complex cell
+properties`.  
+`Journal of Vision, 5(6):579-602 <http://journalofvision.org/5/6/9/>`_. 
+
+
+One could also add more layers on top of this first layer to do more 
+complicated stuff. Note that the ``in_channel_dim`` in the next 
+``Rectangular2dSwitchboard`` would be 32, since this is the output dimension 
+of one unit in the ``CloneLayer`` (instead of 3 in the first switchboard, 
+corresponding to the three RGB colors).
+
 Parallelization
 ---------------
 The ``parallel`` package adds the ability to parallelize the training 
@@ -1540,20 +1619,24 @@ PCA and quadratic SFA, so that it makes use of two cores on a modern CPU:
     >>> node1 = mdp.nodes.PCANode(input_dim=100, output_dim=10)
     >>> node2 = mdp.nodes.SFA2Node(input_dim=10, output_dim=10)
     >>> flow = node1 + node2
-    >>> data_iterable = mdp.numx_rand.random((6, 200, 100))
+    >>> n_data_chunks = 2
+    >>> data_iterables = [[mdp.numx_rand.random((200, 100))
+    ...                    for _ in range(n_data_chunks)]
+    ...                    for _ in range(2)]
     >>> scheduler = mdp.parallel.ProcessScheduler(n_processes=2)
-    >>> parallel_flow = mdp.parallel.make_parallel(flow)
-    >>> parallel_flow.train(data_iterable, scheduler=scheduler)
+    >>> parallel_flow = mdp.parallel.make_flow_parallel(flow)
+    >>> parallel_flow.train(data_iterables, scheduler=scheduler)
     >>> scheduler.shutdown()
 
 So only three additional lines were needed to parallelize the training
-of the flow.  The ``make_parallel`` function tries to find parallel
-versions of the nodes in the given flow. It then modifies the nodes
-such that they make use of the parallel version. A new
+of the flow.  The ``make_flow_parallel`` function tries to find
+parallel versions of the nodes in the given flow. It then modifies the
+nodes such that they make use of the parallel version. A new
 ``ParallelFlow`` is then constructed and returned. One can also
-reverse this with the ``unmake_parallel`` function. Note that the ``shutdown``
-method should be always called at the end to make sure that the threads and
-processes used by the scheduler are cleaned up properly.
+reverse this with the ``unmake_flow_parallel`` function. Note that the
+``shutdown`` method should be always called at the end to make sure
+that the threads and processes used by the scheduler are cleaned up
+properly.
 
 We can 	alternatively implement this example by manually constructing a 
 parallel flow:
@@ -1563,10 +1646,13 @@ parallel flow:
     >>> node1 = mdp.parallel.ParallelPCANode(input_dim=100, output_dim=10)
     >>> node2 = mdp.parallel.ParallelSFA2Node(input_dim=10, output_dim=10)
     >>> parallel_flow = mdp.parallel.ParallelFlow([node1, node2])
-    >>> data_iterable = mdp.numx_rand.random((6, 200, 100))
+    >>> n_data_chunks = 2
+    >>> data_iterables = [[mdp.numx_rand.random((200, 100))
+    ...                    for _ in range(n_data_chunks)]
+    ...                    for _ in range(2)]
     >>> scheduler = mdp.parallel.ProcessScheduler(n_processes=2)
     >>> try:
-    ...     parallel_flow.train(data_iterable, scheduler=scheduler)
+    ...     parallel_flow.train(data_iterables, scheduler=scheduler)
     >>> finally:
     ...     scheduler.shutdown()
 
@@ -1653,86 +1739,6 @@ the parallel flow behaves just like a normal flow.
 You can also do the parallel training in a customized way by manually
 fetching tasks and assigning them to a scheduler. However, this should
 rarely be required.
-
-
-Example application (2-D image data)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-As promised we now present a more complicated example. We define the
-lowest layer for some kind of image processing system. The input
-data is assumed to consist of image sequences, with each image having
-a size of 50 by 50 pixels. We take color images, so after converting
-the images to one dimensional numpy arrays each pixel corresponds to
-three numeric values in the array, which the values just next to each
-other (one for each color channel).
-
-The processing layer consists of many parallel units, which only see a
-small image region with a size of 10 by 10 pixels. These so called
-receptive fields cover the whole image and have an overlap of five
-pixels. Note that the image data is represented as an 1-D
-array. Therefore we need the ``Rectangular2dSwitchboard`` class to
-correctly route the data for each receptive field to the corresponding
-unit in the following layer.  We also call the switchboard output for
-a single receptive field an output channel and the three RGB values
-for a single pixel form an input channel.  Each processing unit is a
-flow consisting of an ``SFANode`` (to somewhat reduce the
-dimensionality) that is followed by an ``SFA2Node``. Since we assume
-that the statistics are similar in each receptive filed we actually
-use the same nodes for each receptive field. Therefore we use a
-``CloneLayer`` instead of the standard ``Layer``. Here is the actual
-code:
-
-.. raw:: html
-
-   <!-- ignore -->
-
-::
-
-    >>> switchboard = mdp.hinet.Rectangular2dSwitchboard(x_in_channels=50, 
-    ...                                                  y_in_channels=50, 
-    ...                                                  x_field_channels=10, 
-    ...                                                  y_field_channels=10,
-    ...                                                  x_field_spacing=5, 
-    ...                                                  y_field_spacing=5,
-    ...                                                  in_channel_dim=3)
-    >>> sfa_dim = 48
-    >>> sfa_node = mdp.nodes.SFANode(input_dim=switchboard.out_channel_dim, 
-    ...                              output_dim=sfa_dim)
-    >>> sfa2_dim = 32
-    >>> sfa2_node = mdp.nodes.SFA2Node(input_dim=sfa_dim, 
-    ...                                output_dim=sfa2_dim)
-    >>> flownode = mdp.hinet.FlowNode(mdp.Flow([sfa_node, sfa2_node]))
-    >>> sfa_layer = mdp.hinet.CloneLayer(flownode, 
-    ...                                  n_nodes=switchboard.output_channels)
-    >>> flow = mdp.Flow([switchboard, sfa_layer])
-
-The HTML representation of the the constructed flow looks like this in your
-browser:
-
-  .. image:: hinet_html.png
-          :alt: hinet HTML rendering
-
-Now one can train this flow for example with image sequences from a movie.
-After the training phase one can compute the image pattern that produces
-the highest response in a given output coordinate 
-(use ``mdp.utils.QuadraticForm``). One such optimal image pattern may
-look like this (only a grayscale version is shown): 
-
-  .. image:: hinet_opt_stim.png
-          :alt: optimal stimulus
-
-So the network units have developed some kind of primitive line
-detector. More on this topic can be found in: Berkes, P. and Wiskott,
-L., `Slow feature analysis yields a rich repertoire of complex cell
-properties`.  
-`Journal of Vision, 5(6):579-602 <http://journalofvision.org/5/6/9/>`_. 
-
-
-One could also add more layers on top of this first layer to do more 
-complicated stuff. Note that the ``in_channel_dim`` in the next 
-``Rectangular2dSwitchboard`` would be 32, since this is the output dimension 
-of one unit in the ``CloneLayer`` (instead of 3 in the first switchboard, 
-corresponding to the three RGB colors).
 
 Real life examples
 ------------------
