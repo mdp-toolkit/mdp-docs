@@ -1,18 +1,14 @@
 body {
-	background:white;
-	/*font-family:'Trebuchet MS',Verdana,sans-serif;*/
 	font-family:sans-serif;
 	text-align:justify;
 	margin-bottom:50px;
 	}
 
 a:visited, a:link { 
-	   color:#878F30; 
 	   text-decoration:none;
 }
 
 a:hover {
-	background: #DAE55C;
 	color: black;
 }
 
@@ -38,42 +34,22 @@ OL LI {
 	margin:0.5em 0.5em 0.5em 0.5em;
 }
 
-UL.nice { list-style-type:none; }
-
-UL.nice LI {
-        background: #F0F8FF;
-	border: 1px solid #878F30;
-	padding:0.5em 0.5em 0.5em 0.5em;
-}
-
-OL.nice LI {
-        background: #F0F8FF;
-	border: 1px solid #878F30;
-	padding:0.5em 0.5em 0.5em 0.5em;
-	list-style-type:lower-roman;
-}
-
 DT { font-weight:bold; }
 
 H1 {
 	font-family: serif;
 }
 
-.news {
-	background-color:#E0F060
-	}
 
 #news-box {
   margin-top: 28px;
   /*margin-right: 35%;*/
   padding: .5em; 
-  border: 1px solid #878F30;
   font-size:smaller;
 }
 
 .highlight {
 	font-weight:bold;
-/*	background-color:#E0F060;*/
 }
 
 .smaller_font {
@@ -82,43 +58,18 @@ H1 {
 
 code {
 	text-align:left;
-	color:#878F30;
 }
 
 pycode {
 	text-align:left;
-	color:#878F30;
 	margin-left:2em;
 	font-weight:bold;
 }
 
 pre.literal-block {
   overflow: auto;
-  background: #DAE55C; 
   padding: .5em; 
   margin: 1em;
-  border: 1px solid #878F30;
-}
-
-.pycomment {
-	color:maroon;
-	font-weight:bold;
-}
-
-.faqquest {
-	font-size:larger;
-	font-weight:bold;
-}
-
-.faqansw {
-	font-style:normal;
-}
-
-.faqcit {
-	text-align:justify;
-	font-size:smaller;
-	font-style:italic;
-	padding:0.5em 0.5em 0.5em 0.5em;
 }
 
 .soft {
@@ -126,15 +77,11 @@ pre.literal-block {
 }
 
 #header {
-	background:#DAE55C;
 	text-align:center;
-    border: 1px solid #878F30;
 	padding:5px;
 	text-decoration:none;
 	font-size:250%;
 	font-weight:bold;
-    color:#878F30;
-	/*margin-left:3.5em;*/
 }
 
 IMG.whiteb  { 	
@@ -143,9 +90,6 @@ IMG.whiteb  {
 	border-style:solid;
  }
 
-.img_header a:hover {
-background:#DAE55C;
-}
 
 #sidebar{ 
 clear: left;
@@ -153,7 +97,6 @@ float: left;
 width: 10em;
 margin: 10px 10px 10px 0;
 padding: 0;
-/*font-size: 0.9em;*/
 }
 
 #sidebar ul {	
@@ -162,7 +105,6 @@ width: auto;
 margin: 18px 0 20px 0;
 padding: 0;
 text-align:center; 
-/*font-size:1em;*/
 }	
 
 #sidebar li {
@@ -172,19 +114,11 @@ margin-bottom: 4px;
 
 #sidebar li a {
 font-weight: bold;
-/*height: 20px;*/
 text-decoration: none;
-color: #878F30;
 display: block;
 padding: 4px 0px 4px 0px;
-background:#DAE55C;
-border: 1px solid #878F30;
 }
 	
-#sidebar li a:hover {
-color:black;
-}
-
 #container {
 	padding-right:30px;
 	padding-left:30px;
@@ -199,7 +133,6 @@ color:black;
 
 #footer {
 }
-
 
 /*------------ docutils ---------------*/
 .first {
@@ -236,7 +169,6 @@ div.abstract p.topic-title {
 div.admonition, div.attention, div.caution, div.danger, div.error,
 div.hint, div.important, div.note, div.tip, div.warning {
   margin: 2em ;
-  border: 1px solid #708090;
   padding: 1em }
 
 div.admonition p.admonition-title, div.hint p.admonition-title,
@@ -412,9 +344,20 @@ h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
 
 tt.docutils { 
   font-weight: bold ;
-  /*border: 1px solid #708090;*/
-  /*background-color: #5A6375#f9c852;*/ 
 }
 
 ul.auto-toc {
   list-style-type: none }
+
+
+/* COLORS DEFINITION */
+body { background: white; }
+
+a:visited, a:link, code, pycode, #header, #sidebar li a {color:#878F30;}
+
+#header, a:hover, pre.literal-block, .img_header a:hover, #sidebar li a {background: #DAE55C;}
+
+#news-box, #header, pre.literal-block, #sidebar li a , div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {border: 1px solid #878F30;}
+
+#sidebar li a:hover { color:black; }

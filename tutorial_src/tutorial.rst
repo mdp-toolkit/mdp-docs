@@ -8,7 +8,7 @@ Tutorial
 
 .. raw:: html
    
-   This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_4_tutorial.pdf?download">pdf file</a> (290 KB).
+   This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_4_tutorial.pdf?download">pdf file</a> (830 KB).
 
 This is a guide to basic and some more advanced features of
 the MDP library. Besides the present tutorial, you can learn 
@@ -1541,8 +1541,8 @@ PCA and quadratic SFA, so that it makes use of two cores on a modern CPU:
     >>> node2 = mdp.nodes.SFA2Node(input_dim=10, output_dim=10)
     >>> flow = node1 + node2
     >>> data_iterable = mdp.numx_rand.random((6, 200, 100))
-    >>> scheduler = parallel.ProcessScheduler(n_processes=2)
-    >>> parallel_flow = parallel.make_parallel(flow)
+    >>> scheduler = mdp.parallel.ProcessScheduler(n_processes=2)
+    >>> parallel_flow = mdp.parallel.make_parallel(flow)
     >>> parallel_flow.train(data_iterable, scheduler=scheduler)
 
 So only two additional lines were needed to parallelize the training
@@ -1561,7 +1561,7 @@ parallel flow:
     >>> node2 = mdp.parallel.ParallelSFA2Node(input_dim=10, output_dim=10)
     >>> parallel_flow = mdp.parallel.ParallelFlow([node1, node2])
     >>> data_iterable = mdp.numx_rand.random((6, 200, 100))
-    >>> scheduler = parallel.ProcessScheduler(n_processes=2)
+    >>> scheduler = mdp.parallel.ProcessScheduler(n_processes=2)
     >>> parallel_flow.train(data_iterable, scheduler=scheduler)
 
 This approach gives more control over the used classes and is in general

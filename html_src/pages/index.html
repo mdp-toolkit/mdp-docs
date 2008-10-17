@@ -1,26 +1,46 @@
 <DIV ID="news-box">
 <B>News</B>
 <table>
-  <tr><td>15.05.2008:<td>MDP 2.3 released
-			  (<A HREF="CHANGES">changes since last release</A>).
-  <tr><td>22.03.2008:<td>MDP 2.2 released.
+  <tr><td>17.10.2008:<td>MDP 2.4 released
+			  (<A HREF="CHANGES">changes since last release</A>):
+  <BR>
+  - new parallel package<BR>
+  - second feature<BR>
+  <tr><td>15.05.2008:<td>MDP 2.3 released.
 </table>
 </DIV>
 
 <p>
 <span class="highlight">Modular toolkit for Data Processing
-(MDP)</span> is a Python data processing framework. Implemented
-algorithms include: Principal Component Analysis (PCA), Independent
-Component Analysis (ICA), Slow Feature Analysis (SFA), Independent
-Slow Feature Analysis (ISFA), Growing Neural
-Gas (GNG), Factor Analysis, Fisher Discriminant Analysis (FDA), Gaussian
-Classifiers, and Restricted Boltzmann Machines. 
-Read the <a href="tutorial.html#node-list">full list</a>.
-
-<HR>
-
-<H2 ID="QUICK_INTRO">Quick start</H2>
-
+(MDP)</span> is a Python data processing framework.
+<P>
+From the user's perspective, MDP is a collection of supervised and
+unsupervised learning algorithms and other data processing units
+that can be combined into data processing sequences
+and more complex feed-forward network architectures.
+<P>
+From the scientific developer's perspective, MDP is a modular
+framework, which can easily be expanded. The implementation of new
+algorithms  is easy and intuitive. The new implemented units are
+then automatically integrated with the rest of the library.
+<P>
+The base of available algorithms is steadily increasing and includes,
+to name but the most common, Principal Component Analysis (PCA and
+NIPALS), several Independent Component Analysis algorithms (CuBICA,
+FastICA, TDSEP, and JADE), Slow Feature Analysis, Gaussian
+Classifiers, Restricted Boltzmann Machine, and Locally Linear Embedding.
+<P>
+To learn more about MDP:
+<UL>
+<LI><A HREF="tutorial.html#introduction">Introduction</A>
+<LI><a href="tutorial.html#node-list">Full list</a> of implemented algorithms
+<LI><a href="tutorial.html">Tutorial</a>
+    (<a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_4_tutorial.pdf?download">pdf</a> 830 KB)
+<!-- <LI ID="EUROPYTALK"> See the presentation given at the <a href="http://www.europython.org/">Europython</a> conference in Geneva, Switzerland, July 3-5 2006:
+ <a href="EuroPython2006MDPTalk.sxi">OpenOffice</a> (603 KB), <a href="EuroPython2006MDPTalk.pdf">pdf</a> (800 KB). -->
+<li><a href="docs/api/index.html">API</a>
+</UL>
+<P>
 Using MDP is as easy as:
 <pre class="literal-block">
 &gt;&gt;&gt; import mdp
@@ -31,91 +51,12 @@ Using MDP is as easy as:
 ...
 &gt;&gt;&gt; y = mdp.fastica(x, dtype='float32') 
 </pre>
-MDP is of course much more than this: it allows to combine different
-algorithms and other data processing elements (nodes) into data
-processing sequences and more general feed-forward architectures
-(with the new <CODE>hinet</CODE> subpackage). 
-Moreover, it provides a framework that
-makes the implementation of new algorithms easy and intuitive.
-
-<P>
-To learn more about MDP:
-
-<UL>
-<LI>Read the <A HREF="#INTRO">long description</A>
-<LI>Take a look at the <a href="tutorial.html">Tutorial</a>
-    (<a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_3_tutorial.pdf?download">pdf</a> 290 KB)
-<LI ID="EUROPYTALK"> See the presentation given at the <a href="http://www.europython.org/">Europython</a> conference in Geneva, Switzerland, July 3-5 2006:
- <a href="EuroPython2006MDPTalk.sxi">OpenOffice</a> (603 KB), <a href="EuroPython2006MDPTalk.pdf">pdf</a> (250 KB). 
-<!-- <li>Read the <a href="faq.html">FAQ</a> -->
-<li>Sneak through the <a href="docs/api/index.html">API</a>
-</UL>
-
-<HR>
-
-<H2 ID="INTRO">Description</H2>
-
-<span class="highlight">Modular toolkit for Data Processing
-(MDP)</span> is a data processing framework written in Python.
-
-<P>
-From the user's perspective, MDP consists of a collection of trainable
-supervised and unsupervised algorithms or other data processing units
-(nodes) that can be combined into data processing flows and more 
-complex feed-forward network architectures. Given a
-sequence of input data, MDP takes care of successively training or
-executing all nodes in the network. This structure allows to specify
-complex algorithms as a sequence of simpler data processing steps in a
-natural way. Training can be performed using small chunks of input
-data, so that the use of very large data sets becomes possible while
-reducing the memory requirements. Memory usage can also be minimized
-by defining the internals of the nodes to be single precision.
-
-<P>
-The set of <a href="tutorial.html#node-list">readily available
-algorithms</a> includes Principal Component Analysis (PCA and NIPALS), 
-four flavors of Independent Component Analysis (CuBICA, FastICA, TDSEP, 
-and JADE), 
-Slow Feature Analysis, Independent Slow Feature Analysis, Gaussian
-Classifiers, Growing Neural Gas, Fisher Discriminant Analysis,
-Factor Analysis, Restricted Boltzmann Machine, and many more.
-
-<P>
-From the developer's perspective, MDP is a framework to make the
-implementation of new supervised and unsupervised algorithms easier. 
-The basic class <CODE>Node</CODE> takes
-care of tedious tasks like numerical type and dimensionality checking,
-leaving the developer free to concentrate on the implementation of the
-training and execution phases. The node then automatically integrates
-with the rest of the library and can be used in a flow together with
-other nodes. A node can have multiple training phases and even an
-undetermined number of phases. This allows for example the
-implementation of algorithms that need to collect some statistics on
-the whole input before proceeding with the actual training, or others
-that need to iterate over a training phase until a convergence
-criterion is satisfied. The ability to train each phase using chunks
-of input data is maintained if the chunks are generated with
-iterators. Moreover, crash recovery is optionally available: in case
-of failure, the current state of the flow is saved for later
-inspection.
-
-<P>
-MDP has been written in the context of theoretical research in
-neuroscience, but it has been designed to be helpful in any context
-where trainable data processing algorithms are used. Its simplicity on
-the user side together with the reusability of the implemented nodes
-make it also a valid educational tool.
-
-<P>
-As its users' and contributors' base is steadily increasing, MDP appears
-as a good candidate for becoming a common repository of user-supplied, freely
-available, Python implemented data processing algorithms.
 
 <HR>
 
 <H2 ID="DOWINS">Installation</H2>
 
-<B>Requirements:</B>
+<B>Requirements:</B><BR>
 <A HREF="http://www.python.org/">Python</A> &ge; 2.4, and
 <a href="http://numpy.scipy.org/">NumPy</a> &ge; 1.0 or
 <a href="http://www.scipy.org/">Scipy</a> &ge; 0.5.2. The
@@ -123,17 +64,19 @@ available, Python implemented data processing algorithms.
 used if installed. 
 
 <P>
-<B>Download:</B>
+<B>Download:</B><BR>
+You can download the last MDP release 
 <A HREF="http://sourceforge.net/project/showfiles.php?group_id=116959">
-Download MDP 2.3 at SourceForge</A>. If you want to live on the bleeding 
-edge, check out the MDP 
+here</A>. <BR>
+If you want to live on the bleeding edge, check out the MDP 
 <a href="http://sourceforge.net/svn/?group_id=116959">svn repository</a>: you 
 can <a href="http://mdp-toolkit.svn.sourceforge.net/">browse the repository</a>
 or just check out the trunk with:
 <pre class="literal-block">
 svn co https://mdp-toolkit.svn.sourceforge.net/svnroot/mdp-toolkit/mdp/trunk/mdp mdp
 </pre>
-Thanks to Yaroslav Halchenko, Debian lenny/sid users can install 
+<BR>
+Thanks to Yaroslav Halchenko, Debian users can install 
 the <CODE>python-mdp</CODE> package. 
 
 <P>
@@ -148,7 +91,7 @@ If you want to use MDP without installing it on the system Python path:
 <pre class="literal-block">
 python setup.py install --prefix=/some_dir_in_PYTHONPATH/
 </pre>
-On Debian lenny/sid you can just type:
+On Debian you can just type:
 <pre class="literal-block">
 aptitude update
 aptitude install python-mdp
@@ -159,8 +102,8 @@ executing the installer and following the instructions.
 
 <P>
 <B>Testing:</B><BR>
-If you have successfully installed MDP, you can test your installation in a Python shell
-as follows:
+If you have successfully installed MDP, you can test your installation in a
+Python shell as follows:
 <pre class="literal-block">
 &gt;&gt;&gt; import mdp
 &gt;&gt;&gt; mdp.test()
@@ -168,7 +111,7 @@ as follows:
 
 <P>
 <B>Demos:</B><BR>
-All the examples shown in the <a href="tutorial.html">MDP tutorial</a>
+All the code examples shown in the <a href="tutorial.html">MDP tutorial</a>
 can be found in the package installation path in the subdirectory
 <CODE>demo</CODE>.
 
@@ -177,7 +120,7 @@ can be found in the package installation path in the subdirectory
 <H2 ID="CONT">Maintainers</H2>
 
 MDP has been originally written 
-by <a href="http://www.gatsby.ucl.ac.uk/~berkes/">Pietro Berkes</a>
+by <a href="http://people.brandeis.edu/~berkes">Pietro Berkes</a>
 and <a href="http://itb.biologie.hu-berlin.de/~zito">Tiziano Zito</a>
 at the <a href="http://itb.biologie.hu-berlin.de/">Institute for
 Theoretical Biology</a> of
@@ -186,12 +129,12 @@ Berlin in 2003.
 <p>
 Current maintainers are:
 <ul>
-<li> <a href="http://www.gatsby.ucl.ac.uk/~berkes/">Pietro Berkes</a>
+<li> <a href="http://people.brandeis.edu/~berkes">Pietro Berkes</a>
 <li> <a href="http://itb.biologie.hu-berlin.de/~wilbert">Niko Wilbert</a>
 <li> <a href="http://itb.biologie.hu-berlin.de/~zito">Tiziano Zito</a>
 </ul>
 <a href="http://www.onerussian.com/">Yaroslav Halchenko</a> maintains the 
-<a href="http://packages.debian.org/sid/python-mdp">python-mdp</a> Debian 
+<a href="http://packages.debian.org/python-mdp">python-mdp</a> Debian 
 package.
 <p>
  For comments, patches, feature requests, support requests,
@@ -212,12 +155,10 @@ is the official way to do it:
 
 <P>
 Berkes, P., Wilbert, N., and Zito, T. (2008)<BR>
-<B>Modular Toolkit for Data Processing (version 2.3)</B><BR>
+<B>Modular Toolkit for Data Processing (version 2.4)</B><BR>
 <a href="http://mdp-toolkit.sourceforge.net">http://mdp-toolkit.sourceforge.net</a>
 
 <P>
 If your paper gets published, plase send us a reference (and even a copy
 if you don't mind).
-
-<HR>
 

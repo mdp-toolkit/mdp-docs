@@ -8,8 +8,8 @@ mkdir html/docs/api
 cp ../mdp_dist/CHANGES html/CHANGES 
 # generate API documentation:
 echo 'Generating API documentation...'
-./api_generator
-cp -r API/docs html/
+#./api_generator
+#cp -r API/docs html/
 echo 'Done.'
 echo 'Generating tutorial HTML and PDF...'
 cd tutorial_src/

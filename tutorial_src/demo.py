@@ -419,14 +419,14 @@ node1 = mdp.nodes.PCANode(input_dim=100, output_dim=10)
 node2 = mdp.nodes.SFA2Node(input_dim=10, output_dim=10)
 flow = node1 + node2
 data_iterable = mdp.numx_rand.random((6, 200, 100))
-scheduler = parallel.ProcessScheduler(n_processes=2)
-parallel_flow = parallel.make_parallel(flow)
+scheduler = mdp.parallel.ProcessScheduler(n_processes=2)
+parallel_flow = mdp.parallel.make_parallel(flow)
 parallel_flow.train(data_iterable, scheduler=scheduler)
 node1 = mdp.parallel.ParallelPCANode(input_dim=100, output_dim=10)
 node2 = mdp.parallel.ParallelSFA2Node(input_dim=10, output_dim=10)
 parallel_flow = mdp.parallel.ParallelFlow([node1, node2])
 data_iterable = mdp.numx_rand.random((6, 200, 100))
-scheduler = parallel.ProcessScheduler(n_processes=2)
+scheduler = mdp.parallel.ProcessScheduler(n_processes=2)
 parallel_flow.train(data_iterable, scheduler=scheduler)
 p2 = mdp.numx.pi*2
 t = mdp.numx.linspace(0,1,10000,endpoint=0) # time axis 1s, samplerate 10KHz
