@@ -257,7 +257,7 @@ Some examples of node instantiation:
 
 
 - A ``PolynomialExpansionNode`` expands its input in the space
-  of polynomals of a given degree by computing all monomials up
+  of polynomials of a given degree by computing all monomials up
   to the specified degree. Its constructor needs as first argument
   the degree of the polynomials space (3 in this case).
   ::
@@ -672,7 +672,7 @@ We'll illustrate all this with some toy examples.
   We define two training phases: first we compute the mean of the
   signal and next we sum the squared, meanfree input to compute
   the standard deviation  (of course it is possible to solve this
-  problem in one single step - remeber this is just a toy example).
+  problem in one single step - remember this is just a toy example).
   ::
 
       >>> class UnitVarianceNode(mdp.Node):
@@ -763,7 +763,7 @@ We'll illustrate all this with some toy examples.
   ``set_output_dim``, and ``set_dtype``. Those are the setters for
   ``input_dim``, ``output_dim`` and ``dtype``, which are Python 
   `properties <http://www.python.org/2.2/descrintro.html>`_. 
-  If a subclass needs to change the default behaviour, the internal methods
+  If a subclass needs to change the default behavior, the internal methods
   ``_set_input_dim``, ``_set_output_dim`` and ``_set_dtype`` can
   be overwritten. The property setter will call the internal method after
   some basic testing and internal settings. The private methods 
@@ -874,7 +874,7 @@ we also create a test set ``x_test``.
     >>> x_test = mdp.utils.mult(inp_test, mdp.numx_rand.random((20, 20)))
 
 - We could now perform our analysis using only nodes, that's the 
-  lenghty way...
+  lengthy way...
   
   1. Perform PCA:
   ::
@@ -1407,7 +1407,7 @@ hierarchical networks.
 
 Building blocks
 ~~~~~~~~~~~~~~~
-The ``hinet`` package contains three basic buiding blocks (which are all nodes
+The ``hinet`` package contains three basic building blocks (which are all nodes
 themselves) to construct hierarchical node networks: ``Layer``, 
 ``FlowNode``, ``Switchboard``.
 
@@ -1514,30 +1514,26 @@ HTML presentation by providing a custom CSS string.
 
 Parallelization
 ---------------
-The ``parallel`` adds the ability to parallelize the training and execution
-of MPD flows. This package is split into two decoupled parts:
+The ``parallel`` package adds the ability to parallelize the training 
+and execution of MPD flows. This package is split into two decoupled parts:
 
 - The first part consists of parallel versions of the familiar MDP
   structures of nodes and flows. The first basic building block is the
-  abstact base class ``ParallelNode`` for nodes which can be trained
+  abstract base class ``ParallelNode`` for nodes which can be trained
   in a parallelized way. Secondly there is the ``ParallelFlow`` class,
-  which splits the training or execution into tasks which can then be
-  processes in parallel.
+  which internally splits the training or execution into tasks which can 
+  then be processed in parallel.
 
-- The second part consists of the schedulers. A scheduker takes tasks
+- The second part consists of the schedulers. A scheduler takes tasks
   and processes them in a more or less parallel way (e.g. in multiple
-  python processes). A scheduler deals with the more technical aspects
+  Python processes). A scheduler deals with the more technical aspects
   of the parallelization, but does not need to know anything about
   nodes and flows.
 
-Practically all the complexities of parallelization are hidden in this
-package. There are also helper functions so that the parallel trainign
-or execuition can be done in one line of code.
-
 Basic Examples
 ~~~~~~~~~~~~~~
-In the following example we parallelize a simple Flow consisting of
-PCA and quadratic SFA, so that it uses two cores on a modern CPU:
+In the following example we parallelize a simple ``Flow`` consisting of
+PCA and quadratic SFA, so that it makes use of two cores on a modern CPU:
 
 ::
 
@@ -1554,9 +1550,10 @@ of the flow.  The ``make_parallel`` function tries to find parallel
 versions of the nodes in the given flow. It then modifies the nodes
 such that they make use of the parallel version. A new
 ``ParallelFlow`` is then constructed and returned. One can also
-reverse this with the function ``unmake_parallel``.
+reverse this with the ``unmake_parallel`` function.
 
-We can also implement this example by directly constructing a parallel flow:
+We can 	alternatively implement this example by manually constructing a 
+parallel flow:
 
 ::
 
@@ -1567,19 +1564,17 @@ We can also implement this example by directly constructing a parallel flow:
     >>> scheduler = parallel.ProcessScheduler(n_processes=2)
     >>> parallel_flow.train(data_iterable, scheduler=scheduler)
 
-This gives you more control over which parallel node classes are
-used. In the following sections we will go into more details. As long
-as you only want to use the already existing classes for
-parallelization you can actually skip large parts of the follwing
-sections.
+This approach gives more control over the used classes and is in general
+more robust. The following sections contain more details about the 
+working of this package. But as long as you only want to use the already 
+existing classes for parallelization you can actually skip large parts of that.
 
 Scheduler
 ~~~~~~~~~
 A scheduler is an instance of one of the scheduler classes we
-provide. They are all derived from the ``Scheduler`` base
-class. Currently we provide the ``Scheduler`` base class (which does
-not do any real parallelization) and the ``ProcessScheduler`` class
-which can distributes the incoming tasks over mutltiple python
+provide. They are all derived from the ``Scheduler`` base class. Apart 
+from the base class we currently only provide  the ``ProcessScheduler`` 
+which distributes the incoming tasks over multiple Python
 processes (circumventing the global interpreter lock). There is also
 experimental support for the 
 `Parallel Python library <http://www.parallelpython.com>`_ 
@@ -1590,13 +1585,13 @@ The first important method of the scheduler class is
 ``add_task``. This method takes two arguments: ``data`` and
 ``task_callable``, which can be a function or an object with a
 ``__call__`` method. The return value of the ``task_callable`` is the
-result of the task. If ``task_callable`` is None then the last
-provided ``task_callable`` will be used. This splitting of callable
+result of the task. If ``task_callable`` is ``None`` then the last
+provided ``task_callable`` will be used. This splitting into callable
 and data in principle makes it possible to implement caching of the
 ``task_callable`` in the scheduler (but so far none of our schedulers
 actually implement this feature).
 
-After submitteing all the tasks with ``add_task`` you can then call
+After submitting all the tasks with ``add_task`` you can then call
 the ``get_results`` method. This method returns all the task results,
 normally in a list. If there are open tasks in the scheduler
 ``get_results`` will wait until all the tasks are finished. You can
@@ -1625,28 +1620,28 @@ method. Afterwards one calls ``join`` on the original node, with the
 forked node as the argument. This is effectively the same as calling
 ``train`` directly on the original node.
 
-In your own parallel nodes you should only overwrite the ``_fork`` and
-``_join`` methods, which are automatically called by ``fork`` and
+When writing your own parallel nodes you should only overwrite the 
+``_fork`` and ``_join`` methods, which are automatically called by ``fork`` and
 ``join``. The ``fork`` and ``join`` take care of the standard node
-attritbutes like the dimensions. You should also look at the source
+attributes like the dimensions. You should also look at the source
 code of a parallel node like ``ParallelPCANode`` to get a better idea
 about how to write parallel nodes.
 
 Currently we provide the following parallel nodes:
 ``ParallelPCANode``, ``ParallelWhiteningNode``, ``ParallelSFANode``,
 ``ParallelSFA2Node``, ``ParallelFlowNode``, ``ParallelLayer``,
-``ParallelCloneLayer`` (the last three are from the ``hinet``
+``ParallelCloneLayer`` (the last three are derived from the ``hinet``
 package).
 
 Parallel Flows
 ~~~~~~~~~~~~~~
-As shown earlier in the basic example a parallel flow implements the
+As shown earlier in the example a parallel flow implements the
 parallel training (and execution) using a provided scheduler. The
-scheduler is simply\ provided as an additional argumet for the train
+scheduler is simply provided as an additional argument for the train
 or execute method of the parallel flow. If no scheduler is provided
-the node behaves just like a normal flow.
+the parallel flow behaves just like a normal flow.
 
-You can also do the parallel training in a more custom way by manually
+You can also do the parallel training in a customized way by manually
 fetching tasks and assigning them to a scheduler. However, this should
 rarely be required.
 
@@ -2021,7 +2016,7 @@ node to obtain the projected data:
     >>> data = mdp.numx.array([x,y,z]).T
     >>> lle_projected_data = mdp.nodes.LLENode(k, output_dim=2)(data)
 
-The projected data forms a nice parameteric representation of the
+The projected data forms a nice parametric representation of the
 S-shaped surface:
 
 .. image:: s_shape_lle_proj.png
@@ -2503,17 +2498,6 @@ will extend MDP with more complex data flows, including
 back-propagation and loops. This framework will be integrated with
 both the ``parallel`` and the ``hinet`` packages to allow for large and
 complex data processing networks.
-
-Finally, some more ToDos:
-
-- Add more data processing algorithms.
-
-- Advanced usage of the hinet package will be possible only in presence of 
-  an easy and intuitive GUI :)
-
-- Wait for a good guy who wants to contribute a ``CovarianceMatrix`` class that
-  uses some of the fancy sum algorithms to avoid round off errors when
-  adding many numbers. 
 
 Contributors
 ------------
