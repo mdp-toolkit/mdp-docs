@@ -45,7 +45,7 @@ H1 {
   margin-top: 28px;
   /*margin-right: 35%;*/
   padding: .5em; 
-  font-size:smaller;
+  /*font-size:smaller;*/
 }
 
 .highlight {
@@ -353,13 +353,13 @@ ul.auto-toc {
 /* COLORS DEFINITION */
 body { background: white; }
 
-code, pycode, #header, #sidebar li a {color:#402000;}
+code, pycode, #header, #sidebar li a {color:#0080AF;}
 
-a:visited, a:link {color:#D07000;} 
+a:visited, a:link {color:#0080AF;} 
 
-#header, a:hover, pre.literal-block, .img_header a:hover, #sidebar li a {background: #FFD7AC;}
+#header, a:hover, pre.literal-block, .img_header a:hover, #sidebar li a {background: #AADDFF;}
 
 #news-box, #header, pre.literal-block, #sidebar li a , div.admonition, div.attention, div.caution, div.danger, div.error,
-div.hint, div.important, div.note, div.tip, div.warning {border: 1px solid #878F30;}
+div.hint, div.important, div.note, div.tip, div.warning {border: 1px solid #0080AF;}
 
-#sidebar li a:hover { color:#D07000; }
+#sidebar li a:hover { color:black; }
