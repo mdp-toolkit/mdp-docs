@@ -4,7 +4,7 @@ Tutorial
 :Author: Pietro Berkes, Niko Wilbert, and Tiziano Zito
 :Homepage: http://mdp-toolkit.sourceforge.net
 :Copyright: This document has been placed in the public domain.
-:Version: 2.3
+:Version: 2.4
 
 .. raw:: html
    
@@ -43,58 +43,95 @@ available.
 
 .. contents::
 
+.. include:: <isonum.txt>
+
 Introduction
 ------------
-Modular toolkit for Data Processing (MDP) is a data processing
-framework written in Python.
+The use of the Python programming language in computational
+neuroscience has been growing steadily during the past few years. The
+maturation of two important open source projects, the scientific
+libraries `NumPy <http://numpy.scipy.org>`_ and 
+`SciPy <http://www.scipy.org>`_, gives access to a large
+collection of scientific functions that rivals in size and speed with
+well known commercial alternatives like The MathWorks\ |trade|
+`Matlab\ |copy| <http://www.mathworks.com/products/matlab>`_.
+Furthermore, the flexible and dynamic nature of Python offers the
+scientific programmer the opportunity to quickly develop efficient and
+structured software while maximizing prototyping and reusability
+capabilities.
 
-From the user's perspective, MDP consists of a collection of trainable
-supervised and unsupervised algorithms or other data processing units
-(nodes) that can be combined into data processing flows and more 
-complex feed-forward network architectures. Given a
-sequence of input data, MDP takes care of successively training or
-executing all nodes in the network. This structure allows to specify
-complex algorithms as a sequence of simpler data processing steps in a
-natural way. Training can be performed using small chunks of input
-data, so that the use of very large data sets becomes possible while
-reducing the memory requirements. Memory usage can also be minimized
-by defining the internals of the nodes to be single precision.
+`The Modular toolkit for Data Processing (MDP)
+<http://mdp-toolkit.sourceforge.net>`_ package contributes to this
+growing community a library of widely used data processing algorithms,
+and the possibility to combine them according to a pipeline analogy to
+build more complex data processing software.
 
-The base of readily available algorithms includes Principal Component
-Analysis (PCA and NIPALS), four flavors of Independent Component
-Analysis (CuBICA, FastICA, TDSEP, and JADE), Slow Feature Analysis,
-Independent Slow Feature Analysis, Gaussian Classifiers, Growing
-Neural Gas, Fisher Discriminant Analysis, Factor Analysis, Restricted
-Boltzmann Machine, and many more.  The full list of implemented nodes
-can be found in the `Node List`_ section.
+MDP has been designed to be used as-is and as a framework for
+scientific data processing development.
 
-From the developer's perspective, MDP is a framework to make the
-implementation of new supervised and unsupervised algorithms easier. 
-The basic class ``Node`` takes
-care of tedious tasks like numerical type and dimensionality checking,
-leaving the developer free to concentrate on the implementation of the
-training and execution phases. The node then automatically integrates
-with the rest of the library and can be used in a flow together with
-other nodes. A node can have multiple training phases and even an
-undetermined number of phases. This allows for example the
-implementation of algorithms that need to collect some statistics on
-the whole input before proceeding with the actual training, or others
-that need to iterate over a training phase until a convergence
-criterion is satisfied. The ability to train each phase using chunks
-of input data is maintained if the chunks are generated with
-iterators. Moreover, crash recovery is optionally available: in case
-of failure, the current state of the flow is saved for later
+From the user's perspective, MDP consists of a collection of
+supervised and unsupervised learning algorithms, and other data
+processing units (*nodes*) that can be combined into data processing
+sequences (*flows*) and more complex feed-forward network
+architectures. Given a set of input data, MDP takes care of
+successively training or executing all nodes in the network. This
+allows the user to specify complex algorithms as a series of simpler
+data processing steps in a natural way. 
+
+The base of available algorithms is steadily increasing and includes,
+to name but the most common, Principal Component Analysis (PCA and
+NIPALS), several Independent Component Analysis algorithms (CuBICA,
+FastICA, TDSEP, and JADE), Slow Feature Analysis, Gaussian
+Classifiers, Restricted Boltzmann Machine, and Local Linear Embedding
+(see the `Node List`_ section for a more exhaustive list and 
+references).
+
+Particular care has been taken to make computations efficient in terms
+of speed and memory.  To reduce memory requirements, it is possible to
+perform learning using batches of data, and to define the internal
+parameters of the nodes to be single precision, which makes the usage of
+very large data sets possible.  Moreover, the ``parallel`` subpackage
+offers a parallel implementation of the basic nodes and flows.
+
+From the developer's perspective, MDP is a framework that makes the
+implementation of new supervised and unsupervised learning algorithms
+easy and straightforward.  The basic class, ``Node``, takes care of
+tedious tasks like numerical type and dimensionality checking, leaving
+the developer free to concentrate on the implementation of the
+learning and execution phases. Because of the common interface, the
+node then automatically integrates with the rest of the library and
+can be used in a network together with other nodes. A node can have
+multiple training phases and even an undetermined number of phases.
+This allows the implementation of algorithms that need to collect some
+statistics on the whole input before proceeding with the actual
+training, and others that need to iterate over a training phase until
+a convergence criterion is satisfied. The ability to train each phase
+using chunks of input data is maintained if the chunks are generated
+with iterators. Moreover, crash recovery is optionally available: in
+case of failure, the current state of the flow is saved for later
 inspection.
 
-MDP has been written in the context of theoretical research in
-neuroscience, but it has been designed to be helpful in any context
-where trainable data processing algorithms are used. Its simplicity on
-the user side together with the reusability of the implemented nodes
-make it also a valid educational tool.
+MDP is distributed under the open source LGPL license. It has been
+written in the context of theoretical research in neuroscience, but it
+has been designed to be helpful in any context where trainable data
+processing algorithms are used. Its simplicity on the user's side, the
+variety of readily available algorithms, and the reusability of the
+implemented nodes make it also a useful educational tool.
 
-As its user and contributor base is steadily increasing, MDP appears as a good
-candidate for becoming a common repository of user-supplied, freely
-available, Python implemented data processing algorithms.
+With over 10,000 downloads since its first public release in 2004, MDP
+has become a widely used Python scientific software. It has minimal
+dependencies, requiring only the NumPy numerical extension, is
+completely platform-independent, and is available as a
+`package <http://packages.debian.org/python-mdp>`_
+in the GNU/Linux 
+`Debian <http://www.debian.org>`_ distribution and the
+`Python(x,y) <http://www.pythonxy.com>`_ scientific Python
+distribution.
+
+As the number of its users and contributors is increasing, MDP appears
+to be a good candidate for becoming a community-driven common
+repository of user-supplied, freely available, Python implemented data
+processing algorithms.
 
 
 Quick Start
@@ -115,71 +152,59 @@ Using MDP is as easy as:
     ...
     >>> y = mdp.fastica(x, dtype='float32') 
 
-A complete list of all short-cut functions like ``pca`` or ``fastica``
-can be obtained as follows:
+MDP requires the numerical Python extensions `NumPy`_ or `SciPy`_. At
+import time MDP will select ``scipy`` if available, otherwise
+``numpy`` will be loaded. You can force the use of a numerical
+extension by setting the environment variable ``MDPNUMX=numpy`` or
+``MDPNUMX=scipy``. 
 
-::
-
-    >>> dir(mdp.helper_funcs)
-    ['__builtins__', '__doc__', '__file__', '__name__', 
-    'cubica', 'factor_analysis', 'fastica', 'get_eta', 
-    'isfa', 'mdp', 'pca', 'sfa', 'sfa2', 'whitening']
-
+.. admonition:: An important remark
     
-MDP is of course much more than this: it allows to combine different
-algorithms and other data processing elements (nodes) into data
-processing sequences (flows), and more general feed-forward architectures
-(with the new ``hinet`` subpackage). 
-Moreover, it provides a framework that
-makes the implementation of new algorithms easy and intuitive.
+   Input array data is typically assumed to be two-dimensional and
+   ordered such that observations of the same variable are stored on
+   rows and different variables are stored on columns.
 
-MDP requires the numerical Python extensions `numpy
-<http://numpy.scipy.org/>`_ or `scipy <http://www.scipy.org/>`_.  
-In its namespace MDP offers references
-to the main modules ``numpy`` or ``scipy``, and the subpackages
-``linalg``, ``random``, and ``fft``
-as ``mdp.numx``, ``mdp.numx_linalg``, ``mdp.numx_rand``, and 
-``mdp.numx_fft``. This is done to possibly support additional 
-numerical extensions in the future. At import time MDP will select
-``scipy`` if available, otherwise ``numpy`` will be loaded. You can 
-force the use of a numerical extension by setting the environment
-variable ``MDPNUMX=numpy`` or ``MDPNUMX=scipy``.
 
 Nodes
 -----
-A node is the basic unit in MDP and it represents a data processing
-element, like for example a learning algorithm, a filter, a
-visualization step, etc. Each node can have one or more training
-phases, during which the internal structures are learned from training
-data (e.g. the weights of a neural network are adapted or the
-covariance matrix is estimated) and an execution phase, where new data
-can be processed forwards (by processing the data through the node) or
-backwards (by applying the inverse of the transformation computed by
-the node if defined). The ``Node`` class is designed to make the
-implementation of new algorithms easy and intuitive, for example by
-setting automatically input and output dimension and by casting the
-data to match the numerical type (e.g. float or double) of the
-internal structures. ``Node`` was designed to be applied to arbitrarily
-long sets of data: the internal structures can be updated
-incrementally by sending chunks of the input data (this is equivalent
-to online learning if the chunks consists of single observations, or
-to batch learning if the whole data is sent in a single chunk).
-A ``Node`` can be copied or saved using the corresponding ``copy`` and
-``save`` methods.
+
+A *node* is the basic building block of an MDP application.  It
+represents a data processing element, like for example a learning
+algorithm, a data filter, or a visualization step (see the `Node
+List`_ section for an exhaustive list and references).
+
+Each node can have one or more training phases, during which the
+internal structures are learned from training data (e.g. the weights
+of a neural network are adapted or the covariance matrix is estimated)
+and an execution phase, where new data can be processed forwards (by
+processing the data through the node) or backwards (by applying the
+inverse of the transformation computed by the node if defined).
+
+Nodes have been designed to be applied to arbitrarily long sets of data:
+if the underlying algorithms supports it, the internal structures can
+be updated incrementally by sending multiple batches of data (this is
+equivalent to online learning if the chunks consists of single
+observations, or to batch learning if the whole data is sent in a
+single chunk). It is thus possible to perform computations on amounts
+of data that would not fit into memory or to generate data on-the-fly.
+
+A ``Node`` also defines some utility methods, like for example
+``copy`` and ``save``, that return an exact copy of a node and save it
+in a file, respectively. Additional methods may be present, depending on the
+algorithm.
  
 Node Instantiation
 ~~~~~~~~~~~~~~~~~~~
 Nodes can be obtained by creating an instance of the ``Node`` class.
-Each node is characterized by an input dimension, that corresponds
-to the dimensionality of the input vectors, an output dimension, and
-a ``dtype``, which determines the numerical type of the internal structures
-and of the output signal. These three attributes are inherited from
-the input data if left unspecified. Input dimension and ``dtype``
-can usually be specified when an instance of the node class
-is created.
-The constructor of each node class can require other task-specific
-arguments. The full documentation is available in the
-doc-string of the node's class.
+
+Each node is characterized by an input dimension (i.e., the
+dimensionality of the input vectors), an output dimension, and a
+``dtype``, which determines the numerical type of the internal
+structures and of the output signal. By default, these attributes are
+inherited from the input data if left unspecified. The constructor of
+each node class can require other task-specific arguments. The full
+documentation is always available in the doc-string of the node's
+class.
 
 Some examples of node instantiation:
 
@@ -228,8 +253,7 @@ Some examples of node instantiation:
       >>> pcanode4.supported_dtypes
       [dtype('float32'), dtype('float64')]
 
-  This method returns a list of ``numpy.dtype`` objects
-  (see the ``numpy`` documentation for more details.
+  This attribute is a list of ``numpy.dtype`` objects.
 
 
 - A ``PolynomialExpansionNode`` expands its input in the space
@@ -242,18 +266,28 @@ Some examples of node instantiation:
 
 Node Training
 ~~~~~~~~~~~~~~
-Some nodes need to be trained to perform their task. This can
-be done during a training phases by calling the ``train`` method. 
-MDP supports both supervised and unsupervised training, and
+
+Some nodes need to be trained to perform their task. For example, the
+Principal Component Analysis (PCA) algorithm requires the computation
+of the mean and covariance matrix of a set of training data from which
+the principal eigenvectors of the data distribution are estimated.
+
+This can be done during a training phases by calling the ``train``
+method.  MDP supports both supervised and unsupervised training, and
 algorithms with multiple training phases.
 
 Some examples of node training:
 
-- Create some random data and update the internal structures
-  (i.e. mean and covariance matrix) of the ``PCANode``:
+- Create some random data to train the node
   ::
 
-      >>> x = mdp.numx_rand.random((100, 25))  # 25 variables, 100 observations
+     >>> x = mdp.numx_rand.random((100, 25))  # 25 variables, 100 observations
+
+
+- Analyzes the batch of data ``x`` and update the estimation of 
+  mean and covariance matrix:
+  ::
+
       >>> pcanode1.train(x)
 
   At this point the input dimension and the ``dtype`` have been
@@ -285,8 +319,8 @@ Some examples of node training:
 
 - The training phase ends when the ``stop_training``, ``execute``,
   ``inverse``, and possibly some other node-specific methods are called.
-  For example we can stop the training 
-  of ``pcanode1`` (at this point the principal components are computed):
+  For example we can finalyze the PCA algorithm by computing and selecting
+  the principal eigenvectors  
   ::
 
       >>> pcanode1.stop_training()
@@ -324,10 +358,12 @@ Some examples of node training:
       ...     fdanode.train(x, label)
       >>> 
       
-- A node could also require multiple training phases. For example,
-  the training of ``fdanode`` is not complete yet, since it has
-  two training phases. We need to stop the first phase and train
-  the second:
+- A node could also require multiple training phases. For example, the
+  training of ``fdanode`` is not complete yet, since it has two
+  training phases: The first one computing the mean of the data
+  conditioned on the labels, and the second one computing the overall
+  and within-class covariance matrices and solving the FDA
+  problem. The first phase must be stopped and the second one trained:
   ::
 
       >>> fdanode.stop_training()
@@ -336,13 +372,14 @@ Some examples of node training:
       ...     fdanode.train(x, label)
       >>>
 
-  The easiest way to train multiple phase nodes is using Flows_ ,
-  which automatically handle multiple phases.
+  The easiest way to train multiple phase nodes is using flows,
+  which automatically handle multiple phases (see the `Flows`_ section).
 
 
 Node Execution
 ~~~~~~~~~~~~~~
-After the training phase it is possible to execute the node:
+
+Once the training is finished, it is possible to execute the node:
 
 - The input data is projected on the principal components learned
   in the training phase:
@@ -369,16 +406,18 @@ After the training phase it is possible to execute the node:
       >>> x = mdp.numx_rand.random((100, 25))
       >>> y_fda = fdanode(x)
 
-- Some nodes may allow for optional arguments in the ``execute`` method, 
-  as always the complete information is given in the doc-string.
+- Some nodes may allow for optional arguments in the ``execute`` method. 
+  As always the complete information can be found in the doc-string.
 
 Node Inversion
 ~~~~~~~~~~~~~~ 
-If the operation computed by the node is invertible, it is possible
-to compute the inverse transformation:
 
-- Given the output data, compute the inverse projection to
-  the input space for the PCA node:
+If the operation computed by the node is invertible, the node can also
+be executed *backwards*, thus computing the inverse transformation:
+
+- In the case of PCA, for example, this corresponds to projecting a
+  vector in the principal components space back to the original data
+  space:
   ::
 
       >>> pcanode1.is_invertible()
@@ -397,25 +436,38 @@ to compute the inverse transformation:
 
 Writing your own nodes: subclassing Node
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-MDP tries to make it easy to write new data processing elements
-that fit with the existing elements. To expand the MDP library of
-implemented nodes with your own nodes you can subclass
-the Node class, overriding some of the methods according
-to your needs.
 
-It is recommended to refer to the ``numpy`` or ``scipy`` numerical 
-extensions
-through the MDP aliases ``mdp.numx``, ``mdp.numx_linalg``, 
-``mdp.numx_fft``, and
-``mdp.numx_rand`` when writing ``Node`` subclasses. This shall ensure
-that your nodes can be used without modifications should MDP support
-alternative numerical extensions in the future.
+MDP tries to make it easy to write new nodes that interface with the
+existing data processing elements. 
 
-We'll illustrate this with some toy examples.
+The ``Node`` class is designed to make the implementation of new
+algorithms easy and intuitive. This base class takes care of setting
+input and output dimension and casting the data to match the numerical
+type (e.g. float or double) of the internal variables, and offers
+utility methods that can be used by the developer.
+
+To expand the MDP library of implemented nodes with user-made nodes,
+it is sufficient to subclass ``Node``, overriding some of
+the methods according to the algorithm one wants to implement,
+typically the ``_train``, ``_stop_training``, and ``_execute``
+methods.
+
+In its namespace MDP offers references to the main modules ``numpy``
+or ``scipy``, and the subpackages ``linalg``, ``random``, and ``fft``
+as ``mdp.numx``, ``mdp.numx_linalg``, ``mdp.numx_rand``, and
+``mdp.numx_fft``. This is done to possibly support additional
+numerical extensions in the future. For this reason it is recommended
+to refer to the ``numpy`` or ``scipy`` numerical extensions through
+the MDP aliases ``mdp.numx``, ``mdp.numx_linalg``, ``mdp.numx_fft``,
+and ``mdp.numx_rand`` when writing ``Node`` subclasses. This shall
+ensure that your nodes can be used without modifications should MDP
+support alternative numerical extensions in the future.
+
+We'll illustrate all this with some toy examples.
 
 - We start by defining a node that multiplies its input by 2.
   
-  Define the class as a subclass of Node:
+  Define the class as a subclass of ``Node``:
   ::
   
       >>> class TimesTwoNode(mdp.Node):
@@ -424,9 +476,10 @@ We'll illustrate this with some toy examples.
   the ``is_trainable`` method to return False:
   ::
   
-      ...     def is_trainable(self): return False
+      ...     def is_trainable(self): 
+      ...         return False
   
-  Execute only needs to multiply x by 2
+  Execute only needs to multiply ``x`` by 2:
   ::
 
       ...     def _execute(self, x):
@@ -440,8 +493,8 @@ We'll illustrate this with some toy examples.
   to handle the ``dtype`` defined by the user or inherited by the
   input data, and make sure that internal structures are stored
   consistently. To help with this the ``Node`` base class has a method
-  called ``_refcast(array, dtype)`` that casts an array only when its
-  ``dtype`` is different from the requested one.
+  called ``_refcast(array)`` that casts the input ``array`` only when its
+  ``dtype`` is different from the ``Node`` instance's ``dtype``.
 
   The inverse of the multiplication by 2 is of course the division by 2:
   ::
@@ -489,12 +542,14 @@ We'll illustrate this with some toy examples.
   ``PowerNode`` is not trainable...
   ::
 
-      ...     def is_trainable(self): return False
+      ...     def is_trainable(self): 
+      ...         return False
 
   ... nor invertible:
   ::
 
-      ...     def is_invertible(self): return False
+      ...     def is_invertible(self): 
+      ...         return False
 
   It is possible to overwrite the function ``_get_supported_dtypes``
   to return a list of ``dtype`` supported by the node:
@@ -503,10 +558,10 @@ We'll illustrate this with some toy examples.
       ...     def _get_supported_dtypes(self):
       ...         return ['float32', 'float64']
 
-  The supported types can be specified in any format allowed by
-  ``numpy.dtype``. The interface method ``get_supported_dtypes``
+  The supported types can be specified in any format allowed by the
+  ``numpy.dtype`` constructor. The interface method ``get_supported_dtypes``
   converts them and sets the property ``supported_dtypes``, which is
-  a list of ``dtype`` objects.
+  a list of ``numpy.dtype`` objects.
 
   The ``_execute`` method:
   ::
@@ -516,12 +571,12 @@ We'll illustrate this with some toy examples.
       ...
       >>>
  
-  Test the new node
+  Test the new node:
   ::
 
       >>> node = PowerNode(3)
       >>> x = mdp.numx.array([[1.0, 2.0, 3.0]])
-      >>> y = node.execute(x)
+      >>> y = node(x)
       >>> print x, '**', node.power, '=', node(x)
       [ [ 1.  2.  3.]] ** 3 = [ [  1.   8.  27.]]
 
@@ -568,7 +623,7 @@ We'll illustrate this with some toy examples.
 
       ...         self.tlen += x.shape[0]
 
-  Note that ``train`` method can have further arguments, which might be
+  Note that the ``train`` method can have further arguments, which might be
   useful to implement algorithms that require supervised learning.
   For example, if you want to define a node that performs some form
   of classification you can define a ``_train(self, data, labels)``
@@ -604,7 +659,7 @@ We'll illustrate this with some toy examples.
       >>> node = MeanFreeNode()
       >>> x = mdp.numx_rand.random((10,4))
       >>> node.train(x)
-      >>> y = node.execute(x)
+      >>> y = node(x)
       >>> print 'Mean of y (should be zero): ', mdp.numx.mean(y, 0)
       Mean of y (should be zero):  [  0.00000000e+00   2.22044605e-17  
       -2.22044605e-17   1.11022302e-17]
@@ -628,20 +683,20 @@ We'll illustrate this with some toy examples.
       ...         self.std = None # standard deviation
       ...         self.tlen = 0
 
-  The training sequence is defined by the user-supplied function
+  The training sequence is defined by the user-supplied method
   ``_get_train_seq``, that returns a list of tuples, one for each
   training phase. The tuples contain references to the training
-  and stop-training functions of each of them. The default output
-  of this function is ``[(_train, _stop_training)]``, which explains
-  the standard behavior illustrated above. We overwrite the function to
-  return the list of our training functions:
+  and stop-training methods of each of them. The default output
+  of this method is ``[(_train, _stop_training)]``, which explains
+  the standard behavior illustrated above. We overwrite the method to
+  return the list of our training/stop_training methods:
   ::
 
       ...     def _get_train_seq(self):
       ...         return [(self._train_mean, self._stop_mean),
       ...                 (self._train_std, self._stop_std)]
 
-  Next we define the training functions. The first phase is identical
+  Next we define the training methods. The first phase is identical
   to the one in the previous example:
   ::
 
@@ -690,7 +745,7 @@ We'll illustrate this with some toy examples.
       ...
       ...
       >>> # execute
-      ... y = node.execute(x)
+      ... y = node(x)
       >>> print 'Standard deviation of y (should be one): ', mdp.numx.std(y, axis=0)
       Standard deviation of y (should be one):  [ 1.  1.  1.  1.]
     
@@ -756,13 +811,16 @@ We'll illustrate this with some toy examples.
 
 Flows
 ------------------------------
-A flow consists in an acyclic graph of nodes (currently only
-node sequences are implemented). The data is sent to an 
-input node and is successively processed by the following 
-nodes on the graph. The general flow implementation automatizes 
-the training, execution, and inverse execution (if defined) of 
-the whole graph. Training can be supervised and can consist of
-multiple phases.
+A *flow* is a sequence of nodes that are trained and executed
+together to form a more complex algorithm.  Input data is sent to the
+first node and is successively processed by the subsequent nodes along
+the sequence.
+
+Using a flow as opposed to handling manually a set of nodes has a
+clear advantage: The general flow implementation automatizes the
+training (including supervised training and multiple training phases),
+execution, and inverse execution (if defined) of the whole sequence.
+
 Crash recovery is optionally available: in case of failure the current
 state of the flow is saved for later inspection. A subclass of the
 basic flow class (``CheckpointFlow``) allows user-supplied checkpoint
@@ -772,14 +830,16 @@ Flow objects are Python containers. Most of the builtin ``list``
 methods are available. A ``Flow`` can be saved or copied using the
 corresponding ``save`` and ``copy`` methods.
 
+
 Flow instantiation, training and execution
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Suppose we have an input signal with an high number of dimensions,
-on which we would like to perform ICA. To make the problem affordable,
-we first need to reduce its dimensionality with PCA. Finally, we would
-like to find out the data that produces local maxima in the output
-on a new test set. This information could be used to characterize
-the input-output filters.
+For example, suppose we need to analyze a very
+high-dimensional input signal using Independent Component Analysis
+(ICA). To reduce the computational load, we would like to reduce the
+input dimensionality of the data using PCA. Moreover, we would like to
+find the data that produces local maxima in the output of the ICA
+components on a new test set (this information could be used
+for instance to characterize the ICA filters).
 
 We start by generating some input signal at random (which makes the
 example useless, but it's just for illustration...).  Generate 1000
@@ -804,8 +864,8 @@ Mix the input signals linearly:
 
     >>> x = mdp.utils.mult(inp,mdp.numx_rand.random((20, 20)))
 
-`x` is now the training data for our simulation. In the same way
-we also create a test set `x_test`.
+``x`` is now the training data for our simulation. In the same way
+we also create a test set ``x_test``.
 ::
 
     >>> inp_test = mdp.numx_rand.random((1000, 20))
@@ -821,21 +881,21 @@ we also create a test set `x_test`.
 
       >>> pca = mdp.nodes.PCANode(output_dim=5)
       >>> pca.train(x)
-      >>> out1 = pca.execute(x)
+      >>> out1 = pca(x)
 
   2. Perform ICA using CuBICA algorithm:
   ::
 
       >>> ica = mdp.nodes.CuBICANode()
       >>> ica.train(out1)
-      >>> out2 = ica.execute(out1)
+      >>> out2 = ica(out1)
 
   3. Find the three largest local maxima in the output of the ICA node
   when applied to the test data, using a ``HitParadeNode``:
   ::
 
-      >>> out1_test = pca.execute(x_test)
-      >>> out2_test = ica.execute(out1_test)
+      >>> out1_test = pca(x_test)
+      >>> out2_test = ica(out1_test)
       >>> hitnode = mdp.nodes.HitParadeNode(3)
       >>> hitnode.train(out2_test)
       >>> maxima, indices = hitnode.get_maxima()
@@ -844,19 +904,43 @@ we also create a test set `x_test`.
   ::
 
       >>> flow = mdp.Flow([mdp.nodes.PCANode(output_dim=5), mdp.nodes.CuBICANode()])
-      >>> flow.train(x)
 
+
+  Note that flows can be built simply by concatenating nodes:
+  ::
+  
+      >>> flow = mdp.nodes.PCANode(output_dim=5) + mdp.nodes.CuBICANode()
+      
+  Train the resulting flow:
+  ::
+
+      >>> flow.train(x)
+  
   Now the training phase of PCA and ICA are completed. Next we append
   a ``HitParadeNode`` which we want to train on the test data:
   ::
 
       >>> flow.append(mdp.nodes.HitParadeNode(3))
+    
+  As before, new nodes can be appended to an existing flow by adding
+  them ot it:
+  ::
+
+      >>> flow += mdp.nodes.HitParadeNode(3)
+  
+  Train the ``HitParadeNode`` on the test data:
+  ::
+
       >>> flow.train(x_test)
       >>> maxima, indices = flow[2].get_maxima()
 
-  Just to check that everything works 
-  properly, we can calculate covariance between the generated sources and
-  the output (should be approximately 1):
+  A single call to the ``flow``'s ``train`` method will automatically
+  take care of training nodes with multiple training phases, if such
+  nodes are present.  
+
+  Just to check that everything works properly, we
+  can calculate covariance between the generated sources and the output
+  (should be approximately 1): 
   ::
 
       >>> out = flow.execute(x)
@@ -866,6 +950,12 @@ we also create a test set `x_test`.
 
   The ``HitParadeNode`` is an analysis node and as such does not
   interfere with the data flow.
+  
+  Note that flows can be executed by calling the ``Flow`` instance
+  directly:
+  ::
+     
+     >>> out = flow(x)
 
 Flow inversion
 ~~~~~~~~~~~~~~
@@ -892,8 +982,10 @@ Calculate covariance between input mix and reconstructed mix:
 
 Flows are container type objects
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Flows are Python container type objects, very much like lists,
-i.e., you can loop through them:
+``Flow`` objects are defined as Python containers, and thus are endowed with
+most of the methods of Python lists.
+
+You can loop through a ``Flow``:
 ::
 
     >>> for node in flow:
@@ -902,21 +994,21 @@ i.e., you can loop through them:
     PCANode(input_dim=20, output_dim=5, dtype='float64')
     CuBICANode(input_dim=5, output_dim=5, dtype='float64')
     HitParadeNode(input_dim=5, output_dim=5, dtype='float64')
+    HitParadeNode(input_dim=5, output_dim=5, dtype='float64')
     >>> 
 
-You can get slices, ``pop``, ``insert``, and ``append`` nodes like you
-would do with lists:
+You can get slices, ``pop``, ``insert``, and ``append`` nodes:
 ::
 
     >>> len(flow)
-    3
+    4
     >>> print flow[::2]
     [PCANode, HitParadeNode]
     >>> nodetoberemoved = flow.pop(-1)
     >>> nodetoberemoved
     HitParadeNode(input_dim=5, output_dim=5, dtype='float64')
     >>> len(flow)
-    2
+    3
 	    
 Finally, you can concatenate flows:
 ::
@@ -924,11 +1016,11 @@ Finally, you can concatenate flows:
     >>> dummyflow = flow[1:].copy()
     >>> longflow = flow + dummyflow
     >>> len(longflow)
-    3
+    4
 
 The returned flow must always be consistent, i.e. input and
 output dimensions of successive nodes always have to match. If 
-you try to create an inconsistent flow you'll get an error.
+you try to create an inconsistent flow you'll get an exception.
 
 
 Crash recovery
@@ -987,7 +1079,7 @@ Iterators
 ---------
 Python allows user-defined classes to support iteration,
 as described in the
-`Python docs <http://docs.python.org/lib/typeiter.html>`_.
+`Python docs <http://docs.python.org/library/stdtypes.html#iterator-types>`_.
 A convenient implementation of the iterator protocol is provided
 by generators:
 see `this article <http://linuxgazette.net/100/pramode.html>`_ for an
@@ -1031,6 +1123,10 @@ In this example we use a progress bar to get progress information.
     ...
     >>>
 
+The ``progressinfo`` function is a fully configurable text-mode
+progress info box tailored to the command-line die-hards. Have a look
+at its doc-string and prepare to be amazed!
+
 Let's define a bogus flow consisting of 2 ``BogusNode``:
 ::
 
@@ -1062,7 +1158,7 @@ array of data:
 
   ::
 
-      >>> flow = mdp.Flow([BogusNode(),BogusNode()])
+      >>> flow = BogusNode() + BogusNode()
       >>> block_x = mdp.numx.atleast_2d(mdp.numx.arange(2,1001,2))
       >>> block_y = mdp.numx.atleast_2d(mdp.numx.arange(1,1001,2))
       >>> single_block = mdp.numx.transpose(mdp.numx.concatenate([block_x,block_y]))
@@ -1115,7 +1211,7 @@ Execution and inversion can be done in one-shot mode also. Note that
 since training is finished you are not going to get a warning
 ::
 
-    >>> output = flow.execute(single_block)
+    >>> output = flow(single_block)
     >>> output = flow.inverse(single_block)
 
 If a node requires multiple training phases (e.g., ``GaussianClassifierNode``),
@@ -1153,11 +1249,13 @@ same sequence every time:
     ...         for i in range(2):
     ...             yield mdp.numx_rand.random((1,4))
     >>> iterator = RandomIterator()
-    >>> for x in iterator: print x
+    >>> for x in iterator: 
+    ...     print x
     ... 
     [[ 0.99586495  0.53463386  0.6306412   0.09679571]]
     [[ 0.51117469  0.46647448  0.95089738  0.94837122]]
-    >>> for x in iterator: print x
+    >>> for x in iterator: 
+    ...     print x
     ... 
     [[ 0.99586495  0.53463386  0.6306412   0.09679571]]
     [[ 0.51117469  0.46647448  0.95089738  0.94837122]]
@@ -1302,37 +1400,40 @@ Don't forget to clean the rubbish:
 
 Hierarchical Networks
 ---------------------
-The ``hinet`` package makes it possible to construct graph-like Node structures,
-especially hierarchical networks.
+In case the desired data processing application cannot be defined as a
+sequence of nodes, the ``hinet`` subpackage makes it possible to
+construct arbitrary feed-forward architectures, and in particular
+hierarchical networks.
 
 Building blocks
 ~~~~~~~~~~~~~~~
 The ``hinet`` package contains three basic buiding blocks (which are all nodes
-themselves) to construct hierarchical node networks:
+themselves) to construct hierarchical node networks: ``Layer``, 
+``FlowNode``, ``Switchboard``.
 
-- The most important building block is the new ``Layer`` node, which works like a 
-  horizontal version of flow. It encapsulates a list of Nodes, which are trained
-  and executed in parallel. 
-  For example we can combine two Nodes with 100 dimensional input to
-  construct a layer with a 200 dimensional input:
+- The first building block is the ``Layer`` node, which works like a
+  horizontal version of flow. It acts as a wrapper for a set of nodes
+  that are trained and executed in parallel. For example, we can
+  combine two nodes with 100 dimensional input to construct a layer
+  with a 200-dimensional input
   ::
-
+      
       >>> node1 = mdp.nodes.PCANode(input_dim=100, output_dim=10)
       >>> node2 = mdp.nodes.SFANode(input_dim=100, output_dim=20)
       >>> layer = mdp.hinet.Layer([node1, node2])
       >>> layer
       Layer(input_dim=200, output_dim=30, dtype=None) 
 
-  The first half of the 200 dimensional input data is then automatically fed into 
-  ``node1`` and the second half into ``node2``. We can train and execute
-  ``layer`` just like any other node. Note that the dimensions of the nodes must
-  be already set when the layer is constructed.
+  The first half of the 200 dimensional input data is then
+  automatically assigned to ``node1`` and the second half to
+  ``node2``. We can train and execute a ``Layer`` just like any other
+  node. Note that the dimensions of the nodes must be already set when
+  the layer is constructed.
 
-- Since one might also want to use Flows (i.e. vertical stacks of Nodes) in a
-  ``Layer``, a wrapper class for flows is provided.
-  The ``FlowNode`` class wraps any ``Flow`` so that it becomes a ``Node`` 
-  (and can be used like any other Node). For example we can replace ``node1``
-  in the above example with a ``FlowNode``:
+- In order to be able to build arbitrary feed-forward node structures,
+  ``hinet`` provides a wrapper class for flows (i.e., vertical stacks
+  of nodes) called ``FlowNode``. For example, we can replace
+  ``node1`` in the above example with a ``FlowNode``:
   ::
 
       >>> node1_1 = mdp.nodes.PCANode(input_dim=100, output_dim=50)
@@ -1343,17 +1444,18 @@ themselves) to construct hierarchical node networks:
       >>> layer
       Layer(input_dim=200, output_dim=30, dtype=None) 
 
-  Note that ``node1`` now has two training phases (in this case one for each 
+  in this example ``node1`` has two training phases (one for each 
   internal node). Therefore ``layer`` now has two training phases as well and 
-  behaves like any other Node with two training phases. So you could stick
-  ``layer`` into another ``FlowNode`` in another ``Layer`` and build arbitrary
-  node structures this way.
-
-- For complicated hierarchical networks one might have to route different parts of the
-  data to different nodes in a layer in complex ways. This is done by the
-  ``Switchboard`` node, which can handle all the routing. A ``Switchboard``
-  gets initialised with a 1d Array with an entry for each output connection,
-  containing the corresponding index of the input connection, e.g.:
+  behaves like any other node with two training phases. 
+  By combining and nesting ``FlowNode`` and ``Layer``, it is thus possible
+  to build complex node structures.
+ 
+- When implementing networks one might have to route
+  different parts of the data to different nodes in a layer in complex
+  ways. This is done by the ``Switchboard`` node, which can handle such
+  the routing. A ``Switchboard`` is initialized with a 1-D Array with
+  one entry for each output connection, containing the corresponding
+  index of the input connection that it receives its input from, e.g.: 
   ::
 
       >>> switchboard = mdp.hinet.Switchboard(input_dim=6, connections=[0,1,2,3,4,3,4,5])
@@ -1363,22 +1465,28 @@ themselves) to construct hierarchical node networks:
       >>> switchboard.execute(x)
       array([[ 2,  4,  6,  8, 10,  8, 10, 12]])
 
-  One could then combine ``switchboard`` with a layer, like in the following picture:
+  The switchboard can then be followed by a layer that
+  splits the routed input to the appropriate nodes, as
+  illustrated in following picture:
 
   .. image:: hinet_switchboard.png
           :alt: switchboard example
 
-  By combining layers with switchboards one can realize any feed-forward network topology.
-  Defining the switchboard routing manually can be quite tedious. One way to automatize 
-  this is by defining switchboard subclasses for special routing situations. The
-  ``Rectangular2dSwitchboard`` class is one such example and will be briefly described in the 
-  later example.
+  By combining layers with switchboards one can realize any
+  feed-forward network topology.  Defining the switchboard routing
+  manually can be quite tedious. One way to automatize this is by
+  defining switchboard subclasses for special routing situations. The
+  ``Rectangular2dSwitchboard`` class is one such example and will be
+  briefly described in a later example.
 
 HTML representation
 ~~~~~~~~~~~~~~~~~~~
-Since hierarchical networks can be quite complicated, ``mdp.hinet`` includes the class
-``HiNetHTML`` to translate a given flow into an HTML visualisation. After instanciating
-the class with a given HTML file one can pass any flow to it (we use the layer from above):
+
+Since hierarchical networks can be quite complicated, ``hinet``
+includes the class ``HiNetHTML`` that translates
+an MDP flow into a graphical visualization in an HTML file. 
+After instantiating the class with a given HTML
+file one can pass any flow to it (we use the layer from above):
 
 .. raw:: html
 
@@ -1394,36 +1502,42 @@ the class with a given HTML file one can pass any flow to it (we use the layer f
     >>> file.write('</body>\n</html>')
     >>> file.close()
 
-``file`` now includes the HTML representation for the flow consisting of the layer. 
-In the example below we will show such a representation for a more complicated example.
+``file`` now includes the HTML representation for the flow consisting
+of the layer.  In the example below we will show such a representation
+for a more complicated example.
 
-It is possible to include some internal node parameters in the representation 
-(especially for newly defined custom nodes). This is actually very easy, the 
-source code of this module contains more instructions on how to do this. 
-It is also possible to modify the HTML presentation by providing a custom CSS string. 
+It is possible to include some internal node parameters in the
+representation (especially for newly defined custom nodes). This is
+actually very easy, the source code of this module contains more
+instructions on how to do this.  It is also possible to modify the
+HTML presentation by providing a custom CSS string.
 
-Example application (2d image data)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Example application (2-D image data)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-As promised we now present a more complicated example. We define the lowest layer
-for some kind of image processing system. So the input data is assumed to consist
-of image sequences, with each image having a size of 50 by 50 pixels. We take color
-images, so after converting the images to one dimensional numpy arrays each pixel
-corresponds to three numeric values in the array, which the values just next to 
-each other (one for each color channel).
+As promised we now present a more complicated example. We define the
+lowest layer for some kind of image processing system. The input
+data is assumed to consist of image sequences, with each image having
+a size of 50 by 50 pixels. We take color images, so after converting
+the images to one dimensional numpy arrays each pixel corresponds to
+three numeric values in the array, which the values just next to each
+other (one for each color channel).
 
-The processing layer consists of many parallel units, which only see a small image 
-region with a size of 10 by 10 pixels. These so called receptive fields cover the whole
-image and have an overlap of five pixels. Note that the image data is represented
-as an 1d array. Therefore we need the ``Rectangular2dSwitchboard`` class to correctly 
-route the data for each receptive field to the corresponding unit in the following layer.
-We also call the switchboard output for a single receptive field an output channel and
-the three RGB values for a single pixel form an input channel.
-Each processing unit is a flow consisting of an ``SFANode`` (to somewhat reduce the
-dimensionality) that is followed by an ``SFA2Node``. Since we assume that
-the statistics are similar in each receptive filed we actually use the same nodes
-for each receptive field. Therefore we use a ``CloneLayer`` instead of the
-standard ``Layer``. Here is the actual code:
+The processing layer consists of many parallel units, which only see a
+small image region with a size of 10 by 10 pixels. These so called
+receptive fields cover the whole image and have an overlap of five
+pixels. Note that the image data is represented as an 1-D
+array. Therefore we need the ``Rectangular2dSwitchboard`` class to
+correctly route the data for each receptive field to the corresponding
+unit in the following layer.  We also call the switchboard output for
+a single receptive field an output channel and the three RGB values
+for a single pixel form an input channel.  Each processing unit is a
+flow consisting of an ``SFANode`` (to somewhat reduce the
+dimensionality) that is followed by an ``SFA2Node``. Since we assume
+that the statistics are similar in each receptive filed we actually
+use the same nodes for each receptive field. Therefore we use a
+``CloneLayer`` instead of the standard ``Layer``. Here is the actual
+code:
 
 .. raw:: html
 
@@ -1449,7 +1563,7 @@ standard ``Layer``. Here is the actual code:
     ...                                  n_nodes=switchboard.output_channels)
     >>> flow = mdp.Flow([switchboard, sfa_layer])
 
-The HTML representition of the the constructed flow looks like this in your
+The HTML representation of the the constructed flow looks like this in your
 browser:
 
   .. image:: hinet_html.png
@@ -1464,11 +1578,12 @@ look like this (only a grayscale version is shown):
   .. image:: hinet_opt_stim.png
           :alt: optimal stimulus
 
-So the network units have developed some kind of primitive line detector. More
-on this topic can be found in: Berkes, P. and Wiskott, L., `Slow feature analysis 
-yields a rich repertoire of complex cell properties`. 
-Journal of Vision, 5(6):579-602,
-http://journalofvision.org/5/6/9/
+So the network units have developed some kind of primitive line
+detector. More on this topic can be found in: Berkes, P. and Wiskott,
+L., `Slow feature analysis yields a rich repertoire of complex cell
+properties`.  
+`Journal of Vision, 5(6):579-602 <http://journalofvision.org/5/6/9/>`_. 
+
 
 One could also add more layers on top of this first layer to do more 
 complicated stuff. Note that the ``in_channel_dim`` in the next 
@@ -1478,16 +1593,20 @@ corresponding to the three RGB colors).
 
 A real life example (Logistic maps)
 -----------------------------------
-We show an application of Slow Feature Analysis to the analysis of
-non-stationary time series. We consider a chaotic time series generated
-by the logistic map based on the logistic equation (a demographic model
-of the population biomass of species in the presence of limiting factors
-such as food supply or disease), and extract the slowly varying parameter
-that is hidden behind the time series.
-This example reproduces some of the results reported in:
+In this section we show a complete example of MDP usage in a machine
+learning application, and use non-linear Slow Feature Analysis for
+processing of non-stationary time series. We consider a chaotic time
+series derived by a logistic map (a demographic model of the
+population biomass of species in the presence of limiting factors such
+as food supply or disease) that is non-stationary in the sense that
+the underlying parameter is not fixed but is varying smoothly in time.
+
+The goal is to extract the slowly varying parameter that is hidden
+in the observed time series. This example reproduces some of the
+results reported in
 Laurenz Wiskott, `Estimating Driving Forces of Nonstationary Time Series
-with Slow Feature Analysis`. arXiv.org e-Print archive,
-http://arxiv.org/abs/cond-mat/0312317
+with Slow Feature Analysis`. 
+`arXiv.org e-Print archive <http://arxiv.org/abs/cond-mat/0312317>`_.
 
 Generate the slowly varying driving force, 
 a combination of three sine waves (freqs: 5, 11, 13 Hz), and define a function
@@ -1532,29 +1651,29 @@ If you have a plotting package ``series`` should look like this:
         :width: 700
         :alt: chaotic time series
 
-Define a flow to perform SFA in the space of polynomials of degree 3.
-We need a node that embeds the time series in a 10 dimensional
-space, where different variables correspond to time-delayed copies
-of the original time series: the ``TimeFramesNode(10)``.
-Then we need a node that expands the new signal in the space
-of polynomials of degree 3: the ``PolynomialExpansionNode(3)``.
-Finally we perform SFA onto the expanded signal
-and keep the slowest feature: ``SFANode(output_dim=1)``.
-We also measure the *slowness* of the input time series and
-of the slow feature obtained by SFA. Therefore we put at the
-beginning and at the end of the sequence an *analysis node*
-that computes the *eta-value* (a measure of slowness) 
-of its input (see docs for the definition of eta-value): the ``EtaComputerNode()``:
+To reconstruct the underlying parameter, we define a ``Flow`` to
+perform SFA in the space of polynomials of degree 3. We first use a
+node that embeds the 1-dimensional time series in a 10 dimensional
+space using a sliding temporal window of size 10
+(``TimeFramesNode(10)``).  Second, we expand the signal in the space
+of polynomials of degree 3 using a
+``PolynomialExpansionNode(3)``. Finally, we perform SFA on the
+expanded signal and keep the slowest feature using the
+``SFANode(output_dim=1)``.
+
+In order to measure the slowness of the input time series before and
+after processing, we put at the beginning and at the end of the node
+sequence a node that computes the $\eta$-value (a measure of slowness)
+of its input (``EtaComputerNode()``): 
 ::
 
-    >>> sequence = [mdp.nodes.EtaComputerNode(),
-    ...             mdp.nodes.TimeFramesNode(10),
-    ...             mdp.nodes.PolynomialExpansionNode(3),
-    ...             mdp.nodes.SFANode(output_dim=1),
-    ...             mdp.nodes.EtaComputerNode()]
+    >>> flow = (mdp.nodes.EtaComputerNode() +
+    ...         mdp.nodes.TimeFramesNode(10) +
+    ...         mdp.nodes.PolynomialExpansionNode(3) +
+    ...         mdp.nodes.SFANode(output_dim=1) +
+    ...         mdp.nodes.EtaComputerNode() )
     ...
     >>>
-    >>> flow = mdp.Flow(sequence, verbose=1)
 
 Since the time series is short enough to be kept in memory
 we don't need to define generators and we can feed the flow
@@ -1595,8 +1714,9 @@ the slow feature
     >>> print 'Eta value (slow feature): ', flow[-1].get_eta(t=9996)
     Eta value (slow feature):  [ 10.2185087]
 
-If you have a plotting package you could plot ``resc_dforce`` together with
-``slow`` and see that they match perfectly:
+If you have a plotting package you could plot the real driving force
+is plotted together with the driving force estimated by SFA and see
+that they match perfectly:
 
 .. image:: results.png
         :width: 700
@@ -1990,7 +2110,8 @@ for the full documentation and interface description.
     (The byte-size is related the memory needed by the node).
 
 **progressinfo(sequence, length, style, custom)**
-    A fully configurable text-mode progress info box.
+    A fully configurable text-mode progress info box tailored to the 
+    command-line die-hards.
     To get a progress info box for your loops use it like this:
 
     .. raw:: html
@@ -2127,10 +2248,25 @@ MDP contains ``mdp.graph``, a lightweight package to handle directed graphs.
     Apply ``reduce(func, seq)`` recursively to a sequence and all its
     subsequences.
     
-To Do
------
-In this section we want to give you an overview about our
-plans for the development of MDP:
+Future Development
+------------------
+
+MDP is currently maintained by a core team of 3 developers, but it is
+open to user contributions. Users have already contributed some of the
+nodes, and more contributions are currently being reviewed for
+inclusion in future releases of the package. The package development
+can be followed on the public subversion code
+`repository <http://mdp-toolkit.svn.sourceforge.net>`_. 
+Questions, bug reports, and feature requests are typically handled by
+the user `mailing list <http://sourceforge.net/mail/?group_id=116959>`_
+
+A new, large MDP package is currently under development that
+will extend MDP with more complex data flows, including
+back-propagation and loops. This framework will be integrated with
+both the ``parallel`` and the ``hinet`` packages to allow for large and
+complex data processing networks.
+
+Finally, some more ToDos:
 
 - Add more data processing algorithms.
 
