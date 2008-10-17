@@ -1839,6 +1839,83 @@ Calculate the number of connected components:
     >>> print n_obj
     5
 
+Yet another real life example (Locally linear embedding)
+--------------------------------------------------------
+Locally linear embedding (LLE) approximates the input data with a
+low-dimensional surface and reduces its dimensionality by learning
+a mapping to the surface. Here we consider data generated randomly
+on an S-shaped 2D surface embedded in a 3D space:
+
+.. image:: s_shape_3D.png
+        :width: 700
+        :alt: S-shaped surface
+
+The surface is defined by the function
+::
+
+    >>> def s_distr(npoints, hole=False):
+    ...     """Return a 3D S-shaped surface. If hole is True, the surface has
+    ...     a hole in the middle."""
+    ...     t = mdp.numx_rand.random(npoints)
+    ...     y = mdp.numx_rand.random(npoints)*5.
+    ...     theta = 3.*mdp.numx.pi*(t-0.5)
+    ...     x = mdp.numx.sin(theta)
+    ...     z = mdp.numx.sign(theta)*(mdp.numx.cos(theta) - 1.)
+    ...     if hole:
+    ...         indices = mdp.numx.where(((0.3>t) | (0.7<t)) | ((1.>y) | (4.<y)))
+    ...         return x[indices], y[indices], z[indices], t[indices]
+    ...     else:
+    ...         return x, y, z, t
+    
+We generate 1000 points on this surface, then define an LLENode with
+parameters k=15 (number of neighbors) and output_dim=2 (the number of
+dimensions of the reduced representation), then train and execute the
+node to obtain the projected data:
+::
+
+    >>> n, k = 1000, 15
+    >>> x, y, z, t = s_distr(n, hole=False)
+    >>> data = mdp.numx.array([x,y,z]).T
+    >>> lle_projected_data = mdp.nodes.LLENode(k, output_dim=2)(data)
+
+The projected data forms a nice parameteric representation of the
+S-shaped surface:
+
+.. image:: s_shape_lle_proj.png
+        :width: 700
+        :alt: LLE projection of the S-shaped surface
+
+The problem becomes more difficult if the surface has a hole in the
+middle:
+
+.. image:: s_shape_hole_3D.png
+        :width: 700
+        :alt: S-shaped surface with hole
+
+In this case, the LLE algorithm has some difficulty finding the
+correct representation. The lines
+::
+
+    >>> x, y, z, t = s_distr(n, hole=True)
+    >>> data = mdp.numx.array([x,y,z]).T
+    >>> lle_projected_data = mdp.nodes.LLENode(k, output_dim=2)(data)
+
+return a distorted mapping:
+
+.. image:: s_shape_hole_lle_proj.png
+        :width: 700
+        :alt: LLE projection of the S-shaped surface with hole
+
+The Hessian LLE Node takes the local curvature of the surface into
+account, and is able to find a better representation:
+::
+
+    >>> hlle_projected_data = mdp.nodes.HLLENode(k, output_dim=2)(data)
+
+.. image:: s_shape_hole_hlle_proj.png
+        :width: 700
+        :alt: HLLE projection of the S-shaped surface with hole
+
 Node List
 ---------
 Here is the complete list of implemented nodes.
@@ -1921,6 +1998,15 @@ for the full documentation and interface description.
    Collect the first 'n' local maxima and minima of the training signal
    which are separated by a minimum gap 'd'.
 
+- `HLLENode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.contrib.HLLENode-class.html>`_
+   Original code contributed by Jake Vanderplas.
+
+   Perform a Hessian Locally Linear Embedding analysis on the data.
+                             
+   Implementation based on algorithm outlined in
+   'Hessian Eigenmaps: new locally linear embedding techniques
+   for high-dimensional data' by C. Grimes and D. Donoho, 2003 
+
 - `ISFANode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.ISFANode-class.html>`_
    Perform Independent Slow Feature Analysis on the input data.
    
@@ -1945,6 +2031,15 @@ for the full documentation and interface description.
    Hyvarinen A., Karhunen J., Oja E. (2001). *Independent Component Analysis*,
    Wiley.
 
+- `LLENode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.contrib.LLENode-class.html>`_
+   Original code contributed by Jake Vanderplas.
+
+   Perform a Locally Linear Embedding analysis on the data.
+                             
+   Based on the algorithm outlined in 'An Introduction to Locally
+   Linear Embedding' by L. Saul and S. Roweis, using improvements
+   suggested in 'Locally Linear Embedding for Classification' by
+   D. deRidder and R.P.W. Duin.
 
 - `NIPALSNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.contrib.NIPALSNode-class.html>`_
    Original code contributed by Michael Schmuker, Susanne Lezius, and Farzad Farkhooi.
