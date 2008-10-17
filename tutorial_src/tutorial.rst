@@ -54,13 +54,13 @@ libraries `NumPy <http://numpy.scipy.org>`_ and
 `SciPy <http://www.scipy.org>`_, gives access to a large
 collection of scientific functions that rivals in size and speed with
 well known commercial alternatives like The MathWorks\ |trade|
-`Matlab\ |copy| <http://www.mathworks.com/products/matlab>`_.
+`Matlab <http://www.mathworks.com/products/matlab>`_\ |copy|.
 Furthermore, the flexible and dynamic nature of Python offers the
 scientific programmer the opportunity to quickly develop efficient and
 structured software while maximizing prototyping and reusability
 capabilities.
 
-`The Modular toolkit for Data Processing (MDP)
+The `Modular toolkit for Data Processing (MDP)
 <http://mdp-toolkit.sourceforge.net>`_ package contributes to this
 growing community a library of widely used data processing algorithms,
 and the possibility to combine them according to a pipeline analogy to
@@ -1512,6 +1512,145 @@ actually very easy, the source code of this module contains more
 instructions on how to do this.  It is also possible to modify the
 HTML presentation by providing a custom CSS string.
 
+Parallelization
+---------------
+The ``parallel`` adds the ability to parallelize the training and execution
+of MPD flows. This package is split into two decoupled parts:
+
+- The first part consists of parallel versions of the familiar MDP
+  structures of nodes and flows. The first basic building block is the
+  abstact base class ``ParallelNode`` for nodes which can be trained
+  in a parallelized way. Secondly there is the ``ParallelFlow`` class,
+  which splits the training or execution into tasks which can then be
+  processes in parallel.
+
+- The second part consists of the schedulers. A scheduker takes tasks
+  and processes them in a more or less parallel way (e.g. in multiple
+  python processes). A scheduler deals with the more technical aspects
+  of the parallelization, but does not need to know anything about
+  nodes and flows.
+
+Practically all the complexities of parallelization are hidden in this
+package. There are also helper functions so that the parallel trainign
+or execuition can be done in one line of code.
+
+Basic Examples
+~~~~~~~~~~~~~~
+In the following example we parallelize a simple Flow consisting of
+PCA and quadratic SFA, so that it uses two cores on a modern CPU:
+
+::
+
+    >>> node1 = mdp.nodes.PCANode(input_dim=100, output_dim=10)
+    >>> node2 = mdp.nodes.SFA2Node(input_dim=10, output_dim=10)
+    >>> flow = node1 + node2
+    >>> data_iterable = mdp.numx_rand.random((6, 200, 100))
+    >>> scheduler = parallel.ProcessScheduler(n_processes=2)
+    >>> parallel_flow = parallel.make_parallel(flow)
+    >>> parallel_flow.train(data_iterable, scheduler=scheduler)
+
+So only two additional lines were needed to parallelize the training
+of the flow.  The ``make_parallel`` function tries to find parallel
+versions of the nodes in the given flow. It then modifies the nodes
+such that they make use of the parallel version. A new
+``ParallelFlow`` is then constructed and returned. One can also
+reverse this with the function ``unmake_parallel``.
+
+We can also implement this example by directly constructing a parallel flow:
+
+::
+
+    >>> node1 = mdp.parallel.ParallelPCANode(input_dim=100, output_dim=10)
+    >>> node2 = mdp.parallel.ParallelSFA2Node(input_dim=10, output_dim=10)
+    >>> parallel_flow = mdp.parallel.ParallelFlow([node1, node2])
+    >>> data_iterable = mdp.numx_rand.random((6, 200, 100))
+    >>> scheduler = parallel.ProcessScheduler(n_processes=2)
+    >>> parallel_flow.train(data_iterable, scheduler=scheduler)
+
+This gives you more control over which parallel node classes are
+used. In the following sections we will go into more details. As long
+as you only want to use the already existing classes for
+parallelization you can actually skip large parts of the follwing
+sections.
+
+Scheduler
+~~~~~~~~~
+A scheduler is an instance of one of the scheduler classes we
+provide. They are all derived from the ``Scheduler`` base
+class. Currently we provide the ``Scheduler`` base class (which does
+not do any real parallelization) and the ``ProcessScheduler`` class
+which can distributes the incoming tasks over mutltiple python
+processes (circumventing the global interpreter lock). There is also
+experimental support for the 
+`Parallel Python library <http://www.parallelpython.com>`_ 
+in the ``mdp.parallel.pp_support`` package.
+
+
+The first important method of the scheduler class is
+``add_task``. This method takes two arguments: ``data`` and
+``task_callable``, which can be a function or an object with a
+``__call__`` method. The return value of the ``task_callable`` is the
+result of the task. If ``task_callable`` is None then the last
+provided ``task_callable`` will be used. This splitting of callable
+and data in principle makes it possible to implement caching of the
+``task_callable`` in the scheduler (but so far none of our schedulers
+actually implement this feature).
+
+After submitteing all the tasks with ``add_task`` you can then call
+the ``get_results`` method. This method returns all the task results,
+normally in a list. If there are open tasks in the scheduler
+``get_results`` will wait until all the tasks are finished. You can
+also check the status of the scheduler by looking at the
+``n_open_tasks`` attribute, which tells you the number of open tasks.
+
+Internally an instance of the base class ``mdp.parallel.ResultContainer`` is
+used for the storage of the results in the scheduler. By providing your own
+result container to the scheduler you modify the storage. For example the
+default result container is an instance of ``OrderedResultContainer`` 
+
+Parallel Nodes
+~~~~~~~~~~~~~~
+The parallel package introduces the new base class ``ParallelNode`` for nodes
+that support parallel training. Derived from this are parallel node
+versions like ``ParallelPCANode`` for the ``PCANode``. Parallel execution on
+the other hand works with any normal node as well (only the ``copy`` method 
+of the node is needed for this).
+
+If you want to write your own parallel nodes you have to derive your
+node from ``ParallelNode``. ``ParallelNode`` has the new template
+methods ``fork`` and ``join``. ``fork`` should return a new parallel
+node instance. This new instance can then be trained somewhere else
+(e.g. in a different process) with the usual ``train``
+method. Afterwards one calls ``join`` on the original node, with the
+forked node as the argument. This is effectively the same as calling
+``train`` directly on the original node.
+
+In your own parallel nodes you should only overwrite the ``_fork`` and
+``_join`` methods, which are automatically called by ``fork`` and
+``join``. The ``fork`` and ``join`` take care of the standard node
+attritbutes like the dimensions. You should also look at the source
+code of a parallel node like ``ParallelPCANode`` to get a better idea
+about how to write parallel nodes.
+
+Currently we provide the following parallel nodes:
+``ParallelPCANode``, ``ParallelWhiteningNode``, ``ParallelSFANode``,
+``ParallelSFA2Node``, ``ParallelFlowNode``, ``ParallelLayer``,
+``ParallelCloneLayer`` (the last three are from the ``hinet``
+package).
+
+Parallel Flows
+~~~~~~~~~~~~~~
+As shown earlier in the basic example a parallel flow implements the
+parallel training (and execution) using a provided scheduler. The
+scheduler is simply\ provided as an additional argumet for the train
+or execute method of the parallel flow. If no scheduler is provided
+the node behaves just like a normal flow.
+
+You can also do the parallel training in a more custom way by manually
+fetching tasks and assigning them to a scheduler. However, this should
+rarely be required.
+
+
 Example application (2-D image data)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -2384,6 +2523,7 @@ code to the MDP project. Strictly in alphabetical order:
 - `Gabriel Beckers <http://www.gbeckers.nl/>`_
 - `Farzad Farkhooi <http://www.bccn-berlin.de/People/farkhooi>`_
 - Mathias Franzius
+- Michael Hanke
 - Susanne Lezius
 - `Michael Schmuker <http://userpage.fu-berlin.de/~schmuker/>`_
 - `Jake VanderPlas <http://www.astro.washington.edu/vanderplas/>`_

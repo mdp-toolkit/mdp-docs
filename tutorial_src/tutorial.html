@@ -467,22 +467,29 @@ in the MDP installation path.</p>
 <li><a class="reference internal" href="#hierarchical-networks" id="id19">Hierarchical Networks</a><ul>
 <li><a class="reference internal" href="#building-blocks" id="id20">Building blocks</a></li>
 <li><a class="reference internal" href="#html-representation" id="id21">HTML representation</a></li>
-<li><a class="reference internal" href="#example-application-2-d-image-data" id="id22">Example application (2-D image data)</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#real-life-examples" id="id23">Real life examples</a><ul>
-<li><a class="reference internal" href="#logistic-maps" id="id24">Logistic maps</a></li>
-<li><a class="reference internal" href="#growing-neural-gas" id="id25">Growing neural gas</a></li>
-<li><a class="reference internal" href="#locally-linear-embedding" id="id26">Locally linear embedding</a></li>
+<li><a class="reference internal" href="#parallelization" id="id22">Parallelization</a><ul>
+<li><a class="reference internal" href="#basic-examples" id="id23">Basic Examples</a></li>
+<li><a class="reference internal" href="#scheduler" id="id24">Scheduler</a></li>
+<li><a class="reference internal" href="#parallel-nodes" id="id25">Parallel Nodes</a></li>
+<li><a class="reference internal" href="#parallel-flows" id="id26">Parallel Flows</a></li>
+<li><a class="reference internal" href="#example-application-2-d-image-data" id="id27">Example application (2-D image data)</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#node-list" id="id27">Node List</a></li>
-<li><a class="reference internal" href="#additional-utilities" id="id28">Additional utilities</a><ul>
-<li><a class="reference internal" href="#graph-module" id="id29">Graph module</a></li>
+<li><a class="reference internal" href="#real-life-examples" id="id28">Real life examples</a><ul>
+<li><a class="reference internal" href="#logistic-maps" id="id29">Logistic maps</a></li>
+<li><a class="reference internal" href="#growing-neural-gas" id="id30">Growing neural gas</a></li>
+<li><a class="reference internal" href="#locally-linear-embedding" id="id31">Locally linear embedding</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#future-development" id="id30">Future Development</a></li>
-<li><a class="reference internal" href="#contributors" id="id31">Contributors</a></li>
+<li><a class="reference internal" href="#node-list" id="id32">Node List</a></li>
+<li><a class="reference internal" href="#additional-utilities" id="id33">Additional utilities</a><ul>
+<li><a class="reference internal" href="#graph-module" id="id34">Graph module</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#future-development" id="id35">Future Development</a></li>
+<li><a class="reference internal" href="#contributors" id="id36">Contributors</a></li>
 </ul>
 </div>
 <!-- This data file has been placed in the public domain. -->
@@ -499,12 +506,12 @@ libraries <a class="reference external" href="http://numpy.scipy.org">NumPy</a> 
 <a class="reference external" href="http://www.scipy.org">SciPy</a>, gives access to a large
 collection of scientific functions that rivals in size and speed with
 well known commercial alternatives like The MathWorks™
-<a class="reference external" href="http://www.mathworks.com/products/matlab">Matlab|copy|</a>.
+<a class="reference external" href="http://www.mathworks.com/products/matlab">Matlab</a>©.
 Furthermore, the flexible and dynamic nature of Python offers the
 scientific programmer the opportunity to quickly develop efficient and
 structured software while maximizing prototyping and reusability
 capabilities.</p>
-<p><a class="reference external" href="http://mdp-toolkit.sourceforge.net">The Modular toolkit for Data Processing (MDP)</a> package contributes to this
+<p>The <a class="reference external" href="http://mdp-toolkit.sourceforge.net">Modular toolkit for Data Processing (MDP)</a> package contributes to this
 growing community a library of widely used data processing algorithms,
 and the possibility to combine them according to a pipeline analogy to
 build more complex data processing software.</p>
@@ -1807,8 +1814,132 @@ actually very easy, the source code of this module contains more
 instructions on how to do this.  It is also possible to modify the
 HTML presentation by providing a custom CSS string.</p>
 </div>
+</div>
+<div class="section" id="parallelization">
+<h1><a class="toc-backref" href="#id22">Parallelization</a></h1>
+<p>The <tt class="docutils literal"><span class="pre">parallel</span></tt> adds the ability to parallelize the training and execution
+of MPD flows. This package is split into two decoupled parts:</p>
+<ul class="simple">
+<li>The first part consists of parallel versions of the familiar MDP
+structures of nodes and flows. The first basic building block is the
+abstact base class <tt class="docutils literal"><span class="pre">ParallelNode</span></tt> for nodes which can be trained
+in a parallelized way. Secondly there is the <tt class="docutils literal"><span class="pre">ParallelFlow</span></tt> class,
+which splits the training or execution into tasks which can then be
+processes in parallel.</li>
+<li>The second part consists of the schedulers. A scheduker takes tasks
+and processes them in a more or less parallel way (e.g. in multiple
+python processes). A scheduler deals with the more technical aspects
+of the parallelization, but does not need to know anything about
+nodes and flows.</li>
+</ul>
+<p>Practically all the complexities of parallelization are hidden in this
+package. There are also helper functions so that the parallel trainign
+or execuition can be done in one line of code.</p>
+<div class="section" id="basic-examples">
+<h2><a class="toc-backref" href="#id23">Basic Examples</a></h2>
+<p>In the following example we parallelize a simple Flow consisting of
+PCA and quadratic SFA, so that it uses two cores on a modern CPU:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; node1 = mdp.nodes.PCANode(input_dim=100, output_dim=10)
+&gt;&gt;&gt; node2 = mdp.nodes.SFA2Node(input_dim=10, output_dim=10)
+&gt;&gt;&gt; flow = node1 + node2
+&gt;&gt;&gt; data_iterable = mdp.numx_rand.random((6, 200, 100))
+&gt;&gt;&gt; scheduler = parallel.ProcessScheduler(n_processes=2)
+&gt;&gt;&gt; parallel_flow = parallel.make_parallel(flow)
+&gt;&gt;&gt; parallel_flow.train(data_iterable, scheduler=scheduler)
+</pre>
+<p>So only two additional lines were needed to parallelize the training
+of the flow.  The <tt class="docutils literal"><span class="pre">make_parallel</span></tt> function tries to find parallel
+versions of the nodes in the given flow. It then modifies the nodes
+such that they make use of the parallel version. A new
+<tt class="docutils literal"><span class="pre">ParallelFlow</span></tt> is then constructed and returned. One can also
+reverse this with the function <tt class="docutils literal"><span class="pre">unmake_parallel</span></tt>.</p>
+<p>We can also implement this example by directly constructing a parallel flow:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; node1 = mdp.parallel.ParallelPCANode(input_dim=100, output_dim=10)
+&gt;&gt;&gt; node2 = mdp.parallel.ParallelSFA2Node(input_dim=10, output_dim=10)
+&gt;&gt;&gt; parallel_flow = mdp.parallel.ParallelFlow([node1, node2])
+&gt;&gt;&gt; data_iterable = mdp.numx_rand.random((6, 200, 100))
+&gt;&gt;&gt; scheduler = parallel.ProcessScheduler(n_processes=2)
+&gt;&gt;&gt; parallel_flow.train(data_iterable, scheduler=scheduler)
+</pre>
+<p>This gives you more control over which parallel node classes are
+used. In the following sections we will go into more details. As long
+as you only want to use the already existing classes for
+parallelization you can actually skip large parts of the follwing
+sections.</p>
+</div>
+<div class="section" id="scheduler">
+<h2><a class="toc-backref" href="#id24">Scheduler</a></h2>
+<p>A scheduler is an instance of one of the scheduler classes we
+provide. They are all derived from the <tt class="docutils literal"><span class="pre">Scheduler</span></tt> base
+class. Currently we provide the <tt class="docutils literal"><span class="pre">Scheduler</span></tt> base class (which does
+not do any real parallelization) and the <tt class="docutils literal"><span class="pre">ProcessScheduler</span></tt> class
+which can distributes the incoming tasks over mutltiple python
+processes (circumventing the global interpreter lock). There is also
+experimental support for the
+<a class="reference external" href="http://www.parallelpython.com">Parallel Python library</a>
+in the <tt class="docutils literal"><span class="pre">mdp.parallel.pp_support</span></tt> package.</p>
+<p>The first important method of the scheduler class is
+<tt class="docutils literal"><span class="pre">add_task</span></tt>. This method takes two arguments: <tt class="docutils literal"><span class="pre">data</span></tt> and
+<tt class="docutils literal"><span class="pre">task_callable</span></tt>, which can be a function or an object with a
+<tt class="docutils literal"><span class="pre">__call__</span></tt> method. The return value of the <tt class="docutils literal"><span class="pre">task_callable</span></tt> is the
+result of the task. If <tt class="docutils literal"><span class="pre">task_callable</span></tt> is None then the last
+provided <tt class="docutils literal"><span class="pre">task_callable</span></tt> will be used. This splitting of callable
+and data in principle makes it possible to implement caching of the
+<tt class="docutils literal"><span class="pre">task_callable</span></tt> in the scheduler (but so far none of our schedulers
+actually implement this feature).</p>
+<p>After submitteing all the tasks with <tt class="docutils literal"><span class="pre">add_task</span></tt> you can then call
+the <tt class="docutils literal"><span class="pre">get_results</span></tt> method. This method returns all the task results,
+normally in a list. If there are open tasks in the scheduler
+<tt class="docutils literal"><span class="pre">get_results</span></tt> will wait until all the tasks are finished. You can
+also check the status of the scheduler by looking at the
+<tt class="docutils literal"><span class="pre">n_open_tasks</span></tt> attribute, which tells you the number of open tasks.</p>
+<p>Internally an instance of the base class <tt class="docutils literal"><span class="pre">mdp.parallel.ResultContainer</span></tt> is
+used for the storage of the results in the scheduler. By providing your own
+result container to the scheduler you modify the storage. For example the
+default result container is an instance of <tt class="docutils literal"><span class="pre">OrderedResultContainer</span></tt></p>
+</div>
+<div class="section" id="parallel-nodes">
+<h2><a class="toc-backref" href="#id25">Parallel Nodes</a></h2>
+<p>The parallel package introduces the new base class <tt class="docutils literal"><span class="pre">ParallelNode</span></tt> for nodes
+that support parallel training. Derived from this are parallel node
+versions like <tt class="docutils literal"><span class="pre">ParallelPCANode</span></tt> for the <tt class="docutils literal"><span class="pre">PCANode</span></tt>. Parallel execution on
+the other hand works with any normal node as well (only the <tt class="docutils literal"><span class="pre">copy</span></tt> method
+of the node is needed for this).</p>
+<p>If you want to write your own parallel nodes you have to derive your
+node from <tt class="docutils literal"><span class="pre">ParallelNode</span></tt>. <tt class="docutils literal"><span class="pre">ParallelNode</span></tt> has the new template
+methods <tt class="docutils literal"><span class="pre">fork</span></tt> and <tt class="docutils literal"><span class="pre">join</span></tt>. <tt class="docutils literal"><span class="pre">fork</span></tt> should return a new parallel
+node instance. This new instance can then be trained somewhere else
+(e.g. in a different process) with the usual <tt class="docutils literal"><span class="pre">train</span></tt>
+method. Afterwards one calls <tt class="docutils literal"><span class="pre">join</span></tt> on the original node, with the
+forked node as the argument. This is effectively the same as calling
+<tt class="docutils literal"><span class="pre">train</span></tt> directly on the original node.</p>
+<p>In your own parallel nodes you should only overwrite the <tt class="docutils literal"><span class="pre">_fork</span></tt> and
+<tt class="docutils literal"><span class="pre">_join</span></tt> methods, which are automatically called by <tt class="docutils literal"><span class="pre">fork</span></tt> and
+<tt class="docutils literal"><span class="pre">join</span></tt>. The <tt class="docutils literal"><span class="pre">fork</span></tt> and <tt class="docutils literal"><span class="pre">join</span></tt> take care of the standard node
+attritbutes like the dimensions. You should also look at the source
+code of a parallel node like <tt class="docutils literal"><span class="pre">ParallelPCANode</span></tt> to get a better idea
+about how to write parallel nodes.</p>
+<p>Currently we provide the following parallel nodes:
+<tt class="docutils literal"><span class="pre">ParallelPCANode</span></tt>, <tt class="docutils literal"><span class="pre">ParallelWhiteningNode</span></tt>, <tt class="docutils literal"><span class="pre">ParallelSFANode</span></tt>,
+<tt class="docutils literal"><span class="pre">ParallelSFA2Node</span></tt>, <tt class="docutils literal"><span class="pre">ParallelFlowNode</span></tt>, <tt class="docutils literal"><span class="pre">ParallelLayer</span></tt>,
+<tt class="docutils literal"><span class="pre">ParallelCloneLayer</span></tt> (the last three are from the <tt class="docutils literal"><span class="pre">hinet</span></tt>
+package).</p>
+</div>
+<div class="section" id="parallel-flows">
+<h2><a class="toc-backref" href="#id26">Parallel Flows</a></h2>
+<p>As shown earlier in the basic example a parallel flow implements the
+parallel training (and execution) using a provided scheduler. The
+scheduler is simplyprovided as an additional argumet for the train
+or execute method of the parallel flow. If no scheduler is provided
+the node behaves just like a normal flow.</p>
+<p>You can also do the parallel training in a more custom way by manually
+fetching tasks and assigning them to a scheduler. However, this should
+rarely be required.</p>
+</div>
 <div class="section" id="example-application-2-d-image-data">
-<h2><a class="toc-backref" href="#id22">Example application (2-D image data)</a></h2>
+<h2><a class="toc-backref" href="#id27">Example application (2-D image data)</a></h2>
 <p>As promised we now present a more complicated example. We define the
 lowest layer for some kind of image processing system. The input
 data is assumed to consist of image sequences, with each image having
@@ -1876,9 +2007,9 @@ corresponding to the three RGB colors).</p>
 </div>
 </div>
 <div class="section" id="real-life-examples">
-<h1><a class="toc-backref" href="#id23">Real life examples</a></h1>
+<h1><a class="toc-backref" href="#id28">Real life examples</a></h1>
 <div class="section" id="logistic-maps">
-<h2><a class="toc-backref" href="#id24">Logistic maps</a></h2>
+<h2><a class="toc-backref" href="#id29">Logistic maps</a></h2>
 <p>In this section we show a complete example of MDP usage in a machine
 learning application, and use non-linear Slow Feature Analysis for
 processing of non-stationary time series. We consider a chaotic time
@@ -1987,7 +2118,7 @@ that they match perfectly:</p>
 <img alt="SFA estimate" src="results.png" style="width: 700px;" />
 </div>
 <div class="section" id="growing-neural-gas">
-<h2><a class="toc-backref" href="#id25">Growing neural gas</a></h2>
+<h2><a class="toc-backref" href="#id30">Growing neural gas</a></h2>
 <p>We generate uniformly distributed random data points confined on different
 2-D geometrical objects. The Growing Neural Gas Node builds a graph with the
 same topological structure.</p>
@@ -2083,7 +2214,7 @@ adapted to the topological structure of the data distribution:</p>
 </pre>
 </div>
 <div class="section" id="locally-linear-embedding">
-<h2><a class="toc-backref" href="#id26">Locally linear embedding</a></h2>
+<h2><a class="toc-backref" href="#id31">Locally linear embedding</a></h2>
 <p>Locally linear embedding (LLE) approximates the input data with a
 low-dimensional surface and reduces its dimensionality by learning
 a mapping to the surface. Here we consider data generated randomly
@@ -2139,7 +2270,7 @@ account, and is able to find a better representation:</p>
 </div>
 </div>
 <div class="section" id="node-list">
-<h1><a class="toc-backref" href="#id27">Node List</a></h1>
+<h1><a class="toc-backref" href="#id32">Node List</a></h1>
 <p>Here is the complete list of implemented nodes.
 Refer to the
 <a class="reference external" href="http://mdp-toolkit.sourceforge.net/docs/api/index.html">API</a>
@@ -2427,7 +2558,7 @@ algorithm, please do not hesitate to submit it!</p>
 </div>
 </div>
 <div class="section" id="additional-utilities">
-<h1><a class="toc-backref" href="#id28">Additional utilities</a></h1>
+<h1><a class="toc-backref" href="#id33">Additional utilities</a></h1>
 <p>MDP offers some additional utilities of general interest
 in the <tt class="docutils literal"><span class="pre">mdp.utils</span></tt> module. Refer to the
 <a class="reference external" href="http://mdp-toolkit.sourceforge.net/docs/api/index.html">API</a>
@@ -2517,7 +2648,7 @@ For more information see this <a class="reference external" href="http://en.wiki
 uniformly distributed on (0,1].</dd>
 </dl>
 <div class="section" id="graph-module">
-<h2><a class="toc-backref" href="#id29">Graph module</a></h2>
+<h2><a class="toc-backref" href="#id34">Graph module</a></h2>
 <p>MDP contains <tt class="docutils literal"><span class="pre">mdp.graph</span></tt>, a lightweight package to handle directed graphs.</p>
 <dl class="docutils">
 <dt><strong>Graph</strong></dt>
@@ -2574,7 +2705,7 @@ subsequences.</dd>
 </div>
 </div>
 <div class="section" id="future-development">
-<h1><a class="toc-backref" href="#id30">Future Development</a></h1>
+<h1><a class="toc-backref" href="#id35">Future Development</a></h1>
 <p>MDP is currently maintained by a core team of 3 developers, but it is
 open to user contributions. Users have already contributed some of the
 nodes, and more contributions are currently being reviewed for
@@ -2599,13 +2730,14 @@ adding many numbers.</li>
 </ul>
 </div>
 <div class="section" id="contributors">
-<h1><a class="toc-backref" href="#id31">Contributors</a></h1>
+<h1><a class="toc-backref" href="#id36">Contributors</a></h1>
 <p>In this final section we want to thank all users who have contributed
 code to the MDP project. Strictly in alphabetical order:</p>
 <ul class="simple">
 <li><a class="reference external" href="http://www.gbeckers.nl/">Gabriel Beckers</a></li>
 <li><a class="reference external" href="http://www.bccn-berlin.de/People/farkhooi">Farzad Farkhooi</a></li>
 <li>Mathias Franzius</li>
+<li>Michael Hanke</li>
 <li>Susanne Lezius</li>
 <li><a class="reference external" href="http://userpage.fu-berlin.de/~schmuker/">Michael Schmuker</a></li>
 <li><a class="reference external" href="http://www.astro.washington.edu/vanderplas/">Jake VanderPlas</a></li>
@@ -2614,7 +2746,7 @@ code to the MDP project. Strictly in alphabetical order:</p>
 </div>
 <div class="footer">
 <hr class="footer" />
-Generated on: 2008-10-17 14:15 UTC.
+Generated on: 2008-10-17 17:31 UTC.
 Generated by <a class="reference external" href="http://docutils.sourceforge.net/">Docutils</a> from <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> source.
 
 </div>
