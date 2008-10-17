@@ -8,7 +8,7 @@ Tutorial
 
 .. raw:: html
    
-   This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_3_tutorial.pdf?download">pdf file</a> (290 KB).
+   This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_4_tutorial.pdf?download">pdf file</a> (290 KB).
 
 This is a guide to basic and some more advanced features of
 the MDP library. Besides the present tutorial, you can learn 
@@ -82,7 +82,7 @@ The base of available algorithms is steadily increasing and includes,
 to name but the most common, Principal Component Analysis (PCA and
 NIPALS), several Independent Component Analysis algorithms (CuBICA,
 FastICA, TDSEP, and JADE), Slow Feature Analysis, Gaussian
-Classifiers, Restricted Boltzmann Machine, and Local Linear Embedding
+Classifiers, Restricted Boltzmann Machine, and Locally Linear Embedding
 (see the `Node List`_ section for a more exhaustive list and 
 references).
 
@@ -1591,8 +1591,12 @@ complicated stuff. Note that the ``in_channel_dim`` in the next
 of one unit in the ``CloneLayer`` (instead of 3 in the first switchboard, 
 corresponding to the three RGB colors).
 
-A real life example (Logistic maps)
------------------------------------
+Real life examples
+------------------
+
+Logistic maps
+~~~~~~~~~~~~~
+
 In this section we show a complete example of MDP usage in a machine
 learning application, and use non-linear Slow Feature Analysis for
 processing of non-stationary time series. We consider a chaotic time
@@ -1723,8 +1727,8 @@ that they match perfectly:
         :alt: SFA estimate
 
 
-Another real life example (Growing neural gas)
-----------------------------------------------
+Growing neural gas
+~~~~~~~~~~~~~~~~~~
 We generate uniformly distributed random data points confined on different
 2-D geometrical objects. The Growing Neural Gas Node builds a graph with the
 same topological structure.
@@ -1839,15 +1843,15 @@ Calculate the number of connected components:
     >>> print n_obj
     5
 
-Yet another real life example (Locally linear embedding)
---------------------------------------------------------
+Locally linear embedding
+~~~~~~~~~~~~~~~~~~~~~~~~
 Locally linear embedding (LLE) approximates the input data with a
 low-dimensional surface and reduces its dimensionality by learning
 a mapping to the surface. Here we consider data generated randomly
 on an S-shaped 2D surface embedded in a 3D space:
 
 .. image:: s_shape_3D.png
-        :width: 700
+        :width: 500
         :alt: S-shaped surface
 
 The surface is defined by the function
@@ -1882,14 +1886,14 @@ The projected data forms a nice parameteric representation of the
 S-shaped surface:
 
 .. image:: s_shape_lle_proj.png
-        :width: 700
+        :width: 500
         :alt: LLE projection of the S-shaped surface
 
 The problem becomes more difficult if the surface has a hole in the
 middle:
 
 .. image:: s_shape_hole_3D.png
-        :width: 700
+        :width: 500
         :alt: S-shaped surface with hole
 
 In this case, the LLE algorithm has some difficulty finding the
@@ -1903,7 +1907,7 @@ correct representation. The lines
 return a distorted mapping:
 
 .. image:: s_shape_hole_lle_proj.png
-        :width: 700
+        :width: 500
         :alt: LLE projection of the S-shaped surface with hole
 
 The Hessian LLE Node takes the local curvature of the surface into
@@ -1913,7 +1917,7 @@ account, and is able to find a better representation:
     >>> hlle_projected_data = mdp.nodes.HLLENode(k, output_dim=2)(data)
 
 .. image:: s_shape_hole_hlle_proj.png
-        :width: 700
+        :width: 500
         :alt: HLLE projection of the S-shaped surface with hole
 
 Node List
@@ -1999,13 +2003,13 @@ for the full documentation and interface description.
    which are separated by a minimum gap 'd'.
 
 - `HLLENode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.contrib.HLLENode-class.html>`_
-   Original code contributed by Jake Vanderplas.
+   Original code contributed by Jake VanderPlas.
 
    Perform a Hessian Locally Linear Embedding analysis on the data.
                              
    Implementation based on algorithm outlined in
-   'Hessian Eigenmaps: new locally linear embedding techniques
-   for high-dimensional data' by C. Grimes and D. Donoho, 2003 
+   *Hessian Eigenmaps: new locally linear embedding techniques
+   for high-dimensional data* by C. Grimes and D. Donoho, 2003 
 
 - `ISFANode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.ISFANode-class.html>`_
    Perform Independent Slow Feature Analysis on the input data.
@@ -2032,13 +2036,13 @@ for the full documentation and interface description.
    Wiley.
 
 - `LLENode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.contrib.LLENode-class.html>`_
-   Original code contributed by Jake Vanderplas.
+   Original code contributed by Jake VanderPlas.
 
    Perform a Locally Linear Embedding analysis on the data.
                              
-   Based on the algorithm outlined in 'An Introduction to Locally
-   Linear Embedding' by L. Saul and S. Roweis, using improvements
-   suggested in 'Locally Linear Embedding for Classification' by
+   Based on the algorithm outlined in *An Introduction to Locally
+   Linear Embedding* by L. Saul and S. Roweis, using improvements
+   suggested in *Locally Linear Embedding for Classification* by
    D. deRidder and R.P.W. Duin.
 
 - `NIPALSNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.contrib.NIPALSNode-class.html>`_
@@ -2382,3 +2386,4 @@ code to the MDP project. Strictly in alphabetical order:
 - Mathias Franzius
 - Susanne Lezius
 - `Michael Schmuker <http://userpage.fu-berlin.de/~schmuker/>`_
+- `Jake VanderPlas <http://www.astro.washington.edu/vanderplas/>`_

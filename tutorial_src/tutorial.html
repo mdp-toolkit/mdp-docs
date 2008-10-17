@@ -12,20 +12,16 @@
 <style type="text/css">
 
 body {
-	background:white;
-	/*font-family:'Trebuchet MS',Verdana,sans-serif;*/
 	font-family:sans-serif;
 	text-align:justify;
 	margin-bottom:50px;
 	}
 
 a:visited, a:link { 
-	   color:#878F30; 
 	   text-decoration:none;
 }
 
 a:hover {
-	background: #DAE55C;
 	color: black;
 }
 
@@ -51,42 +47,22 @@ OL LI {
 	margin:0.5em 0.5em 0.5em 0.5em;
 }
 
-UL.nice { list-style-type:none; }
-
-UL.nice LI {
-        background: #F0F8FF;
-	border: 1px solid #878F30;
-	padding:0.5em 0.5em 0.5em 0.5em;
-}
-
-OL.nice LI {
-        background: #F0F8FF;
-	border: 1px solid #878F30;
-	padding:0.5em 0.5em 0.5em 0.5em;
-	list-style-type:lower-roman;
-}
-
 DT { font-weight:bold; }
 
 H1 {
 	font-family: serif;
 }
 
-.news {
-	background-color:#E0F060
-	}
 
 #news-box {
   margin-top: 28px;
   /*margin-right: 35%;*/
   padding: .5em; 
-  border: 1px solid #878F30;
   font-size:smaller;
 }
 
 .highlight {
 	font-weight:bold;
-/*	background-color:#E0F060;*/
 }
 
 .smaller_font {
@@ -95,43 +71,18 @@ H1 {
 
 code {
 	text-align:left;
-	color:#878F30;
 }
 
 pycode {
 	text-align:left;
-	color:#878F30;
 	margin-left:2em;
 	font-weight:bold;
 }
 
 pre.literal-block {
   overflow: auto;
-  background: #DAE55C; 
   padding: .5em; 
   margin: 1em;
-  border: 1px solid #878F30;
-}
-
-.pycomment {
-	color:maroon;
-	font-weight:bold;
-}
-
-.faqquest {
-	font-size:larger;
-	font-weight:bold;
-}
-
-.faqansw {
-	font-style:normal;
-}
-
-.faqcit {
-	text-align:justify;
-	font-size:smaller;
-	font-style:italic;
-	padding:0.5em 0.5em 0.5em 0.5em;
 }
 
 .soft {
@@ -139,15 +90,11 @@ pre.literal-block {
 }
 
 #header {
-	background:#DAE55C;
 	text-align:center;
-    border: 1px solid #878F30;
 	padding:5px;
 	text-decoration:none;
 	font-size:250%;
 	font-weight:bold;
-    color:#878F30;
-	/*margin-left:3.5em;*/
 }
 
 IMG.whiteb  { 	
@@ -156,9 +103,6 @@ IMG.whiteb  {
 	border-style:solid;
  }
 
-.img_header a:hover {
-background:#DAE55C;
-}
 
 #sidebar{ 
 clear: left;
@@ -166,7 +110,6 @@ float: left;
 width: 10em;
 margin: 10px 10px 10px 0;
 padding: 0;
-/*font-size: 0.9em;*/
 }
 
 #sidebar ul {	
@@ -175,7 +118,6 @@ width: auto;
 margin: 18px 0 20px 0;
 padding: 0;
 text-align:center; 
-/*font-size:1em;*/
 }	
 
 #sidebar li {
@@ -185,19 +127,11 @@ margin-bottom: 4px;
 
 #sidebar li a {
 font-weight: bold;
-/*height: 20px;*/
 text-decoration: none;
-color: #878F30;
 display: block;
 padding: 4px 0px 4px 0px;
-background:#DAE55C;
-border: 1px solid #878F30;
 }
 	
-#sidebar li a:hover {
-color:black;
-}
-
 #container {
 	padding-right:30px;
 	padding-left:30px;
@@ -212,7 +146,6 @@ color:black;
 
 #footer {
 }
-
 
 /*------------ docutils ---------------*/
 .first {
@@ -249,7 +182,6 @@ div.abstract p.topic-title {
 div.admonition, div.attention, div.caution, div.danger, div.error,
 div.hint, div.important, div.note, div.tip, div.warning {
   margin: 2em ;
-  border: 1px solid #708090;
   padding: 1em }
 
 div.admonition p.admonition-title, div.hint p.admonition-title,
@@ -425,13 +357,23 @@ h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
 
 tt.docutils { 
   font-weight: bold ;
-  /*border: 1px solid #708090;*/
-  /*background-color: #5A6375#f9c852;*/ 
 }
 
 ul.auto-toc {
   list-style-type: none }
 
+
+/* COLORS DEFINITION */
+body { background: white; }
+
+a:visited, a:link, code, pycode, #header, #sidebar li a {color:#878F30;}
+
+#header, a:hover, pre.literal-block, .img_header a:hover, #sidebar li a {background: #DAE55C;}
+
+#news-box, #header, pre.literal-block, #sidebar li a , div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {border: 1px solid #878F30;}
+
+#sidebar li a:hover { color:black; }
 </style>
 </head>
 <body><div id="container">
@@ -476,7 +418,7 @@ ul.auto-toc {
 <td>2.4</td></tr>
 </tbody>
 </table>
-This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_3_tutorial.pdf?download">pdf file</a> (290 KB).<p>This is a guide to basic and some more advanced features of
+This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_4_tutorial.pdf?download">pdf file</a> (290 KB).<p>This is a guide to basic and some more advanced features of
 the MDP library. Besides the present tutorial, you can learn
 more about MDP by using the standard Python tools.
 All MDP nodes have doc-strings, the public
@@ -528,15 +470,19 @@ in the MDP installation path.</p>
 <li><a class="reference internal" href="#example-application-2-d-image-data" id="id22">Example application (2-D image data)</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#a-real-life-example-logistic-maps" id="id23">A real life example (Logistic maps)</a></li>
-<li><a class="reference internal" href="#another-real-life-example-growing-neural-gas" id="id24">Another real life example (Growing neural gas)</a></li>
-<li><a class="reference internal" href="#node-list" id="id25">Node List</a></li>
-<li><a class="reference internal" href="#additional-utilities" id="id26">Additional utilities</a><ul>
-<li><a class="reference internal" href="#graph-module" id="id27">Graph module</a></li>
+<li><a class="reference internal" href="#real-life-examples" id="id23">Real life examples</a><ul>
+<li><a class="reference internal" href="#logistic-maps" id="id24">Logistic maps</a></li>
+<li><a class="reference internal" href="#growing-neural-gas" id="id25">Growing neural gas</a></li>
+<li><a class="reference internal" href="#locally-linear-embedding" id="id26">Locally linear embedding</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#future-development" id="id28">Future Development</a></li>
-<li><a class="reference internal" href="#contributors" id="id29">Contributors</a></li>
+<li><a class="reference internal" href="#node-list" id="id27">Node List</a></li>
+<li><a class="reference internal" href="#additional-utilities" id="id28">Additional utilities</a><ul>
+<li><a class="reference internal" href="#graph-module" id="id29">Graph module</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#future-development" id="id30">Future Development</a></li>
+<li><a class="reference internal" href="#contributors" id="id31">Contributors</a></li>
 </ul>
 </div>
 <!-- This data file has been placed in the public domain. -->
@@ -576,7 +522,7 @@ data processing steps in a natural way.</p>
 to name but the most common, Principal Component Analysis (PCA and
 NIPALS), several Independent Component Analysis algorithms (CuBICA,
 FastICA, TDSEP, and JADE), Slow Feature Analysis, Gaussian
-Classifiers, Restricted Boltzmann Machine, and Local Linear Embedding
+Classifiers, Restricted Boltzmann Machine, and Locally Linear Embedding
 (see the <a class="reference internal" href="#node-list">Node List</a> section for a more exhaustive list and
 references).</p>
 <p>Particular care has been taken to make computations efficient in terms
@@ -1929,8 +1875,10 @@ of one unit in the <tt class="docutils literal"><span class="pre">CloneLayer</sp
 corresponding to the three RGB colors).</p>
 </div>
 </div>
-<div class="section" id="a-real-life-example-logistic-maps">
-<h1><a class="toc-backref" href="#id23">A real life example (Logistic maps)</a></h1>
+<div class="section" id="real-life-examples">
+<h1><a class="toc-backref" href="#id23">Real life examples</a></h1>
+<div class="section" id="logistic-maps">
+<h2><a class="toc-backref" href="#id24">Logistic maps</a></h2>
 <p>In this section we show a complete example of MDP usage in a machine
 learning application, and use non-linear Slow Feature Analysis for
 processing of non-stationary time series. We consider a chaotic time
@@ -2038,8 +1986,8 @@ is plotted together with the driving force estimated by SFA and see
 that they match perfectly:</p>
 <img alt="SFA estimate" src="results.png" style="width: 700px;" />
 </div>
-<div class="section" id="another-real-life-example-growing-neural-gas">
-<h1><a class="toc-backref" href="#id24">Another real life example (Growing neural gas)</a></h1>
+<div class="section" id="growing-neural-gas">
+<h2><a class="toc-backref" href="#id25">Growing neural gas</a></h2>
 <p>We generate uniformly distributed random data points confined on different
 2-D geometrical objects. The Growing Neural Gas Node builds a graph with the
 same topological structure.</p>
@@ -2134,8 +2082,64 @@ adapted to the topological structure of the data distribution:</p>
 5
 </pre>
 </div>
+<div class="section" id="locally-linear-embedding">
+<h2><a class="toc-backref" href="#id26">Locally linear embedding</a></h2>
+<p>Locally linear embedding (LLE) approximates the input data with a
+low-dimensional surface and reduces its dimensionality by learning
+a mapping to the surface. Here we consider data generated randomly
+on an S-shaped 2D surface embedded in a 3D space:</p>
+<img alt="S-shaped surface" src="s_shape_3D.png" style="width: 500px;" />
+<p>The surface is defined by the function</p>
+<pre class="literal-block">
+&gt;&gt;&gt; def s_distr(npoints, hole=False):
+...     &quot;&quot;&quot;Return a 3D S-shaped surface. If hole is True, the surface has
+...     a hole in the middle.&quot;&quot;&quot;
+...     t = mdp.numx_rand.random(npoints)
+...     y = mdp.numx_rand.random(npoints)*5.
+...     theta = 3.*mdp.numx.pi*(t-0.5)
+...     x = mdp.numx.sin(theta)
+...     z = mdp.numx.sign(theta)*(mdp.numx.cos(theta) - 1.)
+...     if hole:
+...         indices = mdp.numx.where(((0.3&gt;t) | (0.7&lt;t)) | ((1.&gt;y) | (4.&lt;y)))
+...         return x[indices], y[indices], z[indices], t[indices]
+...     else:
+...         return x, y, z, t
+</pre>
+<p>We generate 1000 points on this surface, then define an LLENode with
+parameters k=15 (number of neighbors) and output_dim=2 (the number of
+dimensions of the reduced representation), then train and execute the
+node to obtain the projected data:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; n, k = 1000, 15
+&gt;&gt;&gt; x, y, z, t = s_distr(n, hole=False)
+&gt;&gt;&gt; data = mdp.numx.array([x,y,z]).T
+&gt;&gt;&gt; lle_projected_data = mdp.nodes.LLENode(k, output_dim=2)(data)
+</pre>
+<p>The projected data forms a nice parameteric representation of the
+S-shaped surface:</p>
+<img alt="LLE projection of the S-shaped surface" src="s_shape_lle_proj.png" style="width: 500px;" />
+<p>The problem becomes more difficult if the surface has a hole in the
+middle:</p>
+<img alt="S-shaped surface with hole" src="s_shape_hole_3D.png" style="width: 500px;" />
+<p>In this case, the LLE algorithm has some difficulty finding the
+correct representation. The lines</p>
+<pre class="literal-block">
+&gt;&gt;&gt; x, y, z, t = s_distr(n, hole=True)
+&gt;&gt;&gt; data = mdp.numx.array([x,y,z]).T
+&gt;&gt;&gt; lle_projected_data = mdp.nodes.LLENode(k, output_dim=2)(data)
+</pre>
+<p>return a distorted mapping:</p>
+<img alt="LLE projection of the S-shaped surface with hole" src="s_shape_hole_lle_proj.png" style="width: 500px;" />
+<p>The Hessian LLE Node takes the local curvature of the surface into
+account, and is able to find a better representation:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; hlle_projected_data = mdp.nodes.HLLENode(k, output_dim=2)(data)
+</pre>
+<img alt="HLLE projection of the S-shaped surface with hole" src="s_shape_hole_hlle_proj.png" style="width: 500px;" />
+</div>
+</div>
 <div class="section" id="node-list">
-<h1><a class="toc-backref" href="#id25">Node List</a></h1>
+<h1><a class="toc-backref" href="#id27">Node List</a></h1>
 <p>Here is the complete list of implemented nodes.
 Refer to the
 <a class="reference external" href="http://mdp-toolkit.sourceforge.net/docs/api/index.html">API</a>
@@ -2235,6 +2239,16 @@ which are separated by a minimum gap 'd'.</p>
 </dl>
 </li>
 <li><dl class="first docutils">
+<dt><a class="reference external" href="http://mdp-toolkit.sourceforge.net/docs/api/mdp.contrib.HLLENode-class.html">HLLENode</a></dt>
+<dd><p class="first">Original code contributed by Jake VanderPlas.</p>
+<p>Perform a Hessian Locally Linear Embedding analysis on the data.</p>
+<p class="last">Implementation based on algorithm outlined in
+<em>Hessian Eigenmaps: new locally linear embedding techniques
+for high-dimensional data</em> by C. Grimes and D. Donoho, 2003</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
 <dt><a class="reference external" href="http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.ISFANode-class.html">ISFANode</a></dt>
 <dd><p class="first">Perform Independent Slow Feature Analysis on the input data.</p>
 <p class="last">More information about ISFA can be found in:
@@ -2258,6 +2272,17 @@ Neural Computation, 11(1): 157-192 (1999).
 More information about ICA can be found among others in
 Hyvarinen A., Karhunen J., Oja E. (2001). <em>Independent Component Analysis</em>,
 Wiley.</p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt><a class="reference external" href="http://mdp-toolkit.sourceforge.net/docs/api/mdp.contrib.LLENode-class.html">LLENode</a></dt>
+<dd><p class="first">Original code contributed by Jake VanderPlas.</p>
+<p>Perform a Locally Linear Embedding analysis on the data.</p>
+<p class="last">Based on the algorithm outlined in <em>An Introduction to Locally
+Linear Embedding</em> by L. Saul and S. Roweis, using improvements
+suggested in <em>Locally Linear Embedding for Classification</em> by
+D. deRidder and R.P.W. Duin.</p>
 </dd>
 </dl>
 </li>
@@ -2402,7 +2427,7 @@ algorithm, please do not hesitate to submit it!</p>
 </div>
 </div>
 <div class="section" id="additional-utilities">
-<h1><a class="toc-backref" href="#id26">Additional utilities</a></h1>
+<h1><a class="toc-backref" href="#id28">Additional utilities</a></h1>
 <p>MDP offers some additional utilities of general interest
 in the <tt class="docutils literal"><span class="pre">mdp.utils</span></tt> module. Refer to the
 <a class="reference external" href="http://mdp-toolkit.sourceforge.net/docs/api/index.html">API</a>
@@ -2492,7 +2517,7 @@ For more information see this <a class="reference external" href="http://en.wiki
 uniformly distributed on (0,1].</dd>
 </dl>
 <div class="section" id="graph-module">
-<h2><a class="toc-backref" href="#id27">Graph module</a></h2>
+<h2><a class="toc-backref" href="#id29">Graph module</a></h2>
 <p>MDP contains <tt class="docutils literal"><span class="pre">mdp.graph</span></tt>, a lightweight package to handle directed graphs.</p>
 <dl class="docutils">
 <dt><strong>Graph</strong></dt>
@@ -2549,7 +2574,7 @@ subsequences.</dd>
 </div>
 </div>
 <div class="section" id="future-development">
-<h1><a class="toc-backref" href="#id28">Future Development</a></h1>
+<h1><a class="toc-backref" href="#id30">Future Development</a></h1>
 <p>MDP is currently maintained by a core team of 3 developers, but it is
 open to user contributions. Users have already contributed some of the
 nodes, and more contributions are currently being reviewed for
@@ -2574,7 +2599,7 @@ adding many numbers.</li>
 </ul>
 </div>
 <div class="section" id="contributors">
-<h1><a class="toc-backref" href="#id29">Contributors</a></h1>
+<h1><a class="toc-backref" href="#id31">Contributors</a></h1>
 <p>In this final section we want to thank all users who have contributed
 code to the MDP project. Strictly in alphabetical order:</p>
 <ul class="simple">
@@ -2583,12 +2608,13 @@ code to the MDP project. Strictly in alphabetical order:</p>
 <li>Mathias Franzius</li>
 <li>Susanne Lezius</li>
 <li><a class="reference external" href="http://userpage.fu-berlin.de/~schmuker/">Michael Schmuker</a></li>
+<li><a class="reference external" href="http://www.astro.washington.edu/vanderplas/">Jake VanderPlas</a></li>
 </ul>
 </div>
 </div>
 <div class="footer">
 <hr class="footer" />
-Generated on: 2008-10-17 12:25 UTC.
+Generated on: 2008-10-17 14:15 UTC.
 Generated by <a class="reference external" href="http://docutils.sourceforge.net/">Docutils</a> from <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> source.
 
 </div>

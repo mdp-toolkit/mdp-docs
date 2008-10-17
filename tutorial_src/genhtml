@@ -33,14 +33,13 @@ RST2="rst2latex -g -t "
 $RST2 $TUTL $TEMP
 TUTTEX=$PWD/tutorial.tex
 # adjust \includegraphics --> \includegraphics[width=0.9\textwidth]
-#perl -i -p -e 's/\\includegraphics[width=700]/\\includegraphics[width=0.9\\textwidth]/g' $TEMP
 perl -i -p -e 's/width=700/width=0.9\\textwidth/g' $TEMP
+perl -i -p -e 's/width=500/width=0.9\\textwidth/g' $TEMP
 /bin/cp -f $TEMP $TUTTEX
-#cat $TEMP | sed s/\\\\includegraphics[width=700]/\\\\includegraphics[width=0.9\\\\textwidth]/g > $TUTTEX
 rm -rf $TEMP
 # compile with pdflatex
-pdflatex $TUTTEX > /dev/null
-pdflatex $TUTTEX > /dev/null
+pdflatex $TUTTEX > /tmp/pdflatex.log
+pdflatex $TUTTEX > /tmp/pdflatex.log
 # clean up
 rm -rf tutorial.aux tutorial.log tutorial.out tutorial_latex.txt tutorial.tex
 # copy pdf to html directory
