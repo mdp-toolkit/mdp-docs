@@ -1494,15 +1494,17 @@ file one can pass any flow to it (we use the layer from above):
 
 ::
 
-    >>> file = open("test.html")
-    >>> file.write('<html>\n<head>\n<title>HiNetHTML Test</title>\n</head>\n<body>\n')
-    >>> hinet_html = mdp.hinet.HiNetHTML(file)
-    >>> flow = mdp.Flow([layer])
+    >>> html_file = open('hinet_test.html', 'w')
+    >>> html_file.write('<html>\n<head>\n<title>HiNet Test</title>\n')
+    >>> html_file.write('<style type="text/css" media="screen">')
+    >>> html_file.write(mdp.hinet.HINET_STYLE)
+    >>> html_file.write('</style>\n</head>\n<body>\n')
+    >>> hinet_html = mdp.hinet.HiNetHTML(html_file=html_file)
     >>> hinet_html.parse_flow(flow)
-    >>> file.write('</body>\n</html>')
-    >>> file.close()
+    >>> html_file.write('</body>\n</html>')
+    >>> html_file.close()
 
-``file`` now includes the HTML representation for the flow consisting
+``html_file`` now includes the HTML representation for the flow consisting
 of the layer.  In the example below we will show such a representation
 for a more complicated example.
 
