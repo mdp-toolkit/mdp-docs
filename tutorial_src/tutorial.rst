@@ -1499,8 +1499,8 @@ file one can pass any flow to it (we use the layer from above):
     >>> html_file.write('<style type="text/css" media="screen">')
     >>> html_file.write(mdp.hinet.HINET_STYLE)
     >>> html_file.write('</style>\n</head>\n<body>\n')
-    >>> hinet_html = mdp.hinet.HiNetHTML(html_file=html_file)
-    >>> hinet_html.parse_flow(flow)
+    >>> hinet_translator = mdp.hinet.HiNetHTMLTranslator()
+    >>> hinet_translator.write_flow_to_file(flow, html_file)
     >>> html_file.write('</body>\n</html>')
     >>> html_file.close()
 
