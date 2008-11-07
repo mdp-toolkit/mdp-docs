@@ -2159,8 +2159,10 @@ for the full documentation and interface description.
    Perform a Hessian Locally Linear Embedding analysis on the data.
                              
    Implementation based on algorithm outlined in
+   David L. Donoho and Carrie Grimes, 
    *Hessian Eigenmaps: new locally linear embedding techniques
-   for high-dimensional data* by C. Grimes and D. Donoho, 2003 
+   for high-dimensional data*, Proceedings of the National Academy of Sciences
+   100(10):5591-5596 (2003).
 
 - `ISFANode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.ISFANode-class.html>`_
    Perform Independent Slow Feature Analysis on the input data.
@@ -2195,6 +2197,8 @@ for the full documentation and interface description.
    Linear Embedding* by L. Saul and S. Roweis, using improvements
    suggested in *Locally Linear Embedding for Classification* by
    D. deRidder and R.P.W. Duin.
+   
+   References: Sam Roweis and Lawrence Saul, *Nonlinear dimensionality reduction by locally linear embedding*, Science 290(5500):2323-2326, 2000.
 
 - `NIPALSNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.contrib.NIPALSNode-class.html>`_
    Original code contributed by Michael Schmuker, Susanne Lezius, and Farzad Farkhooi.
