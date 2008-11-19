@@ -4,7 +4,7 @@
 The <span class="highlight">symeig</span> module contains a Python
 wrapper for the LAPACK functions to solve the <span
 class="highlight">standard and generalized eigenvalue problems for
-symmetric (hermitian) positive definite matrices</span>. Those
+symmetric and hermitian matrices</span>. Those
 specialized algorithms give an important speed-up with respect to the
 generic LAPACK eigenvalue problem solver used by
 <A HREF="http://numpy.scipy.org/">NumPy</A> 
@@ -18,16 +18,10 @@ subset of all eigenvalues, which consumes less memory and
 results sometimes in an additional speed-up, especially for large matrices.
 
 <P>
-Update for <A HREF="http://www.scipy.org/">SciPy</A> &ge; 0.5.2:
-some of the routines used in <span class="highlight">symeig</span>
-are now included in SciPy as well. They are available 
-under <CODE class="pycode">scipy.lib.lapack.flapack</CODE> and can be accessed
-with the function <CODE class="pycode">scipy.lib.lapack.get_lapack_funcs</CODE>.
-
-Some of them are still missing, though. <CODE class="pycode">symeig</CODE>
-uses its own wrappers and offers a unified interface to all the
-relevant LAPACK routines.
-
+The <CODE class="pycode">symeig</CODE> routine is integrated in the 
+0.7 release of <A HREF="http://www.scipy.org/">SciPy</A>. It is
+available there as <CODE class="pycode">scipy.linalg.eigh</CODE>
+with a slightly different signature.
 <HR>
 
 <H2>Installation</H2>
@@ -71,7 +65,7 @@ Check your installation in a Python shell as follows:
 <H2>Mantainers</H2>
 
 <span class="highlight">symeig</span> has been written by
-<a href="http://www.gatsby.ucl.ac.uk/~berkes/">Pietro Berkes</a>
+<a href="http://people.brandeis.edu/~berkes/">Pietro Berkes</a>
 and <a href="http://itb.biologie.hu-berlin.de/~zito">Tiziano Zito</a> 
 at the <a href="http://itb.biologie.hu-berlin.de/">Institute for Theoretical Biology</a>
 of the <a href="http://www.hu-berlin.de/">Humboldt University</a>, Berlin.<br>
@@ -85,8 +79,8 @@ please send a message to the
 <UL>
 <LI><B>symeig docstring:</B>
 <pre class="literal-block">
-    """Solve standard and generalized eigenvalue problem for symmetric
-(hermitian) definite positive matrices.
+   """Solve standard and generalized eigenvalue problem for symmetric
+and hermitian matrices.
 
     Syntax:
 
@@ -97,8 +91,9 @@ please send a message to the
 
     Inputs:
 
-      A     -- An N x N matrix.
-      B     -- An N x N matrix.
+      A     -- An N x N real symmetric or complex hermitian matrix.
+      B     -- An N x N real symmetric or complex hermitian definite
+               positive matrix.
       eigenvectors -- if set return eigenvalues and eigenvectors, otherwise
                       only eigenvalues 
       turbo -- (only for generalized eigenvalue problem and if range=None)
@@ -133,7 +128,7 @@ please send a message to the
                associated with w[i]. The eigenvectors are normalized as above.
     """
 </pre>
-<LI ID="amazing"><B>Benchmark results:</B>
+<!-- <LI ID="amazing"><B>Benchmark results:</B>
 <P>
 <table cellpadding="2px" cellspacing="0"  border="1" style="text-align: left; width: 100%;">
 <tbody>
@@ -256,7 +251,7 @@ style="vertical-align: top; width: 20%; text-align: right; background-color: rgb
 style="vertical-align: top; width: 20%; text-align: right; background-color: rgb(255, 204, 204);">97749.95</td>
 </tr>
 </tbody>
-</table>
+</table>-->
 
 <LI><B>Wrapped LAPACK functions:</B>
 <BR>

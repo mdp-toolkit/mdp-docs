@@ -2,20 +2,20 @@
 # clean up
 rm -rf html
 mkdir html
-mkdir html/docs
-mkdir html/docs/api
+#mkdir html/docs
+#mkdir html/docs/api
 # copy CHANGES to html
 cp ../mdp_dist/CHANGES html/CHANGES 
 # generate API documentation:
 echo 'Generating API documentation...'
 #./api_generator
-cp -r API/docs html/
+#cp -r API/docs html/
 echo 'Done.'
 echo 'Generating tutorial HTML and PDF...'
-cd tutorial_src/
-./genhtml
-cd ..
-echo 'Generating MDP website...'
+#cd tutorial_src/
+#./genhtml
+#cd ..
+#echo 'Generating MDP website...'
 cd html_src
 python granparser.py
 cp -r *css images/* data/* time_machine ../html
