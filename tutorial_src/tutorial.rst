@@ -944,7 +944,7 @@ we also create a test set ``x_test``.
   ::
 
       >>> out = flow.execute(x)
-      >>> cov = mdp.numx.amax(abs(mdp.utils.cov2(inp[:,:5], out)))
+      >>> cov = mdp.numx.amax(abs(mdp.utils.cov2(inp[:,:5], out)), axis=1)
       >>> print cov
       [ 0.98992083  0.99244511  0.99227319  0.99663185  0.9871812 ]
 
