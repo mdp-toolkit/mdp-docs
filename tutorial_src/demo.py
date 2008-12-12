@@ -219,9 +219,10 @@ flow += mdp.nodes.HitParadeNode(3)
 flow.train(x_test)
 maxima, indices = flow[2].get_maxima()
 out = flow.execute(x)
-cov = mdp.numx.amax(abs(mdp.utils.cov2(inp[:,:5], out)))
+cov = mdp.numx.amax(abs(mdp.utils.cov2(inp[:,:5], out)), axis=1)
 print cov
 # [ 0.98992083  0.99244511  0.99227319  0.99663185  0.9871812 ]
+raise Exception
 out = flow(x)
 rec = flow.inverse(out)
 cov = mdp.numx.amax(abs(mdp.utils.cov2(x/mdp.numx.std(x,axis=0),
