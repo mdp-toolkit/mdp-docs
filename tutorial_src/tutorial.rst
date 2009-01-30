@@ -1483,36 +1483,22 @@ HTML representation
 ~~~~~~~~~~~~~~~~~~~
 
 Since hierarchical networks can be quite complicated, ``hinet``
-includes the class ``HiNetHTML`` that translates
-an MDP flow into a graphical visualization in an HTML file. 
-After instantiating the class with a given HTML
-file one can pass any flow to it (we use the layer from above):
-
-.. raw:: html
-
-   <!-- ignore -->
+includes the class ``HiNetHTMLTranslator`` that translates
+an MDP flow into a graphical visualization in an HTML file. We also provide
+the helper function ``show_flow`` which creates a complete HTML file with
+the flow visualization in it and opens it in your standard browser.
 
 ::
 
-    >>> html_file = open('hinet_test.html', 'w')
-    >>> html_file.write('<html>\n<head>\n<title>HiNet Test</title>\n')
-    >>> html_file.write('<style type="text/css" media="screen">')
-    >>> html_file.write(mdp.hinet.HINET_STYLE)
-    >>> html_file.write('</style>\n</head>\n<body>\n')
-    >>> hinet_translator = mdp.hinet.HiNetHTMLTranslator()
-    >>> hinet_translator.write_flow_to_file(flow, html_file)
-    >>> html_file.write('</body>\n</html>')
-    >>> html_file.close()
+    >>> mdp.hinet.show_flow(flow, filename='hinet_test.html')
 
-``html_file`` now includes the HTML representation for the flow consisting
-of the layer.  In the example below we will show such a representation
-for a more complicated example.
-
-It is possible to include some internal node parameters in the
-representation (especially for newly defined custom nodes). This is
-actually very easy, the source code of this module contains more
-instructions on how to do this.  It is also possible to modify the
-HTML presentation by providing a custom CSS string.
+To integrate the HTML representation into your own custom HTML file
+you can take a look at ``show_flow`` to learn the usage of
+``HiNetHTMLTranslator``. You can also specify custom translations for
+node types (e.g to define which parameters are displayed). Note that
+``HiNetHTMLTranslator`` is derived from ``HiNetTranslator`` which is
+the base class for general flow translations and is for example also used in
+the ``parallel`` package (to translate a flow into a parallel version).
 
 Example application (2-D image data)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
