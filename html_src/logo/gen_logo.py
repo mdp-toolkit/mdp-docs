@@ -3,7 +3,7 @@
 # it creates a series of png files with the learning process
 
 
-save = True # save animation and logo
+save = False # save animation and logo
 transparent = True # make transparent background
 dpi = 100 # image quality
 
@@ -17,12 +17,16 @@ NITER = 50 # number of iterations
 noise = 0.1 # noise ratio 0.1 = 10%
 max_nodes = 500
 
+import matplotlib
+#matplotlib.use('GTKAgg')
+matplotlib.rcParams['toolbar'] = 'None'
+
 import mdp, numpy, pylab, pickle, os, shutil
 # set random seed
 numpy.random.seed(1)
 
 # create animation directory if not present
-if not os.path.exists('animation'): os.mkdir('animation')
+if save and not os.path.exists('animation'): os.mkdir('animation')
 
 print 'Load image.'
 fl = file('text.raw', 'rb')
@@ -32,15 +36,14 @@ fl.close()
 x = x.astype(numpy.float32)
 
 # set figure size
-# note: the pylab canvas is still too large! how to fit it to the figure
 pylab.ion()
 fig = pylab.figure()
-fig.set_size_inches((3*x.shape[1]/float(x.shape[0])),3)
+#fig.set_size_inches((3*x.shape[1]/float(x.shape[0])),3)
 fig.add_axes([0.01,0.01,0.98,0.98])
 
 #.set_figsize_inches( (w,h) )
 
-def plot_graph(gng, iter):
+def plot_graph(gng, iter, fig):
     lines = []
     for e in gng.graph.edges:
         x0, y0 = e.head.data.pos
@@ -53,7 +56,7 @@ def plot_graph(gng, iter):
                       [x0,x0], [y0,y0], c0+'.',
                       [x1,x1], [y1,y1], c1+'.'))
 
-    pylab.clf()
+    fig.clf()
     pylab.ioff()
     # the order of the axis command is important!
     fig.add_axes([0.01,0.01,0.98,0.98])
@@ -94,7 +97,7 @@ print 'Learning neural gas.'
 gng = mdp.nodes.GrowingNeuralGasNode(max_nodes=max_nodes)
 for iter, data in enumerate(data_generator(NITER)):
     gng.train(data)
-    plot_graph(gng, iter)
+    plot_graph(gng, iter, fig)
 gng.stop_training()
 
 if save:
