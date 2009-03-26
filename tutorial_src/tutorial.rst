@@ -1668,16 +1668,20 @@ The first important method of the scheduler class is
 ``__call__`` method. The return value of the ``task_callable`` is the
 result of the task. If ``task_callable`` is ``None`` then the last
 provided ``task_callable`` will be used. This splitting into callable
-and data in principle makes it possible to implement caching of the
-``task_callable`` in the scheduler (but so far none of our schedulers
-actually implement this feature).
+and data makes it possible to implement caching of the
+``task_callable`` in the scheduler and its workers (caching is turned on by
+default in the ``ProcessScheduler``). To further influence caching you can also
+derive from the ``TaskCallable`` class, which has a ``fork`` to generate new
+callables when the cached callable must be preserved. For MDP training and
+execution there already are corresponding ``TaskCallable`` classes which are
+automatically used, so normally there is no need to worry about this. 
 
 After submitting all the tasks with ``add_task`` you can then call
 the ``get_results`` method. This method returns all the task results,
 normally in a list. If there are open tasks in the scheduler
 ``get_results`` will wait until all the tasks are finished. You can
 also check the status of the scheduler by looking at the
-``n_open_tasks`` attribute, which tells you the number of open tasks.
+``n_open_tasks`` property, which tells you the number of open tasks.
 After using the scheduler you should always call the ``shutdown`` method,
 otherwise you might get error messages from not properly closed processes.
 
