@@ -105,11 +105,10 @@ multiple training phases and even an undetermined number of phases.
 This allows the implementation of algorithms that need to collect some
 statistics on the whole input before proceeding with the actual
 training, and others that need to iterate over a training phase until
-a convergence criterion is satisfied. The ability to train each phase
-using chunks of input data is maintained if the chunks are generated
-with iterators. Moreover, crash recovery is optionally available: in
-case of failure, the current state of the flow is saved for later
-inspection.
+a convergence criterion is satisfied. The ability to train each phase 
+using chunks of input data is maintained if the chunks are given as an 
+iterable. Moreover, crash recovery is optionally available: in case of 
+failure, the current state of the flow is saved for later inspection.
 
 MDP is distributed under the open source LGPL license. It has been
 written in the context of theoretical research in neuroscience, but it
@@ -300,7 +299,7 @@ Some examples of node training:
 - We can train our node with more than one chunk of data. This
   is especially useful when the input data is too long to
   be stored in memory or when it has to be created on-the-fly.
-  (See also the Iterators_ section):
+  (See also the Iterables_ section):
   ::
 
       >>> for i in range(100):
@@ -1078,8 +1077,29 @@ You can give a file name to tell the flow where to save the dump:
 Iterators
 ---------
 Python allows user-defined classes to support iteration,
-as described in the
-`Python docs <http://docs.python.org/library/stdtypes.html#iterator-types>`_.
+as described in the `Python docs 
+<http://docs.python.org/library/stdtypes.html#iterator-types>`_. A class is a 
+so called iterable if it defines a method ``__iter__`` that returns an 
+iterator instance. An iterable is typically some kind of container or 
+collection (e.g. ``list`` and ``tuple`` are iterables).
+
+The iterator instance must have a ``next`` method that returns the next 
+element in the iteration. In Python an iterable also has to have an 
+``__iter__`` method itself that returns ``self`` instead of a new iterator. 
+It important to understand that an iterator only manages a single iteration. 
+After this iteration it is spend and cannot be used for a second iteration 
+(it cannot be restarted). An iterable on the other hand can create as many 
+iterators as needed and therefore supports multiple iterations. Even though 
+both iterables and iterators have an ``__iter__`` method they are 
+semantically very different (duck-typing can be misleading in this case).
+
+In the context of MDP this means that an iterator can only be used for a 
+single training phase, while iterables also support multiple training phases. 
+So if you use a node with multiple training phases and train it in a flow 
+make sure that you provide an iterable for this node (otherwise an exception 
+will be raised). For nodes with a single training phase you can use 
+either an iterable or an iterator.
+
 A convenient implementation of the iterator protocol is provided
 by generators:
 see `this article <http://linuxgazette.net/100/pramode.html>`_ for an
@@ -1133,11 +1153,11 @@ Let's define a bogus flow consisting of 2 ``BogusNode``:
     >>> flow = mdp.Flow([BogusNode(),BogusNode()], verbose=1)
 
 
-Train the first node with 5000 blocks and the second node with 3000 blocks.
-Note that the only allowed argument to ``train`` is a sequence (list or tuple)
-of iterators. In case you don't want or need to use incremental learning and
-want to do a one-shot training, you can use as argument to ``train`` a single
-array of data:
+Train the first node with 5000 blocks and the second node with 3000 blocks. 
+Note that the only allowed argument to ``train`` is a sequence (list or 
+tuple) of iterables or iterators. In case you don't want or need to use 
+incremental learning and want to do a one-shot training, you can use as 
+argument to ``train`` a single array of data:
 
 **block-mode training**
 
@@ -1164,7 +1184,7 @@ array of data:
       >>> single_block = mdp.numx.transpose(mdp.numx.concatenate([block_x,block_y]))
       >>> flow.train(single_block)
 
-If your flow contains non-trainable nodes, you must specify a ``None`` iterator
+If your flow contains non-trainable nodes, you must specify a ``None``
 for the non-trainable nodes:
 ::
 
@@ -1190,7 +1210,8 @@ You can use the one-shot training:
     Training finished
     Close the training phase of the last node
 
-Iterators can be used also for execution (and inversion):
+Iterators can always be safely used for execution and inversion, since only a 
+single iteration is needed:
 ::
 
     >>> flow = mdp.Flow([BogusNode(),BogusNode()], verbose=1)
@@ -1214,17 +1235,15 @@ since training is finished you are not going to get a warning
     >>> output = flow(single_block)
     >>> output = flow.inverse(single_block)
 
-If a node requires multiple training phases (e.g., ``GaussianClassifierNode``),
-``Flow`` automatically takes care of reusing the iterator multiple times.
-In this case generators are not allowed, since they *expire* after
-yielding the last data block. If you try to restart them, they raise
-a ``StopIteration`` exception. General iterators, instead, can always be
-restarted. For example, you can loop over a list as many times as you need.
+If a node requires multiple training phases (e.g., 
+``GaussianClassifierNode``), ``Flow`` automatically takes care of using the 
+iterable multiple times. In this case generators (and iterators) are not 
+allowed, since they are spend after yielding the last data block.
 
-However, it is fairly easy to wrap a generator in a simple iterator if you need to:
+However, it is fairly easy to wrap a generator in a simple iterable if you need to:
 ::
 
-    >>> class SimpleIterator(object):
+    >>> class SimpleIterable(object):
     ...     def __init__(self, blocks):
     ...         self.blocks = blocks
     ...     def __iter__(self):
@@ -1233,12 +1252,12 @@ However, it is fairly easy to wrap a generator in a simple iterator if you need 
     ...             yield generate_some_data()
     >>>
 
-Note that if you use random numbers within the iterator, you usually
+Note that if you use random numbers within the generator, you usually
 would like to reset the random number generator to produce the
 same sequence every time:
 ::
 
-    >>> class RandomIterator(object):
+    >>> class RandomIterable(object):
     ...     def __init__(self):
     ...         self.state = None
     ...     def __iter__(self):
@@ -1248,13 +1267,13 @@ same sequence every time:
     ...             mdp.numx_rand.set_state(self.state)
     ...         for i in range(2):
     ...             yield mdp.numx_rand.random((1,4))
-    >>> iterator = RandomIterator()
-    >>> for x in iterator: 
+    >>> iterable = RandomIterable()
+    >>> for x in iterable: 
     ...     print x
     ... 
     [[ 0.99586495  0.53463386  0.6306412   0.09679571]]
     [[ 0.51117469  0.46647448  0.95089738  0.94837122]]
-    >>> for x in iterator: 
+    >>> for x in iterable: 
     ...     print x
     ... 
     [[ 0.99586495  0.53463386  0.6306412   0.09679571]]
