@@ -1509,7 +1509,7 @@ the flow visualization in it and opens it in your standard browser.
 
 ::
 
-    >>> mdp.hinet.show_flow(flow, filename='hinet_test.html')
+    >>> mdp.hinet.show_flow(flow)
 
 To integrate the HTML representation into your own custom HTML file
 you can take a look at ``show_flow`` to learn the usage of
@@ -1735,7 +1735,8 @@ about how to write parallel nodes.
 
 Currently we provide the following parallel nodes:
 ``ParallelPCANode``, ``ParallelWhiteningNode``, ``ParallelSFANode``,
-``ParallelSFA2Node``, ``ParallelFlowNode``, ``ParallelLayer``,
+``ParallelSFA2Node``, ``ParallelFDANode``, ``ParallelHistogramNode``,
+``ParallelAdaptiveCutoffNode``, ``ParallelFlowNode``, ``ParallelLayer``,
 ``ParallelCloneLayer`` (the last three are derived from the ``hinet``
 package).
 
@@ -2324,6 +2325,17 @@ for the full documentation and interface description.
    'Whiten' the input data by filtering it through the most
    significatives of its principal components. All output
    signals have zero mean, unit variance and are decorrelated.
+   
+- `CutoffNode` <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.CutoffNode-class.html>`_
+   Clip the data at the specified upper and lower bounds.
+
+- `HistogramNode` <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.HistogramNode-class.html>`_
+   Store a fraction of the incoming data during training. This data can then
+   be used to analyse the histogram of the data.
+   
+- `AdaptiveCutoffNode` <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.AdaptiveCutoffNode-class.html>`_
+   Works like the `HistogramNode`. The cutoff bounds are then chosen such that
+   a given fraction of the training data would have been clipped.
 
 .. admonition:: Didn't you find what you were looking for?
    
