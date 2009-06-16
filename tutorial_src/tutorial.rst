@@ -2544,12 +2544,16 @@ complex data processing networks.
 Contributors
 ------------
 In this final section we want to thank all users who have contributed
-code to the MDP project. Strictly in alphabetical order:
+code and bug reports to the MDP project. Strictly in alphabetical order:
 
 - `Gabriel Beckers <http://www.gbeckers.nl/>`_
+- `Alberto Escalante <>`_
 - `Farzad Farkhooi <http://www.bccn-berlin.de/People/farkhooi>`_
 - Mathias Franzius
-- Michael Hanke
+- `Michael Hanke <http://apsy.gse.uni-magdeburg.de/main/index.psp?page=hanke/main&lang=en&sec=0>`_
+- `Konrad Hinsen <http://dirac.cnrs-orleans.fr/~hinsen/>`_
+- `Samuel John <http://www.samueljohn.de/>`_
 - Susanne Lezius
 - `Michael Schmuker <http://userpage.fu-berlin.de/~schmuker/>`_
+- `Henning Sprekeler <http://lcn.epfl.ch/~sprekele/>`_ 
 - `Jake VanderPlas <http://www.astro.washington.edu/vanderplas/>`_
