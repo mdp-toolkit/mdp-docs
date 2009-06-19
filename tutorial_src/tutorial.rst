@@ -1489,6 +1489,7 @@ themselves) to construct hierarchical node networks: ``Layer``,
   illustrated in following picture:
 
   .. image:: hinet_switchboard.png
+          :width: 400
           :alt: switchboard example
 
   By combining layers with switchboards one can realize any
@@ -1573,8 +1574,9 @@ code:
 The HTML representation of the the constructed flow looks like this in your
 browser:
 
-  .. image:: hinet_html.png
-          :alt: hinet HTML rendering
+.. image:: hinet_html.png
+        :width: 450
+        :alt: hinet HTML rendering
 
 Now one can train this flow for example with image sequences from a movie.
 After the training phase one can compute the image pattern that produces
@@ -1582,8 +1584,8 @@ the highest response in a given output coordinate
 (use ``mdp.utils.QuadraticForm``). One such optimal image pattern may
 look like this (only a grayscale version is shown): 
 
-  .. image:: hinet_opt_stim.png
-          :alt: optimal stimulus
+.. image:: hinet_opt_stim.png
+        :alt: optimal stimulus
 
 So the network units have developed some kind of primitive line
 detector. More on this topic can be found in: Berkes, P. and Wiskott,
