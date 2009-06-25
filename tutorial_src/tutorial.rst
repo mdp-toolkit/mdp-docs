@@ -81,7 +81,7 @@ data processing steps in a natural way.
 The base of available algorithms is steadily increasing and includes,
 to name but the most common, Principal Component Analysis (PCA and
 NIPALS), several Independent Component Analysis algorithms (CuBICA,
-FastICA, TDSEP, and JADE), Slow Feature Analysis, Gaussian
+FastICA, TDSEP, JADE, and XSFA), Slow Feature Analysis, Gaussian
 Classifiers, Restricted Boltzmann Machine, and Locally Linear Embedding
 (see the `Node List`_ section for a more exhaustive list and 
 references).
@@ -1074,7 +1074,7 @@ You can give a file name to tell the flow where to save the dump:
 
     >>> flow.set_crash_recovery('/home/myself/mydumps/MDPdump.pic')
 
-Iterators
+Iterables
 ---------
 Python allows user-defined classes to support iteration,
 as described in the `Python docs 
@@ -2090,6 +2090,10 @@ Refer to the
 `API <http://mdp-toolkit.sourceforge.net/docs/api/index.html>`_
 for the full documentation and interface description.
 
+- `AdaptiveCutoffNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.AdaptiveCutoffNode-class.html>`_
+   Works like the `HistogramNode`. The cutoff bounds are then chosen such that
+   a given fraction of the training data would have been clipped.
+
 - `CuBICANode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.CuBICANode-class.html>`_
    Perform Independent Component Analysis using the CuBICA algorithm.
 
@@ -2100,6 +2104,9 @@ for the full documentation and interface description.
    More information about ICA can be found among others in
    Hyvarinen A., Karhunen J., Oja E. (2001). *Independent Component Analysis*,
    Wiley.
+
+- `CutoffNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.CutoffNode-class.html>`_
+   Clip the data at the specified upper and lower bounds.
 
 - `EtaComputerNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.EtaComputerNode-class.html>`_
    Compute the eta values of the normalized training data.
@@ -2160,6 +2167,10 @@ for the full documentation and interface description.
    Fritzke, *A Growing Neural Gas Network Learns Topologies*, in G. Tesauro, D. S.
    Touretzky, and T. K. Leen (editors), *Advances in Neural Information
    Processing Systems 7*, pages 625-632. MIT Press, Cambridge MA, 1995.
+
+- `HistogramNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.HistogramNode-class.html>`_
+   Store a fraction of the incoming data during training. This data can then
+   be used to analyse the histogram of the data.
 
 - `HitParadeNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.HitParadeNode-class.html>`_
    Collect the first 'n' local maxima and minima of the training signal
@@ -2327,18 +2338,23 @@ for the full documentation and interface description.
    'Whiten' the input data by filtering it through the most
    significatives of its principal components. All output
    signals have zero mean, unit variance and are decorrelated.
-   
-- `CutoffNode` <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.CutoffNode-class.html>`_
-   Clip the data at the specified upper and lower bounds.
 
-- `HistogramNode` <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.HistogramNode-class.html>`_
-   Store a fraction of the incoming data during training. This data can then
-   be used to analyse the histogram of the data.
-   
-- `AdaptiveCutoffNode` <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.AdaptiveCutoffNode-class.html>`_
-   Works like the `HistogramNode`. The cutoff bounds are then chosen such that
-   a given fraction of the training data would have been clipped.
+- `XSFANode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.XSFANode-class.html>`_
+   Original code contributed by Henning Sprekeler.
 
+   Perform Non-linear Blind Source Separation using Slow Feature Analysis.
+   This node is designed to iteratively extract statistically
+   independent sources from (in principle) arbitrary invertible
+   nonlinear mixtures. The method relies on temporal correlations in
+   the sources and consists of a combination of nonlinear SFA and a
+   projection algorithm. More details can be found in the reference
+   given below (once it's published).
+   
+   More information about XSFA can be found in:
+   Sprekeler, H., Zito, T., and Wiskott, L. (2009).
+   *An Extension of Slow Feature Analysis for Nonlinear Blind Source Separation.*
+   Journal of Machine Learning Research, submitted
+      
 .. admonition:: Didn't you find what you were looking for?
    
    If you want to contribute some code or a new
@@ -2549,7 +2565,7 @@ In this final section we want to thank all users who have contributed
 code and bug reports to the MDP project. Strictly in alphabetical order:
 
 - `Gabriel Beckers <http://www.gbeckers.nl/>`_
-- `Alberto Escalante <>`_
+- Alberto Escalante
 - `Farzad Farkhooi <http://www.bccn-berlin.de/People/farkhooi>`_
 - Mathias Franzius
 - `Michael Hanke <http://apsy.gse.uni-magdeburg.de/main/index.psp?page=hanke/main&lang=en&sec=0>`_
