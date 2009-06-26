@@ -2211,6 +2211,10 @@ for the full documentation and interface description.
    Hyvarinen A., Karhunen J., Oja E. (2001). *Independent Component Analysis*,
    Wiley.
 
+- `LinearRegressionNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.LinearRegressionNode-class.html>`_
+
+   Compute least-square, multivariate linear regression on the input data.
+
 - `LLENode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.contrib.LLENode-class.html>`_
    Original code contributed by Jake VanderPlas.
 
