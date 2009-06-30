@@ -8,7 +8,7 @@ Tutorial
 
 .. raw:: html
    
-   This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_4_tutorial.pdf?download">pdf file</a> (830 KB).
+   This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_5_tutorial.pdf?download">pdf file</a> (830 KB).
 
 This is a guide to basic and some more advanced features of
 the MDP library. Besides the present tutorial, you can learn 
