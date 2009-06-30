@@ -2212,7 +2212,6 @@ for the full documentation and interface description.
    Wiley.
 
 - `LinearRegressionNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.LinearRegressionNode-class.html>`_
-
    Compute least-square, multivariate linear regression on the input data.
 
 - `LLENode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.contrib.LLENode-class.html>`_
