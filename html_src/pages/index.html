@@ -1,16 +1,15 @@
 <DIV ID="news-box">
 <B>News</B>
 <table>
-  <tr><td>30.06.2009:<td>MDP 2.5 released! (<A HREF="CHANGES">changes
-    since last release</A>): many bug fixes and several new nodes!
-  <tr><td>25.06.2009:<td>MDP will be presented at the 
+  <tr><td>26.07.2009:<td>MDP will be presented at the 
   <A href="http://www.euroscipy.org/presentations/abstracts/abstract_zito.html">EuroScipy</A> 
   Conference in Leipzig, DE. 
-  <tr><td>25.06.2009:<td>MDP will be presented at the 
-  <A href="http://www.europython.eu/talks/talk_abstracts/index.html#talk71">Europython</A> 
-  Conference in Birmingham, UK. 
-  <tr><td>20.02.2009:<td>MDP will be presented at the <A href="http://www.cnsorg.org/2009/workshops.shtml">Python in Neuroscience</A> Workshop to be held at the
+  <tr><td>22.07.2009:<td>MDP will be presented at the <A href="http://www.cnsorg.org/2009/workshops.shtml">Python in Neuroscience</A> Workshop to be held at the
   <A href="http://www.cnsorg.org/2009/">CNS 2009</A> Conference in Berlin.
+  <tr><td>30.06.2009:<td>MDP 2.5 released! (<A HREF="CHANGES">changes
+    since last release</A>): many bug fixes and several new nodes!
+  <tr><td>30.06.2009:<td>MDP <A href="EuroPython2009MDPTalk.pdf">presented</A> at  the 
+  <A href="http://www.europython.eu/talks/talk_abstracts/index.html#talk71">Europython</A> Conference in Birmingham, UK.
   <tr><td>08.01.2009:<td>MDP paper published in 
                          <A href="http://dx.doi.org/10.3389/neuro.11.008.2008">Frontiers of
 			 Neuroinformatics</A>
@@ -75,18 +74,21 @@ for additional speed.
 <P>
 <B>Download:</B><BR>
 You can download the last MDP release 
-<A HREF="http://sourceforge.net/project/showfiles.php?group_id=116959">
+<A HREF="http://sourceforge.net/projects/mdp-toolkit/files">
 here</A>. <BR>
-If you want to live on the bleeding edge, check out the MDP 
-<a href="http://sourceforge.net/svn/?group_id=116959">svn repository</a>: you 
+If you want to live on the bleeding edge, check out the MDP subversion repository: you 
 can <a href="http://mdp-toolkit.svn.sourceforge.net/">browse the repository</a>
 or just check out the trunk with:
 <pre class="literal-block">
 svn co https://mdp-toolkit.svn.sourceforge.net/svnroot/mdp-toolkit/mdp/trunk/mdp mdp
 </pre>
 <BR>
-Thanks to Yaroslav Halchenko, Debian users can install 
-the <CODE>python-mdp</CODE> package. 
+Thanks to Yaroslav Halchenko, Debian, Ubuntu and derivatives users can install 
+the <a href="http://packages.debian.org/python-mdp"><CODE>python-mdp</CODE></a> package.
+<BR>
+Thanks to an anonymous contributor Mac OS X users using
+<a href="http://www.macports.org/">MacPorts</a> can install the
+<A href="http://trac.macports.org/browser/trunk/dports/python/py25-mdp-toolkit/Portfile"><CODE>py25-mdp-toolkit</CODE></a> package.
 
 <P>
 <B>Installation:</B><BR>
@@ -104,6 +106,12 @@ On Debian you can just type:
 <pre class="literal-block">
 aptitude update
 aptitude install python-mdp
+</pre>
+
+On Mac OS X if you use the <a
+href="http://www.macports.org/">MacPorts</a> system, just type:
+<pre class="literal-block">
+sudo port install py25-mdp-toolkit
 </pre>
 
 On Windows, the installation of the binary distribution is as easy as
