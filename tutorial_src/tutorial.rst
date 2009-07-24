@@ -2176,7 +2176,7 @@ for the full documentation and interface description.
    Collect the first 'n' local maxima and minima of the training signal
    which are separated by a minimum gap 'd'.
 
-- `HLLENode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.contrib.HLLENode-class.html>`_
+- `HLLENode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.HLLENode-class.html>`_
    Original code contributed by Jake VanderPlas.
 
    Perform a Hessian Locally Linear Embedding analysis on the data.
@@ -2195,7 +2195,7 @@ for the full documentation and interface description.
    *Independent Slow Feature Analysis and Nonlinear Blind Source Separation.*
    Neural Computation 19(4):994-1021 (2007).
 
-- `JADENode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.contrib.JADENode-class.html>`_
+- `JADENode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.JADENode-class.html>`_
    Original code contributed by Gabriel Beckers.
 
    Perform Independent Component Analysis using the JADE algorithm.
@@ -2214,7 +2214,7 @@ for the full documentation and interface description.
 - `LinearRegressionNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.LinearRegressionNode-class.html>`_
    Compute least-square, multivariate linear regression on the input data.
 
-- `LLENode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.contrib.LLENode-class.html>`_
+- `LLENode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.LLENode-class.html>`_
    Original code contributed by Jake VanderPlas.
 
    Perform a Locally Linear Embedding analysis on the data.
@@ -2226,7 +2226,7 @@ for the full documentation and interface description.
    
    References: Sam Roweis and Lawrence Saul, *Nonlinear dimensionality reduction by locally linear embedding*, Science 290(5500):2323-2326, 2000.
 
-- `NIPALSNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.contrib.NIPALSNode-class.html>`_
+- `NIPALSNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.NIPALSNode-class.html>`_
    Original code contributed by Michael Schmuker, Susanne Lezius, and Farzad Farkhooi.
 
    Perform Principal Component Analysis using the NIPALS algorithm.
