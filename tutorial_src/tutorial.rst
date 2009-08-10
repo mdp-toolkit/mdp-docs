@@ -1,14 +1,14 @@
 Tutorial
 ========
 
-:Author: Pietro Berkes, Niko Wilbert, and Tiziano Zito
+:Author: Pietro Berkes, Niko Wilbert, Henning Sprekeler, and Tiziano Zito
 :Homepage: http://mdp-toolkit.sourceforge.net
 :Copyright: This document has been placed in the public domain.
-:Version: 2.5
+:Version: 2.6
 
 .. raw:: html
    
-   This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_5_tutorial.pdf?download">pdf file</a> (830 KB).
+   This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_6_tutorial.pdf?download">pdf file</a> (830 KB).
 
 This is a guide to basic and some more advanced features of
 the MDP library. Besides the present tutorial, you can learn 
@@ -2322,7 +2322,6 @@ for the full documentation and interface description.
    signals have zero mean, unit variance and are decorrelated.
 
 - `XSFANode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.XSFANode-class.html>`_
-   Original code contributed by Henning Sprekeler.
 
    Perform Non-linear Blind Source Separation using Slow Feature Analysis.
    This node is designed to iteratively extract statistically
@@ -2555,5 +2554,4 @@ code and bug reports to the MDP project. Strictly in alphabetical order:
 - `Samuel John <http://www.samueljohn.de/>`_
 - Susanne Lezius
 - `Michael Schmuker <http://userpage.fu-berlin.de/~schmuker/>`_
-- `Henning Sprekeler <http://lcn.epfl.ch/~sprekele/>`_ 
 - `Jake VanderPlas <http://www.astro.washington.edu/vanderplas/>`_
