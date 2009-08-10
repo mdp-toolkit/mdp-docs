@@ -1515,8 +1515,9 @@ the flow visualization in it and opens it in your standard browser.
 To integrate the HTML representation into your own custom HTML file
 you can take a look at ``show_flow`` to learn the usage of
 ``HiNetHTMLTranslator``. You can also specify custom translations for
-node types (e.g to define which parameters are displayed). Note that
-``HiNetHTMLTranslator`` is derived from ``HiNetTranslator`` which is
+node types via the extension mechanism (e.g to define which parameters are
+displayed). Note that ``HiNetHTMLTranslator`` is derived from
+``HiNetTranslator`` which is
 the base class for general flow translations and is for example also used in
 the ``parallel`` package (to translate a flow into a parallel version).
 
@@ -1605,10 +1606,13 @@ Parallelization
 The ``parallel`` package adds the ability to parallelize the training 
 and execution of MPD flows. This package is split into two decoupled parts:
 
-- The first part consists of parallel versions of the familiar MDP
+- The first part consists of a parallel extension of the familiar MDP
   structures of nodes and flows. The first basic building block is the
-  abstract base class ``ParallelNode`` for nodes which can be trained
-  in a parallelized way. Secondly there is the ``ParallelFlow`` class,
+  extension class ``ParallelExtensionNode`` for nodes which can be trained
+  in a parallelized way. It adds the ``fork`` and ``join`` methods. When
+  providing a parallel extension for custom node classes you should provide
+  ``_fork`` and ``_join``.
+  Secondly there is the ``ParallelFlow`` class,
   which internally splits the training or execution into tasks which can 
   then be processed in parallel.
 
@@ -1627,49 +1631,30 @@ PCA and quadratic SFA, so that it makes use of two cores on a modern CPU:
 
     >>> node1 = mdp.nodes.PCANode(input_dim=100, output_dim=10)
     >>> node2 = mdp.nodes.SFA2Node(input_dim=10, output_dim=10)
-    >>> flow = node1 + node2
-    >>> n_data_chunks = 2
-    >>> data_iterables = [[mdp.numx_rand.random((200, 100))
-    ...                    for _ in range(n_data_chunks)]
-    ...                    for _ in range(2)]
-    >>> scheduler = mdp.parallel.ProcessScheduler(n_processes=2)
-    >>> parallel_flow = mdp.parallel.make_flow_parallel(flow)
-    >>> parallel_flow.train(data_iterables, scheduler=scheduler)
-    >>> scheduler.shutdown()
-
-So only three additional lines were needed to parallelize the training
-of the flow.  The ``make_flow_parallel`` function tries to find
-parallel versions of the nodes in the given flow. It then modifies the
-nodes such that they make use of the parallel version. A new
-``ParallelFlow`` is then constructed and returned. One can also
-reverse this with the ``unmake_flow_parallel`` function. Note that the
-``shutdown`` method should be always called at the end to make sure
-that the threads and processes used by the scheduler are cleaned up
-properly.
-
-We can 	alternatively implement this example by manually constructing a 
-parallel flow:
-
-::
-
-    >>> node1 = mdp.parallel.ParallelPCANode(input_dim=100, output_dim=10)
-    >>> node2 = mdp.parallel.ParallelSFA2Node(input_dim=10, output_dim=10)
     >>> parallel_flow = mdp.parallel.ParallelFlow([node1, node2])
     >>> n_data_chunks = 2
     >>> data_iterables = [[mdp.numx_rand.random((200, 100))
     ...                    for _ in range(n_data_chunks)]
     ...                    for _ in range(2)]
     >>> scheduler = mdp.parallel.ProcessScheduler(n_processes=2)
+    >>> parallel_flow.train(data_iterables, scheduler=scheduler)
+    >>> scheduler.shutdown()
+
+So only two additional lines were needed to parallelize the training
+of the flow. All one has to do is use a ``ParallelFlow`` insttead of the normal
+``Flow`` and provide a scheduler. Note that the
+``shutdown`` method should be always called at the end to make sure
+that the threads and processes used by the scheduler are cleaned up
+properly. So one should better put the ``shutdown`` call into a safer
+try/finally statement:
+
+::
+
     >>> try:
     ...     parallel_flow.train(data_iterables, scheduler=scheduler)
-    >>> finally:
+    ... finally:
     ...     scheduler.shutdown()
-
-This approach gives more control over the used classes and is in general
-more robust. Here we also put the ``shutdown`` call into a safer try/finally
-statement. The following sections contain more details about the 
-working of this package. But as long as you only want to use the already 
-existing classes for parallelization you can actually skip large parts of that.
+    ...
 
 Scheduler
 ~~~~~~~~~
@@ -1713,27 +1698,21 @@ default result container is an instance of ``OrderedResultContainer``
 
 Parallel Nodes
 ~~~~~~~~~~~~~~
-The parallel package introduces the new base class ``ParallelNode`` for nodes
-that support parallel training. Derived from this are parallel node
-versions like ``ParallelPCANode`` for the ``PCANode``. Parallel execution on
-the other hand works with any normal node as well (only the ``copy`` method 
-of the node is needed for this).
-
-If you want to write your own parallel nodes you have to derive your
-node from ``ParallelNode``. ``ParallelNode`` has the new template
-methods ``fork`` and ``join``. ``fork`` should return a new parallel
-node instance. This new instance can then be trained somewhere else
-(e.g. in a different process) with the usual ``train``
+If you want to parallelize your own nodes you have to provide parallel
+extensions for them. The ``ParallelExtensionNode`` base class has
+the new template methods ``fork`` and ``join``. 
+``fork`` should return a new node instance. This new instance can then be
+trained somewhere else (e.g. in a different process) with the usual ``train``
 method. Afterwards one calls ``join`` on the original node, with the
 forked node as the argument. This is effectively the same as calling
 ``train`` directly on the original node.
 
-When writing your own parallel nodes you should only overwrite the 
+When writing your own parallel node extension you should only overwrite the 
 ``_fork`` and ``_join`` methods, which are automatically called by ``fork`` and
 ``join``. The ``fork`` and ``join`` take care of the standard node
 attributes like the dimensions. You should also look at the source
 code of a parallel node like ``ParallelPCANode`` to get a better idea
-about how to write parallel nodes.
+of how to parallelize nodes.
 
 Currently we provide the following parallel nodes:
 ``ParallelPCANode``, ``ParallelWhiteningNode``, ``ParallelSFANode``,
