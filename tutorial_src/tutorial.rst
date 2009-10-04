@@ -1086,7 +1086,7 @@ collection (e.g. ``list`` and ``tuple`` are iterables).
 The iterator instance must have a ``next`` method that returns the next 
 element in the iteration. In Python an iterable also has to have an 
 ``__iter__`` method itself that returns ``self`` instead of a new iterator. 
-It important to understand that an iterator only manages a single iteration. 
+It is important to understand that an iterator only manages a single iteration. 
 After this iteration it is spend and cannot be used for a second iteration 
 (it cannot be restarted). An iterable on the other hand can create as many 
 iterators as needed and therefore supports multiple iterations. Even though 
@@ -1415,6 +1415,102 @@ Don't forget to clean the rubbish:
     >>> fl.close()
     >>> import os
     >>> os.remove('dummy.pic')
+
+
+Node Extensions
+---------------
+
+First note that dealing with the extension mechanism should be considered
+advanced usage, so for normal use of MDP you can skip this section.
+
+The extension mechanism makes it possible to dynamically add methods for
+specific features node classes (e.g. for parallelization nodes need a
+_fork and _join method). It is also possible for users to define new extensions
+and providing new functionality for MDP nodes without having to modify any
+MDP code.
+
+Without the extension mechanism extending nodes would be done by inheritance,
+which is fine unless one wants to use multiple inheritance at the same time
+(requiring multiple inheritance for every combination of extensions one wants
+to use). The extension mechanism does not depend on inheritance, instead it
+adds the methods to the node classes dynamically at runtime. This makes it
+possible to activate extensions just when they are needed, reducing the risk
+of interference between different extensions.  
+
+However, since the extension mechanism provides a special Metaclass it is still
+possible to define the extension nodes as classes derived from nodes.
+This keeps the code readable and is compatible with automatic code checkers
+(like the background pylint checks in the Eclipse IDE with PyDev).
+
+In MDP the extension mechanism is currently used by the ``parallel`` package
+and by the the HTML representation in the ``hinet`` package, so for some
+examples you can look there. We also use them here in the examples.
+
+Using Extensions
+~~~~~~~~~~~~~~~~
+First of all you can get all the available extensions by calling
+the ``get_extensions`` function, or to get just a list of the names use
+``get_extensions().keys() (and be careful not to modify the original dict).
+The currently activated extensions are returned
+by ``get_active_extensions``. To activate an extension use
+``activate_extension``, e.g. to activate the parallel extension
+use ``mdp.activate_extension("parallel")``. Alternatively you can
+use the function decorator ``with_extension``. Activating an extension
+adds the available extensions methods to the supported nodes. An extension
+can be deactivated with ``deactivate_extension`` (if you use the function
+decorator this is done automatically at the end).
+
+Writing Extension Nodes
+~~~~~~~~~~~~~~~~~~~~~~~
+Suppose you have written your own nodes and would like to make them compatible
+with a particular extension, i.e., add the required methods for this node.
+The first way to do this is by using multiple inheritance to derive from
+both the base node for this extension and your custom node class. For example
+the parallel extensions of the SFA node is created with
+``ParallelSFANode(ParallelExtensionNode, mdp.nodes.SFANode)``. Then you define
+the required methods just like in any other class. If you want you could even
+use the new class like any normal class, ignoring the extension mechanism.
+Note that your extension node is automatically registered with the
+extension mechanism (through a little metaclass magic).
+
+The second option is to use the ``extension method`` funciton decorator. You
+define the extension mehtods like normal functions, but add the function
+decorator on top, like 
+
+    @mdp.extension_method("html_representation",
+                          switchboard.Rectangular2dSwitchboard) 
+	def _html_representation(self):
+		....
+		
+The first argument is the name of the extension, the second is the class you
+want to extend. You can also specify the method name as a third argument,
+then the name of the function is ignored (you can use this to get rid of
+warnings about multiple functions with the same name in a module).
+
+Creating Extensions
+~~~~~~~~~~~~~~~~~~~
+To create a new extension you basically just have to create an extension
+base class. For example the HTML representation extension in ``mdp.hinet``
+is created with
+
+	class  HTMLExtensionNode(mdp.ExtensionNode, mdp.Node):
+		"""Extension node for HTML representations of individual nodes."""
+		
+		extension_name = "html_representation"
+		
+		def html_representation(self):
+			...
+		
+		def _html_representation(self):
+			...
+			
+You just have to derive from ``ExtensionNode``. If you also derive from
+``mdp.Node`` then the methods in this class will be trated as the default
+implementation and are used for nodes without a more specific implementation.
+The second important point is that you must define the ``extension_name``.
+After that you can define methods that make up this extension.
+Note that the new extension is automatically registered with the extension
+mechanism (again through some simple metaclass magic).
 
 
 Hierarchical Networks
@@ -2465,6 +2561,37 @@ for the full documentation and interface description.
 **symrand(dim_or_eigv, dtype)**
     Return a random symmetric (Hermitian) matrix with eigenvalues
     uniformly distributed on (0,1].
+
+HTML Slideshows
+~~~~~~~~~~~~~~~
+The ``mdp.utils`` module contains some classes and helper function to
+display animated results in a Webbrowser. This works by creating an
+HTML file with embedded JavaScript code, which dynamically loads
+image files (the images contain the content that you want to animate
+and can for example be created with matplotlib).
+MDP internally uses the open source Templete templating libray,
+written by David Bau.
+
+The easiest way to create a slideshow it to use one of these two helper
+function:
+	
+**show_image_slideshow(filenames, image_size, filename=None, title=None, **kwargs)**
+    Write the slideshow into a HTML file, open it in the browser and
+    return the file name. ``filenames`` is a list of the images files
+    that you want to display in the slideshow. ``image_size`` is a
+    2-tuple containing the width and height at which the images should
+    be displayed. There are also a couple of additional arguments,
+	which are documented in the docstring.
+	
+**image_slideshow(filenames, image_size, title=None, **kwargs)**
+    This function is similar to ``show_image_slideshow``, but it simply
+	returns the slideshow HTML code (including the JavaScript code)
+	which you can then embed into your own HTML file. Note that
+	the default slideshow CSS code is not included, but it can be
+	accessed in ``mdp.utils.SLIDESHOW_STYLE``.
+	
+Note that there are also two demos for slideshows in the ``mdp\demo``
+folder.
 
 Graph module
 ~~~~~~~~~~~~
