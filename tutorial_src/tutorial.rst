@@ -1421,44 +1421,56 @@ Node Extensions
 ---------------
 
 First note that dealing with the extension mechanism should be considered
-advanced usage, so for normal use of MDP you can skip this section.
+advanced usage, so for the normal standard use of MDP you can skip this section.
 
 The extension mechanism makes it possible to dynamically add methods for
-specific features node classes (e.g. for parallelization nodes need a
+specific features to node classes (e.g. for parallelization nodes need a
 _fork and _join method). It is also possible for users to define new extensions
-and providing new functionality for MDP nodes without having to modify any
-MDP code.
+to provide new functionality for MDP nodes without having to modify any
+MDP code. Therefore the extension mechanism can be considered enabling some
+form of Aspect-oriented programming (AOP) to deal with cross-cutting
+concerns (i.e., you want to add a new aspect to node classes which are
+spread over different parts of MDP and possibly your own code).
 
-Without the extension mechanism extending nodes would be done by inheritance,
-which is fine unless one wants to use multiple inheritance at the same time
-(requiring multiple inheritance for every combination of extensions one wants
-to use). The extension mechanism does not depend on inheritance, instead it
-adds the methods to the node classes dynamically at runtime. This makes it
-possible to activate extensions just when they are needed, reducing the risk
-of interference between different extensions.  
+Without the extension mechanism the adding of new features to nodes would
+have to be done by inheritance, deriving new node classes that implement
+the feature for the parent node class. This is fine unless one wants to use
+multiple extensions, requiring multiple inheritance for every combination of
+extensions one wants to use. Therefore this approach does not scale well with
+the number of extensions.
 
-However, since the extension mechanism provides a special Metaclass it is still
+The extension mechanism does not depend on inheritance, instead it
+adds the methods to the node classes dynamically at runtime (method injection).
+This makes it possible to activate extensions just when they are needed,
+reducing the risk of interference between different extensions. It is also no
+problem to use multiple extensions at the same time, as long as there is
+no interference (e.g., both extensions trying to add a method with the same
+same name).
+
+Since the extension mechanism provides a special Metaclass it is still
 possible to define the extension nodes as classes derived from nodes.
-This keeps the code readable and is compatible with automatic code checkers
+This keeps the code readable and is helpful when using automatic code checkers
 (like the background pylint checks in the Eclipse IDE with PyDev).
 
 In MDP the extension mechanism is currently used by the ``parallel`` package
-and by the the HTML representation in the ``hinet`` package, so for some
-examples you can look there. We also use them here in the examples.
+and for the the HTML representation in the ``hinet`` package, so for examples
+you can look there. We also use these packages in the following examples.
 
 Using Extensions
 ~~~~~~~~~~~~~~~~
 First of all you can get all the available extensions by calling
-the ``get_extensions`` function, or to get just a list of the names use
-``get_extensions().keys() (and be careful not to modify the original dict).
-The currently activated extensions are returned
+the ``get_extensions`` function, or to get just a list of their names use
+``get_extensions().keys(). Be careful not to modify the dict returned
+by ``get_extensions``, since this will actually modify the registered
+extensions. The currently activated extensions are returned
 by ``get_active_extensions``. To activate an extension use
 ``activate_extension``, e.g. to activate the parallel extension
 use ``mdp.activate_extension("parallel")``. Alternatively you can
-use the function decorator ``with_extension``. Activating an extension
-adds the available extensions methods to the supported nodes. An extension
-can be deactivated with ``deactivate_extension`` (if you use the function
-decorator this is done automatically at the end).
+use the function decorator ``@with_extension("parallel")``. In the future
+we will also support the new ``with`` statement in Python. Activating an
+extension adds the available extensions methods to the supported nodes.
+An extension can be deactivated with ``deactivate_extension`` (if you use the 
+function decorator this is done automatically at the end).
 
 Writing Extension Nodes
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -1466,16 +1478,16 @@ Suppose you have written your own nodes and would like to make them compatible
 with a particular extension, i.e., add the required methods for this node.
 The first way to do this is by using multiple inheritance to derive from
 both the base node for this extension and your custom node class. For example
-the parallel extensions of the SFA node is created with
+the parallel extensions of the SFA node is defined in a class
 ``ParallelSFANode(ParallelExtensionNode, mdp.nodes.SFANode)``. Then you define
 the required methods just like in any other class. If you want you could even
 use the new class like any normal class, ignoring the extension mechanism.
-Note that your extension node is automatically registered with the
+Note that your extension node is automatically registered in the
 extension mechanism (through a little metaclass magic).
 
-The second option is to use the ``extension method`` funciton decorator. You
-define the extension mehtods like normal functions, but add the function
-decorator on top, like 
+The second option is to use the ``extension method`` function decorator. You
+define the extension methods like normal functions, but add the function
+decorator on top, for example: 
 
     @mdp.extension_method("html_representation",
                           switchboard.Rectangular2dSwitchboard) 
@@ -1505,7 +1517,7 @@ is created with
 			...
 			
 You just have to derive from ``ExtensionNode``. If you also derive from
-``mdp.Node`` then the methods in this class will be trated as the default
+``mdp.Node`` then the methods in this class will be treated as the default
 implementation and are used for nodes without a more specific implementation.
 The second important point is that you must define the ``extension_name``.
 After that you can define methods that make up this extension.
