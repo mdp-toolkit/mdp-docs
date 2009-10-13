@@ -1485,7 +1485,7 @@ use the new class like any normal class, ignoring the extension mechanism.
 Note that your extension node is automatically registered in the
 extension mechanism (through a little metaclass magic).
 
-The second option is to use the ``extension method`` function decorator. You
+The second option is to use the ``extension_method`` function decorator. You
 define the extension methods like normal functions, but add the function
 decorator on top, for example: 
 
@@ -2587,7 +2587,7 @@ written by David Bau.
 The easiest way to create a slideshow it to use one of these two helper
 function:
 	
-**show_image_slideshow(filenames, image_size, filename=None, title=None, **kwargs)**
+**show_image_slideshow(filenames, image_size, filename=None, title=None, \*\*kwargs)**
     Write the slideshow into a HTML file, open it in the browser and
     return the file name. ``filenames`` is a list of the images files
     that you want to display in the slideshow. ``image_size`` is a
@@ -2595,7 +2595,7 @@ function:
     be displayed. There are also a couple of additional arguments,
 	which are documented in the docstring.
 	
-**image_slideshow(filenames, image_size, title=None, **kwargs)**
+**image_slideshow(filenames, image_size, title=None, \*\*kwargs)**
     This function is similar to ``show_image_slideshow``, but it simply
 	returns the slideshow HTML code (including the JavaScript code)
 	which you can then embed into your own HTML file. Note that
