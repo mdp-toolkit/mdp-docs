@@ -1,5 +1,6 @@
 body {
-	font-family:sans-serif;
+        font-family:verdana;
+	generic-family:sans-serif;
 	text-align:justify;
 	margin-bottom:50px;
 	}
@@ -37,7 +38,8 @@ OL LI {
 DT { font-weight:bold; }
 
 H1 {
-	font-family: serif;
+     font-family:times;
+     generic-family:serif;
 }
 
 
@@ -67,6 +69,8 @@ pycode {
 }
 
 pre.literal-block {
+  font-family:courier;
+  generic-family:monospace;
   overflow: auto;
   padding: .5em; 
   margin: 1em;
@@ -175,14 +179,16 @@ div.admonition p.admonition-title, div.hint p.admonition-title,
 div.important p.admonition-title, div.note p.admonition-title,
 div.tip p.admonition-title {
   font-weight: bold ;
-  font-family: sans-serif }
+  font-family:verdana;
+  generic-family:sans-serif; }
 
 div.attention p.admonition-title, div.caution p.admonition-title,
 div.danger p.admonition-title, div.error p.admonition-title,
 div.warning p.admonition-title {
   color: red ;
   font-weight: bold ;
-  font-family: sans-serif }
+  font-family:verdana;
+  generic-family: sans-serif; }
 
 /* Uncomment (and remove this text!) to get reduced vertical space in
    compound paragraphs.
@@ -286,23 +292,28 @@ p.topic-title {
 pre.address {
   margin-bottom: 0 ;
   margin-top: 0 ;
-  font-family: serif ;
+  font-family:times;
+  generic-family:serif;
   font-size: 100% }
 
 pre.line-block {
-  font-family: serif ;
+  font-family:times;
+  generic-family:serif;
   font-size: 100% }
 
 span.classifier {
-  font-family: sans-serif ;
+  font-family:verdana;
+  generic-family:sans-serif;
   font-style: oblique }
 
 span.classifier-delimiter {
-  font-family: sans-serif ;
+  font-family:verdana;
+  generic-family:sans-serif;
   font-weight: bold }
 
 span.interpreted {
-  font-family: sans-serif }
+  font-family:verdana;
+  generic-family:sans-serif; }
 
 span.option {
   white-space: nowrap }
