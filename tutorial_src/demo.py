@@ -317,7 +317,7 @@ class SimpleIterable(object):
     def __init__(self, blocks):
         self.blocks = blocks
     def __iter__(self):
-# ...	        # this is a generator
+        # this is a generator
         for i in range(self.blocks):
             yield generate_some_data()
 # >>>

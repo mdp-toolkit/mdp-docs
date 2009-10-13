@@ -16,7 +16,7 @@ more about MDP by using the standard Python tools.
 All MDP nodes have doc-strings, the public
 attributes and methods have telling names: All information about a 
 node can be obtained using  the ``help`` and ``dir`` functions within 
-the Python interpreter.	In addition to that, an automatically generated 
+the Python interpreter. In addition to that, an automatically generated 
 `API <http://mdp-toolkit.sourceforge.net/docs/api/index.html>`_ is 
 available.
 
@@ -1008,7 +1008,7 @@ You can get slices, ``pop``, ``insert``, and ``append`` nodes:
     HitParadeNode(input_dim=5, output_dim=5, dtype='float64')
     >>> len(flow)
     3
-	    
+        
 Finally, you can concatenate flows:
 ::
 
@@ -1247,7 +1247,7 @@ However, it is fairly easy to wrap a generator in a simple iterable if you need 
     ...     def __init__(self, blocks):
     ...         self.blocks = blocks
     ...     def __iter__(self):
-    ...	        # this is a generator
+    ...         # this is a generator
     ...         for i in range(self.blocks):
     ...             yield generate_some_data()
     >>>
@@ -1495,11 +1495,12 @@ decorator on top, for example:
 
 ::
 
-    >>> @mdp.extension_method("html_representation", switchboard.Rectangular2dSwitchboard) 
-    ...	def _html_representation(self):
-    ...	...
+    >>> @mdp.extension_method("html_representation", mdp.hinet.Rectangular2dSwitchboard) 
+    ... def _html_representation(self):
+    ...     pass
+    ...
     >>>
-		
+        
 The first argument is the name of the extension, the second is the class you
 want to extend. You can also specify the method name as a third argument,
 then the name of the function is ignored (you can use this to get rid of
@@ -1518,17 +1519,15 @@ is created with
 ::
 
     >>> class  HTMLExtensionNode(mdp.ExtensionNode, mdp.Node):
-    ...		"""Extension node for HTML representations of individual nodes."""
-    ...		
-    ...		extension_name = "html_representation"
-    ...		
-    ...		def html_representation(self):
-    ...		...
-    ...		
-    ...		def _html_representation(self):
-    ...		...
+    ...     """Extension node for HTML representations of individual nodes."""
+    ...     extension_name = "html_representation"
+    ...     def html_representation(self):
+    ...         pass
+    ...     def _html_representation(self):
+    ...         pass
+    ...
     >>>
-			
+            
 You just have to derive from ``ExtensionNode``. If you also derive from
 ``mdp.Node`` then the methods in this class will be treated as the default
 implementation and are used for nodes without a more specific implementation.
@@ -1578,7 +1577,7 @@ themselves) to construct hierarchical node networks: ``Layer``,
 
       >>> node1_1 = mdp.nodes.PCANode(input_dim=100, output_dim=50)
       >>> node1_2 = mdp.nodes.SFANode(input_dim=50, output_dim=10)
-      >>> node1_flow = mdp.Flow([node1_1, node1_2])	
+      >>> node1_flow = mdp.Flow([node1_1, node1_2]) 
       >>> node1 = mdp.hinet.FlowNode(node1_flow)
       >>> layer = mdp.hinet.Layer([node1, node2])
       >>> layer
@@ -1601,7 +1600,7 @@ themselves) to construct hierarchical node networks: ``Layer``,
       >>> switchboard = mdp.hinet.Switchboard(input_dim=6, connections=[0,1,2,3,4,3,4,5])
       >>> switchboard
       Switchboard(input_dim=3, output_dim=2, dtype=None)
-      >>> x = mdp.numx.array([[2,4,6,8,10,12]])	
+      >>> x = mdp.numx.array([[2,4,6,8,10,12]]) 
       >>> switchboard.execute(x)
       array([[ 2,  4,  6,  8, 10,  8, 10, 12]])
 
@@ -2539,11 +2538,11 @@ for the full documentation and interface description.
     
     ::
  
-	[===================================73%==============>...................]
+    [===================================73%==============>...................]
 
-	Progress:  67%[======================================>                   ]
+    Progress:  67%[======================================>                   ]
 
-	23% [02:01:28] - [00:12:37]
+    23% [02:01:28] - [00:12:37]
 
 **QuadraticForm**
     Define an inhomogeneous quadratic form as ``1/2 x'Hx + f'x + c``.
@@ -2599,7 +2598,7 @@ written by David Bau.
 
 The easiest way to create a slideshow it to use one of these two helper
 function:
-	
+    
 **show_image_slideshow(filenames, image_size, filename=None, title=None, \*\*kwargs)**
     Write the slideshow into a HTML file, open it in the browser and
     return the file name. ``filenames`` is a list of the images files
@@ -2607,14 +2606,14 @@ function:
     2-tuple containing the width and height at which the images should
     be displayed. There are also a couple of additional arguments,
     which are documented in the docstring.
-	
+    
 **image_slideshow(filenames, image_size, title=None, \*\*kwargs)**
     This function is similar to ``show_image_slideshow``, but it simply
     returns the slideshow HTML code (including the JavaScript code)
     which you can then embed into your own HTML file. Note that
     the default slideshow CSS code is not included, but it can be
     accessed in ``mdp.utils.SLIDESHOW_STYLE``.
-	
+    
 Note that there are also two demos for slideshows in the ``mdp\demo``
 folder.
 
@@ -2634,7 +2633,7 @@ MDP contains ``mdp.graph``, a lightweight package to handle directed graphs.
 
         Example:
 
-	.. raw:: html
+    .. raw:: html
 
             <!-- ignore -->
     
