@@ -22,6 +22,10 @@ python modify_header.py > $TEMP
 TUTHTML=tutorial.html
 RST="rst2html -g -t --stylesheet=styles.css" 
 $RST $TEMP $TEMPD
+if [ $? -ne 0 ];then
+    echo "Error compiling tutorial!"
+    exit -1
+fi
 # enclose body of $TEMP with our headers and footers
 # and copy it into the right place
 python remove_header.py $TEMPD $TUTHTML

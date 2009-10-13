@@ -1489,10 +1489,16 @@ The second option is to use the ``extension_method`` function decorator. You
 define the extension methods like normal functions, but add the function
 decorator on top, for example: 
 
-    @mdp.extension_method("html_representation",
-                          switchboard.Rectangular2dSwitchboard) 
-	def _html_representation(self):
-		....
+.. raw:: html
+
+   <!-- ignore -->
+
+::
+
+    >>> @mdp.extension_method("html_representation", switchboard.Rectangular2dSwitchboard) 
+    ...	def _html_representation(self):
+    ...	...
+    >>>
 		
 The first argument is the name of the extension, the second is the class you
 want to extend. You can also specify the method name as a third argument,
@@ -1505,16 +1511,23 @@ To create a new extension you basically just have to create an extension
 base class. For example the HTML representation extension in ``mdp.hinet``
 is created with
 
-	class  HTMLExtensionNode(mdp.ExtensionNode, mdp.Node):
-		"""Extension node for HTML representations of individual nodes."""
-		
-		extension_name = "html_representation"
-		
-		def html_representation(self):
-			...
-		
-		def _html_representation(self):
-			...
+.. raw:: html
+
+   <!-- ignore -->
+
+::
+
+    >>> class  HTMLExtensionNode(mdp.ExtensionNode, mdp.Node):
+    ...		"""Extension node for HTML representations of individual nodes."""
+    ...		
+    ...		extension_name = "html_representation"
+    ...		
+    ...		def html_representation(self):
+    ...		...
+    ...		
+    ...		def _html_representation(self):
+    ...		...
+    >>>
 			
 You just have to derive from ``ExtensionNode``. If you also derive from
 ``mdp.Node`` then the methods in this class will be treated as the default
@@ -2593,14 +2606,14 @@ function:
     that you want to display in the slideshow. ``image_size`` is a
     2-tuple containing the width and height at which the images should
     be displayed. There are also a couple of additional arguments,
-	which are documented in the docstring.
+    which are documented in the docstring.
 	
 **image_slideshow(filenames, image_size, title=None, \*\*kwargs)**
     This function is similar to ``show_image_slideshow``, but it simply
-	returns the slideshow HTML code (including the JavaScript code)
-	which you can then embed into your own HTML file. Note that
-	the default slideshow CSS code is not included, but it can be
-	accessed in ``mdp.utils.SLIDESHOW_STYLE``.
+    returns the slideshow HTML code (including the JavaScript code)
+    which you can then embed into your own HTML file. Note that
+    the default slideshow CSS code is not included, but it can be
+    accessed in ``mdp.utils.SLIDESHOW_STYLE``.
 	
 Note that there are also two demos for slideshows in the ``mdp\demo``
 folder.
