@@ -2612,7 +2612,7 @@ function:
     returns the slideshow HTML code (including the JavaScript code)
     which you can then embed into your own HTML file. Note that
     the default slideshow CSS code is not included, but it can be
-    accessed in ``mdp.utils.SLIDESHOW_STYLE``.
+    accessed in ``mdp.utils.IMAGE_SLIDESHOW_STYLE``.
     
 Note that there are also two demos for slideshows in the ``mdp\demo``
 folder.
