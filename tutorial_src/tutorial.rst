@@ -1553,7 +1553,7 @@ can activate or deactivate the extension by using this name.
 
 Note that extensions can override attributes and methods that are defined in
 a node class. The original attributes can still be accessed by prefixing the
-name with ``_non_extension_`` (the prefix is also available as
+name with ``_non_extension_`` (the prefix string is also available as
 ``mdp.ORIGINAL_ATTR_PREFIX``). On the other hand one extension is not allowed
 to override attributes that were defined by another currently active extension.
 
