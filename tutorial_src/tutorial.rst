@@ -1420,47 +1420,56 @@ Don't forget to clean the rubbish:
 Node Extensions
 ---------------
 
-First note that dealing with the extension mechanism should be considered
-advanced usage, so for the normal standard use of MDP you can skip this section.
+First note that dealing with the node extension mechanism should be considered
+advanced usage, so you can skip this section.
 
-The extension mechanism makes it possible to dynamically add methods for
-specific features to node classes (e.g. for parallelization nodes need a
-_fork and _join method). It is also possible for users to define new extensions
-to provide new functionality for MDP nodes without having to modify any
-MDP code. Therefore the extension mechanism can be considered enabling some
-form of Aspect-oriented programming (AOP) to deal with cross-cutting
-concerns (i.e., you want to add a new aspect to node classes which are
-spread over different parts of MDP and possibly your own code).
+The node extension mechanism makes it possible to dynamically add methods or
+class attributes for specific features to node classes (e.g. for
+parallelization the nodes need a ``_fork`` and ``_join`` method). Note that
+methods are just a special case of class attributes, the extension mechanism
+treats them like any other class attributes.
+It is also possible for users to define new extensions
+to introduce new functionality for MDP nodes without having to directly modify
+any MDP code. The node extension mechanism basically enables some
+form of *Aspect-oriented programming* (AOP) to deal with *cross-cutting
+concerns* (i.e., you want to add a new aspect to node classes which are
+spread all over MDP and possibly your own code). In the AOP terminology any
+new methods you introduce contain *advice* and the *pointcut* is effectively
+defined by the calling of these methods.
 
-Without the extension mechanism the adding of new features to nodes would
-have to be done by inheritance, deriving new node classes that implement
-the feature for the parent node class. This is fine unless one wants to use
-multiple extensions, requiring multiple inheritance for every combination of
-extensions one wants to use. Therefore this approach does not scale well with
-the number of extensions.
+Without the extension mechanism the adding of new aspects to nodes would
+be done through inheritance, deriving new node classes that implement
+the aspect for the parent node class. This is fine unless one wants to use
+multiple aspects, requiring multiple inheritance for every combination of
+aspects one wants to use. Therefore this approach does not scale well with
+the number of aspects.
 
-The extension mechanism does not depend on inheritance, instead it
-adds the methods to the node classes dynamically at runtime (method injection).
+The node extension mechanism does not depend on inheritance, instead it
+adds the methods or class attributes to the node classes dynamically at
+runtime (like *method injection*).
 This makes it possible to activate extensions just when they are needed,
-reducing the risk of interference between different extensions. It is also no
-problem to use multiple extensions at the same time, as long as there is
-no interference (e.g., both extensions trying to add a method with the same
-same name).
+reducing the risk of interference between different extensions. One can also
+use multiple extensions at the same time, as long as there is
+no interference, i,e., both extensions do not use any attributes with the
+same name.
 
-Since the extension mechanism provides a special Metaclass it is still
-possible to define the extension nodes as classes derived from nodes.
-This keeps the code readable and is helpful when using automatic code checkers
-(like the background pylint checks in the Eclipse IDE with PyDev).
+The node extension mechanism uses a special Metaclass, which allows it to  
+define the node extensions as classes derived from nodes (bascially just what
+one would do without the extension mechanism).
+This keeps the code readable and avoids some problems when using automatic
+code checkers (like the background pylint checks in the
+Eclipse IDE with PyDev).
 
-In MDP the extension mechanism is currently used by the ``parallel`` package
-and for the the HTML representation in the ``hinet`` package, so for examples
-you can look there. We also use these packages in the following examples.
+In MDP the node extension mechanism is currently used by the ``parallel``
+package and for the the HTML representation in the ``hinet`` package,
+so the best way to learn more is to look there.
+We also use these packages in the following examples.
 
 Using Extensions
 ~~~~~~~~~~~~~~~~
-First of all you can get all the available extensions by calling
+First of all you can get all the available node extensions by calling
 the ``get_extensions`` function, or to get just a list of their names use
-``get_extensions().keys(). Be careful not to modify the dict returned
+``get_extensions().keys()``. Be careful not to modify the dict returned
 by ``get_extensions``, since this will actually modify the registered
 extensions. The currently activated extensions are returned
 by ``get_active_extensions``. To activate an extension use
@@ -1468,26 +1477,28 @@ by ``get_active_extensions``. To activate an extension use
 use ``mdp.activate_extension("parallel")``. Alternatively you can
 use the function decorator ``@with_extension("parallel")``. In the future
 we will also support the new ``with`` statement in Python. Activating an
-extension adds the available extensions methods to the supported nodes.
+extension adds the available extensions attributes to the supported nodes.
 An extension can be deactivated with ``deactivate_extension`` (if you use the 
 function decorator this is done automatically at the end).
 
 Writing Extension Nodes
 ~~~~~~~~~~~~~~~~~~~~~~~
 Suppose you have written your own nodes and would like to make them compatible
-with a particular extension, i.e., add the required methods for this node.
+with a particular extension (e.g. add the required methods).
 The first way to do this is by using multiple inheritance to derive from
-both the base node for this extension and your custom node class. For example
-the parallel extensions of the SFA node is defined in a class
-``ParallelSFANode(ParallelExtensionNode, mdp.nodes.SFANode)``. Then you define
-the required methods just like in any other class. If you want you could even
-use the new class like any normal class, ignoring the extension mechanism.
+the base class of this extension and your custom node class. For example
+the parallel extension of the SFA node is defined in a class
+``ParallelSFANode(ParallelExtensionNode, mdp.nodes.SFANode)``. Here
+``ParallelExtensionNode`` is the base class of the extension. Then you define
+the required methods or attributes just like in a normal class.
+If you want you could even use the new ``ParallelSFANode`` class like a
+normal class, ignoring the extension mechanism.
 Note that your extension node is automatically registered in the
 extension mechanism (through a little metaclass magic).
 
-The second option is to use the ``extension_method`` function decorator. You
-define the extension methods like normal functions, but add the function
-decorator on top, for example: 
+For methods you can alternatively use the ``extension_method`` function
+decorator. You define the extension method like a normal function, but add
+the function decorator on top, for example: 
 
 .. raw:: html
 
@@ -1501,15 +1512,15 @@ decorator on top, for example:
     ...
     >>>
         
-The first argument is the name of the extension, the second is the class you
-want to extend. You can also specify the method name as a third argument,
-then the name of the function is ignored (you can use this to get rid of
-warnings about multiple functions with the same name in a module).
+The first decorator argument is the name of the extension, the second is the
+class you want to extend. You can also specify the method name as a third
+argument, then the name of the function is ignored (this allows you to get
+rid of warnings about multiple functions with the same name).
 
 Creating Extensions
 ~~~~~~~~~~~~~~~~~~~
-To create a new extension you basically just have to create an extension
-base class. For example the HTML representation extension in ``mdp.hinet``
+To create a new node extension you just have to create a new extension base
+class. For example the HTML representation extension in ``mdp.hinet``
 is created with
 
 .. raw:: html
@@ -1528,13 +1539,23 @@ is created with
     ...
     >>>
             
-You just have to derive from ``ExtensionNode``. If you also derive from
-``mdp.Node`` then the methods in this class will be treated as the default
-implementation and are used for nodes without a more specific implementation.
-The second important point is that you must define the ``extension_name``.
-After that you can define methods that make up this extension.
-Note that the new extension is automatically registered with the extension
-mechanism (again through some simple metaclass magic).
+Note that you must derive from ``ExtensionNode``. If you also derive from
+``mdp.Node`` then the methods (and attributes) in this class will be treated
+as the default implementation for the ``mdp.Node`` class. So they will be used
+by all nodes without a more specific implementation. If you do not derive from
+``mdp.Node`` then there is no such default implementation. You can also derive
+from a more specific node class if your extension only applies to these
+specific nodes.
+
+When you define a new extension then you must define the ``extension_name``
+attribute. This magic attribute is used to register the new extension and you
+can activate or deactivate the extension by using this name.
+
+Note that extensions can override attributes and methods that are defined in
+a node class. The original attributes can still be accessed by prefixing the
+name with ``_non_extension_`` (the prefix is also available as
+``mdp.ORIGINAL_ATTR_PREFIX``). On the other hand one extension is not allowed
+to override attributes that were defined by another currently active extension.
 
 
 Hierarchical Networks
