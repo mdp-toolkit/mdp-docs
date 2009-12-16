@@ -1506,7 +1506,7 @@ the function decorator on top, for example:
 
 ::
 
-    >>> @mdp.extension_method("html_representation", mdp.hinet.Rectangular2dSwitchboard) 
+    >>> @mdp.extension_method("html", mdp.hinet.Rectangular2dSwitchboard) 
     ... def _html_representation(self):
     ...     pass
     ...
@@ -1531,7 +1531,7 @@ is created with
 
     >>> class  HTMLExtensionNode(mdp.ExtensionNode, mdp.Node):
     ...     """Extension node for HTML representations of individual nodes."""
-    ...     extension_name = "html_representation"
+    ...     extension_name = "html"
     ...     def html_representation(self):
     ...         pass
     ...     def _html_representation(self):
