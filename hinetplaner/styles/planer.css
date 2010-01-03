@@ -1,0 +1,102 @@
+
+#hinet_controls {
+	padding-top: 10px;
+	padding-bottom: 5px;
+}
+
+div.hinet_controls_subdiv {
+    padding-bottom: 10px;
+}
+
+#hinet_layers {
+    border-top: 1px solid #003399;
+    border-bottom: 1px solid #003399;
+    padding-top: 10px;
+    padding-bottom: 5px;
+}
+
+div.single_layer_controls {
+    padding-bottom: 10px;
+}
+
+#hinet_view {
+	padding-top: 25px;
+}
+
+#hinet_coverage {
+    padding-top: 25px;
+    text-align: left;
+}
+
+div.float_container {
+    overflow: hidden; /* see http://stackoverflow.com/questions/490184 */
+   padding-bottom: 25px;
+}
+
+div.layer_coverage {
+    float: left;
+    margin: 0 0 10px 30px;
+    text-align: center;
+}
+
+#hinet_config {
+    padding-top: 20px;
+    text-align: left;
+}
+
+span.error {
+    color: #FF0000;
+}
+
+.number {
+    width: 4ex;
+}
+
+.name {
+    width: 18ex;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+span.note {
+    font-size: small;
+}
+
+span.timer {
+    font-size: small;
+    color: #CCCCCC;
+}
+
+table.flow {
+    margin-left:auto;
+    margin-right:auto;
+}
+
+/* Coverage SVG stuff */
+
+.cov_normal {
+    fill: #99BBFF;
+}
+
+.cov_active {
+    fill: #003399;
+}
+
+/* general basic stuff */
+
+html, body {
+    font-family: sans-serif;
+    text-align: center;
+}
+
+html {
+    overflow-y : scroll;
+}
+
+h1, h2, h3, h4 {
+    color: #003399;
+}
+
+
