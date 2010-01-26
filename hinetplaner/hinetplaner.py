@@ -76,7 +76,7 @@ flow = None
 ## JSON RPC functions
 
 def get_layer_params():
-    """Return the layer type information."""
+    """Return the layer type paramter information."""
     layer_names = []
     layer_params = {}
     for switchboard_name in SWITCHBOARD_NAMES:
@@ -91,8 +91,9 @@ def get_layer_params():
 def get_hinet(hinet_config):
     """Return all the network information for a given parameter set.
     
-    image_size -- Size of the quadratic input image.
-    layer_configs -- List of parameter dictionaries.
+    hinet_config -- Dict containing all the configuration info:
+        'image_size': Size of the input image.
+        'layer_configs': List of parameter dictionaries.
     """
     global flow
     layers = []
