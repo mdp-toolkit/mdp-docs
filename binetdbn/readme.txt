@@ -10,9 +10,9 @@ Run the demo_dbn.py file to view an HTML inspection of the DBN training.
 This should help with understanding how the implementation works.
 
 Other files:
-dbn_nodes.py -- This is the original non-binet DBN node from Pietro, which is
+dbn_nodes.py -- This is the original non-bimdp DBN node from Pietro, which is
     the basis for the binet DBN implementation.
-dbn_binodes.py -- The binet version of a DBN.
+dbn_binodes.py -- The bimdp version of a DBN.
 dbn_binodes_coroutine.py -- Almost the same as dbn_binodes.py, but using a
     coroutine for managing the different phases.
   

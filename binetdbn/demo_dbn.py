@@ -3,7 +3,7 @@ Simple demo of the binet DBN version, presenting a training inspection.
 """
 
 import mdp
-import binet
+import bimdp
 
 # import dbn_binodes
 import dbn_binodes_coroutine as dbn_binodes
@@ -33,5 +33,5 @@ msg_iterables = ([None] +
 
 ## perform the training
 #flow.train(data_iterables, msg_iterables)
-binet.show_training(flow, data_iterables, msg_iterables, debug=True)
+bimdp.show_training(flow, data_iterables, msg_iterables, debug=True)
 print "done."

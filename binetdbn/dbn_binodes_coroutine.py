@@ -6,11 +6,11 @@ based on Pietros non-binet DBN node implementation.
 import numpy as np
 
 import mdp
-import binet
+import bimdp
 from dbn_nodes import DBNLayerNode
 
 
-class DBNLayerBiNode(binet.BiNode, DBNLayerNode):
+class DBNLayerBiNode(bimdp.BiNode, DBNLayerNode):
     """Adapter to turn the DBNLayerNode into a BiNode."""
 
     def __init__(self, node_id, hidden_dim, visible_dim=None, dtype=None):
@@ -40,7 +40,7 @@ class DBNLayerBiNode(binet.BiNode, DBNLayerNode):
         return None, {"h": h}
         
 
-class DBNMasterBiNode(binet.BiNode):
+class DBNMasterBiNode(bimdp.BiNode):
     """Node sits atop the DBN and manages the updown training phase."""
     
     def __init__(self, dbn_ids, sender_id, node_id="dbn_master",
@@ -126,7 +126,7 @@ def master_html_representation(self):
 def get_DBN_flow(n_layers, hidden_dims):
     """Factory function for DBNs."""
     dbn_ids = []
-    nodes = [binet.SenderBiNode(node_id="sender")]
+    nodes = [bimdp.nodes.SenderBiNode(node_id="sender")]
     for i_layer in range(n_layers):
         dbn_ids.append("dbn_%d" % (i_layer+1))
         nodes.append(DBNLayerBiNode(node_id=dbn_ids[i_layer],
@@ -134,4 +134,4 @@ def get_DBN_flow(n_layers, hidden_dims):
     nodes.append(DBNMasterBiNode(dbn_ids=dbn_ids,
                                  sender_id="sender",
                                  node_id="dbn_master"))
-    return binet.BiFlow(nodes)   
+    return bimdp.BiFlow(nodes)   
