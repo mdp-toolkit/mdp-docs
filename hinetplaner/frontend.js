@@ -1,6 +1,10 @@
 
 /*
-on checkbox issue see, this is caused by XHTML attributes are not synched
+On Browser with no native JSON parsing the large hinet viualisation structure
+can cause problems (e.g. in Firefox 3.0 it will fail to load). You could work
+around this by using eval, accepting possible security problems.
+
+On the checkbox issue: this is caused by XHTML attributes are not synched
 to the actual properties, so you have to set those
 http://dev.jquery.com/ticket/4283
 http://elegantcode.com/2009/02/02/aspnet-checkbox-and-jquery/
@@ -141,11 +145,16 @@ function request_hinet() {
                        "params": [get_hinet_config()],
                        "id": "frontend"};
     var json_string = JSON.stringify(json_object);
-    $.post("frontend.xhtml", json_string, receive_hinet, "json");
+	// Request text and do the JSON parsing manually,
+	// the problem is that jQuery does some sanitizing first, which leads
+	// to problems with large structures in Firefox
+	// ('script stack space quota is exhausted', line 507).
+    $.post("frontend.xhtml", json_string, receive_hinet, "text");
 }
 
 // update the UI with the received network
-function receive_hinet(json_object) {
+function receive_hinet(json_text) {
+	json_object = JSON.parse(json_text);
     if (json_object.hasOwnProperty('error')) {
         $("#hinet_view").html('<span class="error">' +
                               json_object.error + '</span>');
