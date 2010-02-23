@@ -225,8 +225,8 @@ function receive_coverage(json_object){
         var time_diff = new Date;
         time_diff.setTime((new Date).getTime() - start_time);
         $("span.timer").html("render time: " +
-        time_diff.getMilliseconds().toString() +
-        " ms");
+             time_diff.getMilliseconds().toString() +
+    	     " ms");
     }
 }
 
