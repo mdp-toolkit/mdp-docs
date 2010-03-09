@@ -2693,6 +2693,63 @@ MDP contains ``mdp.graph``, a lightweight package to handle directed graphs.
 **recursive_reduce(func, seq, \*argv)**
     Apply ``reduce(func, seq)`` recursively to a sequence and all its
     subsequences.
+	
+
+BiMDP
+-----
+
+BiMDP defines a framework for more general flow sequences, involving 
+top-down processes (e.g. for error backpropagation) or even loops. So 
+the **bi** in BiMDP primarily stands for **bidirectional**. It also adds 
+a couple of other features, like a standartized way to transport 
+auxiliary data and a HTML bases flow inspection utility. Because BiMDP 
+is a rather large addition and changes a few things comprared to 
+standard MDP it is not included in ``mdp`` but must be imported 
+seperately as ``bimdp`` (this is included in the standard MDP 
+installation). 
+
+Warning: BiMDP is a still a very new addition to MDP, so it should be 
+considered as beta-stage software. Even though it already went through 
+long testing and several refactoring rounds it is still less mature and 
+polished than the rest of MDP. This also means that your bug findings or 
+improvement suggestions are very valuable. The API of BiMDP should be 
+pretty stable now, we currently don't expect any significant breakages. 
+
+Here is a brief summary of the most imortant features in BiMDP:
+
+- Nodes can specify other nodes as jump targets, where the execution or 
+  training will be continued (in contrast to the strictly linear execution 
+  of normal MDP flows). This is enabled by the new ``BiFlow`` class, which
+  makes it possible to use loops or back-propagation in your flows. 
+ 
+- In addition to the standard array data nodes can transport additional data
+  in a message dictionary. The new ``BiNode`` base class provides lots of
+  functionality to make this as convenient as possible.
+ 
+- An interactive HTML-based inspection for flow training and execution was
+  added. This allows you to step throup your flow for debugging or add
+  custom visualisations to analyse what is going on in the flow.
+  
+- BiMDP fully supports and extends the ``hinet`` and the ``parallel``
+  packages from MDP. BiMDP in general is compatible with MDP, so you can use
+  standard MDP nodes in a ``BiFlow``. You can also use ``BiNode`` instances
+  in a standard MDP flow, as long as you don't use certain BiMDP features.
+
+
+Jumps and Messages
+~~~~~~~~~~~~~~~~~~
+todo
+
+BiNode Message Magic
+~~~~~~~~~~~~~~~~~~~~
+todo
+
+
+Inspection
+~~~~~~~~~~
+todo
+	
+	
     
 Future Development
 ------------------
@@ -2706,11 +2763,6 @@ can be followed on the public subversion code
 Questions, bug reports, and feature requests are typically handled by
 the user `mailing list <http://sourceforge.net/mail/?group_id=116959>`_
 
-A new, large MDP package is currently under development that
-will extend MDP with more complex data flows, including
-back-propagation and loops. This framework will be integrated with
-both the ``parallel`` and the ``hinet`` packages to allow for large and
-complex data processing networks.
 
 Contributors
 ------------
