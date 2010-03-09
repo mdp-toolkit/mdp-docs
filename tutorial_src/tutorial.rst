@@ -2701,8 +2701,15 @@ MDP is currently maintained by a core team of 3 developers, but it is
 open to user contributions. Users have already contributed some of the
 nodes, and more contributions are currently being reviewed for
 inclusion in future releases of the package. The package development
-can be followed on the public subversion code
-`repository <http://mdp-toolkit.svn.sourceforge.net>`_. 
+can be followed online on the public git code
+`repositories <http://mdp-toolkit.git.sourceforge.net>`_ or cloned with:
+::
+
+    git clone git://mdp-toolkit.git.sourceforge.net/mdp-toolkit/mdp-toolkit
+    git clone git://mdp-toolkit.git.sourceforge.net/mdp-toolkit/docs
+    git clone git://mdp-toolkit.git.sourceforge.net/mdp-toolkit/examples
+    git clone git://mdp-toolkit.git.sourceforge.net/mdp-toolkit/contrib
+
 Questions, bug reports, and feature requests are typically handled by
 the user `mailing list <http://sourceforge.net/mail/?group_id=116959>`_
 
