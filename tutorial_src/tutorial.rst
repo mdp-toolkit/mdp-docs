@@ -2777,15 +2777,45 @@ a simple example:
 	>>> biflow["pca"]
     PCABiNode(input_dim=None, output_dim=None, dtype=None, node_id="pca")
 	
-The ``msg`` message value is simply a normal Python dictionary. You can use
-it to transport any data that does not fit into the ``x`` 2d data array.
-Nodes can take and add to the current message and it is propagated along with
-``x`` data.
+The ``msg`` message value is simply a normal Python dictionary. You can 
+use it to transport any data that does not fit into the ``x`` 2d data 
+array. Nodes can take from and add to the current message and it is 
+propagated along with ``x`` data. 
+
+TODO: give return type overview
 
 
 Inspection
 ~~~~~~~~~~
-todo
+Using jumps and messages can result in complex data flows. Therefore 
+BiMDP offers convenient inspeciton capabilites to help with debugging 
+and analyzing what is going on. This functionality is based on the 
+static HTML views from the ``mdp.hinet`` module. Instead of a static 
+view of the flow you get an animated slideshow of the flow training or 
+execution. An example is provided in 
+``bimdp/test/demo_hinet_inspection.py``. You can simply call 
+``bimdp.show_execution(flow, data)`` instead of the normal 
+``flow.execute(data)``. This will automatically perform the inspection 
+and open it in your webbrowser. Similar functionality is available for 
+training. Just call ``bimdp.show_execution(flow, data_iterables)``, 
+which will perform training as in ``flow.train(data_iterables)``. Have a 
+look at the docstrings to learn about additional options. 
+
+The BiMDP inspection is also usful to visualize the data processing that 
+is happening inside the flow. This is especially handy if you are trying 
+to build or understand new algorithms and want to know what is going on. 
+Therefore me made it very easy to customize the HTML views in the 
+inspection. One simple example is provided in 
+``bimdp/test/demo_custom_inspection.py``, where we use matplotlib to 
+plot the data and then present it inside the HTML view. Note that 
+``bimdp.show_training`` and ``bimdp.show_execution`` are just helper 
+functions. If you need more flexibility you can also directly access the 
+machinery below (but this is rather messy and is hardly ever needed). 
+
+
+
+TODO: add nice picture
+
 
 BiNode Message Magic
 ~~~~~~~~~~~~~~~~~~~~
