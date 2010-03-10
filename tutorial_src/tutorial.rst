@@ -2703,7 +2703,7 @@ top-down processes (e.g. for error backpropagation) or even loops. So
 the **bi** in BiMDP primarily stands for **bidirectional**. It also adds 
 a couple of other features, like a standartized way to transport 
 auxiliary data and a HTML bases flow inspection utility. Because BiMDP 
-is a rather large addition and changes a few things comprared to 
+is a rather large addition and changes a few things compared to 
 standard MDP it is not included in ``mdp`` but must be imported 
 seperately as ``bimdp`` (this is included in the standard MDP 
 installation). 
@@ -2720,7 +2720,14 @@ Here is a brief summary of the most imortant features in BiMDP:
 - Nodes can specify other nodes as jump targets, where the execution or 
   training will be continued (in contrast to the strictly linear execution 
   of normal MDP flows). This is enabled by the new ``BiFlow`` class, which
-  makes it possible to use loops or back-propagation in your flows. 
+  makes it possible to use loops or back-propagation in your flows. So the
+  complexities of arbitrary data flow are evenly split up between ``BiNode``
+  and ``BiFlow``: Nodes specify their data and target using a standartized
+  interface, which is then intrepretred by the flow (somewhat similar to a
+  primitive domain specific language). The alternative approach
+  would have been to use specialised flow classes for each use case, which
+  ultimately comes down to a design decission. But if you are not satisfied
+  with the options offered by BiMDP you can still define your own flows.
  
 - In addition to the standard array data nodes can transport additional data
   in a message dictionary. The new ``BiNode`` base class provides
@@ -2750,9 +2757,10 @@ optionally return a tuple containing an additional message dictionary
 and a target value. So in general the return value is a tupe ``(x, msg, 
 target)``, where ``x`` is a the usual 2d array. Alternatively a 
 ``BiNode`` is also alllowed to return only the array ``x`` or a 2-tuple 
-``(x, msg)`` (specifying no target value). The rule is that the last 
-value in the tuple should not be ``None`` (so if you specify a target 
-then ``msg`` can be ``None``, and even ``x`` can be ``None``). 
+``(x, msg)`` (specifying no target value). Unless stated otherwise the 
+last entry in the tuple should not be ``None``, but all the other values 
+are allowed to be ``None`` (so if you specify a target then ``msg`` can 
+be ``None``, and even ``x`` can be ``None``). 
 
 The target value is either a string or a number. The number is the 
 relative position of the target node in the flow, so a target value of 1 
@@ -2782,8 +2790,39 @@ use it to transport any data that does not fit into the ``x`` 2d data
 array. Nodes can take from and add to the current message and it is 
 propagated along with ``x`` data. 
 
-TODO: give return type overview
+We now want to give an overview of the allowed return types of a ``BiNode``
+and briefly explain their meaning:
 
+**execute**
+     ``x``, ``(x, msg)``, ``(x, msg, target)`` simply continues execution,
+	 directly jumping to the target if one is specified.
+     
+**train**
+    - ``None`` terminates training
+    - ``x``, ``(x, msg)``, ``(x, msg, target)`` mean that execution is
+	  continued and
+      this node will be reached at a later time to terminate training.
+      If the result has the form (msg, None) then the msg is dropped (so
+      it is not required to 'clear' the message manually).
+     
+**stop_training and stop_message**:
+    - ``None`` terminates the stop_message propagation
+    - ``(msg, target)``  no target is specified then the remaining msg is
+        dropped (terminates the propagation).
+		
+As you can see the training now does not stop automatically when the training
+node is reached. Instead it is possible to continue with the execution to come
+back later. There is also a new ``stop_message`` message. If ``stop_training``
+returns a result then the ``BiFlow`` enters a mode where it progagates the
+result based on the given target by calling ``stop_message``. This can be used
+to propagate results from the node training or to prepare nodes for their
+upcoming training.
+
+Some of all these new options might be confusing at first. However, you 
+can just ignore those that you don't need and concentrate on those features 
+that are useful for your current project. For example you can use 
+messages without ever worrying about targets. In the following two 
+section we will introduce some helpful tools and features. 
 
 Inspection
 ~~~~~~~~~~
@@ -2812,14 +2851,23 @@ plot the data and then present it inside the HTML view. Note that
 functions. If you need more flexibility you can also directly access the 
 machinery below (but this is rather messy and is hardly ever needed). 
 
-
-
 TODO: add nice picture
 
 
-BiNode Message Magic
-~~~~~~~~~~~~~~~~~~~~
-todo
+Extending BiNode
+~~~~~~~~~~~~~~~~
+As for the ``Node`` class any derived ``BiNode``s should not directly overwrite
+the public ``execute`` or ``train`` methods but instead the private versions
+with an underscore in front (for training you can of course also overwrite
+``_get_train_seq``). In addtion to the dimensionality checks performed on
+``x`` by the ``Node`` class this now gives you also some other features
+with respect to message handling.
+
+
+
+
+
+
 
 HiNet in BiMDP
 ~~~~~~~~~~~~~~
