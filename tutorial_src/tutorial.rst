@@ -2723,30 +2723,80 @@ Here is a brief summary of the most imortant features in BiMDP:
   makes it possible to use loops or back-propagation in your flows. 
  
 - In addition to the standard array data nodes can transport additional data
-  in a message dictionary. The new ``BiNode`` base class provides lots of
+  in a message dictionary. The new ``BiNode`` base class provides
   functionality to make this as convenient as possible.
  
-- An interactive HTML-based inspection for flow training and execution was
-  added. This allows you to step throup your flow for debugging or add
+- An interactive HTML-based inspection for flow training and execution is
+  available. This allows you to step throup your flow for debugging or add
   custom visualisations to analyse what is going on in the flow.
   
-- BiMDP fully supports and extends the ``hinet`` and the ``parallel``
+- BiMDP supports and extends the ``hinet`` and the ``parallel``
   packages from MDP. BiMDP in general is compatible with MDP, so you can use
   standard MDP nodes in a ``BiFlow``. You can also use ``BiNode`` instances
   in a standard MDP flow, as long as you don't use certain BiMDP features.
+  
+The structure of BiMDP closely follows that of MDP, so there are 
+submodules ``bimdp.nodes``, ``bimdp.parallel``, and ``bimdp.hinet``. The 
+``bimdp.nodes`` contains ``BiNode`` versions of nearly all MDP nodes. 
+For example ``bimdp.nodes.PCABiNode`` is derived from both ``BiNode`` 
+and ``mdp.nodes.PCANode``. We will show in the next section why this can 
+be useful. 
+
+Targets and Messages
+~~~~~~~~~~~~~~~~~~~~
+The return value of the ``execute`` method in a normal MDP node is 
+restricted to a single 2d array. A BiMDP ``BiNode`` on the other hand can 
+optionally return a tuple containing an additional message dictionary 
+and a target value. So in general the return value is a tupe ``(x, msg, 
+target)``, where ``x`` is a the usual 2d array. Alternatively a 
+``BiNode`` is also alllowed to return only the array ``x`` or a 2-tuple 
+``(x, msg)`` (specifying no target value). The rule is that the last 
+value in the tuple should not be ``None`` (so if you specify a target 
+then ``msg`` can be ``None``, and even ``x`` can be ``None``). 
+
+The target value is either a string or a number. The number is the 
+relative position of the target node in the flow, so a target value of 1 
+coressponds to the following node, while -1 is the previous node. The 
+``BiNode`` base class also allows the specification of a ``node_id`` 
+string in the ``__init__`` method. This string can then be used to 
+target that node by using it as the target value. If a target value is
+specified then this node
+
+The ``node_id`` string is also useful to access nodes in a ``BiFlow`` 
+instance. The standard MDP ``Flow`` class already implements the 
+standard Python container methods, so ``flow[3]`` will return the third 
+node in the flow. ``BiFlow`` in addition allows you to use the 
+``node_id`` to index nodes in the flow, just like for a dictionary. Here is
+a simple example:
+
+::
+
+    >>> import bimdp
+	>>> pca_node = bimdp.nodes.PCABiNode(node_id="pca")
+    >>> biflow = bimdp.BiFlow([pca_node])
+	>>> biflow["pca"]
+    PCABiNode(input_dim=None, output_dim=None, dtype=None, node_id="pca")
+	
+The ``msg`` message value is simply a normal Python dictionary. You can use
+it to transport any data that does not fit into the ``x`` 2d data array.
+Nodes can take and add to the current message and it is propagated along with
+``x`` data.
 
 
-Jumps and Messages
-~~~~~~~~~~~~~~~~~~
+Inspection
+~~~~~~~~~~
 todo
 
 BiNode Message Magic
 ~~~~~~~~~~~~~~~~~~~~
 todo
 
+HiNet in BiMDP
+~~~~~~~~~~~~~~
+todo
 
-Inspection
-~~~~~~~~~~
+Parallel in BiMDP
+~~~~~~~~~~~~~~~~~
 todo
 	
 	
