@@ -2754,7 +2754,7 @@ Targets and Messages
 The return value of the ``execute`` method in a normal MDP node is 
 restricted to a single 2d array. A BiMDP ``BiNode`` on the other hand can 
 optionally return a tuple containing an additional message dictionary 
-and a target value. So in general the return value is a tupe ``(x, msg, 
+and a target value. So in general the return value is a tuple ``(x, msg, 
 target)``, where ``x`` is a the usual 2d array. Alternatively a 
 ``BiNode`` is also allowed to return only the array ``x`` or a 2-tuple 
 ``(x, msg)`` (specifying no target value). Unless stated otherwise the 
