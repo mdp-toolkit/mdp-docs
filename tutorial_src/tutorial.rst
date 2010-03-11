@@ -2715,7 +2715,7 @@ polished than the rest of MDP. This also means that your bug findings or
 improvement suggestions are very valuable. The API of BiMDP should be 
 pretty stable now, we currently don't expect any significant breakages. 
 
-Here is a brief summary of the most imortant features in BiMDP:
+Here is a brief summary of the most important features in BiMDP:
 
 - Nodes can specify other nodes as jump targets, where the execution or 
   training will be continued (in contrast to the strictly linear execution 
@@ -2726,7 +2726,7 @@ Here is a brief summary of the most imortant features in BiMDP:
   interface, which is then intrepretred by the flow (somewhat similar to a
   primitive domain specific language). The alternative approach
   would have been to use specialised flow classes for each use case, which
-  ultimately comes down to a design decission. But if you are not satisfied
+  ultimately comes down to a design decision. But if you are not satisfied
   with the options offered by BiMDP you can still define your own flows.
  
 - In addition to the standard array data nodes can transport additional data
@@ -2756,7 +2756,7 @@ restricted to a single 2d array. A BiMDP ``BiNode`` on the other hand can
 optionally return a tuple containing an additional message dictionary 
 and a target value. So in general the return value is a tupe ``(x, msg, 
 target)``, where ``x`` is a the usual 2d array. Alternatively a 
-``BiNode`` is also alllowed to return only the array ``x`` or a 2-tuple 
+``BiNode`` is also allowed to return only the array ``x`` or a 2-tuple 
 ``(x, msg)`` (specifying no target value). Unless stated otherwise the 
 last entry in the tuple should not be ``None``, but all the other values 
 are allowed to be ``None`` (so if you specify a target then ``msg`` can 
@@ -2764,7 +2764,7 @@ be ``None``, and even ``x`` can be ``None``).
 
 The target value is either a string or a number. The number is the 
 relative position of the target node in the flow, so a target value of 1 
-coressponds to the following node, while -1 is the previous node. The 
+corresponds to the following node, while -1 is the previous node. The 
 ``BiNode`` base class also allows the specification of a ``node_id`` 
 string in the ``__init__`` method. This string can then be used to 
 target that node by using it as the target value. If a target value is
@@ -2780,9 +2780,9 @@ a simple example:
 ::
 
     >>> import bimdp
-	>>> pca_node = bimdp.nodes.PCABiNode(node_id="pca")
+    >>> pca_node = bimdp.nodes.PCABiNode(node_id="pca")
     >>> biflow = bimdp.BiFlow([pca_node])
-	>>> biflow["pca"]
+    >>> biflow["pca"]
     PCABiNode(input_dim=None, output_dim=None, dtype=None, node_id="pca")
 	
 The ``msg`` message value is simply a normal Python dictionary. You can 
@@ -2813,7 +2813,7 @@ and briefly explain their meaning:
 As you can see the training now does not stop automatically when the training
 node is reached. Instead it is possible to continue with the execution to come
 back later. There is also a new ``stop_message`` message. If ``stop_training``
-returns a result then the ``BiFlow`` enters a mode where it progagates the
+returns a result then the ``BiFlow`` enters a mode where it propagates the
 result based on the given target by calling ``stop_message``. This can be used
 to propagate results from the node training or to prepare nodes for their
 upcoming training.
@@ -2840,7 +2840,7 @@ training. Just call ``bimdp.show_execution(flow, data_iterables)``,
 which will perform training as in ``flow.train(data_iterables)``. Have a 
 look at the docstrings to learn about additional options. 
 
-The BiMDP inspection is also usful to visualize the data processing that 
+The BiMDP inspection is also useful to visualize the data processing that 
 is happening inside the flow. This is especially handy if you are trying 
 to build or understand new algorithms and want to know what is going on. 
 Therefore me made it very easy to customize the HTML views in the 
@@ -2882,7 +2882,7 @@ todo
 Future Development
 ------------------
 
-MDP is currently maintained by a core team of 3 developers, but it is
+MDP is currently maintained by a core team of 4 developers, but it is
 open to user contributions. Users have already contributed some of the
 nodes, and more contributions are currently being reviewed for
 inclusion in future releases of the package. The package development
