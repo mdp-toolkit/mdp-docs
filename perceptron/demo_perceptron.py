@@ -3,8 +3,6 @@ Simple demo of the binet DBN version, presenting a training inspection.
 """
 
 # TODO: implement a non-clone layer and uncomment the layers here
-# TODO: fix the missing node_id argument in BiFlowNode
-
 # TODO: find a better way to wrap the reference data,
 #    change switchboard to only divide if the dimensions exactly fit?
 #    or add ignore flag or list with keys to switchboard?
