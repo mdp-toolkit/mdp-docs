@@ -4,9 +4,8 @@ based on Pietros non-binet DBN node implementation.
 """
 
 import numpy as np
-
-import mdp
 import bimdp
+
 
 class PerceptronBiNode(bimdp.BiNode):
     """Adapter to turn the DBNLayerNode into a BiNode."""
@@ -31,7 +30,7 @@ class PerceptronBiNode(bimdp.BiNode):
 
     def _execute(self, x):
         # TODO: implement
-        return x
+        return x[:,:self.output_dim]
     
     # use inverse method for backprop so that switchboard can be used
     def _inverse(self, x):
@@ -40,10 +39,9 @@ class PerceptronBiNode(bimdp.BiNode):
         """
         if self._backprop_phase:
             # TODO: implement
-            return x
+            return np.random.random((len(x), self.input_dim))
         else:
-            # could implement some kind of bayesian mechanism
-            return x
+            raise Exception()
     
     def _stop_message(self, stop_backprop=False):
         if stop_backprop:
@@ -62,10 +60,10 @@ class BackpropBiNode(bimdp.BiNode):
         bottom_node -- Node id for for node at which the backpropagation
             terminates.
         """
-        super(PerceptronBiNode, self).__init__(input_dim=input_dim,
-                                               output_dim=input_dim,
-                                               dtype = dtype,
-                                               node_id=node_id)
+        super(BackpropBiNode, self).__init__(input_dim=input_dim,
+                                             output_dim=input_dim,
+                                             dtype = dtype,
+                                             node_id=node_id)
         self._bottom_node = bottom_node
         self._backprop_corout = None
         self._last_output = None
@@ -79,29 +77,32 @@ class BackpropBiNode(bimdp.BiNode):
     def bi_reset(self):
         self._last_output = None
         
-    # TODO: use gamma as flag instead of backprop_train?
-    def _execute(self, reference_output=None, gamma=1.0, backprop_train=False):
+    def _execute(self, x, reference_output=None, gamma=None):
         """Start the backpropagation.
         
-        gamma -- Learning rate.
+        gamma -- Learning rate, also serves as flag for backpropagation.
         """
-        if reference_output:
+        if reference_output is not None:
+            # unwrap the reference data
+            reference_output = reference_output[0]
+            self._last_output = x
             # TODO: implement
-            error = 1.0
+            error = x - reference_output
         else:
             error = None
-        if backprop_train:
+        if gamma is not None:
             if error is None:
                 raise Exception()
             msg = {"method": "inverse",
                    "%s=>target" % self._bottom_node: self._node_id,
                    "%s=>method" % self._node_id: "terminate_backprop",
-                   "final_error": error}
+                   # TODO: avoid having to wrap the error
+                   "final_error": (error,)}
             return error, msg, -1
         else:
             return 
             
-    def _terminate_backprop(self, msg):
+    def _terminate_backprop(self, x, msg):
         del msg["method"]
         return self._last_output, msg
         

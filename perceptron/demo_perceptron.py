@@ -2,36 +2,45 @@
 Simple demo of the binet DBN version, presenting a training inspection.
 """
 
-import mdp
+# TODO: implement a non-clone layer and uncomment the layers here
+# TODO: fix the missing node_id argument in BiFlowNode
+
+# TODO: find a better way to wrap the reference data,
+#    change switchboard to only divide if the dimensions exactly fit?
+#    or add ignore flag or list with keys to switchboard?
+
+import numpy as np
 import bimdp
+from perceptron import PerceptronBiNode, BackpropBiNode 
 
-# import dbn_binodes
-import dbn_binodes_coroutine as dbn_binodes
 
-## create DBN
-n_layers = 2
-flow = dbn_binodes.get_DBN_flow(2, hidden_dims=[2,2])
+## create simple perceptron
+switchboard = bimdp.hinet.BiSwitchboard(input_dim=15, connections=range(15),
+                                        node_id="switchboard_1")
+#layer = bimdp.hinet.BiLayer([PerceptronBiNode(input_dim=5, output_dim=3)
+#                             for _ in range(3)],
+#                             node_id="layer_1")
+layer = PerceptronBiNode(input_dim=15, output_dim=9, node_id="layer_1")
+layer_flownode1 = bimdp.hinet.BiFlowNode(switchboard + layer)
+switchboard = bimdp.hinet.BiSwitchboard(input_dim=9, connections=range(9),
+                                        node_id="switchboard_2")
+#layer = bimdp.hinet.BiLayer([PerceptronBiNode(input_dim=9, output_dim=3)],
+#                            node_id="layer_2")
+layer = PerceptronBiNode(input_dim=9, output_dim=3, node_id="layer_2")
+layer_flownode2 = bimdp.hinet.BiFlowNode(switchboard + layer)
+backprop_node = BackpropBiNode(bottom_node="layer_1", node_id="backprop_node")
+perceptron = layer_flownode1 + layer_flownode2 + backprop_node
 
-## create data
-n_samples = 10000  # number of data points
-n_greedy_reps = 100  # repetitions in greedy phase
-x = mdp.numx.zeros((n_samples, 4))
-for i in range(n_samples):
-    r = mdp.numx.rand()
-    if r>0.666:
-        x[i,:] = [0.,1.,0.,1.]
-    elif r>0.333:
-        x[i,:] = [1.,0.,1.,0.]
-## n_layers iterables plus one iterable for the DBNMasterBiNode
-data_iterables = [None] + [[x] * n_greedy_reps] * n_layers + [[x]]
-msg_iterables = ([None] +
-                 [[{"epsilon": 0.1, "decay": 0.0,
-                    "momentum": 0.0}] * n_greedy_reps] * n_layers +
-                 [[{"top_updates": 3, "epsilon": 0.1, "decay": 0.0,
-                    "momentum": 0.0,
-                    "max_iter": 2, "min_error": -1.0}]])
+## train
+data = np.random.random((100, 15))
+# encapsulate reference in dict to not confuse the switchboard
+reference = (np.random.random((100, 3)),)
+msg = {"reference_output": reference, "gamma": 0.2}
+bimdp.show_execution(perceptron, data, msg, debug=True)
 
-## perform the training
-#flow.train(data_iterables, msg_iterables)
-bimdp.show_training(flow, data_iterables, msg_iterables, debug=True)
+# test
+data = np.random.random((50, 15))
+# encapsulate reference in dict to not confuse the switchboard
+bimdp.show_execution(perceptron, data, debug=True)
+
 print "done."
