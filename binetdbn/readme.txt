@@ -1,4 +1,4 @@
-Deep Belief Network (DBN) based on binet
+Deep Belief Network (DBN) based on BiMDP
 ========================================
 
 written by Pietro Berkes and Niko Wilbert
