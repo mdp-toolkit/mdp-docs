@@ -30,9 +30,9 @@ backprop_node = BackpropBiNode(bottom_node="switchboard_1",
 perceptron = layer_flownode1 + layer_flownode2 + backprop_node
 
 ## train
-data = np.random.random((100, 18))
+data = np.random.random((5, 18))
 # encapsulate reference data in dict to not confuse the switchboard
-reference = (np.random.random((100, 2)),)
+reference = (np.random.random((5, 2)),)
 msg = {"reference_output": reference, "gamma": 0.2}
 bimdp.show_execution(perceptron, data, msg, debug=True)
 

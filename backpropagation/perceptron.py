@@ -13,7 +13,7 @@ class MPerceptronBiNode(bimdp.BiNode):
     It is used to built up an artificial neural network.
     """
     
-    # TODO: optionally add activation function argument?
+    # TODO: optionally add activation function argument and bias?
     def __init__(self, input_dim=None, output_dim=1, dtype=None,
                  node_id=None):
         """Initialize the node.
@@ -26,6 +26,7 @@ class MPerceptronBiNode(bimdp.BiNode):
                                                 node_id=node_id)
         self._backprop_phase = True
         self._last_output = None
+        self.weights = None
         
     def is_trainable(self):
         return False
@@ -37,19 +38,28 @@ class MPerceptronBiNode(bimdp.BiNode):
         return self._backprop_phase
 
     def _execute(self, x):
-        # TODO: implement
-        return x[:,:self.output_dim]
+        if self.weights is None:
+            self.weights = np.random.random((self.output_dim, self.input_dim))
+        o = 1.0 / (1 + np.exp(np.dot(x, self.weights.T)))
+        self._last_output = o
+        return o
     
     # use inverse method for backprop so that switchboard can be used
-    def _inverse(self, x):
+    def _inverse(self, delta, gamma=0.1):
         """
-        x -- error during backrpop phase
+        delta -- backprop error from above layer
+        gamma -- 
         """
-        if self._backprop_phase:
-            # TODO: implement
-            return np.random.random((len(x), self.input_dim))
+        if self._backprop_phase and gamma:
+            # batch backprop learning
+            o = self._last_output
+            new_delta = o * (1 - o) * np.dot(delta, self.weights)
+            self.weights -= gamma * np.sum(o[:,:,np.newaxis] *
+                                           delta[:,np.newaxis,:],
+                                           axis=0)
+            return new_delta
         else:
-            raise Exception()
+            raise bimdp.BiNodeException("Node not in backprop phase.")
     
     def _stop_message(self, stop_backprop=False):
         if stop_backprop:
@@ -58,9 +68,9 @@ class MPerceptronBiNode(bimdp.BiNode):
     def bi_reset(self):
         self._last_output = None
         
-        
+
 class BackpropBiNode(bimdp.BiNode):
-    """Node to control the backpropagation learning in a multilayer perceptron.
+    """Node for batch backpropagation learning in a multilayer perceptron.
     
     This node can be used on top of a network of MPerceptronBiNode nodes.
     """
@@ -89,30 +99,24 @@ class BackpropBiNode(bimdp.BiNode):
     def bi_reset(self):
         self._last_output = None
         
-    def _execute(self, x, reference_output=None, gamma=None):
+    def _execute(self, o, reference_output=None, gamma=0.1):
         """Start the backpropagation.
         
-        gamma -- Learning rate, also serves as flag for backpropagation.
+        gamma -- learning rate
         """
         if reference_output is not None:
             # unwrap the reference data
-            reference_output = reference_output[0]
-            self._last_output = x
-            # TODO: implement
-            error = x - reference_output
-        else:
-            error = None
-        if gamma is not None:
-            if error is None:
-                raise Exception()
+            t = reference_output[0]
+            self._last_output = o
+            # compute backprop error
+            delta = o * (1 - o) * (o - t)
             msg = {"method": "inverse",
                    "%s=>target" % self._bottom_node: self._node_id,
                    "%s=>method" % self._node_id: "terminate_backprop",
-                   # TODO: avoid having to wrap the error
-                   "final_error": (error,)}
-            return error, msg, -1
+                   "gamma": gamma}
+            return delta, msg, -1
         else:
-            return 
+            return o
             
     def _terminate_backprop(self, x, msg):
         del msg["method"]
