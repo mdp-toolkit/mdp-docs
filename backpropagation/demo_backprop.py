@@ -1,18 +1,12 @@
 """
-Simple demo of the binet DBN version, presenting a training inspection.
+Simple of a multilayer perceptron implemented with BiMDP.
 """
-
-# TODO: implement a non-clone layer and uncomment the layers here
-# TODO: find a better way to wrap the reference data,
-#    change switchboard to only divide if the dimensions exactly fit?
-#    or add ignore flag or list with keys to switchboard?
 
 import numpy as np
 import bimdp
 from perceptron import MPerceptronBiNode, BackpropBiNode 
 
-
-## create simple perceptron
+## create simple multilayer perceptron
 switchboard = bimdp.hinet.BiSwitchboard(input_dim=18, connections=range(18),
                                         node_id="switchboard_1")
 layer = bimdp.hinet.CloneBiLayer(MPerceptronBiNode(input_dim=3),
@@ -30,14 +24,20 @@ backprop_node = BackpropBiNode(bottom_node="switchboard_1",
 perceptron = layer_flownode1 + layer_flownode2 + backprop_node
 
 ## train
-data = np.random.random((5, 18))
+n_patterns = 20
+n_training_iterations = 5
+data = np.random.random((n_patterns, 18))
 # encapsulate reference data in dict to not confuse the switchboard
-reference = (np.random.random((5, 2)),)
+reference = (np.random.random((n_patterns, 2)),)
 msg = {"reference_output": reference, "gamma": 0.2}
+# show only the first training iteration
 bimdp.show_execution(perceptron, data, msg, debug=True)
+# remaining training iterations
+perceptron.execute([data for _ in range(n_training_iterations-1)],
+                   [msg for _ in range(n_training_iterations-1)])
 
 # test
-data = np.random.random((50, 18))
-_, result = bimdp.show_execution(perceptron, data, debug=True)
+#_, result = bimdp.show_execution(perceptron, data, debug=True)
+result = perceptron.execute(data)
 
 print "done."
