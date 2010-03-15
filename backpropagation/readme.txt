@@ -1,5 +1,5 @@
-Multi-Layer Perceptron based on BiMDP
-=====================================
+Backpropagation in a multilayer perceptron based on BiMDP
+=========================================================
 
 written by Niko Wilbert
 

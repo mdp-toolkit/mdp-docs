@@ -7,15 +7,23 @@ import numpy as np
 import bimdp
 
 
-class PerceptronBiNode(bimdp.BiNode):
-    """Adapter to turn the DBNLayerNode into a BiNode."""
-
-    def __init__(self, input_dim=None, output_dim=None, dtype=None,
+class MPerceptronBiNode(bimdp.BiNode):
+    """Node for a multilayer perceptron to be trained with backpropagation.
+    
+    It is used to built up an artificial neural network.
+    """
+    
+    # TODO: optionally add activation function argument?
+    def __init__(self, input_dim=None, output_dim=1, dtype=None,
                  node_id=None):
-        super(PerceptronBiNode, self).__init__(input_dim=input_dim,
-                                               output_dim=output_dim,
-                                               dtype = dtype,
-                                               node_id=node_id)
+        """Initialize the node.
+        
+        output_dim -- Can be > 1 to learn multiple outputs in a single node.
+        """
+        super(MPerceptronBiNode, self).__init__(input_dim=input_dim,
+                                                output_dim=output_dim,
+                                                dtype = dtype,
+                                                node_id=node_id)
         self._backprop_phase = True
         self._last_output = None
         
@@ -52,6 +60,10 @@ class PerceptronBiNode(bimdp.BiNode):
         
         
 class BackpropBiNode(bimdp.BiNode):
+    """Node to control the backpropagation learning in a multilayer perceptron.
+    
+    This node can be used on top of a network of MPerceptronBiNode nodes.
+    """
     
     # TODO: add _execute flag to shutdown _backprop_phase for all nodes?
     
