@@ -1,5 +1,4 @@
 #!/bin/bash
-#rm -rf API
 rm -rf API
 mkdir API
 mkdir API/docs
