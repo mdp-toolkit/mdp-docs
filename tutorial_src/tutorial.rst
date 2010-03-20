@@ -2758,6 +2758,10 @@ which demonstrate how BiMDP can be used. The first example
 backpropagation for learning. The second example ``binetdbn`` is a
 proof-of-concept implementation of a deep belief network.
 
+Finally note that this tutorial is intended to serve as an introduction, 
+covering all the main points of BiMDP. For more accurate specifications 
+have a look at the docstrings. 
+
 
 Targets and Messages
 ~~~~~~~~~~~~~~~~~~~~
@@ -2806,6 +2810,7 @@ a simple example:
 
 BiFlow
 ~~~~~~
+
 The ``BiFlow`` class basically works in exactly the same way as the 
 normal ``Flow`` class. We already mentioned several of the new features, 
 like support for targets, messages and retrieving nodes based on their 
@@ -2846,7 +2851,9 @@ messages can be also returned by ``BiFlow.execute``, so the return value
 has the form ``y, msg``. If iterables were used then the ``BiFlow`` not 
 only concatenates the ``y`` arrays, but also tries to join the ``msg`` 
 dictionaries into a single one. Arrays in the ``msg`` will be 
-concatenated, for all other values the plus operator is used. 
+concatenated, for all other values the plus operator is used.
+
+The ``train`` method of ``BiFlow`` also has an additional argument called ``stop_messages``, which can be used to provide message iterables for ``stop_trianing``. The ``execute`` mehtod on the other hand has an argument ``target_iterable``, which can be used to specify the initial target in the flow execution.
 
 
 BiNode
@@ -2871,14 +2878,17 @@ values of a ``BiNode`` and briefly explain their meaning:
     - ``None`` terminates the stop_message propagation
     - ``(msg, target)``  no target is specified then the remaining msg is
         dropped (terminates the propagation).
-		
-As you can see the training now does not stop automatically when the training
-node is reached. Instead it is possible to continue with the execution to come
-back later. There is also a new ``stop_message`` message. If ``stop_training``
-returns a result then the ``BiFlow`` enters a mode where it propagates the
-result based on the given target by calling ``stop_message``. This can be used
-to propagate results from the node training or to prepare nodes for their
-upcoming training.
+        
+Of course all these methods also accept messages. Compared to ``Node`` methods they have a new ``msg`` argument. The ``target`` part on the other hand is only used by the ``BiFlow``.
+        
+As you can see from ``train`` the training now does not stop 
+automatically when the training node is reached. Instead it is possible 
+to continue with the execution to come back later. There is also a new 
+``stop_message`` message. If ``stop_training`` returns a result then the 
+``BiFlow`` enters a mode where it propagates the result based on the 
+given target by calling ``stop_message``. This can be used to propagate 
+results from the node training or to prepare nodes for their upcoming 
+training. 
 
 Some of all these new options might be confusing at first. However, you 
 can simply ignore those that you don't need and just concentrate on the 
@@ -2936,25 +2946,82 @@ machinery below (but this is rather messy and hardly ever needed).
 TODO: add nice picture
 
 
+Extending BiNode and Message Handling
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+As in the ``Node`` class any derived ``BiNode`` classes should not 
+directly overwrite the public ``execute`` or ``train`` methods but 
+instead the private versions with an underscore in front (for training 
+you can of course also overwrite ``_get_train_seq``). In addtion to the 
+dimensionality checks performed on ``x`` by the ``Node`` class this now 
+gives you also some other features with respect to message handling (see 
+next section). This also applies to the new ``_stop_message`` method. On 
+the other hand **bi_reset** and **is_bi_training** can be directly 
+overwritten (like ``is_training`` in ``Node``), there are no private 
+methods for these. 
 
+The automatic message handling is a major feature in ``BiNode`` and 
+relies on some of the dynamic features of Python. Therefore we also call 
+it "message magic". In the ``FDABiNode`` for ``BiFlow`` we have alrady 
+seen how a value from the message is automatically passed to the 
+``_train`` method, because the key of this value is a keyword argument. 
 
+The public methods like ``train`` and ``execute`` in ``BiNode`` accept 
+not only a data array ``x``, but also a message dictionary ``msg``. When 
+they are given a message they perform some introspection to determine 
+the arguments for the private methods like ``_train``. If there is a 
+matching key for an argument in the message then the value is provided 
+as a keyword argument. It remains in the dictionary and can therefore be 
+used by other nodes in the flow as well. 
 
-Extending BiNode
-~~~~~~~~~~~~~~~~
-As in the ``Node`` class any derived ``BiNode`` classes should not directly overwrite
-the public ``execute`` or ``train`` methods but instead the private versions
-with an underscore in front (for training you can of course also overwrite
-``_get_train_seq``). In addtion to the dimensionality checks performed on
-``x`` by the ``Node`` class this now gives you also some other features
-with respect to message handling.
+A private method like ``_train`` has the same return options as the 
+public ``train`` method, so you can for example return a tupple ``(x, 
+msg)``. The ``msg`` in the return value from ``_train`` is then used by 
+``train`` to update the original ``msg``. Thereby ``_train`` can 
+overwrite or add new values to the message. There are also some special 
+features ("magic") to make handling messages more convenient: 
 
+- You can use message keys of the form ``node_id->argument_key`` to address
+  parts of the message to a specific node. When the node with the corresponding
+  id is reached then the value is not only provided as an argument, but the
+  key is also deleted from the message.
 
+- If a private method like ``_train`` has a keyword argument called 
+  ``msg`` then the complete message is provided. The message from the 
+  return value then replaces the original message. For example this makes 
+  it possible to delete parts of the message (instead of just updating 
+  them with new values).
+  
+- The key "method" is treated in a special way. Instead of calling the 
+  normal private method like ``_train`` (or ``_execute``, depending on the 
+  called public method) the "method" value will be used as the method 
+  name, with an underscore in front. For example the message ``{"method": 
+  "classify"}`` has the effect that a method ``_classify`` will be called.
+  Note that this feature can be also combined with the extension mechanism,
+  when new methods are added at runtime.
+  
+- The key "target" is treated in a special way. If the called private 
+  method does not return a target value (e.g., if it just returned ``x``) 
+  then the "target" value is used as target return value (e.g, instead of 
+  ``x`` the return value of ``execute`` would now be of the form ``x, 
+  None, target``).
 
+- If the key "method" has the value ``inverse`` then, as expected, the 
+  ``_inverse`` method is called. However, in addition the checks from 
+  ``inverse`` are run on the data array. If ``_inverse`` does not return a 
+  target value then the target -1 is returned. So with the message 
+  ``{"method": "inverse"}`` you can execute a ``BiFlow`` in inverse node 
+  (note that you also have to provide the last node in the flow as the 
+  initial target to the flow).
+  
+- 'method' in stop_message
 
+- This more of a ``BiFlow`` feature, but the target value specified in
+  ``bimdp.EXIT_TARGET`` (currently set to "exit") causes ``BiFlow`` to
+  terminate the execution and to return the last return value.
 
-
-
+Of course all these features can be combined. 
+  
 HiNet in BiMDP
 ~~~~~~~~~~~~~~
 todo
