@@ -2876,7 +2876,7 @@ values of a ``BiNode`` and briefly explain their meaning:
      
 **stop_training and stop_message**:
     - ``None`` terminates the stop_message propagation
-    - ``(msg, target)``  no target is specified then the remaining msg is
+    - ``(msg, target)`` if no target is specified then the remaining msg is
         dropped (terminates the propagation).
         
 Of course all these methods also accept messages. Compared to ``Node`` methods they have a new ``msg`` argument. The ``target`` part on the other hand is only used by the ``BiFlow``.
@@ -2993,7 +2993,7 @@ features ("magic") to make handling messages more convenient:
   them with new values).
   
 - The key "method" is treated in a special way. Instead of calling the 
-  normal private method like ``_train`` (or ``_execute``, depending on the 
+  standard private method like ``_train`` (or ``_execute``, depending on the 
   called public method) the "method" value will be used as the method 
   name, with an underscore in front. For example the message ``{"method": 
   "classify"}`` has the effect that a method ``_classify`` will be called.
@@ -3014,24 +3014,73 @@ features ("magic") to make handling messages more convenient:
   (note that you also have to provide the last node in the flow as the 
   initial target to the flow).
   
-- 'method' in stop_message
-
 - This more of a ``BiFlow`` feature, but the target value specified in
   ``bimdp.EXIT_TARGET`` (currently set to "exit") causes ``BiFlow`` to
   terminate the execution and to return the last return value.
-
-Of course all these features can be combined. 
   
+- To make it possible to call 'execute' and
+  'inverse' via 'stop_message' there is some magic going on if these are
+  specified via the "method" key: In addition to the normal automatic
+  extraction of an `x` key from the message the array output of the node
+  is also stored back as `x` in the message (overwriting the previous
+  value). Additionally the target is given a default value of 1 or -1
+  (so setting the 'method' value is sufficient for normal execution
+  or inverse during the `stop_message` phase).
+
+Of course all these features can be combined, or can be ignored if they 
+aren't needed. 
+  
+
 HiNet in BiMDP
 ~~~~~~~~~~~~~~
-todo
+BiMDP is mostly compatibel with the hierarchical networks introduced in 
+``mdp.hinet``. For the full BiMDP functionality it is of of course 
+required to use the BiMDP versions of the the building blocks. 
+
+The ``bimdp.hinet`` module provides a ``BiFlowNode`` class, which is 
+offers the same functionality as a ``FlowNode`` but with the added 
+capability of handling messages, targets, and all the other new BiMDP 
+concepts. 
+
+There is also a new ``BiSwitchboard`` base class, which is able to deal 
+with messages. Arrays present in the message are mapped with the 
+switchboard routing if the second axis matches the switchboard dimension 
+(this works for both execute and inverse). 
+
+Finally there is a ``CloneBiLayer`` class, which is the BiMDP version of 
+the ``CloneLayer`` class in ``mdp.hinet``. To support all the features 
+of BiMDP some significant functionality has been added to this class. 
+The most important new aspect is the ``use_copies`` property. If it is 
+set to ``True`` then multiple deep copies are used instead of just a 
+reference to the same node. This makes it possible to use internal 
+variables in a node that persist while the node is left and later 
+reentered. You can set this property as often as you like (note that 
+there is of course some overhead for the deep copying). You can also set 
+the ``use_copies`` property via the message mechanism by simply adding a 
+``"use_copies"`` with the required boolean value. The ``CloneBiLayer`` 
+class also looks for this key in outgoing messages (so it can be send 
+from nodes inside the layer). 
+
 
 Parallel in BiMDP
 ~~~~~~~~~~~~~~~~~
-todo
-	
-	
-    
+The parallelisation capabilites introduced in ``mdp.parallel`` can be 
+also used for BiMDP. The ``bimdp.parallel`` module provides a 
+``ParallelBiFlow`` class which can be used like the normal 
+``ParallelFlow``. No changes to schedulers are required. 
+
+The most important difference between the parallelization in standard 
+MDP and BiMDP is that BiNodes can signal via the ``is_bi_training`` 
+method wether they should be forked instead of the usual deep copy. 
+Unlike the ``is_training`` method there can be multiple nodes for which 
+``is_bi_training`` returns ``True``. All these forked nodes are of 
+course also correctly joined. 
+
+Note that a ``ParallelBiFlow`` uses a special callable class. So if you 
+want to use a custom callable you will have to make a few modifications 
+(compared to the standard callable class used by ``ParallFlow``). 
+
+
 Future Development
 ------------------
 
