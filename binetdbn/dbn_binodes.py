@@ -72,16 +72,16 @@ class DBNMasterBiNode(bimdp.BiNode):
             # start the up phase
             self._status = "up"
             for dbn_id in self.dbn_ids:
-                msg[dbn_id + "=>method"] = "up_pass"
+                msg[dbn_id + "->method"] = "up_pass"
             return self._orig_x, msg, self.sender_id
         elif self._status == "up":
             # start down phase
             self._status = "down"
             for dbn_id in self.dbn_ids:
-                msg[dbn_id + "=>target"] = -1
-                msg[dbn_id + "=>method"] = "down_pass"
-            msg[self.sender_id + "=>target"] = self.node_id
-            msg[self.sender_id + "=>no_x"] = True  # avoid x dimension error
+                msg[dbn_id + "->target"] = -1
+                msg[dbn_id + "->method"] = "down_pass"
+            msg[self.sender_id + "->target"] = self.node_id
+            msg[self.sender_id + "->no_x"] = True  # avoid x dimension error
             msg["h"] = x
             return None, msg, -1
         elif self._status == "down":
@@ -93,9 +93,9 @@ class DBNMasterBiNode(bimdp.BiNode):
             # get inverse for the error calculation
             self._status = "inverse"
             for dbn_id in self.dbn_ids:
-                msg[dbn_id + "=>method"] = "inverse"
-            msg[self.sender_id + "=>target"] = self.node_id
-            msg[self.sender_id + "=>no_x"] = True
+                msg[dbn_id + "->method"] = "inverse"
+            msg[self.sender_id + "->target"] = self.node_id
+            msg[self.sender_id + "->no_x"] = True
             return x, msg, -1
         elif self._status == "inverse":
             # update error
@@ -110,7 +110,7 @@ class DBNMasterBiNode(bimdp.BiNode):
                 # start next iteration with new up phase
                 self._status = "up"
                 for dbn_id in self.dbn_ids:
-                    msg[dbn_id + "=>method"] = "up_pass"
+                    msg[dbn_id + "->method"] = "up_pass"
                 return self._orig_x, msg, self.sender_id
 
             

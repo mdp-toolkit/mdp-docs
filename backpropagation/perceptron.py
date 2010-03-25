@@ -129,8 +129,8 @@ class BackpropBiNode(bimdp.BiNode):
             self._last_x = x
             error = (x - t)
             msg = {"method": "inverse",
-                   "%s=>target" % self._bottom_node: self._node_id,
-                   "%s=>method" % self._node_id: "terminate_backprop",
+                   "%s->target" % self._bottom_node: self._node_id,
+                   "%s->method" % self._node_id: "terminate_backprop",
                    "gamma": gamma}
             return error, msg, -1
         else:

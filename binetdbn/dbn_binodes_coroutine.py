@@ -76,15 +76,15 @@ class DBNMasterBiNode(bimdp.BiNode):
             self._status = "up"
             orig_x = msg_x
             for dbn_id in self.dbn_ids:
-                msg[dbn_id + "=>method"] = "up_pass"
+                msg[dbn_id + "->method"] = "up_pass"
             x, msg, msg_x = yield orig_x, msg, self.sender_id
             ## down execution phase
             self._status = "down"
             for dbn_id in self.dbn_ids:
-                msg[dbn_id + "=>target"] = -1
-                msg[dbn_id + "=>method"] = "down_pass"
-            msg[self.sender_id + "=>target"] = self.node_id
-            msg[self.sender_id + "=>no_x"] = True  # avoid x dimension error
+                msg[dbn_id + "->target"] = -1
+                msg[dbn_id + "->method"] = "down_pass"
+            msg[self.sender_id + "->target"] = self.node_id
+            msg[self.sender_id + "->no_x"] = True  # avoid x dimension error
             msg["h"] = x
             x, msg, msg_x = yield None, msg, -1
             ## execution phase
@@ -95,9 +95,9 @@ class DBNMasterBiNode(bimdp.BiNode):
             ## inverse phase
             self._status = "inverse"
             for dbn_id in self.dbn_ids:
-                msg[dbn_id + "=>method"] = "inverse"
-            msg[self.sender_id + "=>target"] = self.node_id
-            msg[self.sender_id + "=>no_x"] = True
+                msg[dbn_id + "->method"] = "inverse"
+            msg[self.sender_id + "->target"] = self.node_id
+            msg[self.sender_id + "->no_x"] = True
             x, msg, msg_x = yield x, msg, -1
             ## calculate new error and restart up phase
             self._iter_counter += 1
