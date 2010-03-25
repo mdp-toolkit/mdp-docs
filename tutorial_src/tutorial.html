@@ -509,8 +509,18 @@ in the MDP installation path.</p>
 <li><a class="reference internal" href="#graph-module" id="id39">Graph module</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#future-development" id="id40">Future Development</a></li>
-<li><a class="reference internal" href="#contributors" id="id41">Contributors</a></li>
+<li><a class="reference internal" href="#bimdp" id="id40">BiMDP</a><ul>
+<li><a class="reference internal" href="#targets-id-s-and-messages" id="id41">Targets, id's and Messages</a></li>
+<li><a class="reference internal" href="#biflow" id="id42">BiFlow</a></li>
+<li><a class="reference internal" href="#binode" id="id43">BiNode</a></li>
+<li><a class="reference internal" href="#inspection" id="id44">Inspection</a></li>
+<li><a class="reference internal" href="#extending-binode-and-message-handling" id="id45">Extending BiNode and Message Handling</a></li>
+<li><a class="reference internal" href="#hinet-in-bimdp" id="id46">HiNet in BiMDP</a></li>
+<li><a class="reference internal" href="#parallel-in-bimdp" id="id47">Parallel in BiMDP</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#future-development" id="id48">Future Development</a></li>
+<li><a class="reference internal" href="#contributors" id="id49">Contributors</a></li>
 </ul>
 </div>
 <!-- This data file has been placed in the public domain. -->
@@ -1751,88 +1761,99 @@ SFANode(input_dim=35, output_dim=35, dtype='d')
 </div>
 <div class="section" id="node-extensions">
 <h1><a class="toc-backref" href="#id19">Node Extensions</a></h1>
-<p>First note that dealing with the extension mechanism should be considered
-advanced usage, so for the normal standard use of MDP you can skip this section.</p>
-<p>The extension mechanism makes it possible to dynamically add methods for
-specific features to node classes (e.g. for parallelization nodes need a
-_fork and _join method). It is also possible for users to define new extensions
-to provide new functionality for MDP nodes without having to modify any
-MDP code. Therefore the extension mechanism can be considered enabling some
-form of Aspect-oriented programming (AOP) to deal with cross-cutting
-concerns (i.e., you want to add a new aspect to node classes which are
-spread over different parts of MDP and possibly your own code).</p>
-<p>Without the extension mechanism the adding of new features to nodes would
-have to be done by inheritance, deriving new node classes that implement
-the feature for the parent node class. This is fine unless one wants to use
-multiple extensions, requiring multiple inheritance for every combination of
-extensions one wants to use. Therefore this approach does not scale well with
-the number of extensions.</p>
-<p>The extension mechanism does not depend on inheritance, instead it
-adds the methods to the node classes dynamically at runtime (method injection).
+<p>First note that dealing with the node extension mechanism should be considered
+advanced usage, so you can skip this section.</p>
+<p>The node extension mechanism makes it possible to dynamically add methods or
+class attributes for specific features to node classes (e.g. for
+parallelization the nodes need a <tt class="docutils literal"><span class="pre">_fork</span></tt> and <tt class="docutils literal"><span class="pre">_join</span></tt> method). Note that
+methods are just a special case of class attributes, the extension mechanism
+treats them like any other class attributes.
+It is also possible for users to define new extensions
+to introduce new functionality for MDP nodes without having to directly modify
+any MDP code. The node extension mechanism basically enables some
+form of <em>Aspect-oriented programming</em> (AOP) to deal with <em>cross-cutting
+concerns</em> (i.e., you want to add a new aspect to node classes which are
+spread all over MDP and possibly your own code). In the AOP terminology any
+new methods you introduce contain <em>advice</em> and the <em>pointcut</em> is effectively
+defined by the calling of these methods.</p>
+<p>Without the extension mechanism the adding of new aspects to nodes would
+be done through inheritance, deriving new node classes that implement
+the aspect for the parent node class. This is fine unless one wants to use
+multiple aspects, requiring multiple inheritance for every combination of
+aspects one wants to use. Therefore this approach does not scale well with
+the number of aspects.</p>
+<p>The node extension mechanism does not depend on inheritance, instead it
+adds the methods or class attributes to the node classes dynamically at
+runtime (like <em>method injection</em>).
 This makes it possible to activate extensions just when they are needed,
-reducing the risk of interference between different extensions. It is also no
-problem to use multiple extensions at the same time, as long as there is
-no interference (e.g., both extensions trying to add a method with the same
-same name).</p>
-<p>Since the extension mechanism provides a special Metaclass it is still
-possible to define the extension nodes as classes derived from nodes.
-This keeps the code readable and is helpful when using automatic code checkers
-(like the background pylint checks in the Eclipse IDE with PyDev).</p>
-<p>In MDP the extension mechanism is currently used by the <tt class="docutils literal"><span class="pre">parallel</span></tt> package
-and for the the HTML representation in the <tt class="docutils literal"><span class="pre">hinet</span></tt> package, so for examples
-you can look there. We also use these packages in the following examples.</p>
+reducing the risk of interference between different extensions. One can also
+use multiple extensions at the same time, as long as there is
+no interference, i.e., both extensions do not use any attributes with the
+same name.</p>
+<p>The node extension mechanism uses a special Metaclass, which allows it to
+define the node extensions as classes derived from nodes (bascially just what
+one would do without the extension mechanism).
+This keeps the code readable and avoids some problems when using automatic
+code checkers (like the background pylint checks in the
+Eclipse IDE with PyDev).</p>
+<p>In MDP the node extension mechanism is currently used by the <tt class="docutils literal"><span class="pre">parallel</span></tt>
+package and for the the HTML representation in the <tt class="docutils literal"><span class="pre">hinet</span></tt> package,
+so the best way to learn more is to look there.
+We also use these packages in the following examples.</p>
 <div class="section" id="using-extensions">
 <h2><a class="toc-backref" href="#id20">Using Extensions</a></h2>
-<p>First of all you can get all the available extensions by calling
+<p>First of all you can get all the available node extensions by calling
 the <tt class="docutils literal"><span class="pre">get_extensions</span></tt> function, or to get just a list of their names use
-<tt class="docutils literal"><span class="pre">get_extensions().keys().</span> <span class="pre">Be</span> <span class="pre">careful</span> <span class="pre">not</span> <span class="pre">to</span> <span class="pre">modify</span> <span class="pre">the</span> <span class="pre">dict</span> <span class="pre">returned</span>
-<span class="pre">by</span> <span class="pre">``get_extensions</span></tt>, since this will actually modify the registered
+<tt class="docutils literal"><span class="pre">get_extensions().keys()</span></tt>. Be careful not to modify the dict returned
+by <tt class="docutils literal"><span class="pre">get_extensions</span></tt>, since this will actually modify the registered
 extensions. The currently activated extensions are returned
 by <tt class="docutils literal"><span class="pre">get_active_extensions</span></tt>. To activate an extension use
 <tt class="docutils literal"><span class="pre">activate_extension</span></tt>, e.g. to activate the parallel extension
 use <tt class="docutils literal"><span class="pre">mdp.activate_extension(&quot;parallel&quot;)</span></tt>. Alternatively you can
 use the function decorator <tt class="docutils literal"><span class="pre">&#64;with_extension(&quot;parallel&quot;)</span></tt>. In the future
 we will also support the new <tt class="docutils literal"><span class="pre">with</span></tt> statement in Python. Activating an
-extension adds the available extensions methods to the supported nodes.
+extension adds the available extensions attributes to the supported nodes.
 An extension can be deactivated with <tt class="docutils literal"><span class="pre">deactivate_extension</span></tt> (if you use the
 function decorator this is done automatically at the end).</p>
 </div>
 <div class="section" id="writing-extension-nodes">
 <h2><a class="toc-backref" href="#id21">Writing Extension Nodes</a></h2>
 <p>Suppose you have written your own nodes and would like to make them compatible
-with a particular extension, i.e., add the required methods for this node.
+with a particular extension (e.g. add the required methods).
 The first way to do this is by using multiple inheritance to derive from
-both the base node for this extension and your custom node class. For example
-the parallel extensions of the SFA node is defined in a class
-<tt class="docutils literal"><span class="pre">ParallelSFANode(ParallelExtensionNode,</span> <span class="pre">mdp.nodes.SFANode)</span></tt>. Then you define
-the required methods just like in any other class. If you want you could even
-use the new class like any normal class, ignoring the extension mechanism.
+the base class of this extension and your custom node class. For example
+the parallel extension of the SFA node is defined in a class
+<tt class="docutils literal"><span class="pre">ParallelSFANode(ParallelExtensionNode,</span> <span class="pre">mdp.nodes.SFANode)</span></tt>. Here
+<tt class="docutils literal"><span class="pre">ParallelExtensionNode</span></tt> is the base class of the extension. Then you define
+the required methods or attributes just like in a normal class.
+If you want you could even use the new <tt class="docutils literal"><span class="pre">ParallelSFANode</span></tt> class like a
+normal class, ignoring the extension mechanism.
 Note that your extension node is automatically registered in the
 extension mechanism (through a little metaclass magic).</p>
-<p>The second option is to use the <tt class="docutils literal"><span class="pre">extension_method</span></tt> function decorator. You
-define the extension methods like normal functions, but add the function
-decorator on top, for example:</p>
+<p>For methods you can alternatively use the <tt class="docutils literal"><span class="pre">extension_method</span></tt> function
+decorator. You define the extension method like a normal function, but add
+the function decorator on top, for example:</p>
 <!-- ignore --><pre class="literal-block">
-&gt;&gt;&gt; &#64;mdp.extension_method(&quot;html_representation&quot;, mdp.hinet.Rectangular2dSwitchboard)
+&gt;&gt;&gt; &#64;mdp.extension_method(&quot;html&quot;, mdp.hinet.Rectangular2dSwitchboard)
 ... def _html_representation(self):
 ...     pass
 ...
 &gt;&gt;&gt;
 </pre>
-<p>The first argument is the name of the extension, the second is the class you
-want to extend. You can also specify the method name as a third argument,
-then the name of the function is ignored (you can use this to get rid of
-warnings about multiple functions with the same name in a module).</p>
+<p>The first decorator argument is the name of the extension, the second is the
+class you want to extend. You can also specify the method name as a third
+argument, then the name of the function is ignored (this allows you to get
+rid of warnings about multiple functions with the same name).</p>
 </div>
 <div class="section" id="creating-extensions">
 <h2><a class="toc-backref" href="#id22">Creating Extensions</a></h2>
-<p>To create a new extension you basically just have to create an extension
-base class. For example the HTML representation extension in <tt class="docutils literal"><span class="pre">mdp.hinet</span></tt>
+<p>To create a new node extension you just have to create a new extension base
+class. For example the HTML representation extension in <tt class="docutils literal"><span class="pre">mdp.hinet</span></tt>
 is created with</p>
 <!-- ignore --><pre class="literal-block">
 &gt;&gt;&gt; class  HTMLExtensionNode(mdp.ExtensionNode, mdp.Node):
 ...     &quot;&quot;&quot;Extension node for HTML representations of individual nodes.&quot;&quot;&quot;
-...     extension_name = &quot;html_representation&quot;
+...     extension_name = &quot;html&quot;
 ...     def html_representation(self):
 ...         pass
 ...     def _html_representation(self):
@@ -1840,13 +1861,21 @@ is created with</p>
 ...
 &gt;&gt;&gt;
 </pre>
-<p>You just have to derive from <tt class="docutils literal"><span class="pre">ExtensionNode</span></tt>. If you also derive from
-<tt class="docutils literal"><span class="pre">mdp.Node</span></tt> then the methods in this class will be treated as the default
-implementation and are used for nodes without a more specific implementation.
-The second important point is that you must define the <tt class="docutils literal"><span class="pre">extension_name</span></tt>.
-After that you can define methods that make up this extension.
-Note that the new extension is automatically registered with the extension
-mechanism (again through some simple metaclass magic).</p>
+<p>Note that you must derive from <tt class="docutils literal"><span class="pre">ExtensionNode</span></tt>. If you also derive from
+<tt class="docutils literal"><span class="pre">mdp.Node</span></tt> then the methods (and attributes) in this class will be treated
+as the default implementation for the <tt class="docutils literal"><span class="pre">mdp.Node</span></tt> class. So they will be used
+by all nodes without a more specific implementation. If you do not derive from
+<tt class="docutils literal"><span class="pre">mdp.Node</span></tt> then there is no such default implementation. You can also derive
+from a more specific node class if your extension only applies to these
+specific nodes.</p>
+<p>When you define a new extension then you must define the <tt class="docutils literal"><span class="pre">extension_name</span></tt>
+attribute. This magic attribute is used to register the new extension and you
+can activate or deactivate the extension by using this name.</p>
+<p>Note that extensions can override attributes and methods that are defined in
+a node class. The original attributes can still be accessed by prefixing the
+name with <tt class="docutils literal"><span class="pre">_non_extension_</span></tt> (the prefix string is also available as
+<tt class="docutils literal"><span class="pre">mdp.ORIGINAL_ATTR_PREFIX</span></tt>). On the other hand one extension is not allowed
+to override attributes that were defined by another currently active extension.</p>
 </div>
 </div>
 <div class="section" id="hierarchical-networks">
@@ -2837,7 +2866,7 @@ which are documented in the docstring.</dd>
 returns the slideshow HTML code (including the JavaScript code)
 which you can then embed into your own HTML file. Note that
 the default slideshow CSS code is not included, but it can be
-accessed in <tt class="docutils literal"><span class="pre">mdp.utils.SLIDESHOW_STYLE</span></tt>.</dd>
+accessed in <tt class="docutils literal"><span class="pre">mdp.utils.IMAGE_SLIDESHOW_STYLE</span></tt>.</dd>
 </dl>
 <p>Note that there are also two demos for slideshows in the <tt class="docutils literal"><span class="pre">mdp\demo</span></tt>
 folder.</p>
@@ -2902,24 +2931,384 @@ subsequences.</dd>
 </dl>
 </div>
 </div>
+<div class="section" id="bimdp">
+<h1><a class="toc-backref" href="#id40">BiMDP</a></h1>
+<p>BiMDP defines a framework for more general flow sequences, involving
+top-down processes (e.g. for error backpropagation) and loops. So
+the <em>bi</em> in BiMDP primarily stands for <em>bidirectional</em>. It also adds
+a couple of other features, like a standartized way to transport
+additional data, and a HTML based flow inspection utility. Because BiMDP
+is a rather large addition and changes a few things compared to
+standard MDP it is not included in <tt class="docutils literal"><span class="pre">mdp</span></tt> but must be imported
+seperately as <tt class="docutils literal"><span class="pre">bimdp</span></tt> (BiMDP is included in the standard MDP
+installation).</p>
+<p><strong>Warning:</strong> BiMDP is a new addition to MDP, so currently it should be
+considered as beta-stage software. Even though it already went through
+long testing and several refactoring rounds it is still not as mature and
+polished as the rest of MDP. This also means that your bug findings or
+suggestions for improvement will be very valuable. The API of BiMDP should be
+pretty stable now, we don't expect any fundamental breakages in
+the future.</p>
+<p>Here is a brief summary of the most important new features in BiMDP:</p>
+<ul>
+<li><p class="first">Nodes can specify other nodes as jump targets, where the execution or
+training will be continued. It is now possible to use loops or
+backpropagation, in contrast to the strictly linear execution of a
+normal MDP flow. This is enabled by the new <tt class="docutils literal"><span class="pre">BiFlow</span></tt> class. The new
+<tt class="docutils literal"><span class="pre">BiNode</span></tt> base class adds a <tt class="docutils literal"><span class="pre">node_id</span></tt> string attribute, which can be
+used to target a node.</p>
+<p>The complexities of arbitrary data flows are evenly split up
+between <tt class="docutils literal"><span class="pre">BiNode</span></tt> and <tt class="docutils literal"><span class="pre">BiFlow</span></tt>: Nodes specify their data and target
+using a standartized interface, which is then interpreted by the flow
+(somewhat like a very primitive domain specific language). The
+alternative approach would have been to use specialised flow classes or
+container nodes for each use case, which ultimately comes down to a
+design decision. Of course you can (and should) still take that route if
+for some reson BiMDP is not an adequate solution for your problem.</p>
+</li>
+<li><p class="first">In addition to the standard array data, nodes can transport more data
+in a message dictionary (these are really just standard Python dictionaries,
+so they are <tt class="docutils literal"><span class="pre">dict</span></tt> instances). The new <tt class="docutils literal"><span class="pre">BiNode</span></tt> base class provides
+functionality to make this as convenient as possible.</p>
+</li>
+<li><p class="first">An interactive HTML-based inspection for flow training and execution is
+available. This allows you to step through your flow for debugging or add
+custom visualizations to analyse what is going on.</p>
+</li>
+<li><p class="first">BiMDP supports and extends the <tt class="docutils literal"><span class="pre">hinet</span></tt> and the <tt class="docutils literal"><span class="pre">parallel</span></tt>
+packages from MDP. BiMDP in general is compatible with MDP, so you can use
+standard MDP nodes in a <tt class="docutils literal"><span class="pre">BiFlow</span></tt>. You can also use <tt class="docutils literal"><span class="pre">BiNode</span></tt> instances
+in a standard MDP flow, as long as you don't use certain BiMDP features.</p>
+</li>
+</ul>
+<p>The structure of BiMDP closely follows that of MDP, so there are
+submodules <tt class="docutils literal"><span class="pre">bimdp.nodes</span></tt>, <tt class="docutils literal"><span class="pre">bimdp.parallel</span></tt>, and <tt class="docutils literal"><span class="pre">bimdp.hinet</span></tt>. The
+module <tt class="docutils literal"><span class="pre">bimdp.nodes</span></tt> contains <tt class="docutils literal"><span class="pre">BiNode</span></tt> versions of nearly all MDP nodes.
+For example <tt class="docutils literal"><span class="pre">bimdp.nodes.PCABiNode</span></tt> is derived from both <tt class="docutils literal"><span class="pre">BiNode</span></tt>
+and <tt class="docutils literal"><span class="pre">mdp.nodes.PCANode</span></tt>.</p>
+<p>There are currently two examples available in the <tt class="docutils literal"><span class="pre">mdp-examples</span></tt> repository,
+which demonstrate how BiMDP can be used. The first example
+<tt class="docutils literal"><span class="pre">backpropagation</span></tt> is a simple multilayer perceptron, using
+backpropagation for learning. The second example <tt class="docutils literal"><span class="pre">binetdbn</span></tt> is a
+proof-of-concept implementation of a deep belief network.</p>
+<p>Finally note that this tutorial is intended to serve as an introduction,
+covering all the basic aspects of BiMDP. For more detailed specifications
+have a look at the docstrings.</p>
+<div class="section" id="targets-id-s-and-messages">
+<h2><a class="toc-backref" href="#id41">Targets, id's and Messages</a></h2>
+<p>The return value of the <tt class="docutils literal"><span class="pre">execute</span></tt> method in a normal MDP node is
+restricted to a single 2d array. A BiMDP <tt class="docutils literal"><span class="pre">BiNode</span></tt> on the other hand can
+optionally return a tuple containing an additional message dictionary
+and a target value. So in general the return value is a tuple <tt class="docutils literal"><span class="pre">(x,</span> <span class="pre">msg,</span>
+<span class="pre">target)</span></tt>, where <tt class="docutils literal"><span class="pre">x</span></tt> is a the usual 2d array. Alternatively a
+<tt class="docutils literal"><span class="pre">BiNode</span></tt> is also allowed to return only the array <tt class="docutils literal"><span class="pre">x</span></tt> or a 2-tuple
+<tt class="docutils literal"><span class="pre">(x,</span> <span class="pre">msg)</span></tt> (specifying no target value). Unless stated otherwise the
+last entry in the tuple should not be <tt class="docutils literal"><span class="pre">None</span></tt>, but all the other values
+are allowed to be <tt class="docutils literal"><span class="pre">None</span></tt> (so if you specify a target then <tt class="docutils literal"><span class="pre">msg</span></tt> can
+be <tt class="docutils literal"><span class="pre">None</span></tt>, and even <tt class="docutils literal"><span class="pre">x</span></tt> can be <tt class="docutils literal"><span class="pre">None</span></tt>).</p>
+<p>The <tt class="docutils literal"><span class="pre">msg</span></tt> message is a normal Python dictionary. You can use it to
+transport any data that does not fit into the <tt class="docutils literal"><span class="pre">x</span></tt> 2d data array. Nodes
+can take data from to the message and add data to it. The message is
+propagated along with the <tt class="docutils literal"><span class="pre">x</span></tt> data. If a normal MDP node is contained
+in a <tt class="docutils literal"><span class="pre">BiFlow</span></tt> then the message is simply passed around it. A
+<tt class="docutils literal"><span class="pre">BiNode</span></tt> can freely decide how to interact with the message (see the
+BiNode section for more information).</p>
+<p>The target value is either a string or a number. The number is the
+relative position of the target node in the flow, so a target value of 1
+corresponds to the following node, while -1 is the previous node. The
+<tt class="docutils literal"><span class="pre">BiNode</span></tt> base class also allows the specification of a <tt class="docutils literal"><span class="pre">node_id</span></tt>
+string in the <tt class="docutils literal"><span class="pre">__init__</span></tt> method. This string can then be used as a
+target value.</p>
+<p>The <tt class="docutils literal"><span class="pre">node_id</span></tt> string is also useful to access nodes in a <tt class="docutils literal"><span class="pre">BiFlow</span></tt>
+instance. The standard MDP <tt class="docutils literal"><span class="pre">Flow</span></tt> class already implements
+standard Python container methods, so <tt class="docutils literal"><span class="pre">flow[3]</span></tt> will return the third
+node in the flow. <tt class="docutils literal"><span class="pre">BiFlow</span></tt> in addition enables you to use the
+<tt class="docutils literal"><span class="pre">node_id</span></tt> to index nodes in the flow, just like for a dictionary. Here is
+a simple example:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; import bimdp
+&gt;&gt;&gt; pca_node = bimdp.nodes.PCABiNode(node_id=&quot;pca&quot;)
+&gt;&gt;&gt; biflow = bimdp.BiFlow([pca_node])
+&gt;&gt;&gt; biflow[&quot;pca&quot;]
+PCABiNode(input_dim=None, output_dim=None, dtype=None, node_id=&quot;pca&quot;)
+</pre>
+</div>
+<div class="section" id="biflow">
+<h2><a class="toc-backref" href="#id42">BiFlow</a></h2>
+<p>The <tt class="docutils literal"><span class="pre">BiFlow</span></tt> class mostly works in the same way as the normal <tt class="docutils literal"><span class="pre">Flow</span></tt>
+class. We already mentioned several of the new features, like support
+for targets, messages, and retrieving nodes based on their node_id.
+Appart from that the only major difference is the way in which you can
+provide additional arguments for nodes. For example the <tt class="docutils literal"><span class="pre">FDANode</span></tt> in
+MDP requires class labels in addition to the data array (telling the
+node to which class each data point belongs). In the <tt class="docutils literal"><span class="pre">Flow</span></tt> class the
+additional data (the class labels) is provided by the same iterable as
+the data. In a <tt class="docutils literal"><span class="pre">BiFlow</span></tt> this is no longer allowed, since this
+functionality is provided by a more general mechanism. In addition to
+the <tt class="docutils literal"><span class="pre">data_iterables</span></tt> keyword argument there is a new <tt class="docutils literal"><span class="pre">msg_iterables</span></tt>
+argument, to provide iterables for the message dictionary. The structure
+of the <tt class="docutils literal"><span class="pre">msg_iterables</span></tt> argument must be the same as that of
+<tt class="docutils literal"><span class="pre">data_iterables</span></tt>, but instead of yielding arrays it should yield
+dictionaries (containing the additional data values with the
+corresponding keys). Here is an example:</p>
+<pre class="literal-block">
+&gt;&gt;&gt; samples = mdp.numx_rand.random((100,10))
+&gt;&gt;&gt; labels = mdp.numx.arange(100)
+&gt;&gt;&gt; flow = BiFlow([mdp.nodes.PCANode(), nodes.FDABiNode()])
+&gt;&gt;&gt; flow.train([[samples],[samples]], [None,[{&quot;cl&quot;: labels}]])
+</pre>
+<p>The <tt class="docutils literal"><span class="pre">_train</span></tt> method of <tt class="docutils literal"><span class="pre">FDANode</span></tt> requires the <tt class="docutils literal"><span class="pre">cl</span></tt> argument, so this
+is used as the key value. Note that we have to use the <tt class="docutils literal"><span class="pre">BiNode</span></tt>
+version of <tt class="docutils literal"><span class="pre">FDANode</span></tt>, called <tt class="docutils literal"><span class="pre">FDABiNode</span></tt> (alomost every MDP node has a
+<tt class="docutils literal"><span class="pre">BiNode</span></tt> version following this naming scheme). The <tt class="docutils literal"><span class="pre">BiNode</span></tt> class provides
+the <tt class="docutils literal"><span class="pre">cl</span></tt> value from the message to the <tt class="docutils literal"><span class="pre">_train</span></tt> method.</p>
+<p>In a normal <tt class="docutils literal"><span class="pre">Flow</span></tt> the additional arguments can only be given to the
+node which is currently in training. This limitation does not apply to a
+<tt class="docutils literal"><span class="pre">BiFlow</span></tt>, where the message can be accessed by all nodes (more on this
+later). Message iterators can also be used during execution. There is a
+<tt class="docutils literal"><span class="pre">msg_iterable</span></tt> argument in <tt class="docutils literal"><span class="pre">BiFlow.execute</span></tt> as well. Of course
+messages can be also returned by <tt class="docutils literal"><span class="pre">BiFlow.execute</span></tt>, so the return value
+has the form <tt class="docutils literal"><span class="pre">(y,</span> <span class="pre">msg)</span></tt>. If iterables were used then the <tt class="docutils literal"><span class="pre">BiFlow</span></tt> not
+only concatenates the <tt class="docutils literal"><span class="pre">y</span></tt> arrays, but also tries to join the <tt class="docutils literal"><span class="pre">msg</span></tt>
+dictionaries into a single one. Arrays in the <tt class="docutils literal"><span class="pre">msg</span></tt> will be
+concatenated, for all other values the plus operator is used.</p>
+<p>The <tt class="docutils literal"><span class="pre">train</span></tt> method of <tt class="docutils literal"><span class="pre">BiFlow</span></tt> also has an additional argument
+called <tt class="docutils literal"><span class="pre">stop_messages</span></tt>, which can be used to provide message iterables
+for <tt class="docutils literal"><span class="pre">stop_trianing</span></tt>. The <tt class="docutils literal"><span class="pre">execute</span></tt> mehtod on the other hand has an
+argument <tt class="docutils literal"><span class="pre">target_iterable</span></tt>, which can be used to specify the initial
+target in the flow execution.</p>
+</div>
+<div class="section" id="binode">
+<h2><a class="toc-backref" href="#id43">BiNode</a></h2>
+<p>We now want to give an overview the <tt class="docutils literal"><span class="pre">BiNode</span></tt> API, which is mostly an
+extension of the <tt class="docutils literal"><span class="pre">Node</span></tt> API. First we want to look at the possible return
+values of a <tt class="docutils literal"><span class="pre">BiNode</span></tt> and briefly explain their meaning:</p>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">execute</span></tt></dt>
+<dd><tt class="docutils literal"><span class="pre">x</span></tt> or <tt class="docutils literal"><span class="pre">(x,</span> <span class="pre">msg)</span></tt> or <tt class="docutils literal"><span class="pre">(x,</span> <span class="pre">msg,</span> <span class="pre">target)</span></tt>. Normal execution continues,
+directly jumping to the target if one is specified.</dd>
+</dl>
+<p><tt class="docutils literal"><span class="pre">train</span></tt></p>
+<blockquote>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">None</span></tt> terminates training.</li>
+<li><tt class="docutils literal"><span class="pre">x</span></tt> or <tt class="docutils literal"><span class="pre">(x,</span> <span class="pre">msg)</span></tt> or <tt class="docutils literal"><span class="pre">(x,</span> <span class="pre">msg,</span> <span class="pre">target)</span></tt>. Means that execution is
+continued and that this node will be reached again to terminate training.
+If the result has the form <tt class="docutils literal"><span class="pre">(msg,</span> <span class="pre">None)</span></tt> then the <tt class="docutils literal"><span class="pre">msg</span></tt> is dropped
+(so it is not required to 'clear' the message manually to terminate
+training).</li>
+</ul>
+</blockquote>
+<p><tt class="docutils literal"><span class="pre">stop_training,</span> <span class="pre">stop_message</span></tt></p>
+<blockquote>
+<ul class="simple">
+<li><tt class="docutils literal"><span class="pre">None</span></tt> terminates the stop_message propagation.</li>
+<li><tt class="docutils literal"><span class="pre">(msg,</span> <span class="pre">target)</span></tt>. If no target is specified then the remaining <tt class="docutils literal"><span class="pre">msg</span></tt>
+is dropped (terminates the propagation).</li>
+</ul>
+</blockquote>
+<p>Of course all these methods also accept messages. Compared to <tt class="docutils literal"><span class="pre">Node</span></tt>
+methods they have a new <tt class="docutils literal"><span class="pre">msg</span></tt> argument. The <tt class="docutils literal"><span class="pre">target</span></tt> part on the
+other hand is only used by the <tt class="docutils literal"><span class="pre">BiFlow</span></tt>.</p>
+<p>As you can see from <tt class="docutils literal"><span class="pre">train</span></tt>, the training does not always stop when
+the training node is reached. Instead it is possible to continue with
+the execution to come back later. For example this is used in the
+backpropagation example (in the MDP examples repository). There is also
+a new <tt class="docutils literal"><span class="pre">stop_message</span></tt> message. If <tt class="docutils literal"><span class="pre">stop_training</span></tt> returns a result
+then the <tt class="docutils literal"><span class="pre">BiFlow</span></tt> enters a mode where it propagates the result based
+on the given target by calling <tt class="docutils literal"><span class="pre">stop_message</span></tt>. This can be used to
+propagate results from the node training or to prepare nodes for their
+upcoming training.</p>
+<p>Some of these new options might be confusing at first. However, you
+can simply ignore those that you don't need and concentrate on the
+features that are useful for your current project. For example you can
+use messages without ever worrying about targets.</p>
+<p>There are three more additions to the <tt class="docutils literal"><span class="pre">BiNode</span></tt> API:</p>
+<blockquote>
+<dl class="docutils">
+<dt><tt class="docutils literal"><span class="pre">node_id</span></tt></dt>
+<dd>This is a read-only property, which returns the node id
+(which is <tt class="docutils literal"><span class="pre">None</span></tt> if it wasn't specified). Note that the <tt class="docutils literal"><span class="pre">__init__</span></tt>
+method of <tt class="docutils literal"><span class="pre">BiNodes</span></tt> generally accepts a <tt class="docutils literal"><span class="pre">node_id</span></tt> keyword argument.</dd>
+<dt><tt class="docutils literal"><span class="pre">bi_reset</span></tt></dt>
+<dd>This method is called by the <tt class="docutils literal"><span class="pre">BiFlow</span></tt> before and after training and
+execution (and the <tt class="docutils literal"><span class="pre">stop_training</span></tt> / <tt class="docutils literal"><span class="pre">stop_message</span></tt> propagation). It
+can be overriden by derived classes to reset internal state variables.</dd>
+<dt><tt class="docutils literal"><span class="pre">is_bi_training</span></tt></dt>
+<dd>This method is similar to the <tt class="docutils literal"><span class="pre">is_training</span></tt> method of stndard MDP nodes.
+It can be used to signal that a node is doing some data gathering. A node
+might for example do some training during the normal execute (e.g., a
+neural network might adjust internal weights while it is already returning
+results). Generally this method isn't that important, but the
+<tt class="docutils literal"><span class="pre">ParallelBiFlow</span></tt> uses it to determine if nodes can simply be copied or
+must be forked</dd>
+</dl>
+</blockquote>
+</div>
+<div class="section" id="inspection">
+<h2><a class="toc-backref" href="#id44">Inspection</a></h2>
+<p>Using jumps and messages can result in complex data flows. Therefore
+BiMDP offers some convenient inspection capabilites to help with
+debugging and analyzing what is going on. This functionality is based on
+the static HTML view from the <tt class="docutils literal"><span class="pre">mdp.hinet</span></tt> module. Instead of a static
+view of the flow you get an animated slideshow of the flow training or
+execution. An example is provided in
+<tt class="docutils literal"><span class="pre">bimdp/test/demo_hinet_inspection.py</span></tt>. You can simply call
+<tt class="docutils literal"><span class="pre">bimdp.show_execution(flow,</span> <span class="pre">data)</span></tt> instead of the normal
+<tt class="docutils literal"><span class="pre">flow.execute(data)</span></tt>. This will automatically perform the inspection
+and open it in your webbrowser. Similar functionality is available for
+training. Just call <tt class="docutils literal"><span class="pre">bimdp.show_execution(flow,</span> <span class="pre">data_iterables)</span></tt>,
+which will perform training as in <tt class="docutils literal"><span class="pre">flow.train(data_iterables)</span></tt>. Have a
+look at the docstrings to learn about additional options.</p>
+<blockquote>
+<img alt="bimdp inspection example" src="bimdp_inspection.png" style="width: 550px;" />
+</blockquote>
+<p>The BiMDP inspection is also useful to visualize the data processing
+that is happening inside a flow. This is especially handy if you are
+trying to build or understand new algorithms and want to know what is
+going on. Therefore we made it very easy to customize the HTML views in
+the inspection. One simple example is provided in
+<tt class="docutils literal"><span class="pre">bimdp/test/demo_custom_inspection.py</span></tt>, where we use matplotlib to
+plot the data and present it inside the HTML view. Note that
+<tt class="docutils literal"><span class="pre">bimdp.show_training</span></tt> and <tt class="docutils literal"><span class="pre">bimdp.show_execution</span></tt> are just helper
+functions. If you need more flexibility you can directly access the
+machinery below (but this is rather messy and hardly ever needed).</p>
+</div>
+<div class="section" id="extending-binode-and-message-handling">
+<h2><a class="toc-backref" href="#id45">Extending BiNode and Message Handling</a></h2>
+<p>As in the <tt class="docutils literal"><span class="pre">Node</span></tt> class any derived <tt class="docutils literal"><span class="pre">BiNode</span></tt> classes should not
+directly overwrite the public <tt class="docutils literal"><span class="pre">execute</span></tt> or <tt class="docutils literal"><span class="pre">train</span></tt> methods but
+instead the private versions with an underscore in front (for training
+you can of course also overwrite <tt class="docutils literal"><span class="pre">_get_train_seq</span></tt>). In addtion to the
+dimensionality checks performed on <tt class="docutils literal"><span class="pre">x</span></tt> by the <tt class="docutils literal"><span class="pre">Node</span></tt> class this
+enables a couple of message handling features. This also applies to the
+new <tt class="docutils literal"><span class="pre">_stop_message</span></tt> method. On the other hand <tt class="docutils literal"><span class="pre">bi_reset</span></tt> and
+<tt class="docutils literal"><span class="pre">is_bi_training</span></tt> can be directly overwritten (like <tt class="docutils literal"><span class="pre">is_training</span></tt> in
+<tt class="docutils literal"><span class="pre">Node</span></tt>), there are no private methods for these.</p>
+<p>The automatic message handling is a major feature in <tt class="docutils literal"><span class="pre">BiNode</span></tt> and
+relies on the dynamic nature of Python. In the <tt class="docutils literal"><span class="pre">FDABiNode</span></tt> and
+<tt class="docutils literal"><span class="pre">BiFlow</span></tt> example we have alrady seen how a value from the message is
+automatically passed to the <tt class="docutils literal"><span class="pre">_train</span></tt> method, because the key of the
+value is also the name of a keyword argument.</p>
+<p>Public methods like <tt class="docutils literal"><span class="pre">execute</span></tt> in <tt class="docutils literal"><span class="pre">BiNode</span></tt> accept not only a data
+array <tt class="docutils literal"><span class="pre">x</span></tt>, but also a message dictionary <tt class="docutils literal"><span class="pre">msg</span></tt>. When given a message
+they perform introspection to determine the arguments for the
+corresponding private methods (like <tt class="docutils literal"><span class="pre">_train</span></tt>). If there is a matching
+key for an argument in the message then the value is provided as a
+keyword argument. It remains in the dictionary and can therefore be used
+by other nodes in the flow as well.</p>
+<p>A private method like <tt class="docutils literal"><span class="pre">_train</span></tt> has the same return options as the
+public <tt class="docutils literal"><span class="pre">train</span></tt> method, so one can for example return a tupple <tt class="docutils literal"><span class="pre">(x,</span>
+<span class="pre">msg)</span></tt>. The <tt class="docutils literal"><span class="pre">msg</span></tt> in the return value from <tt class="docutils literal"><span class="pre">_train</span></tt> is then used by
+<tt class="docutils literal"><span class="pre">train</span></tt> to update the original <tt class="docutils literal"><span class="pre">msg</span></tt>. Thereby <tt class="docutils literal"><span class="pre">_train</span></tt> can
+overwrite or add new values to the message. There are also some special
+features (&quot;magic&quot;) to make handling messages more convenient:</p>
+<ul class="simple">
+<li>You can use message keys of the form <tt class="docutils literal"><span class="pre">node_id-&gt;argument_key</span></tt> to
+address parts of the message to a specific node. When the node with the
+corresponding id is reached then the value is not only provided as an
+argument, but the key is also deleted from the message.</li>
+<li>If a private method like <tt class="docutils literal"><span class="pre">_train</span></tt> has a keyword argument called
+<tt class="docutils literal"><span class="pre">msg</span></tt> then the complete message is provided. The message from the
+return value replaces the original message in this case. For example
+this makes it possible to delete parts of the message (instead of just
+updating them with new values).</li>
+<li>The key <tt class="docutils literal"><span class="pre">&quot;method&quot;</span></tt> is treated in a special way. Instead of calling the
+standard private method like <tt class="docutils literal"><span class="pre">_train</span></tt> (or <tt class="docutils literal"><span class="pre">_execute</span></tt>, depending on the
+called public method) the &quot;method&quot; value will be used as the method
+name, with an underscore in front. For example the message <tt class="docutils literal"><span class="pre">{&quot;method&quot;:</span>
+<span class="pre">&quot;classify&quot;}</span></tt> has the effect that a method <tt class="docutils literal"><span class="pre">_classify</span></tt> will be called.
+Note that this feature can be combined with the extension mechanism,
+when methods are added at runtime.</li>
+<li>The key <tt class="docutils literal"><span class="pre">&quot;target&quot;</span></tt> is treated in a special way. If the called private
+method does not return a target value (e.g., if it just returned <tt class="docutils literal"><span class="pre">x</span></tt>)
+then the <tt class="docutils literal"><span class="pre">&quot;target&quot;</span></tt> value is used as target return value (e.g, instead of
+<tt class="docutils literal"><span class="pre">x</span></tt> the return value of <tt class="docutils literal"><span class="pre">execute</span></tt> would then have the form <tt class="docutils literal"><span class="pre">x,</span>
+<span class="pre">None,</span> <span class="pre">target</span></tt>).</li>
+<li>If the key &quot;method&quot; has the value <tt class="docutils literal"><span class="pre">inverse</span></tt> then, as expected, the
+<tt class="docutils literal"><span class="pre">_inverse</span></tt> method is called. However, additionally the checks from
+<tt class="docutils literal"><span class="pre">inverse</span></tt> are run on the data array. If <tt class="docutils literal"><span class="pre">_inverse</span></tt> does not return a
+target value then the target -1 is returned. So with the message
+<tt class="docutils literal"><span class="pre">{&quot;method&quot;:</span> <span class="pre">&quot;inverse&quot;}</span></tt> one can execute a <tt class="docutils literal"><span class="pre">BiFlow</span></tt> in inverse node
+(note that one also has to provide the last node in the flow as the
+initial target to the flow).</li>
+<li>This more of a <tt class="docutils literal"><span class="pre">BiFlow</span></tt> feature, but the target value specified in
+<tt class="docutils literal"><span class="pre">bimdp.EXIT_TARGET</span></tt> (currently set to <tt class="docutils literal"><span class="pre">&quot;exit&quot;</span></tt>) causes <tt class="docutils literal"><span class="pre">BiFlow</span></tt> to
+terminate the execution and to return the last return value.</li>
+<li>To make it possible to call <tt class="docutils literal"><span class="pre">execute</span></tt> and
+<tt class="docutils literal"><span class="pre">inverse</span></tt> via <tt class="docutils literal"><span class="pre">stop_message</span></tt> there is some magic going on if these are
+specified via the <tt class="docutils literal"><span class="pre">&quot;method&quot;</span></tt> key: In addition to the normal automatic
+extraction of an <tt class="docutils literal"><span class="pre">&quot;x&quot;</span></tt> key from the message the array output of the node
+is also stored back as <tt class="docutils literal"><span class="pre">&quot;x&quot;</span></tt> in the message (overwriting the previous
+value). Additionally the target is given a default value of 1 or -1
+(so setting the <tt class="docutils literal"><span class="pre">&quot;method&quot;</span></tt> value is sufficient for normal execution
+or inverse during the <tt class="docutils literal"><span class="pre">stop_message</span></tt> phase).</li>
+</ul>
+<p>Of course all these features can be combined, or can be ignored when they
+are not needed.</p>
+</div>
+<div class="section" id="hinet-in-bimdp">
+<h2><a class="toc-backref" href="#id46">HiNet in BiMDP</a></h2>
+<p>BiMDP is mostly compatibel with the hierarchical networks introduced in
+<tt class="docutils literal"><span class="pre">mdp.hinet</span></tt>. For the full BiMDP functionality it is of of course
+required to use the BiMDP versions of the the building blocks.</p>
+<p>The <tt class="docutils literal"><span class="pre">bimdp.hinet</span></tt> module provides a <tt class="docutils literal"><span class="pre">BiFlowNode</span></tt> class, which is
+offers the same functionality as a <tt class="docutils literal"><span class="pre">FlowNode</span></tt> but with the added
+capability of handling messages, targets, and all other BiMDP concepts.</p>
+<p>There is also a new <tt class="docutils literal"><span class="pre">BiSwitchboard</span></tt> base class, which is able to deal
+with messages. Arrays present in the message are mapped with the
+switchboard routing if the second axis matches the switchboard dimension
+(this works for both execute and inverse).</p>
+<p>Finally there is a <tt class="docutils literal"><span class="pre">CloneBiLayer</span></tt> class, which is the BiMDP version of
+the <tt class="docutils literal"><span class="pre">CloneLayer</span></tt> class in <tt class="docutils literal"><span class="pre">mdp.hinet</span></tt>. To support all the features
+of BiMDP some significant functionality has been added to this class.
+The most important new aspect is the <tt class="docutils literal"><span class="pre">use_copies</span></tt> property. If it is
+set to <tt class="docutils literal"><span class="pre">True</span></tt> then multiple deep copies are used instead of just a
+reference to the same node. This makes it possible to use internal
+variables in a node that persist while the node is left and later
+reentered. You can set this property as often as you like (note that
+there is of course some overhead for the deep copying). You can also set
+the <tt class="docutils literal"><span class="pre">use_copies</span></tt> property via the message mechanism by simply adding a
+<tt class="docutils literal"><span class="pre">&quot;use_copies&quot;</span></tt> with the required boolean value. The <tt class="docutils literal"><span class="pre">CloneBiLayer</span></tt>
+class also looks for this key in outgoing messages (so it can be send
+from nodes inside the layer).</p>
+</div>
+<div class="section" id="parallel-in-bimdp">
+<h2><a class="toc-backref" href="#id47">Parallel in BiMDP</a></h2>
+<p>The parallelisation capabilites introduced in <tt class="docutils literal"><span class="pre">mdp.parallel</span></tt> can be
+also used for BiMDP. The <tt class="docutils literal"><span class="pre">bimdp.parallel</span></tt> module provides a
+<tt class="docutils literal"><span class="pre">ParallelBiFlow</span></tt> class which can be used like the normal
+<tt class="docutils literal"><span class="pre">ParallelFlow</span></tt>. No changes to schedulers are required.</p>
+<p>The most important difference between the parallelization in standard
+MDP and BiMDP is that BiNodes can signal via the <tt class="docutils literal"><span class="pre">is_bi_training</span></tt>
+method wether they should be forked instead of the usual deep copy.
+Unlike the <tt class="docutils literal"><span class="pre">is_training</span></tt> method there can be multiple nodes for which
+<tt class="docutils literal"><span class="pre">is_bi_training</span></tt> returns <tt class="docutils literal"><span class="pre">True</span></tt>. All these forked nodes are of
+course also correctly joined.</p>
+<p>Note that a <tt class="docutils literal"><span class="pre">ParallelBiFlow</span></tt> uses a special callable class. So if you
+want to use a custom callable you will have to make a few modifications
+(compared to the standard callable class used by <tt class="docutils literal"><span class="pre">ParallFlow</span></tt>).</p>
+</div>
+</div>
 <div class="section" id="future-development">
-<h1><a class="toc-backref" href="#id40">Future Development</a></h1>
-<p>MDP is currently maintained by a core team of 3 developers, but it is
+<h1><a class="toc-backref" href="#id48">Future Development</a></h1>
+<p>MDP is currently maintained by a core team of 4 developers, but it is
 open to user contributions. Users have already contributed some of the
 nodes, and more contributions are currently being reviewed for
 inclusion in future releases of the package. The package development
-can be followed on the public subversion code
-<a class="reference external" href="http://mdp-toolkit.svn.sourceforge.net">repository</a>.
-Questions, bug reports, and feature requests are typically handled by
+can be followed online on the public git code
+<a class="reference external" href="http://mdp-toolkit.git.sourceforge.net">repositories</a> or cloned with:</p>
+<pre class="literal-block">
+git clone git://mdp-toolkit.git.sourceforge.net/mdp-toolkit/mdp-toolkit
+git clone git://mdp-toolkit.git.sourceforge.net/mdp-toolkit/docs
+git clone git://mdp-toolkit.git.sourceforge.net/mdp-toolkit/examples
+git clone git://mdp-toolkit.git.sourceforge.net/mdp-toolkit/contrib
+</pre>
+<p>Questions, bug reports, and feature requests are typically handled by
 the user <a class="reference external" href="http://sourceforge.net/mail/?group_id=116959">mailing list</a></p>
-<p>A new, large MDP package is currently under development that
-will extend MDP with more complex data flows, including
-back-propagation and loops. This framework will be integrated with
-both the <tt class="docutils literal"><span class="pre">parallel</span></tt> and the <tt class="docutils literal"><span class="pre">hinet</span></tt> packages to allow for large and
-complex data processing networks.</p>
 </div>
 <div class="section" id="contributors">
-<h1><a class="toc-backref" href="#id41">Contributors</a></h1>
+<h1><a class="toc-backref" href="#id49">Contributors</a></h1>
 <p>In this final section we want to thank all users who have contributed
 code and bug reports to the MDP project. Strictly in alphabetical order:</p>
 <ul class="simple">
@@ -2938,7 +3327,7 @@ code and bug reports to the MDP project. Strictly in alphabetical order:</p>
 </div>
 <div class="footer">
 <hr class="footer" />
-Generated on: 2009-10-13 13:00 UTC.
+Generated on: 2010-03-25 16:29 UTC.
 Generated by <a class="reference external" href="http://docutils.sourceforge.net/">Docutils</a> from <a class="reference external" href="http://docutils.sourceforge.net/rst.html">reStructuredText</a> source.
 
 </div>

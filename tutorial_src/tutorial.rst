@@ -2950,7 +2950,6 @@ look at the docstrings to learn about additional options.
           :width: 550
           :alt: bimdp inspection example
 
-          
 The BiMDP inspection is also useful to visualize the data processing 
 that is happening inside a flow. This is especially handy if you are 
 trying to build or understand new algorithms and want to know what is 

@@ -528,3 +528,16 @@ x, y, z, t = s_distr(n, hole=True)
 data = mdp.numx.array([x,y,z]).T
 lle_projected_data = mdp.nodes.LLENode(k, output_dim=2)(data)
 hlle_projected_data = mdp.nodes.HLLENode(k, output_dim=2)(data)
+import bimdp
+pca_node = bimdp.nodes.PCABiNode(node_id="pca")
+biflow = bimdp.BiFlow([pca_node])
+biflow["pca"]
+# PCABiNode(input_dim=None, output_dim=None, dtype=None, node_id="pca")
+samples = mdp.numx_rand.random((100,10))
+labels = mdp.numx.arange(100)
+flow = BiFlow([mdp.nodes.PCANode(), nodes.FDABiNode()])
+flow.train([[samples],[samples]], [None,[{"cl": labels}]])
+# git clone git://mdp-toolkit.git.sourceforge.net/mdp-toolkit/mdp-toolkit
+# git clone git://mdp-toolkit.git.sourceforge.net/mdp-toolkit/docs
+# git clone git://mdp-toolkit.git.sourceforge.net/mdp-toolkit/examples
+# git clone git://mdp-toolkit.git.sourceforge.net/mdp-toolkit/contrib

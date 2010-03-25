@@ -39,8 +39,12 @@ TUTTEX=$PWD/tutorial.tex
 # adjust \includegraphics --> \includegraphics[width=0.9\textwidth]
 perl -i -p -e 's/width=700/width=0.9\\textwidth/g' $TEMP
 perl -i -p -e 's/width=500/width=0.9\\textwidth/g' $TEMP
-perl -i -p -e 's/width=400/width=0.9\\textwidth/g' $TEMP
-perl -i -p -e 's/width=450/width=0.9\\textwidth/g' $TEMP
+# hinet_switchboard.png
+perl -i -p -e 's/width=400/width=0.5\\textwidth/g' $TEMP
+# hinet_html.png
+perl -i -p -e 's/width=450/width=0.5\\textwidth/g' $TEMP
+# bimdp_inspection.png
+perl -i -p -e 's/width=550/width=0.8\\textwidth/g' $TEMP
 /bin/cp -f $TEMP $TUTTEX
 rm -rf $TEMP
 # compile with pdflatex
@@ -49,11 +53,11 @@ pdflatex $TUTTEX > /tmp/pdflatex.log
 # clean up
 rm -rf tutorial.aux tutorial.log tutorial.out tutorial_latex.txt tutorial.tex
 # copy pdf to html directory
-cp tutorial.pdf ../MDP2_5_tutorial.pdf
-cp $TUTHTML ../html/$TUTHTML
+cp tutorial.pdf ../MDP2_6_tutorial.pdf
+# cp $TUTHTML ../html/$TUTHTML
 
 # generate demos
 python gendemo.py
-cp demo.py ../../mdp/demo/
+cp demo.py ../../mdp-toolkit/mdp/demo/
 
 
