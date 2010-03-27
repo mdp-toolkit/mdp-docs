@@ -2998,7 +2998,9 @@ features ("magic") to make handling messages more convenient:
 - You can use message keys of the form ``node_id->argument_key`` to 
   address parts of the message to a specific node. When the node with the 
   corresponding id is reached then the value is not only provided as an 
-  argument, but the key is also deleted from the message. 
+  argument, but the key is also deleted from the message. If the
+  argument_key is not an argument of the method then the whole key is
+  simply erased.
 
 - If a private method like ``_train`` has a keyword argument called 
   ``msg`` then the complete message is provided. The message from the 
