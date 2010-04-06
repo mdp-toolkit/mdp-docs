@@ -1444,14 +1444,13 @@ multiple aspects, requiring multiple inheritance for every combination of
 aspects one wants to use. Therefore this approach does not scale well with
 the number of aspects.
 
-The node extension mechanism does not depend on inheritance, instead it
-adds the methods or class attributes to the node classes dynamically at
-runtime (like *method injection*).
-This makes it possible to activate extensions just when they are needed,
-reducing the risk of interference between different extensions. One can also
-use multiple extensions at the same time, as long as there is
-no interference, i.e., both extensions do not use any attributes with the
-same name.
+The node extension mechanism does not directly depend on inheritance, 
+instead it adds the methods or class attributes to the node classes 
+dynamically at runtime (like *method injection*). This makes it possible 
+to activate extensions just when they are needed, reducing the risk of 
+interference between different extensions. One can also use multiple 
+extensions at the same time, as long as there is no interference, i.e., 
+both extensions do not use any attributes with the same name. 
 
 The node extension mechanism uses a special Metaclass, which allows it to  
 define the node extensions as classes derived from nodes (bascially just what
@@ -1540,8 +1539,7 @@ is created with
     >>>
             
 Note that you must derive from ``ExtensionNode``. If you also derive from
-``mdp.Node`` then the methods (and attributes) in this class will be treated
-as the default implementation for the ``mdp.Node`` class. So they will be used
+``mdp.Node`` then the methods (and attributes) in this class are the default implementation for the ``mdp.Node`` class. So they will be used
 by all nodes without a more specific implementation. If you do not derive from
 ``mdp.Node`` then there is no such default implementation. You can also derive
 from a more specific node class if your extension only applies to these
@@ -1551,12 +1549,42 @@ When you define a new extension then you must define the ``extension_name``
 attribute. This magic attribute is used to register the new extension and you
 can activate or deactivate the extension by using this name.
 
-Note that extensions can override attributes and methods that are defined in
-a node class. The original attributes can still be accessed by prefixing the
-name with ``_non_extension_`` (the prefix string is also available as
-``mdp.ORIGINAL_ATTR_PREFIX``). On the other hand one extension is not allowed
-to override attributes that were defined by another currently active extension.
+Note that extensions can override attributes and methods that are 
+defined in a node class. The original attributes can still be accessed 
+by prefixing the name with ``_non_extension_`` (the prefix string is 
+also available as ``mdp.ORIGINAL_ATTR_PREFIX``). On the other hand one 
+extension is not allowed to override attributes that were defined by 
+another currently active extension.
 
+The extension mechanism uses some 
+magic to make the behavior more intuitive with respect to inheritance. 
+Basically methods or attributes defined by extensions shadow those which 
+are not defined in the extension. Here is an example:
+
+::
+
+    >>> class TestExtensionNode(mdp.ExtensionNode):
+    ...     extension_name = "test"
+    ...     def _execute(self):
+    ...         return 0
+    ...
+    >>> class TestNode(mdp.Node):
+    ...     def _execute(self):
+    ...         return 1
+    ...
+    >>> class ExtendedTestNode(TestExtensionNode, TestNode):
+    ...     pass
+    ...
+    >>>
+
+After this extension is activated any calls of ``_execute`` in instances 
+of ``TestNode`` will return 0 instead of 1. The ``_execute`` from the 
+extension base-class shadows the method from ``TestNode``. This makes it 
+easier to share behavior for different classes. Without this magic one 
+would have to explicitly override ``_execute`` in ``ExtendedTestNode`` 
+(or derive the extension base-class from ``Node``, but that would give 
+this behavior to all node classes). Note that there is a ``verbose`` 
+argument in ``activate_extension`` which can help with debugging. 
 
 Hierarchical Networks
 ---------------------
