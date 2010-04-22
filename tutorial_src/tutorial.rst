@@ -3133,10 +3133,10 @@ can be followed online on the public git code
 `repositories <http://mdp-toolkit.git.sourceforge.net>`_ or cloned with:
 ::
 
-    git clone git://mdp-toolkit.git.sourceforge.net/mdp-toolkit/mdp-toolkit
-    git clone git://mdp-toolkit.git.sourceforge.net/mdp-toolkit/docs
-    git clone git://mdp-toolkit.git.sourceforge.net/mdp-toolkit/examples
-    git clone git://mdp-toolkit.git.sourceforge.net/mdp-toolkit/contrib
+    git clone git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/mdp-toolkit
+    git clone git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/docs
+    git clone git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/examples
+    git clone git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/contrib
 
 Questions, bug reports, and feature requests are typically handled by
 the user `mailing list <http://sourceforge.net/mail/?group_id=116959>`_
