@@ -2734,7 +2734,10 @@ additional data, and a HTML based flow inspection utility. Because BiMDP
 is a rather large addition and changes a few things compared to 
 standard MDP it is not included in ``mdp`` but must be imported 
 seperately as ``bimdp`` (BiMDP is included in the standard MDP 
-installation). 
+installation):
+::
+
+    >>> import bimdp
 
 **Warning:** BiMDP is a new addition to MDP, so currently it should be 
 considered as beta-stage software. Even though it already went through 
@@ -2830,7 +2833,6 @@ a simple example:
 
 ::
 
-    >>> import bimdp
     >>> pca_node = bimdp.nodes.PCABiNode(node_id="pca")
     >>> biflow = bimdp.BiFlow([pca_node])
     >>> biflow["pca"]
@@ -2861,7 +2863,7 @@ corresponding keys). Here is an example:
   
     >>> samples = mdp.numx_rand.random((100,10))
     >>> labels = mdp.numx.arange(100)
-    >>> flow = BiFlow([mdp.nodes.PCANode(), nodes.FDABiNode()])
+    >>> flow = bimdp.BiFlow([mdp.nodes.PCANode(), bimdp.nodes.FDABiNode()])
     >>> flow.train([[samples],[samples]], [None,[{"cl": labels}]])
 
     

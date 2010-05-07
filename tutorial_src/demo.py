@@ -397,6 +397,19 @@ sfa_reloaded
 fl.close()
 import os
 os.remove('dummy.pic')
+class TestExtensionNode(mdp.ExtensionNode):
+    extension_name = "test"
+    def _execute(self):
+        return 0
+# ...
+class TestNode(mdp.Node):
+    def _execute(self):
+        return 1
+# ...
+class ExtendedTestNode(TestExtensionNode, TestNode):
+    pass
+# ...
+# >>>
 node1 = mdp.nodes.PCANode(input_dim=100, output_dim=10)
 node2 = mdp.nodes.SFANode(input_dim=100, output_dim=20)
 layer = mdp.hinet.Layer([node1, node2])
@@ -535,9 +548,9 @@ biflow["pca"]
 # PCABiNode(input_dim=None, output_dim=None, dtype=None, node_id="pca")
 samples = mdp.numx_rand.random((100,10))
 labels = mdp.numx.arange(100)
-flow = BiFlow([mdp.nodes.PCANode(), nodes.FDABiNode()])
+flow = bimdp.BiFlow([mdp.nodes.PCANode(), bimdp.nodes.FDABiNode()])
 flow.train([[samples],[samples]], [None,[{"cl": labels}]])
-# git clone git://mdp-toolkit.git.sourceforge.net/mdp-toolkit/mdp-toolkit
-# git clone git://mdp-toolkit.git.sourceforge.net/mdp-toolkit/docs
-# git clone git://mdp-toolkit.git.sourceforge.net/mdp-toolkit/examples
-# git clone git://mdp-toolkit.git.sourceforge.net/mdp-toolkit/contrib
+# git clone git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/mdp-toolkit
+# git clone git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/docs
+# git clone git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/examples
+# git clone git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/contrib
