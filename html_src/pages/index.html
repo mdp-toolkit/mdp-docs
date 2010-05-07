@@ -1,6 +1,7 @@
 <DIV ID="news-box">
 <B>News</B>
 <table>
+  <tr><td>07.05.2010:<td>Finalized the migration to <a href="http://mdp-toolkit.git.sourceforge.net/">git</a>!
   <tr><td>26.07.2009:<td>MDP <A href="EuroScipy2009Talk.pdf">presented</A> at the 
   <A href="http://www.euroscipy.org/presentations/abstracts/abstract_zito.html">EuroScipy</A> 
   Conference in Leipzig, DE. 
@@ -8,12 +9,15 @@
   <A href="http://www.cnsorg.org/2009/">CNS 2009</A> Conference in Berlin.
   <tr><td>30.06.2009:<td>MDP 2.5 released! (<A HREF="CHANGES">changes
     since last release</A>): many bug fixes and several new nodes!
-  <tr><td>30.06.2009:<td>MDP <A href="EuroPython2009MDPTalk.pdf">presented</A> at  the 
+<!--  <tr><td>30.06.2009:<td>MDP <A href="EuroPython2009MDPTalk.pdf">presented</A> at  the 
   <A href="http://www.europython.eu/talks/talk_abstracts/index.html#talk71">Europython</A> Conference in Birmingham, UK.
   <tr><td>08.01.2009:<td>MDP paper published in 
                          <A href="http://dx.doi.org/10.3389/neuro.11.008.2008">Frontiers of
 			 Neuroinformatics</A>
-  <tr><td>12.12.2008:<td>MDP <A href="http://videolectures.net/mloss08_zito_mdp/">presented</A> at the NIPS 2008 Workshop on <A href="http://mloss.org/workshop/nips08/">Machine Learning Open Source Software</A>.
+  <tr><td>12.12.2008:<td>MDP <A href="http://videolectures.net/mloss08_zito_mdp/">presented</A>
+			 at the NIPS 2008 Workshop
+			 on <A href="http://mloss.org/workshop/nips08/">Machine
+			 Learning Open Source Software</A>. -->
 </table>
 </DIV>
 
@@ -76,13 +80,14 @@ for additional speed.
 You can download the last MDP release 
 <A HREF="http://sourceforge.net/projects/mdp-toolkit/files">
 here</A>. <BR>
-If you want to live on the bleeding edge, check out the MDP subversion repository: you 
-can <a href="http://mdp-toolkit.svn.sourceforge.net/">browse the repository</a>
-or just check out the trunk with:
+If you want to live on the bleeding edge, check out the MDP git repositories. You 
+can either <a href="http://mdp-toolkit.git.sourceforge.net/">browse the repositories</a>
+or clone the <CODE>mdp-toolkit</CODE> repository with:
 <pre class="literal-block">
-svn co https://mdp-toolkit.svn.sourceforge.net/svnroot/mdp-toolkit/mdp/trunk/mdp mdp
+git clone git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/mdp-toolkit
 </pre>
 <BR>
+and then install as explained below.<BR>
 Thanks to Yaroslav Halchenko, users of Debian, Ubuntu and derivatives can install 
 the <a href="http://packages.debian.org/python-mdp"><CODE>python-mdp</CODE></a> package.
 <BR>
@@ -90,10 +95,13 @@ Thanks to Maximilian Nickel, Mac OS X users using
 <a href="http://www.macports.org/">MacPorts</a> can install the packages
 <A href="http://trac.macports.org/browser/trunk/dports/python/py25-mdp-toolkit/Portfile"><CODE>py25-mdp-toolkit</CODE></a> and
 <A href="http://trac.macports.org/browser/trunk/dports/python/py26-mdp-toolkit/Portfile"><CODE>py26-mdp-toolkit</CODE></a>, respectively.
+<BR>
+Thanks to Tim Cera, Gentoo users can install the
+ebuild <a href="http://git.overlays.gentoo.org/gitweb/?p=proj/sci.git;a=tree;f=sci-mathematics/mdp"><CODE>sci-mathematics/mdp</CODE></a> from the <CODE>science</CODE> overlay.
 
 <P>
 <B>Installation:</B><BR>
-Unpack the archive file, enter the project directory and type:
+Unpack the archive file and change to the project directory or change to the cloned git repository, and type:
 
 <pre class="literal-block">
 python setup.py install
@@ -119,6 +127,13 @@ or:
 sudo port install py26-mdp-toolkit
 </pre>
 depending on your favoured version of Python.<BR>
+On Gentoo you can use your favourite package manager or, alternatively:
+<pre class="literal-block">
+emerge layman
+layman -L
+layman -a science
+emerge sci-mathematics/mdp
+</pre>
 
 On Windows, the installation of the binary distribution is as easy as
 executing the installer and following the instructions.
@@ -130,6 +145,8 @@ Python shell as follows:
 <pre class="literal-block">
 &gt;&gt;&gt; import mdp
 &gt;&gt;&gt; mdp.test()
+&gt;&gt;&gt; import bimdp
+&gt;&gt;&gt; bimdp.test()
 </pre>
 
 <P>
@@ -162,12 +179,14 @@ Current maintainers are:
 package, <a href="http://2manyvariables.inmachina.com">Maximilian Nickel</a> maintains the
 <A
 href="http://trac.macports.org/browser/trunk/dports/python/py25-mdp-toolkit/Portfile">
-<CODE>py25-mdp-toolkit</CODE></a> MacPorts package.
+<CODE>py25-mdp-toolkit</CODE></a> MacPorts package,
+Cera <a href="http://home.earthlink.net/~timcera/">Tim Cera</a> maintains
+the Gentoo <a href="http://git.overlays.gentoo.org/gitweb/?p=proj/sci.git;a=tree;f=sci-mathematics/mdp"><CODE>sci-mathematics/mdp</CODE></a> ebuild.
 <p>
 
  For comments, patches, feature requests, support requests,
 and bug reports (if any) you can use the
-users <a href="http://sourceforge.net/mail/?group_id=116959">mailing
+users <a href="https://lists.sourceforge.net/mailman/listinfo/mdp-toolkit-users">mailing
 list</a>.
 
 <P>

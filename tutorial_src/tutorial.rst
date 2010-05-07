@@ -4,11 +4,11 @@ Tutorial
 :Author: Pietro Berkes, Niko Wilbert, Henning Sprekeler, and Tiziano Zito
 :Homepage: http://mdp-toolkit.sourceforge.net
 :Copyright: This document has been placed in the public domain.
-:Version: 2.6
+:Version: 2.6 (development version)
 
 .. raw:: html
    
-   This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_6_tutorial.pdf?download">pdf file</a> (830 KB).
+   This document is also available as <a href="http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_6_tutorial.pdf?download">pdf file</a>.
 
 This is a guide to basic and some more advanced features of
 the MDP library. Besides the present tutorial, you can learn 
@@ -3141,7 +3141,7 @@ can be followed online on the public git code
     git clone git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/contrib
 
 Questions, bug reports, and feature requests are typically handled by
-the user `mailing list <http://sourceforge.net/mail/?group_id=116959>`_
+the user `mailing list <https://lists.sourceforge.net/mailman/listinfo/mdp-toolkit-users>`_
 
 
 Contributors
