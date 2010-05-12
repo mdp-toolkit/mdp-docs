@@ -3124,7 +3124,30 @@ after the exectuion or training.
 
 Note that a ``ParallelBiFlow`` uses a special callable class. So if you 
 want to use a custom callable you will have to make a few modifications 
-(compared to the standard callable class used by ``ParallFlow``). 
+(compared to the standard callable class used by ``ParallFlow``).
+
+Classifiers in BiMDP
+~~~~~~~~~~~~~~~~~~~~
+BiMDP introduces a special ``BiClassifier`` base class for the new 
+``Classifier`` nodes in MDP. This makes it possible to fully use 
+classifiers in a normal ``BiFlow``. Just like for normal nodes 
+the BiMDP versions of the classifier are available in ``bimdp.nodes`` 
+(the SVM classifiers are currently not available by default, but it is 
+possible to manually derive a ``BiClassifier`` version of them). 
+
+The ``BiClassifier`` class makes it possible to provide the training 
+labels via the message mechanism (simply store the labels with a 
+``"labels"`` key in the ``msg`` dict). It is also possible to transport 
+the classification results in the outgoing message. The ``_execute`` method of a 
+``BiClassifier`` has three keyword arguments called ``return_labels``, 
+``return_ranks``, and ``return_probs``. These can be set via the message 
+mechanism. If for example ``return_labels`` is set to ``True`` then 
+``execute`` will call the ``label`` method from the classifier node and 
+store the result in the outgoing message (under the key ``"labels"``). The 
+``return_labels`` argument (and the other two) can also be set to a 
+string value, which is then used as a prefix for the ``"labels"`` key in 
+the outgoing message (e.g., to target this information at a specific 
+node in the flow). 
 
 
 Future Development
