@@ -364,13 +364,14 @@ ul.auto-toc {
 /* COLORS DEFINITION */
 body { background: white; }
 
-code, pycode, #header, #sidebar li a {color:#A11200;}
+code, pycode, #header, #sidebar li a {color:#AF8320;}
 
-a:visited, a:link {color:#A11200;} 
+a:visited, a:link {color:#AF8320;} 
 
-#header, a:hover, pre.literal-block, .img_header a:hover, #sidebar li a {background: #FFD242;}
+#header, a:hover, pre.literal-block, .img_header a:hover, #sidebar li a {background:#BFBB7E; color:#01261C;}
 
 #news-box, #header, pre.literal-block, #sidebar li a , div.admonition, div.attention, div.caution, div.danger, div.error,
-div.hint, div.important, div.note, div.tip, div.warning {border: 1px solid #A11200;}
+div.hint, div.important, div.note, div.tip, div.warning {border: 1px solid #01261C;}
 
 #sidebar li a:hover { color:black; }
+
