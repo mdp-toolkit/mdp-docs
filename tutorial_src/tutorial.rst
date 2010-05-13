@@ -4,7 +4,7 @@ Tutorial
 :Author: Pietro Berkes, Niko Wilbert, Henning Sprekeler, and Tiziano Zito
 :Homepage: http://mdp-toolkit.sourceforge.net
 :Copyright: This document has been placed in the public domain.
-:Version: 2.6 (development version)
+:Version: 2.6
 
 .. raw:: html
    
@@ -3176,12 +3176,16 @@ In this final section we want to thank all users who have contributed
 code and bug reports to the MDP project. Strictly in alphabetical order:
 
 - `Gabriel Beckers <http://www.gbeckers.nl/>`_
+- Sven Dähne
 - Alberto Escalante
 - `Farzad Farkhooi <http://www.bccn-berlin.de/People/farkhooi>`_
 - Mathias Franzius
 - `Michael Hanke <http://apsy.gse.uni-magdeburg.de/main/index.psp?page=hanke/main&lang=en&sec=0>`_
 - `Konrad Hinsen <http://dirac.cnrs-orleans.fr/~hinsen/>`_
+- Christian Hinze
 - `Samuel John <http://www.samueljohn.de/>`_
 - Susanne Lezius
 - `Michael Schmuker <http://userpage.fu-berlin.de/~schmuker/>`_
+- `Benjamin Schrauwen <http://snn.elis.ugent.be/benjamin>`_
+- `Henning Sprekeler <http://lcn.epfl.ch/~sprekele>`_
 - `Jake VanderPlas <http://www.astro.washington.edu/vanderplas/>`_
