@@ -368,10 +368,10 @@ code, pycode, #header, #sidebar li a {color:#AF8320;}
 
 a:visited, a:link {color:#AF8320;} 
 
-#header, a:hover, pre.literal-block, .img_header a:hover, #sidebar li a {background:#BFBB7E; color:#01261C;}
+#header, pre.literal-block, .img_header a:hover, #sidebar li a {background:#BFBB7E; color:#01261C;}
 
-#news-box, #header, pre.literal-block, #sidebar li a , div.admonition, div.attention, div.caution, div.danger, div.error,
-div.hint, div.important, div.note, div.tip, div.warning {border: 1px solid #01261C;}
+#news-box, #header, pre.literal-block, #sidebar li a , div.admonition, div.attention, div.caution, div.danger, div.error,div.hint, div.important, div.note, div.tip, div.warning {border: 1px solid #01261C;}
 
-#sidebar li a:hover { color:black; }
+#sidebar li a:hover { color:#AF8320; }
 
+a:hover {background: white; color: #01261C;}
