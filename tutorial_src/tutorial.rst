@@ -1,7 +1,7 @@
 Tutorial
 ========
 
-:Author: Pietro Berkes, Niko Wilbert, Henning Sprekeler, and Tiziano Zito
+:Author: Pietro Berkes, Niko Wilbert, and Tiziano Zito
 :Homepage: http://mdp-toolkit.sourceforge.net
 :Copyright: This document has been placed in the public domain.
 :Version: 2.6
