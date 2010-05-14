@@ -1,9 +1,7 @@
 #!/bin/bash
 # clean up
 rm -rf html
-mkdir html
-mkdir html/docs
-mkdir html/docs/api
+mkdir -p html/docs/api
 # copy CHANGES to html
 cp ../mdp_dist/CHANGES html/CHANGES 
 # generate API documentation:
