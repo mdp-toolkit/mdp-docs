@@ -1914,7 +1914,7 @@ Most classification nodes will therefore simply return the identity function on
 As a first example, we will use the ``GaussianClassifierNode``.
 ::
 
-	>>> gc = GaussianClassifierNode()
+	>>> gc = mdp.nodes.GaussianClassifierNode()
 	>>> gc.train(mdp.numx_rand.random((50, 3)), +1)
 	>>> gc.train(mdp.numx_rand.random((50, 3)) - 0.8, -1)
 	
@@ -2417,7 +2417,6 @@ for the full documentation and interface description.
    Employs K-Means Clustering for a given number of centroids.
 
 - `LibSVMClassifier <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.LibSVMClassifier-class.html>`_
-
    The LibSVMClassifier class acts as a wrapper around the LibSVM library for support vector machines, which needs to be installed as a python module. The software can be found here:    http://www.csie.ntu.edu.tw/~cjlin/libsvm/
 
    **Warning**: Because it is a new 
@@ -2580,7 +2579,6 @@ for the full documentation and interface description.
    signals have zero mean, unit variance and are decorrelated.
 
 - `XSFANode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.XSFANode-class.html>`_
-
    Perform Non-linear Blind Source Separation using Slow Feature Analysis.
    This node is designed to iteratively extract statistically
    independent sources from (in principle) arbitrary invertible
