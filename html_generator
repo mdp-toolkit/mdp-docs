@@ -3,15 +3,15 @@
 rm -rf html
 mkdir -p html/docs/api
 # copy CHANGES to html
-cp ../mdp_dist/CHANGES html/CHANGES 
+cp ../mdp-toolkit/CHANGES html/CHANGES 
 # generate API documentation:
 # echo 'Generating API documentation...'
 #./api_generator
-# cp -r API/docs html/
+cp -r API/docs html/
 # echo 'Done.'
 echo 'Generating tutorial HTML and PDF...'
 cd tutorial_src/
-./genhtml
+#./genhtml
 cd ..
 echo 'Generating MDP website...'
 cd html_src
