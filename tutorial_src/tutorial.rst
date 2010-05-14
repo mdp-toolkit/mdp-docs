@@ -2307,6 +2307,9 @@ for the full documentation and interface description.
 - `CutoffNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.CutoffNode-class.html>`_
    Clip the data at the specified upper and lower bounds.
 
+- `DiscreteHopfieldClassifier <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.DiscreteHopfieldClassifier-class.html>`_
+   Learns discrete patterns and can retrieve them again even when they are slightly distorted.
+
 - `EtaComputerNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.EtaComputerNode-class.html>`_
    Compute the eta values of the normalized training data.
    The delta value of a signal is a measure of its temporal
@@ -2410,6 +2413,20 @@ for the full documentation and interface description.
    Hyvarinen A., Karhunen J., Oja E. (2001). *Independent Component Analysis*,
    Wiley.
 
+- `KMeansClassifier <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.KMeansClassifier-class.html>`_
+   Employs K-Means Clustering for a given number of centroids.
+
+- `LibSVMClassifier <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.LibSVMClassifier-class.html>`_
+
+   The LibSVMClassifier class acts as a wrapper around the LibSVM library for support vector machines, which needs to be installed as a python module. The software can be found here:    http://www.csie.ntu.edu.tw/~cjlin/libsvm/
+
+   **Warning**: Because it is a new 
+   addition to MDP, the LibSVMClassifier should be used with caution. Also, the
+   interface might have some flaws. Any hints or bug reports are very welcome.
+
+   See also,
+   Chih-Chung Chang and Chih-Jen Lin, *LIBSVM : a library for support vector machines* (2001). 
+
 - `LinearRegressionNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.LinearRegressionNode-class.html>`_
    Compute least-square, multivariate linear regression on the input data.
 
@@ -2459,6 +2476,9 @@ for the full documentation and interface description.
    Karhunen-Loeve transform can be found among others in
    I.T. Jolliffe, *Principal Component Analysis*, Springer-Verlag (1986).
 
+- `PerceptronClassifier <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.PerceptronClassifier-class.html>`_
+   Trains a single binary perceptron with multiple inputs.
+
 - `PolynomialExpansionNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.PolynomialExpansionNode-class.html>`_
    Perform expansion in a polynomial space.
 
@@ -2485,6 +2505,21 @@ for the full documentation and interface description.
    Hinton, G. E, Osindero, S., and Teh, Y. W. *A fast learning
    algorithm for deep belief nets*, Neural Computation, 18:1527-1554 (2006). 
    
+- `ShogunSVMClassifier <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.ShogunSVMClassifier-class.html>`_
+   The ShogunSVMClassifier class works as a wrapper class for accessing the
+   SHOGUN machine learning toolbox. We use the python_modular wrapper to access SHOGUN
+   and SHOGUN must not be older than version 0.9. **Warning**: Because it is a new 
+   addition to MDP, the ShogunSVMClassifier should be used with caution. Also, the
+   interface might have some flaws. Any hints or bug reports are very welcome.
+
+   Most of the kernel machines and linear classifiers of shogun should work with
+   this class.
+
+   For exact information about data formats which SHOGUN can accept, see
+   http://www.shogun-toolbox.org/
+
+   S. Sonnenburg, G. Raetsch, C. Schaefer and B. Schoelkopf, *Large Scale Multiple Kernel
+   Learning*, Journal of Machine Learning Research, 7:1531-1565 (2006).
 
 - `SFANode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.SFANode-class.html>`_
    Extract the slowly varying components from the input data.
@@ -2502,6 +2537,9 @@ for the full documentation and interface description.
    More information about Slow Feature Analysis can be found in
    Wiskott, L. and Sejnowski, T.J., *Slow Feature Analysis: Unsupervised
    Learning of Invariances*, Neural Computation, 14(4):715-770 (2002).
+
+- `SimpleMarkovClassifier <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.SimpleMarkovClassifier-class.html>`_
+   Learns the probability with which a label is assigned to a label.
 
 - `TDSEPNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.TDSEPNode-class.html>`_
    Perform Independent Component Analysis using the TDSEP algorithm.
