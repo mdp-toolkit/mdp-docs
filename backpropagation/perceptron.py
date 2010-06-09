@@ -67,6 +67,10 @@ class MPerceptronBiNode(bimdp.BiNode):
         return True
 
     def _execute(self, x):
+        """Return the perceptron output.
+        
+        The output is also stored internally for the backrpopagation learning.
+        """
         self._last_x = x
         if self._weights is None:
             self._weights = np.random.random((self.output_dim, self.input_dim))
@@ -104,7 +108,6 @@ class BackpropBiNode(bimdp.BiNode):
                                              dtype = dtype,
                                              node_id=node_id)
         self._bottom_node = bottom_node
-        self._backprop_corout = None
         self._last_x = None
         
     def is_trainable(self):
@@ -122,6 +125,8 @@ class BackpropBiNode(bimdp.BiNode):
         x -- output of top layer
         reference_output -- target output for top layer
         gamma -- learning rate
+        
+        If no reference_output is available this is only the identity.
         """
         if reference_output is not None:
             # unwrap the reference data
@@ -137,6 +142,7 @@ class BackpropBiNode(bimdp.BiNode):
             return x
             
     def _terminate_backprop(self, x, msg):
+        """Terminate the backpropagation phase and return the output."""
         del msg["method"]
         return self._last_x, msg
         
