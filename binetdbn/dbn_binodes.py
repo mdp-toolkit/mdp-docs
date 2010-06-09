@@ -1,7 +1,9 @@
 """
-This is the binet version of the DBN,
+This file contains everything needed for the binet version of the DBN,
 based on Pietros non-binet DBN node implementation.
 """
+
+import numpy as np
 
 import mdp
 import bimdp
@@ -38,7 +40,7 @@ class DBNLayerBiNode(bimdp.BiNode, DBNLayerNode):
         return None, {"h": h}
         
 
-class DBNMasterBiNode(bimdp.BiNode):
+class DBNMasterBiNode(bimdp.nodes.CoroutineBiNodeMixin, bimdp.BiNode):
     """Node sits atop the DBN and manages the updown training phase."""
     
     def __init__(self, dbn_ids, sender_id, node_id="dbn_master",
@@ -53,73 +55,53 @@ class DBNMasterBiNode(bimdp.BiNode):
                                               input_dim=input_dim,
                                               output_dim=input_dim,
                                               dtype=dtype)
-        self.error = 0
-        self._data_len = 0
-        self._orig_x = None  # temporary storage for the error calculation
-        self._status = "waiting"   # flag used for the phases during training
-        self._iter_counter = 0
-        
-    def bi_reset(self):
-        self._orig_x = None
-        self._status = "waiting"
-        self._iter_counter = 0
-        
-    def _train(self, x, max_iter, min_error, msg, msg_x=None):
-        """Manage the DBN learning loop."""
-        if self._orig_x is None:
-            # first time we reach this node for this data chunk
-            self._orig_x = msg_x
-            # start the up phase
-            self._status = "up"
+    
+    @bimdp.nodes.binode_coroutine(["x", "msg_x", "msg"])
+    def _train(self, x, msg_x, max_iter, min_error, msg):
+        i = 0
+        error = np.inf
+        while i < max_iter and error > min_error:
+            ## up execution phase
+            orig_x = msg_x
+            msg = {}
             for dbn_id in self.dbn_ids:
                 msg[dbn_id + "->method"] = "up_pass"
-            return self._orig_x, msg, self.sender_id
-        elif self._status == "up":
-            # start down phase
-            self._status = "down"
+            x, _, _ = yield orig_x, msg, self.sender_id
+            ## down execution phase
+            msg = {}
             for dbn_id in self.dbn_ids:
                 msg[dbn_id + "->target"] = -1
                 msg[dbn_id + "->method"] = "down_pass"
             msg[self.sender_id + "->target"] = self.node_id
             msg[self.sender_id + "->no_x"] = True  # avoid x dimension error
             msg["h"] = x
-            return None, msg, -1
-        elif self._status == "down":
-            del msg["h"]
+            x, _, _ = yield None, msg, -1
+            ## execution phase
             # do one normal execution for the error calculation
-            self._status = "execute"
-            return self._orig_x, msg, self.sender_id
-        elif self._status == "execute":
-            # get inverse for the error calculation
-            self._status = "inverse"
+            x, msg_x, _ = yield orig_x, None, self.sender_id
+            ## inverse phase
+            msg = {}
             for dbn_id in self.dbn_ids:
                 msg[dbn_id + "->method"] = "inverse"
             msg[self.sender_id + "->target"] = self.node_id
             msg[self.sender_id + "->no_x"] = True
-            return x, msg, -1
-        elif self._status == "inverse":
-            # update error
+            x, _, _ = yield x, msg, -1
+            ## calculate new error and restart up phase
+            i += 1
             # TODO: this seems a little strange, use self._data_len?
-            self.error = float(mdp.numx.absolute(self._orig_x - msg_x).sum())
-            self._data_len += len(self._orig_x)
-            self._iter_counter += 1
-            if (self._iter_counter >= max_iter) or (self.error < min_error):
-                # end iterations
-                return
-            else:
-                # start next iteration with new up phase
-                self._status = "up"
-                for dbn_id in self.dbn_ids:
-                    msg[dbn_id + "->method"] = "up_pass"
-                return self._orig_x, msg, self.sender_id
+            error = float(mdp.numx.absolute(orig_x - msg_x).sum())
+        ## this should end the training
+        raise StopIteration()
 
-            
+
 @mdp.extension_method("html", DBNMasterBiNode, "_html_representation")
 def master_html_representation(self):
-    return (['phase: %s' % self._status,
-             'iter counter: %d' % self._iter_counter,
-             'error: %.5f' % self.error])
-
+    if "_train" in self._coroutine_instances:
+        co_locals = self._coroutine_instances["_train"].gi_frame.f_locals
+        return (['iter counter: %d' % co_locals["i"],
+                 'error: %.5f' % co_locals["error"]])
+    else:
+        return ""
 
 def get_DBN_flow(n_layers, hidden_dims):
     """Factory function for DBNs."""
