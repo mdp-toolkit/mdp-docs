@@ -5,8 +5,7 @@ Simple demo of the binet DBN version, presenting a training inspection.
 import mdp
 import bimdp
 
-# import dbn_binodes
-import dbn_binodes_coroutine as dbn_binodes
+import dbn_binodes
 
 ## create DBN
 n_layers = 2

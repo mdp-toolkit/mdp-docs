@@ -11,8 +11,12 @@ This should help with understanding how the implementation works.
 
 Other files:
 dbn_nodes.py -- This is the original non-bimdp DBN node from Pietro, which is
-    the basis for the binet DBN implementation.
-dbn_binodes.py -- The bimdp version of a DBN.
-dbn_binodes_coroutine.py -- Almost the same as dbn_binodes.py, but using a
-    coroutine for managing the different phases.
-  
+    the basis for the BiMDP DBN implementation.
+dbn_binodes.py -- The current BiMDP implementation of the DBN,
+	based on the coroutine decorator for easy continuation.
+	
+old_dbn_binodes_coroutine.py -- Older version based on a coroutine, but without
+	using the coderoator. This might still be useful to understand how the
+	codecorator actually works.
+old_dbn_binodes_statemachine.py -- Older version based on a state machine
+	implementation.
