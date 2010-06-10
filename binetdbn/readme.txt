@@ -15,8 +15,8 @@ dbn_nodes.py -- This is the original non-bimdp DBN node from Pietro, which is
 dbn_binodes.py -- The current BiMDP implementation of the DBN,
 	based on the coroutine decorator for easy continuation.
 	
-old_dbn_binodes_coroutine.py -- Older version based on a coroutine, but without
+dbn_binodes_coroutine_old.py -- Older version based on a coroutine, but without
 	using the coderoator. This might still be useful to understand how the
 	codecorator actually works.
-old_dbn_binodes_statemachine.py -- Older version based on a state machine
+dbn_binodes_statemachine_old.py -- Older version based on a state machine
 	implementation.

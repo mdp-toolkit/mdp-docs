@@ -45,7 +45,8 @@ class DBNMasterBiNode(bimdp.nodes.CoroutineBiNodeMixin, bimdp.BiNode):
     
     def __init__(self, dbn_ids, sender_id, node_id="dbn_master",
                  input_dim=None, output_dim=None, dtype=None):
-        """
+        """Initialize node.
+        
         sender_id -- id of the sender node at the flow bottom.
         dbn_ids -- List with the ids of all the DBN node in the correct order.
         """
@@ -58,6 +59,7 @@ class DBNMasterBiNode(bimdp.nodes.CoroutineBiNodeMixin, bimdp.BiNode):
     
     @bimdp.nodes.binode_coroutine(["x", "msg_x", "msg"])
     def _train(self, x, msg_x, max_iter, min_error, msg):
+        """Manage the DBN training."""
         i = 0
         error = np.inf
         while i < max_iter and error > min_error:
@@ -88,7 +90,6 @@ class DBNMasterBiNode(bimdp.nodes.CoroutineBiNodeMixin, bimdp.BiNode):
             x, _, _ = yield x, msg, -1
             ## calculate new error and restart up phase
             i += 1
-            # TODO: this seems a little strange, use self._data_len?
             error = float(mdp.numx.absolute(orig_x - msg_x).sum())
         ## this should end the training
         raise StopIteration()
