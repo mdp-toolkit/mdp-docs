@@ -97,7 +97,7 @@ class DBNMasterBiNode(bimdp.nodes.CoroutineBiNodeMixin, bimdp.BiNode):
 
 @mdp.extension_method("html", DBNMasterBiNode, "_html_representation")
 def master_html_representation(self):
-    if "_train" in self._coroutine_instances:
+    if self._coroutine_instances and "_train" in self._coroutine_instances:
         co_locals = self._coroutine_instances["_train"].gi_frame.f_locals
         return (['iter counter: %d' % co_locals["i"],
                  'error: %.5f' % co_locals["error"]])
