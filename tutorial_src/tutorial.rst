@@ -3038,8 +3038,9 @@ There are also three more additions to the ``BiNode`` API:
     
   ``bi_reset``
     This method is called by the ``BiFlow`` before and after training and
-    execution (and the ``stop_training`` / ``stop_message`` propagation). It
-    can be overriden by derived classes to reset internal state variables.
+    execution (and the ``stop_training`` / ``stop_message`` propagation). You
+    can be override the private ``_bi_reset`` method to reset internal
+    state variables (``_bi_reset`` is called by ``bi_reset``).
     
   ``is_bi_training``
     This method is similar to the ``is_training`` method of standard MDP nodes.
@@ -3090,9 +3091,9 @@ instead the private versions with an underscore in front (for training
 you can of course also overwrite ``_get_train_seq``). In addtion to the 
 dimensionality checks performed on ``x`` by the ``Node`` class this 
 enables a couple of message handling features. This also applies to the 
-new ``_stop_message`` method. On the other hand ``bi_reset`` and 
-``is_bi_training`` can be directly overwritten (like ``is_training`` in 
-``Node``), there are no private methods for these. 
+new ``_stop_message`` method. On the other hand ``is_bi_training`` can be
+directly overwritten (because it only returns a boolean value,
+like ``is_training`` in ``Node``). 
 
 The automatic message handling is a major feature in ``BiNode`` and 
 relies on the dynamic nature of Python. In the ``FDABiNode`` and 
