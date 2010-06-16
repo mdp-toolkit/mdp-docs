@@ -62,7 +62,7 @@ class DBNMasterBiNode(bimdp.BiNode):
         self._error = None
         self._iter_counter = None
         
-    def bi_reset(self):
+    def _bi_reset(self):
         self._train_coroutine = None
         self._status = "waiting"
         self._error = np.inf

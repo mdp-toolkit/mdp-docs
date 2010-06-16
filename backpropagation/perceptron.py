@@ -87,7 +87,7 @@ class MPerceptronBiNode(bimdp.BiNode):
                                         axis=0)
         return new_error
     
-    def bi_reset(self):
+    def _bi_reset(self):
         self._last_x = None
         self._last_y = None
         
@@ -116,7 +116,7 @@ class BackpropBiNode(bimdp.BiNode):
     def is_invertible(self):
         return True
     
-    def bi_reset(self):
+    def _bi_reset(self):
         self._last_x = None
         
     def _execute(self, x, reference_output=None, gamma=0.1):

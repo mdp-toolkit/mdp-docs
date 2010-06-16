@@ -59,7 +59,7 @@ class DBNMasterBiNode(bimdp.BiNode):
         self._status = "waiting"   # flag used for the phases during training
         self._iter_counter = 0
         
-    def bi_reset(self):
+    def _bi_reset(self):
         self._orig_x = None
         self._status = "waiting"
         self._iter_counter = 0

@@ -40,7 +40,7 @@ class DBNLayerBiNode(bimdp.BiNode, DBNLayerNode):
         return None, {"h": h}
         
 
-class DBNMasterBiNode(bimdp.nodes.CoroutineBiNodeMixin, bimdp.BiNode):
+class DBNMasterBiNode(bimdp.BiNode):
     """Node sits atop the DBN and manages the updown training phase."""
     
     def __init__(self, dbn_ids, sender_id, node_id="dbn_master",
@@ -57,7 +57,7 @@ class DBNMasterBiNode(bimdp.nodes.CoroutineBiNodeMixin, bimdp.BiNode):
                                               output_dim=input_dim,
                                               dtype=dtype)
     
-    @bimdp.nodes.binode_coroutine(["x", "msg_x", "msg"])
+    @bimdp.binode_coroutine(["x", "msg_x", "msg"])
     def _train(self, x, msg_x, max_iter, min_error, msg):
         """Manage the DBN training."""
         i = 0
