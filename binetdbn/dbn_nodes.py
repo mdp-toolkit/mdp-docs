@@ -44,13 +44,13 @@ class DBNLayerNode(mdp.Node):
         return self._sample_v(h)
 
     def _sample_h(self, v):
-        # P(h=1|v,W,b)
+        """Return P(h=1|v,W,b)."""
         probs = 1./(1. + exp(-self.bh - mult(v, self.w_rec)))
         h = (probs > random(probs.shape)).astype('d')
         return probs, h
 
     def _sample_v(self, h):
-        # P(v=1|h,W,b)
+        """Return P(v=1|h,W,b)."""
         probs = 1./(1. + exp(-self.bv - mult(h, self.w_gen.T)))
         v = (probs > random(probs.shape)).astype('d')
         return probs, v

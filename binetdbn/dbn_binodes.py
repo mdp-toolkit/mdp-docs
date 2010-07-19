@@ -9,6 +9,8 @@ import mdp
 import bimdp
 from dbn_nodes import DBNLayerNode
 
+class DBNException(Exception):
+    pass
 
 class DBNLayerBiNode(bimdp.BiNode, DBNLayerNode):
     """Adapter to turn the DBNLayerNode into a BiNode."""
@@ -106,6 +108,13 @@ def master_html_representation(self):
 
 def get_DBN_flow(n_layers, hidden_dims):
     """Factory function for DBNs."""
+    if not hasattr(hidden_dims, '__iter__'):
+        raise DBNException("hidden_dims must be a list or other iterable")
+    if len(hidden_dims) != n_layers:
+        err_str = "The number of hidden layers should be %d " % n_layers + \
+                  "but hidden_dims is %d elements long" % len(hidden_dims)
+        raise DBNException(err_str)
+    
     dbn_ids = []
     nodes = [bimdp.nodes.SenderBiNode(node_id="sender")]
     for i_layer in range(n_layers):
