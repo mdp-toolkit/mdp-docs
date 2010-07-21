@@ -14,6 +14,9 @@
     {{ super() }}
     {% endblock %}
 
+    {# remove the lower relbar #}
+    {% block relbar2 %}{% endblock %}
+
     {# put the sidebar before the body #}
     {% block sidebar1 %}{{ sidebar() }}{% endblock %}
     {% block sidebar2 %}{% endblock %}
