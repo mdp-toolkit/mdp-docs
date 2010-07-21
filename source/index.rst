@@ -12,6 +12,10 @@ Welcome to the Modular Toolkit for Data Processing documentation!
    :maxdepth: 2
 
    news.rst
+   about.rst
+   install.rst
+   maintainers.rst
+   how_to_cite_mdp.rst
    tutorial.rst   
    api.rst
    
