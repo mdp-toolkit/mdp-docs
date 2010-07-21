@@ -1,11 +1,8 @@
 {% extends "!layout.html" %}
 
 
-    {% block rootrellink %}
-            <li><a href="{{ pathto('index') }}">home</a>|&nbsp;</li>
-            <li><a href="{{ pathto('search') }}">search</a>|&nbsp;</li>
-           <li><a href="{{ pathto('contents') }}">documentation </a> &raquo;</li>
-    {% endblock %}
+    {# remove the index, search and contents links in the relbars #}
+    {% block rootrellink %}{% endblock %}
 
 
     {% block relbar1 %}
