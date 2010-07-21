@@ -57,7 +57,7 @@ class DBNMasterBiNode(bimdp.BiNode):
                                               output_dim=input_dim,
                                               dtype=dtype)
     
-    @bimdp.binode_coroutine(["x", "msg_x", "msg"])
+    @bimdp.binode_coroutine(["msg_x", "msg"])
     def _train(self, x, msg_x, max_iter, min_error, msg):
         """Manage the DBN training."""
         i = 0
