@@ -6,20 +6,19 @@
 Welcome to the Modular Toolkit for Data Processing documentation!
 =================================================================
 
-**Contents:**
+Contents:
+=========
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
 
    news.rst
    about.rst
    install.rst
    maintainers.rst
    how_to_cite_mdp.rst
-   tutorial.rst   
+   tutorial.rst
    api.rst
-   
-   
 
 **Indices and tables**
 
