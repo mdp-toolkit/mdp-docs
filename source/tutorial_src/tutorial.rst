@@ -50,50 +50,54 @@ available.
 Introduction
 ------------
 The use of the Python programming language in computational
-neuroscience has been growing steadily during the past few years. The
+neuroscience has been growing steadily over the past few years. The
 maturation of two important open source projects, the scientific
 libraries `NumPy <http://numpy.scipy.org>`_ and 
 `SciPy <http://www.scipy.org>`_, gives access to a large
-collection of scientific functions that rivals in size and speed with
-well known commercial alternatives like The MathWorks\ |trade|
-`Matlab <http://www.mathworks.com/products/matlab>`_\ |copy|.
-Furthermore, the flexible and dynamic nature of Python offers the
-scientific programmer the opportunity to quickly develop efficient and
+collection of scientific functions which rival in size and speed those from 
+well known commercial alternatives such as `Matlab <http://www.mathworks.com/products/matlab>`_\ |copy| from The MathWorks\ |trade|.
+
+Furthermore, the flexible and dynamic nature of Python offers 
+scientific programmers the opportunity to quickly develop efficient and
 structured software while maximizing prototyping and reusability
 capabilities.
 
 The `Modular toolkit for Data Processing (MDP)
 <http://mdp-toolkit.sourceforge.net>`_ package contributes to this
 growing community a library of widely used data processing algorithms,
-and the possibility to combine them according to a pipeline analogy to
-build more complex data processing software.
+and the possibility to combine them together to form pipelines for
+building more complex data processing software.
 
 MDP has been designed to be used as-is and as a framework for
 scientific data processing development.
 
 From the user's perspective, MDP consists of a collection of
-supervised and unsupervised learning algorithms, and other data
-processing units (*nodes*) that can be combined into data processing
-sequences (*flows*) and more complex feed-forward network
-architectures. Given a set of input data, MDP takes care of
-successively training or executing all nodes in the network. This
-allows the user to specify complex algorithms as a series of simpler
-data processing steps in a natural way. 
+*units* which process data. For example, these include algorithms for supervised
+ and unsupervised learning, principal & independent components analysis and
+classification.
 
-The base of available algorithms is steadily increasing and includes,
-to name but the most common, Principal Component Analysis (PCA and
+These *units* can be chained into data processing, *flows*, to create pipelines
+as well as more complex feed-forward network architectures. Given a set of
+input data, MDP takes care of training and executing all nodes in the network
+in the correct order and  passing intermediate data between the nodes. This
+allows the user to specify complex algorithms as a series of simpler data
+processing steps. 
+
+The number of available algorithms is steadily increasing and includes,
+to name just the most common, Principal Component Analysis (PCA and
 NIPALS), several Independent Component Analysis algorithms (CuBICA,
 FastICA, TDSEP, JADE, and XSFA), Slow Feature Analysis, Gaussian
 Classifiers, Restricted Boltzmann Machine, and Locally Linear Embedding
 (see the `Node List`_ section for a more exhaustive list and 
 references).
 
-Particular care has been taken to make computations efficient in terms
-of speed and memory.  To reduce memory requirements, it is possible to
-perform learning using batches of data, and to define the internal
-parameters of the nodes to be single precision, which makes the usage of
-very large data sets possible.  Moreover, the ``parallel`` subpackage
-offers a parallel implementation of the basic nodes and flows.
+Particular care has been taken to make computations efficient in terms of speed
+and memory.  To reduce the memory footprint, it is possible to perform learning
+using batches of data. For large data-sets, it is also possible to specify that
+MDP should use single precision floating point numbers rather than double
+precision ones.  Finally, calculations can be parallelised using the
+``parallel`` subpackage, which offers a parallel implementation of the basic
+nodes and flows.
 
 From the developer's perspective, MDP is a framework that makes the
 implementation of new supervised and unsupervised learning algorithms
@@ -102,22 +106,27 @@ tedious tasks like numerical type and dimensionality checking, leaving
 the developer free to concentrate on the implementation of the
 learning and execution phases. Because of the common interface, the
 node then automatically integrates with the rest of the library and
-can be used in a network together with other nodes. A node can have
-multiple training phases and even an undetermined number of phases.
+can be used in a network together with other nodes. 
+
+.. todo:
+  Todo - Explain What is a Phase??
+
+A node can have multiple training phases and even an undetermined number of phases.
 This allows the implementation of algorithms that need to collect some
 statistics on the whole input before proceeding with the actual
 training, and others that need to iterate over a training phase until
-a convergence criterion is satisfied. The ability to train each phase 
-using chunks of input data is maintained if the chunks are given as an 
-iterable. Moreover, crash recovery is optionally available: in case of 
-failure, the current state of the flow is saved for later inspection.
+a convergence criterion is satisfied. It is possible to train each phase 
+using chunks of input data if the chunks are given as an 
+iterable. Moreover, crash recovery can be optionally enabled, which will save
+the state of the flow in case of a failure for later inspection 
+
 
 MDP is distributed under the open source LGPL license. It has been
 written in the context of theoretical research in neuroscience, but it
 has been designed to be helpful in any context where trainable data
 processing algorithms are used. Its simplicity on the user's side, the
 variety of readily available algorithms, and the reusability of the
-implemented nodes make it also a useful educational tool.
+implemented nodes also make it a useful educational tool.
 
 With over 10,000 downloads since its first public release in 2004, MDP
 has become a widely used Python scientific software. It has minimal
@@ -129,7 +138,7 @@ in the GNU/Linux
 `Python(x,y) <http://www.pythonxy.com>`_ scientific Python
 distribution.
 
-As the number of its users and contributors is increasing, MDP appears
+As the number of users and contributors is increasing, MDP appears
 to be a good candidate for becoming a community-driven common
 repository of user-supplied, freely available, Python implemented data
 processing algorithms.
@@ -170,33 +179,34 @@ Nodes
 -----
 
 A *node* is the basic building block of an MDP application.  It
-represents a data processing element, like for example a learning
+represents a data processing element, for example a learning
 algorithm, a data filter, or a visualization step (see the `Node
 List`_ section for an exhaustive list and references).
 
-Each node can have one or more training phases, during which the
+Each node can have one or more *training phases*, during which the
 internal structures are learned from training data (e.g. the weights
 of a neural network are adapted or the covariance matrix is estimated)
-and an execution phase, where new data can be processed forwards (by
+and an *execution phase*, where new data can be processed forwards (by
 processing the data through the node) or backwards (by applying the
 inverse of the transformation computed by the node if defined).
 
-Nodes have been designed to be applied to arbitrarily long sets of data:
-if the underlying algorithms supports it, the internal structures can
+Nodes have been designed to be applied to arbitrarily long sets of data;
+provided the underlying algorithms support it, the internal structures can
 be updated incrementally by sending multiple batches of data (this is
 equivalent to online learning if the chunks consists of single
 observations, or to batch learning if the whole data is sent in a
-single chunk). It is thus possible to perform computations on amounts
-of data that would not fit into memory or to generate data on-the-fly.
+single chunk). This makes it possible to perform computations on large amounts
+of data that would not fit into memory and to generate data on-the-fly.
 
-A ``Node`` also defines some utility methods, like for example
-``copy`` and ``save``, that return an exact copy of a node and save it
-in a file, respectively. Additional methods may be present, depending on the
+A ``Node`` also defines some utility methods, for example
+``copy``, which returns an exact copy of a node,  and ``save``, which writes it
+in a file. Additional methods may also be present, depending on the
 algorithm.
+
  
 Node Instantiation
 ~~~~~~~~~~~~~~~~~~~
-Nodes can be obtained by creating an instance of the ``Node`` class.
+A node can be obtained by creating an instance of the ``Node`` class.
 
 Each node is characterized by an input dimension (i.e., the
 dimensionality of the input vectors), an output dimension, and a
