@@ -21,8 +21,14 @@
     {% block sidebar1 %}{{ sidebar() }}{% endblock %}
     {% block sidebar2 %}{% endblock %}
 
+    {% block sidebartoc %}{% endblock %}
+
+    {% block sidebarrel %}{% endblock %}
+
     {# modify the search bar in the sidebar #}
     {% block sidebarsearch %}
+    <h3>{{ _('Navigation') }}</h3>
+        {{ toctree() }}
         <!-- SiteSearch Google -->
         <h3>{{ _('Quick search') }}</h3>
         <form method=GET action="http://www.google.com/search">
