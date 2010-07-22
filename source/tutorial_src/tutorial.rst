@@ -71,10 +71,10 @@ building more complex data processing software.
 MDP has been designed to be used as-is and as a framework for
 scientific data processing development.
 
-From the user's perspective, MDP consists of a collection of
-*units* which process data. For example, these include algorithms for supervised
- and unsupervised learning, principal & independent components analysis and
-classification.
+From the user's perspective, MDP consists of a collection of *units* 
+which process data. For example, these include algorithms for supervised 
+and unsupervised learning, principal & independent components analysis 
+and classification.
 
 These *units* can be chained into data processing, *flows*, to create pipelines
 as well as more complex feed-forward network architectures. Given a set of
@@ -108,20 +108,18 @@ learning and execution phases. Because of the common interface, the
 node then automatically integrates with the rest of the library and
 can be used in a network together with other nodes. 
 
-.. todo:
-  Todo - Explain What is a Phase??
+A node can have multiple training phases and even an undetermined number 
+of phases. Multiple training phases mean that the training data is 
+presented multiple times to the same node. This allows the 
+implementation of algorithms that need to collect some statistics on the 
+whole input before proceeding with the actual training, and others that 
+need to iterate over a training phase until a convergence criterion is 
+satisfied. It is possible to train each phase using chunks of input data 
+if the chunks are given as an iterable. Moreover, crash recovery can be 
+optionally enabled, which will save the state of the flow in case of a 
+failure for later inspection 
 
-A node can have multiple training phases and even an undetermined number of phases.
-This allows the implementation of algorithms that need to collect some
-statistics on the whole input before proceeding with the actual
-training, and others that need to iterate over a training phase until
-a convergence criterion is satisfied. It is possible to train each phase 
-using chunks of input data if the chunks are given as an 
-iterable. Moreover, crash recovery can be optionally enabled, which will save
-the state of the flow in case of a failure for later inspection 
-
-
-MDP is distributed under the open source LGPL license. It has been
+MDP is distributed under the open source **TODO!!!!** license. It has been
 written in the context of theoretical research in neuroscience, but it
 has been designed to be helpful in any context where trainable data
 processing algorithms are used. Its simplicity on the user's side, the
@@ -1485,12 +1483,35 @@ by ``get_extensions``, since this will actually modify the registered
 extensions. The currently activated extensions are returned
 by ``get_active_extensions``. To activate an extension use
 ``activate_extension``, e.g. to activate the parallel extension
-use ``mdp.activate_extension("parallel")``. Alternatively you can
-use the function decorator ``@with_extension("parallel")``. In the future
-we will also support the new ``with`` statement in Python. Activating an
-extension adds the available extensions attributes to the supported nodes.
-An extension can be deactivated with ``deactivate_extension`` (if you use the 
-function decorator this is done automatically at the end).
+write:
+
+::
+
+    >>> mdp.activate_extension("parallel")
+    >>> # now you can use the added attributes / methods
+    >>> mdp.deactivate_extension("parallel")
+    >>> # the additional attributes are no longer available
+
+Activating an extension adds the available extensions attributes to the 
+supported nodes. MDP also provides a context manager for the 
+``with`` statement: 
+
+::
+
+    >>> with mdp.extension("parallel"):
+    ...     pass
+    ...
+    >>>
+
+Finally there is also a function decorator:
+
+::
+
+    >>> @mdp.with_extension("parallel")
+    ... def f():
+    ...     pass
+    ...
+    >>>
 
 Writing Extension Nodes
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -1498,27 +1519,36 @@ Suppose you have written your own nodes and would like to make them compatible
 with a particular extension (e.g. add the required methods).
 The first way to do this is by using multiple inheritance to derive from
 the base class of this extension and your custom node class. For example
-the parallel extension of the SFA node is defined in a class
-``ParallelSFANode(ParallelExtensionNode, mdp.nodes.SFANode)``. Here
-``ParallelExtensionNode`` is the base class of the extension. Then you define
-the required methods or attributes just like in a normal class.
-If you want you could even use the new ``ParallelSFANode`` class like a
-normal class, ignoring the extension mechanism.
-Note that your extension node is automatically registered in the
-extension mechanism (through a little metaclass magic).
-
-For methods you can alternatively use the ``extension_method`` function
-decorator. You define the extension method like a normal function, but add
-the function decorator on top, for example: 
-
-.. raw:: html
-
-   <!-- ignore -->
+the parallel extension of the SFA node is defined in a class:
 
 ::
 
-    >>> @mdp.extension_method("html", mdp.hinet.Rectangular2dSwitchboard) 
-    ... def _html_representation(self):
+    >>> class ParallelSFANode(ParallelExtensionNode, mdp.nodes.SFANode):
+    ...     def _fork(self):
+    ...         # implement the forking for SFANode
+    ...         pass
+    ...     def _join(self):
+    ...         # implement the joining for SFANode
+    ...         pass
+    ...
+    >>>
+
+Here ``ParallelExtensionNode`` is the base class of the extension. Then 
+you define the required methods or attributes just like in a normal 
+class. If you want you could even use the new ``ParallelSFANode`` class 
+like a normal class, ignoring the extension mechanism. Note that your 
+extension node is automatically registered in the extension mechanism 
+(through a little metaclass magic). 
+
+For methods you can alternatively use the ``extension_method`` function
+decorator. You define the extension method like a normal function, but add
+the function decorator on top. For example to define the ``_fork`` method
+for the ``SFANode`` we could have also used:
+
+::
+
+    >>> @mdp.extension_method("parallel", mdp.nodes.SFANode) 
+    ... def _fork(self):
     ...     pass
     ...
     >>>
@@ -1534,10 +1564,6 @@ To create a new node extension you just have to create a new extension base
 class. For example the HTML representation extension in ``mdp.hinet``
 is created with
 
-.. raw:: html
-
-   <!-- ignore -->
-
 ::
 
     >>> class  HTMLExtensionNode(mdp.ExtensionNode, mdp.Node):
@@ -1550,12 +1576,13 @@ is created with
     ...
     >>>
             
-Note that you must derive from ``ExtensionNode``. If you also derive from
-``mdp.Node`` then the methods (and attributes) in this class are the default implementation for the ``mdp.Node`` class. So they will be used
-by all nodes without a more specific implementation. If you do not derive from
-``mdp.Node`` then there is no such default implementation. You can also derive
-from a more specific node class if your extension only applies to these
-specific nodes.
+Note that you must derive from ``ExtensionNode``. If you also derive 
+from ``mdp.Node`` then the methods (and attributes) in this class are 
+the default implementation for the ``mdp.Node`` class. So they will be 
+used by all nodes without a more specific implementation. If you do not 
+derive from ``mdp.Node`` then there is no such default implementation. 
+You can also derive from a more specific node class if your extension 
+only applies to these specific nodes. 
 
 When you define a new extension then you must define the ``extension_name``
 attribute. This magic attribute is used to register the new extension and you
@@ -1568,10 +1595,10 @@ also available as ``mdp.ORIGINAL_ATTR_PREFIX``). On the other hand one
 extension is not allowed to override attributes that were defined by 
 another currently active extension.
 
-The extension mechanism uses some 
-magic to make the behavior more intuitive with respect to inheritance. 
-Basically methods or attributes defined by extensions shadow those which 
-are not defined in the extension. Here is an example:
+The extension mechanism uses some magic to make the behavior more 
+intuitive with respect to inheritance. Basically methods or attributes 
+defined by extensions shadow those which are not defined in the 
+extension. Here is an example: 
 
 ::
 
