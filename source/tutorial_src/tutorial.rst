@@ -3216,7 +3216,10 @@ there is of course some overhead for the deep copying). You can also set
 the ``use_copies`` property via the message mechanism by simply adding a 
 ``"use_copies"`` key with the required boolean value. The ``CloneBiLayer`` 
 class also looks for this key in outgoing messages (so it can be send 
-by nodes inside the layer). 
+by nodes inside the layer). A ``CloneBiLayer`` can also split arrays in the
+message to feed them to the nodes (see the doctring for more details).
+``CloneBiLayer`` is compatible with the target mechanism (e.g. if the
+``CloneBiLayer`` contains a ``BiFlowNode`` you can target an internal node).
 
 Parallel in BiMDP
 ~~~~~~~~~~~~~~~~~
