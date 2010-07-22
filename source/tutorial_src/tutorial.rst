@@ -1430,8 +1430,9 @@ Don't forget to clean the rubbish:
 Node Extensions
 ---------------
 
-First note that dealing with the node extension mechanism should be considered
-advanced usage, so you can skip this section.
+.. Note::
+    The node extension mechanism is an advanced topic, so you can skip
+    this section.
 
 The node extension mechanism makes it possible to dynamically add methods or
 class attributes for specific features to node classes (e.g. for
@@ -2867,13 +2868,12 @@ installation):
 
     >>> import bimdp
 
-**Warning:** BiMDP is a new addition to MDP, so currently it should be 
-considered as beta-stage software. Even though it already went through 
-long testing and several refactoring rounds it is still not as mature and 
-polished as the rest of MDP. This also means that your bug findings or 
-suggestions for improvement will be very valuable. The API of BiMDP should be 
-pretty stable now, we don't expect any fundamental breakages in
-the future.
+.. Warning::
+      BiMDP is a new addition to MDP. Even though it already went through 
+      long testing and several refactoring rounds it is still not as mature and 
+      polished as the rest of MDP. The API of BiMDP should be 
+      stable now, we don't expect any significant breakages in
+      the future.
 
 Here is a brief summary of the most important new features in BiMDP:
 
