@@ -17,7 +17,7 @@ Contents:
    install.rst
    maintainers.rst
    how_to_cite_mdp.rst
-   tutorial.rst
+   tutorial_src/tutorial.rst
    api.rst
 
 **Indices and tables**
