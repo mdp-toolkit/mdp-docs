@@ -2858,22 +2858,22 @@ BiMDP
 BiMDP defines a framework for more general flow sequences, involving 
 top-down processes (e.g. for error backpropagation) and loops. So 
 the *bi* in BiMDP primarily stands for *bidirectional*. It also adds 
-a couple of other features, like a standartized way to transport 
+a couple of other features, like a standardized way to transport 
 additional data, and a HTML based flow inspection utility. Because BiMDP 
 is a rather large addition and changes a few things compared to 
 standard MDP it is not included in ``mdp`` but must be imported 
-seperately as ``bimdp`` (BiMDP is included in the standard MDP 
+separately as ``bimdp`` (BiMDP is included in the standard MDP 
 installation):
 ::
 
     >>> import bimdp
 
 .. Warning::
-      BiMDP is a new addition to MDP. Even though it already went through 
-      long testing and several refactoring rounds it is still not as mature and 
-      polished as the rest of MDP. The API of BiMDP should be 
-      stable now, we don't expect any significant breakages in
-      the future.
+    BiMDP is a relatively new addition to MDP (it was added in MDP 2.6). 
+    Even though it already went through long testing and several refactoring 
+    rounds it is still not as mature and polished as the rest of MDP. The 
+    API of BiMDP should be stable now, we don't expect any significant 
+    breakages in the future. 
 
 Here is a brief summary of the most important new features in BiMDP:
 
@@ -2886,12 +2886,12 @@ Here is a brief summary of the most important new features in BiMDP:
   
   The complexities of arbitrary data flows are evenly split up 
   between ``BiNode`` and ``BiFlow``: Nodes specify their data and target 
-  using a standartized interface, which is then interpreted by the flow 
+  using a standardized interface, which is then interpreted by the flow 
   (somewhat like a very primitive domain specific language). The 
-  alternative approach would have been to use specialised flow classes or 
+  alternative approach would have been to use specialized flow classes or 
   container nodes for each use case, which ultimately comes down to a 
   design decision. Of course you can (and should) still take that route if 
-  for some reson BiMDP is not an adequate solution for your problem. 
+  for some reason BiMDP is not an adequate solution for your problem. 
 
 - In addition to the standard array data, nodes can transport more data
   in a message dictionary (these are really just standard Python dictionaries,
@@ -2900,7 +2900,7 @@ Here is a brief summary of the most important new features in BiMDP:
  
 - An interactive HTML-based inspection for flow training and execution is
   available. This allows you to step through your flow for debugging or add
-  custom visualizations to analyse what is going on.
+  custom visualizations to analyze what is going on.
   
 - BiMDP supports and extends the ``hinet`` and the ``parallel``
   packages from MDP. BiMDP in general is compatible with MDP, so you can use
@@ -2973,28 +2973,26 @@ BiFlow
 The ``BiFlow`` class mostly works in the same way as the normal ``Flow`` 
 class. We already mentioned several of the new features, like support 
 for targets, messages, and retrieving nodes based on their ``node_id``. 
-Appart from that the only major difference is the way in which you can 
+Apart from that the only major difference is the way in which you can 
 provide additional arguments for nodes. For example the ``FDANode`` in 
 MDP requires class labels in addition to the data array (telling the 
 node to which class each data point belongs). In the ``Flow`` class the 
-additional data (the class labels) is provided by the same iterable as 
-the data. In a ``BiFlow`` this is no longer allowed, since this 
-functionality is provided by the more general message mechanism. In 
-addition to the ``data_iterables`` keyword argument there is a new 
-``msg_iterables`` argument, to provide iterables for the message 
-dictionary. The structure of the ``msg_iterables`` argument must be the 
-same as that of ``data_iterables``, but instead of yielding arrays it 
-should yield dictionaries (containing the additional data values with 
-the corresponding keys). Here is an example: 
-
-
+additional training data (the class labels) is provided by the same 
+iterable as the data. In a ``BiFlow`` this is no longer allowed, since 
+this functionality is provided by the more general message mechanism. In 
+addition to the ``data_iterables`` keyword argument of ``train`` there 
+is a new ``msg_iterables`` argument, to provide iterables for the 
+message dictionary. The structure of the ``msg_iterables`` argument must 
+be the same as that of ``data_iterables``, but instead of yielding 
+arrays it should yield dictionaries (containing the additional data 
+values with the corresponding keys). Here is an example: 
 
 ::
   
     >>> samples = mdp.numx_rand.random((100,10))
     >>> labels = mdp.numx.arange(100)
     >>> flow = bimdp.BiFlow([mdp.nodes.PCANode(), bimdp.nodes.FDABiNode()])
-    >>> flow.train([[samples],[samples]], [None,[{"cl": labels}]])
+    >>> flow.train([[samples],[samples]], msg_iterables=[None,[{"cl": labels}]])
 
     
 The ``_train`` method of ``FDANode`` requires the ``cl`` argument, so this
@@ -3018,7 +3016,8 @@ The ``train`` method of ``BiFlow`` also has an additional argument
 called ``stop_messages``, which can be used to provide message iterables 
 for ``stop_training``. The ``execute`` method on the other hand has an 
 argument ``target_iterable``, which can be used to specify the initial 
-target in the flow execution. 
+target in the flow execution (if the ``iterable`` is just a single array
+then of course the ``target_iterable`` should be just a single ``node_id``).
 
 BiNode
 ~~~~~~   
@@ -3027,28 +3026,22 @@ We now want to give an overview of the ``BiNode`` API, which is mostly an
 extension of the ``Node`` API. First we take a look at the possible return
 values of a ``BiNode`` and briefly explain their meaning:
 
-``execute``
-  ``x`` or ``(x, msg)`` or ``(x, msg, target)``. Normal execution continues,
-  directly jumping to the target if one is specified.
-  
-``train``
-
+- ``execute``
+    - ``x`` or ``(x, msg)`` or ``(x, msg, target)``. Normal execution continues,
+      directly jumping to the target if one is specified.
+-  ``train``
     - ``None`` terminates training.
-  
     - ``x`` or ``(x, msg)`` or ``(x, msg, target)``. Means that execution is
       continued and that this node will be reached again to terminate training.
       If ``x`` is ``None`` and no target is specified then the remaining
       ``msg`` is dropped (so it is not required to 'clear' the message
       manually in ``_train`` for custom nodes to terminate training).
-
-
-``stop_training, stop_message``
-
-    - ``None`` terminates the stop_message propagation.
-    
-    - ``(msg, target)``. If no target is specified then the remaining ``msg``
-      is dropped (terminates the propagation).
-
+- ``stop_training``
+    - ``None`` doesn't do anything, like the normal MDP ``stop_training``.
+    - ``x`` or ``(x, msg)`` or ``(x, msg, target)``. Causes an execute
+      like phase, which terminates when the end of the flow is reached
+      or when ``EXIT_TARGET`` is given as target value (just like during a
+      normal execute phase, ``EXIT_TARGET`` is explained later).
 
 Of course all these methods also accept messages. Compared to ``Node`` 
 methods they have a new ``msg`` argument. The ``target`` part on the 
@@ -3057,12 +3050,10 @@ other hand is only used by the ``BiFlow``.
 As you can see from ``train``, the training does not always stop when 
 the training node is reached. Instead it is possible to continue with 
 the execution to come back later. For example this is used in the 
-backpropagation example (in the MDP examples repository). There is also 
-a new ``stop_training`` result option. If ``stop_training`` returns a result 
-then the ``BiFlow`` enters a mode where it propagates the result based 
-on the given target by calling ``stop_message``. This can be used to 
-propagate results from the node training or to prepare nodes for their 
-upcoming training. 
+backpropagation example (in the MDP examples repository). There are also 
+the new ``stop_training`` result options that start an execute phase. 
+This can be used to propagate results from the node training or to 
+prepare nodes for their upcoming training. 
 
 Some of these new options might be confusing at first. However, you 
 can simply ignore those that you don't need and concentrate on the 
@@ -3071,19 +3062,19 @@ use messages without ever worrying about targets.
 
 There are also three more additions to the ``BiNode`` API:
 
-  ``node_id``
+- ``node_id``
     This is a read-only property, which returns the node id
     (which is ``None`` if it wasn't specified). The ``__init__``
     method of a ``BiNode`` generally accepts a ``node_id`` keyword argument
     to set this value.
     
-  ``bi_reset``
+- ``bi_reset``
     This method is called by the ``BiFlow`` before and after training and
-    execution (and the ``stop_training`` / ``stop_message`` propagation). You
+    execution (and after the ``stop_training`` execution phase). You
     can be override the private ``_bi_reset`` method to reset internal
     state variables (``_bi_reset`` is called by ``bi_reset``).
     
-  ``is_bi_training``
+- ``is_bi_training``
     This method is similar to the ``is_training`` method of standard MDP nodes.
     It can be used to signal that a node is doing some data gathering. A node
     might for example do perform training during the normal execute (e.g., a
@@ -3095,7 +3086,7 @@ There are also three more additions to the ``BiNode`` API:
 Inspection
 ~~~~~~~~~~
 Using jumps and messages can result in complex data flows. Therefore 
-BiMDP offers some convenient inspection capabilites to help with 
+BiMDP offers some convenient inspection capabilities to help with 
 debugging and analyzing what is going on. This functionality is based on 
 the static HTML view from the ``mdp.hinet`` module. Instead of a static 
 view of the flow you get an animated slideshow of the flow training or 
@@ -3129,16 +3120,15 @@ Extending BiNode and Message Handling
 As in the ``Node`` class any derived ``BiNode`` classes should not 
 directly overwrite the public ``execute`` or ``train`` methods but 
 instead the private versions with an underscore in front (for training 
-you can of course also overwrite ``_get_train_seq``). In addtion to the 
+you can of course also overwrite ``_get_train_seq``). In addition to the 
 dimensionality checks performed on ``x`` by the ``Node`` class this 
-enables a couple of message handling features. This also applies to the 
-new ``_stop_message`` method. On the other hand ``is_bi_training`` can be
-directly overwritten (because it only returns a boolean value,
-like ``is_training`` in ``Node``). 
+enables a couple of message handling features. On the other hand 
+``is_bi_training`` can be directly overwritten (because it only returns 
+a boolean value, like ``is_training`` in ``Node``). 
 
 The automatic message handling is a major feature in ``BiNode`` and 
 relies on the dynamic nature of Python. In the ``FDABiNode`` and 
-``BiFlow`` example we have alrady seen how a value from the message is 
+``BiFlow`` example we have already seen how a value from the message is 
 automatically passed to the ``_train`` method, because the key of the 
 value is also the name of a keyword argument. 
 
@@ -3151,7 +3141,7 @@ keyword argument. It remains in the dictionary and can therefore be used
 by other nodes in the flow as well. 
 
 A private method like ``_train`` has the same return options as the 
-public ``train`` method, so one can for example return a tupple ``(x, 
+public ``train`` method, so one can for example return a tuple ``(x, 
 msg)``. The ``msg`` in the return value from ``_train`` is then used by 
 ``train`` to update the original ``msg``. Thereby ``_train`` can 
 overwrite or add new values to the message. There are also some special 
@@ -3195,22 +3185,13 @@ features ("magic") to make handling messages more convenient:
 - This is more of a ``BiFlow`` feature, but the target value specified in
   ``bimdp.EXIT_TARGET`` (currently set to ``"exit"``) causes ``BiFlow`` to
   terminate the execution and to return the last return value.
-  
-- To make it possible to call ``execute`` and
-  ``inverse`` via ``stop_message`` there is some magic going on if these are
-  specified via the ``"method"`` key: In addition to the normal automatic
-  extraction of the ``"x"`` key from the message the array output of the node
-  is also stored back as ``"x"`` in the message (overwriting the previous
-  value). Additionally the target is given a default value of 1 or -1
-  (so setting the ``"method"`` value is sufficient for normal execution
-  or inverse during the ``stop_message`` phase).
 
 Of course all these features can be combined, or can be ignored when they 
 are not needed. 
   
 HiNet in BiMDP
 ~~~~~~~~~~~~~~
-BiMDP is mostly compatibel with the hierarchical networks introduced in 
+BiMDP is mostly compatible with the hierarchical networks introduced in 
 ``mdp.hinet``. For the full BiMDP functionality it is of
 required to use the BiMDP versions of the the building blocks. 
 
@@ -3249,7 +3230,7 @@ MDP and BiMDP is that BiNodes can signal via the ``is_bi_training``
 method wether they should be forked instead of the usual deep copy. 
 Unlike the ``is_training`` method there can be multiple nodes for which 
 ``is_bi_training`` returns ``True``. All these forked nodes are joined 
-after the exectuion or training. 
+after the execution or training. 
 
 Note that a ``ParallelBiFlow`` uses a special callable class. So if you 
 want to use a custom callable you will have to make a few modifications 
@@ -3276,7 +3257,7 @@ store the result in the outgoing message (under the key ``"labels"``). The
 ``return_labels`` argument (and the other two) can also be set to a 
 string value, which is then used as a prefix for the ``"labels"`` key in 
 the outgoing message (e.g., to target this information at a specific 
-node in the flow). 
+node in the flow).
 
 
 Future Development
