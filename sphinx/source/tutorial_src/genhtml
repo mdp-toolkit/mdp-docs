@@ -1,0 +1,68 @@
+#!/bin/bash
+TUT=$PWD/tutorial.rst
+
+# generate latex version
+TEMP=$PWD/rem
+TUTL=$PWD/tutorial_latex.txt
+rm -rf $TUTL
+echo '============================================' > $TUTL
+echo '`Modular Toolkit for Data Processing (MDP)`_' >> $TUTL
+echo '============================================' >> $TUTL
+echo '                                            ' >> $TUTL
+echo ' This document is also available online:    ' >> $TUTL
+echo ' http://mdp-toolkit.sourceforge.net/tutorial.html' >> $TUTL
+echo '                                            ' >> $TUTL
+cat $TUT >> $TUTL
+
+# generate html tutorial 
+# modify header
+TEMP=$PWD/temp
+TEMPD=$PWD/tempd
+python modify_header.py > $TEMP 
+TUTHTML=tutorial.html
+RST="rst2html -g -t --stylesheet=styles.css" 
+$RST $TEMP $TEMPD
+if [ $? -ne 0 ];then
+    echo "Error compiling tutorial!"
+    exit -1
+fi
+# enclose body of $TEMP with our headers and footers
+# and copy it into the right place
+python remove_header.py $TEMPD $TUTHTML
+rm -f $TEMP $TEMPD
+
+# generate pdf totorial
+TEMP=$PWD/temp
+RST2="rst2latex -g -t --tab-width=4 --documentoptions=a4paper,10pt" 
+$RST2 $TUTL $TEMP
+TUTTEX=$PWD/tutorial.tex
+# adjust \includegraphics --> \includegraphics[width=0.9\textwidth]
+perl -i -p -e 's/width=700bp/width=0.9\\textwidth/g' $TEMP
+perl -i -p -e 's/width=500bp/width=0.9\\textwidth/g' $TEMP
+# hinet_switchboard.png
+perl -i -p -e 's/width=400bp/width=0.5\\textwidth/g' $TEMP
+# hinet_html.png
+perl -i -p -e 's/width=450bp/width=0.5\\textwidth/g' $TEMP
+# bimdp_inspection.png
+perl -i -p -e 's/width=550bp/width=0.8\\textwidth/g' $TEMP
+# allow for smaller margins
+sed -i'' -e'5a\\\usepackage[a4paper,margin=1.7cm,nohead]{geometry}' $TEMP
+# change default font
+sed -i'' -e'5a\\\usepackage{mathpazo}' $TEMP
+
+/bin/cp -f $TEMP $TUTTEX
+rm -rf $TEMP
+# compile with pdflatex
+pdflatex $TUTTEX > /tmp/pdflatex.log && pdflatex $TUTTEX > /tmp/pdflatex.log\
+&& pdflatex $TUTTEX > /tmp/pdflatex.log
+# clean up
+rm -rf tutorial.aux tutorial.log tutorial.out tutorial_latex.txt tutorial.tex
+# copy pdf to html directory
+cp tutorial.pdf ../MDP2_6_tutorial.pdf
+cp $TUTHTML ../html/$TUTHTML
+
+# generate demos
+python gendemo.py
+cp demo.py ../../mdp-toolkit/mdp/demo/
+
+
