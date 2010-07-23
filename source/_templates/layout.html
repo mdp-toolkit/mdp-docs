@@ -8,9 +8,11 @@
     {# add mdp logo to the top relbar #}
     {% block relbar1 %}
 
-    <div style="background-color: slategrey; text-align: right; padding: 10px 10px 15px 15px">
-    <a href="{{ pathto('index') }}"><img src="{{
-    pathto("_static/logo.png", 1) }}" border="0" alt="sampledoc"/></a>    
+    <div style="background-color: slategrey; align="right"">
+    <table width="100%">
+    <td align="left" cellpadding="10"><font color="#002939"><font size=6><b>Modular toolkit for Data Processing</span></ b></font></font></td>
+    <td class="img_header"><a href="{{ pathto('index') }}"><img src="{{pathto("_static/logo.png", 1) }}" border="0" alt="sampledoc"/></a></td>
+    </table>
     {{ super() }}
     {% endblock %}
 
