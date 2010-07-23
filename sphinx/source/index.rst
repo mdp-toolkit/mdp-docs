@@ -12,7 +12,6 @@
    how_to_cite_mdp.rst
    tutorial_src/tutorial.rst
    examples_src/examples.rst
-   api.rst
 
 The Modular toolkit for Data Processing (MDP) is a Python data processing
 framework.
