@@ -22,6 +22,34 @@ body {
     min-width: 740px;
 }
 
+#frame {
+    background-color: slategrey;
+}
+
+#header {
+    padding: 0 5px 0 5px;
+}
+
+#header {
+    text-align: left;
+}
+
+#header .img_header {
+    float: right;
+}
+
+#header h1 {
+    font-size: xx-large;
+    padding: 50px 0px 25px 50px;
+}
+
+.clear {
+    width: 100%;
+    height: 1px;
+    margin: 0 0 -1px;
+    clear: both;
+}
+
 a {
     color: #CA7900;
     text-decoration: none;
