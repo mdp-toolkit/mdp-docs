@@ -8,7 +8,7 @@ Maintainers
 -----------
 
 MDP has been originally written by
-`Pietro Berkes <http://people.brandeis.edu/~berkes>`_ and j
+`Pietro Berkes <http://people.brandeis.edu/~berkes>`_ and 
 `Tiziano Zito <http://itb.biologie.hu-berlin.de/~zito>`_ at
 the `Institute for Theoretical Biology <http://itb.biologie.hu-berlin.de/>`_
 of the `Humboldt University <http://www.hu-berlin.de/>`_,
@@ -28,7 +28,7 @@ Nickel <http://2manyvariables.inmachina.com>`_ maintains the
 MacPorts package.
 
 For comments, patches, feature requests, support requests, and bug reports
-(if any) you can use the users
+(if any) you can use the users’
 `mailing list <https://lists.sourceforge.net/mailman/listinfo/mdp-toolkit-users>`_.
 
 If you want to contribute some code or a new algorithm, please do not
