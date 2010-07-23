@@ -40,7 +40,7 @@ def api_role(role, rawtext, text, lineno, inliner, options={}, content=[]):
 
     """
     basedir = 'api'
-    prefix = 'doc-html/' # fixme: fetch it from configuration
+    prefix = 'build/html/' # fixme: fetch it from configuration
     exists = lambda f: os.path.exists(prefix + f)
 
     # assume module is references
