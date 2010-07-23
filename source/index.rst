@@ -8,7 +8,7 @@
 
    news.rst
    install.rst
-   maintainers.rst
+   development.rst
    how_to_cite_mdp.rst
    tutorial_src/tutorial.rst
    examples_src/examples.rst
