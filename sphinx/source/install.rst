@@ -82,7 +82,7 @@ Python shell as follows: ::
 Demos
 =====
 
-All the code examples shown in the `MDP tutorial`_ together with several
+All the code examples shown in the :ref:`tutorial` together with several
 other demos can be found in the package installation path in the subdirectory
 ``demo``.
 
