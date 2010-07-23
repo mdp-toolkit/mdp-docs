@@ -16,9 +16,17 @@
  *     either class='epydoc' or class='toc' (CSS styles for both
  *     defined below).
  */
-body                        { background: #ffffff; color: #000000; }
+
+/**
+ * Sphinx deisgn for MDP Toolkit, based on:
+ *
+ * Alternate Sphinx design
+ * Originally created by Armin Ronacher for Werkzeug, adapted by Georg Brandl.
+ */
+
+
 p                           { margin-top: 0.5em; margin-bottom: 0.5em; }
-a:link                      { color: #0000ff; }
+
 a:visited                   { color: #204080; }
 dt                          { font-weight: bold; }
 h1                          { font-size: +140%; font-style: italic;
@@ -27,7 +35,7 @@ h2                          { font-size: +125%; font-style: italic;
                               font-weight: bold; }
 h3                          { font-size: +110%; font-style: italic;
                               font-weight: normal; }
-code                        { font-size: 100%; }
+
 /* N.B.: class, not pseudoclass */
 a.link                      { font-family: monospace; }
  
@@ -320,3 +328,36 @@ p.log                       { font-weight: bold; margin: .5em 0 .5em 0; }
 tr.opt-changed              { color: #000000; font-weight: bold; }
 tr.opt-default              { color: #606060; }
 pre.log                     { margin: 0; padding: 0; padding-left: 1em; }
+
+
+body {
+    font-family: 'Lucida Grande', 'Lucida Sans Unicode', 'Geneva', 'Verdana', sans-serif;
+    font-size: 14px;
+    background-color: neptune;
+    color: black;
+}
+
+a {
+    color: #CA7900;
+}
+
+a:hover {
+    color: #2491CF;
+}
+
+pre {
+    font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
+    background-color: #f8f8f8;
+}
+
+
+cite, code, tt {
+    font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
+    font-size: 0.95em;
+    letter-spacing: 0.01em;
+}
+
+h1 {
+    color: #11557C;
+}
+
