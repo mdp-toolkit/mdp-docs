@@ -16,7 +16,7 @@ class NewtonNode(bimdp.nodes.IdentityBiNode):
         self.sender_id = sender_id
         super(NewtonNode, self).__init__(**kwargs)
 
-    @bimdp.binode_coroutine(["grad", "msg_x", "msg"])    
+    @bimdp.binode_coroutine(["grad", "msg_x", "msg"])
     def _newton(self, y_goal, n_iterations, x_start, msg):
         """Try to reach the given y value with gradient descent.
         
