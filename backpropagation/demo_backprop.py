@@ -10,6 +10,7 @@ from perceptron import MPerceptronBiNode, BackpropBiNode
 # the switchboards are only dummys to show that it works
 switchboard1 = bimdp.hinet.BiSwitchboard(input_dim=18, connections=range(18),
                                          node_id="switchboard_1")
+# the use_copies flag here means that we use do weight sharing
 layer1 = bimdp.hinet.CloneBiLayer(MPerceptronBiNode(input_dim=3, output_dim=2),
                                   n_nodes=6, use_copies=True, node_id="layer_1")
 layer_flownode1 = bimdp.hinet.BiFlowNode(switchboard1 + layer1)
