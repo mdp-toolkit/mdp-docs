@@ -179,7 +179,7 @@ htmlhelp_basename = 'MDP-toolkitdoc'
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('tutorial_src/tutorial', 'MDP-tutorial.tex', u'MDP-toolkit Tutorial',
-   u'Pietro Berkes \and Rike-Benjamin Schuppner \and Niko Wilbert \and Tiziano Zito', 'manual'),
+   u'Pietro Berkes, Rike-Benjamin Schuppner, Niko Wilbert, and Tiziano Zito', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
