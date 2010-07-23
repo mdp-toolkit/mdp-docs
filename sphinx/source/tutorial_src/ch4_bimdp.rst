@@ -224,7 +224,7 @@ There are also three more additions to the ``BiNode`` API:
     neural network might adjust internal weights while it is already returning
     results). Generally this method isn't that important, but the
     ``ParallelBiFlow`` uses it to determine if nodes can simply be copied or
-    must be forked
+    must be forked.
 
 Inspection
 ==========
@@ -331,8 +331,8 @@ features ("magic") to make handling messages more convenient:
   terminate the execution and to return the last return value.
 
 Of course all these features can be combined, or can be ignored when they 
-are not needed. 
-  
+are not needed.
+ 
 HiNet in BiMDP
 ==============
 
@@ -384,6 +384,36 @@ after the execution or training.
 Note that a ``ParallelBiFlow`` uses a special callable class. So if you 
 want to use a custom callable you will have to make a few modifications 
 (compared to the standard callable class used by ``ParallFlow``).
+
+Coroutine Decorator
+===================
+For complex flow control (like in the DBN example) one sometimes needs a node
+that keeps track of the current status in the execution. The standard pattern for
+this is to implement a state machine, which requires some boilerplate code.
+Python on the other hand also supports continuations in coroutines. A coroutine
+is very similar to a generator function, but the `yield` statement returns
+a value (i.e. the coroutine receives a value). Coroutine might be difficult to
+grasp at first, but they are well documented on the web. Most importantly
+coroutines allow a very natural implementation of the state machine pattern.
+
+Using a couroutine in a BiNode to represent a state machine would require some
+boilerplate code. However, BiMDP provides a special function decorator to
+do this work for you, making it very convenient to use coroutines. It is for
+example used in the `gradnewton` and `binetdbn` examples. For example
+decorating the `_execute` method can be done like this:
+::
+
+    @bimdp.binode_coroutine(["b", "c"])
+    def _execute(self, x, n_iterations):
+        """Gather all the incomming b and return them finally."""
+        bs = []
+        for _ in range(n_iterations):
+            x, b = yield x
+            bs.append(b)
+        raise StopIteration(x, {"all the b": bs}) 
+
+This example as runable and commented code can be found in the
+`bimdp_simple_coroutine.py` example.
 
 Classifiers in BiMDP
 ====================
