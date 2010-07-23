@@ -1,5 +1,8 @@
-Growing neural gas
-~~~~~~~~~~~~~~~~~~
+.. _examples_gng:
+
+Growing Neural Gas
+==================
+
 We generate uniformly distributed random data points confined on different
 2-D geometrical objects. The Growing Neural Gas Node builds a graph with the
 same topological structure.

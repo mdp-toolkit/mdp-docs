@@ -1,13 +1,15 @@
-Logistic maps
-~~~~~~~~~~~~~
+.. _examples_logmap:
 
-In this section we show a complete example of MDP usage in a machine
-learning application, and use non-linear Slow Feature Analysis for
-processing of non-stationary time series. We consider a chaotic time
-series derived by a logistic map (a demographic model of the
-population biomass of species in the presence of limiting factors such
-as food supply or disease) that is non-stationary in the sense that
-the underlying parameter is not fixed but is varying smoothly in time.
+Logistic Maps
+=============
+
+In this example we show MDP usage in a machine learning application, and 
+use non-linear Slow Feature Analysis for processing of non-stationary 
+time series. We consider a chaotic time series derived by a logistic map 
+(a demographic model of the population biomass of species in the 
+presence of limiting factors such as food supply or disease) that is 
+non-stationary in the sense that the underlying parameter is not fixed 
+but is varying smoothly in time. 
 
 The goal is to extract the slowly varying parameter that is hidden
 in the observed time series. This example reproduces some of the

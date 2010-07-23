@@ -1,5 +1,8 @@
-Locally linear embedding
-~~~~~~~~~~~~~~~~~~~~~~~~
+.. _examples_lle:
+
+Locally Linear Embedding
+========================
+
 Locally linear embedding (LLE) approximates the input data with a
 low-dimensional surface and reduces its dimensionality by learning
 a mapping to the surface. Here we consider data generated randomly
