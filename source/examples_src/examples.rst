@@ -8,6 +8,7 @@ Examples
    logmap_src/logmap.rst
    lle_src/lle.rst
    gng_src/gng.rst
+   bimdpinv_src/bimdpinv.rst
    mlpbackprop_src/mlpbackprop.rst
    gradient_src/gradient.rst
 
@@ -23,6 +24,8 @@ applications:
   
 The following examples use and illustrate BiMDP:
 
+* :ref:`examples_bimdpinv` - A simple example on the alternative mechanism
+  to inverse a BiFlow.
 * :ref:`examples_mlpbackprop` - Implement backpropagation for a multi layer
   perceptron.
 * :ref:`examples_graddescent` - Use Newton's method for gradient descent
