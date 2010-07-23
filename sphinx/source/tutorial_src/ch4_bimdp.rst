@@ -1,5 +1,6 @@
+*****
 BiMDP
------
+*****
 
 BiMDP defines a framework for more general flow sequences, involving 
 top-down processes (e.g. for error backpropagation) and loops. So 
@@ -9,8 +10,7 @@ additional data, and a HTML based flow inspection utility. Because BiMDP
 is a rather large addition and changes a few things compared to 
 standard MDP it is not included in ``mdp`` but must be imported 
 separately as ``bimdp`` (BiMDP is included in the standard MDP 
-installation):
-::
+installation)::
 
     >>> import bimdp
 
@@ -71,7 +71,8 @@ have a look at the docstrings.
 
 
 Targets, id's and Messages
-~~~~~~~~~~~~~~~~~~~~~~~~~~
+==========================
+
 The return value of the ``execute`` method in a normal MDP node is 
 restricted to a single 2d array. A BiMDP ``BiNode`` on the other hand can 
 optionally return a tuple containing an additional message dictionary 
@@ -103,9 +104,7 @@ instance. The standard MDP ``Flow`` class already implements
 standard Python container methods, so ``flow[2]`` will return the third 
 node in the flow. ``BiFlow`` in addition enables you to use the 
 ``node_id`` to index nodes in the flow, just like for a dictionary. Here is
-a simple example:
-
-::
+a simple example::
 
     >>> pca_node = bimdp.nodes.PCABiNode(node_id="pca")
     >>> biflow = bimdp.BiFlow([pca_node])
@@ -114,7 +113,7 @@ a simple example:
     
 
 BiFlow
-~~~~~~
+======
 
 The ``BiFlow`` class mostly works in the same way as the normal ``Flow`` 
 class. We already mentioned several of the new features, like support 
@@ -131,9 +130,7 @@ is a new ``msg_iterables`` argument, to provide iterables for the
 message dictionary. The structure of the ``msg_iterables`` argument must 
 be the same as that of ``data_iterables``, but instead of yielding 
 arrays it should yield dictionaries (containing the additional data 
-values with the corresponding keys). Here is an example: 
-
-::
+values with the corresponding keys). Here is an example::
   
     >>> samples = mdp.numx_rand.random((100,10))
     >>> labels = mdp.numx.arange(100)
@@ -166,7 +163,7 @@ target in the flow execution (if the ``iterable`` is just a single array
 then of course the ``target_iterable`` should be just a single ``node_id``).
 
 BiNode
-~~~~~~   
+======   
 
 We now want to give an overview of the ``BiNode`` API, which is mostly an
 extension of the ``Node`` API. First we take a look at the possible return
@@ -230,7 +227,8 @@ There are also three more additions to the ``BiNode`` API:
     must be forked
 
 Inspection
-~~~~~~~~~~
+==========
+
 Using jumps and messages can result in complex data flows. Therefore 
 BiMDP offers some convenient inspection capabilities to help with 
 debugging and analyzing what is going on. This functionality is based on 
@@ -261,7 +259,7 @@ functions. If you need more flexibility you can directly access the
 machinery below (but this is rather messy and hardly ever needed). 
 
 Extending BiNode and Message Handling
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+=====================================
 
 As in the ``Node`` class any derived ``BiNode`` classes should not 
 directly overwrite the public ``execute`` or ``train`` methods but 
@@ -336,7 +334,8 @@ Of course all these features can be combined, or can be ignored when they
 are not needed. 
   
 HiNet in BiMDP
-~~~~~~~~~~~~~~
+==============
+
 BiMDP is mostly compatible with the hierarchical networks introduced in 
 ``mdp.hinet``. For the full BiMDP functionality it is of
 required to use the BiMDP versions of the the building blocks. 
@@ -368,7 +367,8 @@ message to feed them to the nodes (see the doctring for more details).
 ``CloneBiLayer`` contains a ``BiFlowNode`` you can target an internal node).
 
 Parallel in BiMDP
-~~~~~~~~~~~~~~~~~
+=================
+
 The parallelisation capabilites introduced in ``mdp.parallel`` can be 
 used for BiMDP. The ``bimdp.parallel`` module provides a 
 ``ParallelBiFlow`` class which can be used like the normal 
@@ -386,7 +386,8 @@ want to use a custom callable you will have to make a few modifications
 (compared to the standard callable class used by ``ParallFlow``).
 
 Classifiers in BiMDP
-~~~~~~~~~~~~~~~~~~~~
+====================
+
 BiMDP introduces a special ``BiClassifier`` base class for the new 
 ``Classifier`` nodes in MDP. This makes it possible to fully use 
 classifiers in a normal ``BiFlow``. Just like for normal nodes 
