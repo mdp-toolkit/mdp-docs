@@ -2,8 +2,11 @@
 Standard Usage
 **************
 
+.. |reg| unicode:: U+00AE
+.. |trade| unicode:: U+2122
+
 Introduction
-=============
+============
 
 The use of the Python programming language in computational
 neuroscience has been growing steadily over the past few years. The
@@ -11,7 +14,7 @@ maturation of two important open source projects, the scientific
 libraries `NumPy <http://numpy.scipy.org>`_ and 
 `SciPy <http://www.scipy.org>`_, gives access to a large
 collection of scientific functions which rival in size and speed those from 
-well known commercial alternatives such as `Matlab <http://www.mathworks.com/products/matlab>`_\ |copy| from The MathWorks\ |trade|.
+well known commercial alternatives such as `Matlab`\ |reg| from The MathWorks\ |trade|.
 
 Furthermore, the flexible and dynamic nature of Python offers 
 scientific programmers the opportunity to quickly develop efficient and
@@ -99,7 +102,7 @@ processing algorithms.
 
 
 Quick Start
------------
+===========
 
 Using MDP is as easy as:
 
@@ -127,7 +130,7 @@ extension by setting the environment variable ``MDPNUMX=numpy`` or
 
 
 Nodes
------
+=====
 
 A *node* is the basic building block of an MDP application.  It
 represents a data processing element, for example a learning
@@ -740,7 +743,7 @@ Test the new node
            [0, 0, 0, 0]])
 
 Flows
------
+=====
 
 A *flow* is a sequence of nodes that are trained and executed
 together to form a more complex algorithm.  Input data is sent to the
