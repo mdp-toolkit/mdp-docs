@@ -3,8 +3,6 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-**Welcome to the Modular Toolkit for Data Processing documentation!**
-
 .. toctree::
    :hidden:
 
@@ -16,7 +14,7 @@
    examples_src/examples.rst
    api.rst
 
-Modular toolkit for Data Processing (MDP) is a Python data processing
+The Modular toolkit for Data Processing (MDP) is a Python data processing
 framework.
 
 From the user's perspective, MDP is a collection of supervised and
