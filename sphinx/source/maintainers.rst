@@ -1,8 +1,11 @@
 .. _maintainers:
 
 ***********
-Maintainers
+Development
 ***********
+
+Maintainers
+-----------
 
 MDP has been originally written by
 `Pietro Berkes <http://people.brandeis.edu/~berkes>`_ and j
