@@ -9,6 +9,7 @@ BUILDDIR      = build
 
 # mdp specific modifications
 PYTHONPATH    = ext
+EPYDOC        = epydoc
 MDPTOOLKIT    = ../mdp-toolkit
 APIBUILD      = $(BUILDDIR)/html/api
 
@@ -49,7 +50,7 @@ html:
 
 epydoc:
 	mkdir -p $(APIBUILD)
-	epydoc \
+	$(EPYDOC) \
 	--html -o $(APIBUILD) --name="Modular toolkit for Data Processing MDP" \
 	--url="http://mdp-toolkit.sourceforge.net"  \
 	--css=API.css \
