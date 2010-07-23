@@ -35,7 +35,7 @@ Machine, and Locally Linear Embedding.
 To learn more about MDP:
 
 * Tutorial: :ref:`html
-  <tutorial_introdcution>`/`pdf <http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_6_tutorial.pdf?download>`_
+  <tutorial>`/`pdf <http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_6_tutorial.pdf?download>`_
 * :ref:`Full list <node-list>` of implemented algorithms
 * `API Index <api/index.html>`_
 
