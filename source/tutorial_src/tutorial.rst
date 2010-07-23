@@ -2329,7 +2329,7 @@ Refer to the
 `API <http://mdp-toolkit.sourceforge.net/docs/api/index.html>`_
 for the full documentation and interface description.
 
-- `AdaptiveCutoffNode <http://mdp-toolkit.sourceforge.net/docs/api/mdp.nodes.AdaptiveCutoffNode-class.html>`_
+- :api: `mdp.nodes.AdaptiveCutoffNode`
    Works like the `HistogramNode`. The cutoff bounds are then chosen such that
    a given fraction of the training data would have been clipped.
 
