@@ -7,7 +7,10 @@ SPHINXBUILD   = sphinx-build
 PAPER         =
 BUILDDIR      = build
 
+# mdp specific modifications
 PYTHONPATH    = ext
+MDPTOOLKIT    = ../../mdp-toolkit
+APIBUILD      = $(BUILDDIR)/html/api
 
 # Internal variables.
 PAPEROPT_a4     = -D latex_paper_size=a4
@@ -19,6 +22,7 @@ ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) sou
 help:
 	@echo "Please use \`make <target>' where <target> is one of"
 	@echo "  html       to make standalone HTML files"
+	@echo "  epydoc     to make API with epydoc"
 	@echo "  dirhtml    to make HTML files named index.html in directories"
 	@echo "  singlehtml to make a single large HTML file"
 	@echo "  pickle     to make pickle files"
@@ -42,6 +46,21 @@ html:
 	PYTHONPATH=$(PYTHONPATH) $(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
+
+epydoc:
+	mkdir -p $(APIBUILD)
+	epydoc \
+	--html -o $(APIBUILD) --name="Modular toolkit for Data Processing MDP" \
+	--url="http://mdp-toolkit.sourceforge.net"  \
+	--css=API.css \
+	--show-frames \
+	--introspect-only --no-sourcecode --no-imports --redundant-details \
+	--inheritance=grouped \
+	--no-imports \
+	--redundant-details \
+	--verbose \
+	--docformat=plaintext \
+	$(MDPTOOLKIT)/mdp/__init__.py
 
 dirhtml:
 	$(SPHINXBUILD) -b dirhtml $(ALLSPHINXOPTS) $(BUILDDIR)/dirhtml
