@@ -1,16 +1,15 @@
-.. _tutorial_introdcution:
+.. _tutorial:
 
+********
 Tutorial
-========
+********
 
 :Author: Pietro Berkes \and Rike-Benjamin Schuppner \\ Niko Wilbert \and Tiziano Zito
 :Homepage: http://mdp-toolkit.sourceforge.net
 :Copyright: This document has been placed in the public domain.
 :Version: 2.6
 
-.. raw:: html
-   
-   This document is also available as <a href="http://downloads.sourceforge.net/mdp-toolkit/MDP2_6_tutorial.pdf?download">pdf file</a>.
+This document is also available as `pdf file<http://downloads.sourceforge.net/mdp-toolkit/MDP2_6_tutorial.pdf?download>`_.
 
 This is a guide to basic and some more advanced features of
 the MDP library. Besides the present tutorial, you can learn 
@@ -24,10 +23,6 @@ available.
 
 .. Note::
   Code snippets throughout the script will be denoted by:
-
-  .. raw:: html
-
-     <!-- ignore -->
 
   ::
 
@@ -46,6 +41,9 @@ available.
 .. contents::
  
 .. include:: <isonum.txt>
+
+Standard Usage
+==============
 
 Introduction
 ------------
