@@ -9,8 +9,9 @@ Examples
    lle_src/lle.rst
    gng_src/gng.rst
    bimdpinv_src/bimdpinv.rst
-   mlpbackprop_src/mlpbackprop.rst
    gradient_src/gradient.rst
+   mlpbackprop_src/mlpbackprop.rst
+   dbn_src/dbn.rst
 
 Here are some examples on how to use MDP for typical machine learning
 applications:
@@ -26,7 +27,8 @@ The following examples use and illustrate BiMDP:
 
 * :ref:`examples_bimdpinv` - A simple example on the alternative mechanism
   to inverse a BiFlow.
-* :ref:`examples_mlpbackprop` - Implement backpropagation for a multi layer
-  perceptron.
 * :ref:`examples_graddescent` - Use Newton's method for gradient descent
   with the gradient extension.
+* :ref:`examples_mlpbackprop` - Implement backpropagation for a multi layer
+  perceptron.
+* :ref:`examples_dbn` - Proof of concept for a Deep Belief Network.
