@@ -43,6 +43,7 @@ The following examples use and illustrate BiMDP.
   a BiFlow.
 * bimdp_examples/bimdp_custom_inspection.py — Customization with maptlotlib
   plots of the BiFlow inspection.
+* bimdp_simple_coroutine.py - Minimal example for coroutine decorator.
 * gradnewton — Use Newton's method for gradient descent
   with the gradient extension.
 * backpropagation — Implement backpropagation for a multi layer
