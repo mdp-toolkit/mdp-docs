@@ -229,6 +229,8 @@ h1.toc                      { text-align: center; font-size: 105%;
 h2.toc                      { font-size: 100%; font-weight: bold; 
                               margin: 0.5em 0 0 -0.3em; }
 
+h1.toc ~ a, h2.toc ~ a, h2.toc ~ * a { font-size: 80%; }
+
 /* Syntax Highlighting for Source Code
  *   - doctest examples are displayed in a 'pre.py-doctest' block.
  *     If the example is in a details table entry, then it will use
