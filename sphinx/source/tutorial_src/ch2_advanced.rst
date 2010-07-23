@@ -1,5 +1,10 @@
+*****************
+Advanced Features
+*****************
+
 Iterables
----------
+=========
+
 Python allows user-defined classes to support iteration,
 as described in the `Python docs 
 <http://docs.python.org/library/stdtypes.html#iterator-types>`_. A class is a 
@@ -31,8 +36,7 @@ introduction, and the
 `official PEP <http://www.python.org/peps/pep-0255.html>`_ for a
 complete description.
 
-Let us define two bogus node classes to be used as examples of nodes:
-::
+Let us define two bogus node classes to be used as examples of nodes::
 
     >>> class BogusNode(mdp.Node):
     ...     """This node does nothing."""
@@ -71,8 +75,7 @@ The ``progressinfo`` function is a fully configurable text-mode
 progress info box tailored to the command-line die-hards. Have a look
 at its doc-string and prepare to be amazed!
 
-Let's define a bogus flow consisting of 2 ``BogusNode``:
-::
+Let's define a bogus flow consisting of 2 ``BogusNode``::
 
     >>> flow = mdp.Flow([BogusNode(),BogusNode()], verbose=1)
 
@@ -83,34 +86,34 @@ tuple) of iterables or iterators. In case you don't want or need to use
 incremental learning and want to do a one-shot training, you can use as 
 argument to ``train`` a single array of data:
 
-**block-mode training**
+block-mode training
+-------------------
+::
 
-  ::
+    >>> flow.train([gen_data(5000),gen_data(3000)])
+    Training node #0 (BogusNode)
 
-      >>> flow.train([gen_data(5000),gen_data(3000)])
-      Training node #0 (BogusNode)
-      [===================================100%==================================>]  
+    [===================================100%==================================>]  
 
-      Training finished
-      Training node #1 (BogusNode)
-      [===================================100%==================================>]  
+    Training finished
+    Training node #1 (BogusNode)
+    [===================================100%==================================>]  
 
-      Training finished
-      Close the training phase of the last node
+    Training finished
+    Close the training phase of the last node
 
 **one-shot training** using one single set of data for both nodes
+-----------------------------------------------------------------
+::
 
-  ::
-
-      >>> flow = BogusNode() + BogusNode()
-      >>> block_x = mdp.numx.atleast_2d(mdp.numx.arange(2,1001,2))
-      >>> block_y = mdp.numx.atleast_2d(mdp.numx.arange(1,1001,2))
-      >>> single_block = mdp.numx.transpose(mdp.numx.concatenate([block_x,block_y]))
-      >>> flow.train(single_block)
+    >>> flow = BogusNode() + BogusNode()
+    >>> block_x = mdp.numx.atleast_2d(mdp.numx.arange(2,1001,2))
+    >>> block_y = mdp.numx.atleast_2d(mdp.numx.arange(1,1001,2))
+    >>> single_block = mdp.numx.transpose(mdp.numx.concatenate([block_x,block_y]))
+    >>> flow.train(single_block)
 
 If your flow contains non-trainable nodes, you must specify a ``None``
-for the non-trainable nodes:
-::
+for the non-trainable nodes::
 
     >>> flow = mdp.Flow([BogusNode2(),BogusNode()], verbose=1)
     >>> flow.train([None, gen_data(5000)])
@@ -123,8 +126,7 @@ for the non-trainable nodes:
     Close the training phase of the last node
 
 
-You can use the one-shot training:
-::
+You can use the one-shot training::
 
     >>> flow = mdp.Flow([BogusNode2(),BogusNode()], verbose=1)
     >>> flow.train(single_block)
@@ -135,8 +137,7 @@ You can use the one-shot training:
     Close the training phase of the last node
 
 Iterators can always be safely used for execution and inversion, since only a 
-single iteration is needed:
-::
+single iteration is needed::
 
     >>> flow = mdp.Flow([BogusNode(),BogusNode()], verbose=1)
     >>> flow.train([gen_data(1), gen_data(1)])
@@ -164,8 +165,7 @@ If a node requires multiple training phases (e.g.,
 iterable multiple times. In this case generators (and iterators) are not 
 allowed, since they are spend after yielding the last data block.
 
-However, it is fairly easy to wrap a generator in a simple iterable if you need to:
-::
+However, it is fairly easy to wrap a generator in a simple iterable if you need to::
 
     >>> class SimpleIterable(object):
     ...     def __init__(self, blocks):
@@ -178,8 +178,7 @@ However, it is fairly easy to wrap a generator in a simple iterable if you need 
 
 Note that if you use random numbers within the generator, you usually
 would like to reset the random number generator to produce the
-same sequence every time:
-::
+same sequence every time::
 
     >>> class RandomIterable(object):
     ...     def __init__(self):
@@ -205,7 +204,8 @@ same sequence every time:
 
 
 Checkpoints
------------
+===========
+
 It can sometimes be useful to execute arbitrary functions at the end
 of the training or execution phase, for example to save the internal
 structures of a node for later analysis. This can easily be done
@@ -224,8 +224,7 @@ PCA node, that this number is below a certain threshold. If this is not
 the case you want to abort the execution and maybe start again requesting
 less variance to be kept.
 
-Let start defining a generator to be used through the whole example:
-::
+Let start defining a generator to be used through the whole example::
 
     >>> def gen_data(blocks,dims):
     ...     mat = mdp.numx_rand.random((dims,dims))-0.5
@@ -238,8 +237,7 @@ Let start defining a generator to be used through the whole example:
 
 Define a ``PCANode`` which reduces dimensionality of the input,
 a ``PolynomialExpansionNode`` to expand the signals in the space
-of polynomials of degree 2 and a ``SFANode`` to perform SFA:
-::
+of polynomials of degree 2 and a ``SFANode`` to perform SFA::
 
     >>> pca = mdp.nodes.PCANode(output_dim=0.9)
     >>> exp = mdp.nodes.PolynomialExpansionNode(2)
@@ -248,8 +246,7 @@ of polynomials of degree 2 and a ``SFANode`` to perform SFA:
 As you see we have set the output dimension of the ``PCANode`` to be ``0.9``.
 This means that we want to keep at least 90% of the variance of the original signal.
 We define a ``PCADimensionExceededException`` that has to be thrown when
-the number of output components exceeds a certain threshold:
-::
+the number of output components exceeds a certain threshold::
 
     >>> class PCADimensionExceededException(Exception):
     ...     """Exception base class for PCA exceeded dimensions case."""
@@ -259,8 +256,7 @@ the number of output components exceeds a certain threshold:
 
 
 Then, write a ``CheckpointFunction`` that checks the number of output
-dimensions of the ``PCANode`` and aborts if this number is larger than ``max_dim``:
-::
+dimensions of the ``PCANode`` and aborts if this number is larger than ``max_dim``::
 
     >>> class CheckPCA(mdp.CheckpointFunction):
     ...     def __init__(self,max_dim):
@@ -277,18 +273,11 @@ dimensions of the ``PCANode`` and aborts if this number is larger than ``max_dim
     ...
     >>>
 
-Define the CheckpointFlow:
-::
+Define the CheckpointFlow::
 
     >>> flow = mdp.CheckpointFlow([pca, exp, sfa])
 
-To train it we have to supply 3 generators and 3 checkpoint functions: 
-
-.. raw:: html
-
-   <!-- ignore -->
-
-::
+To train it we have to supply 3 generators and 3 checkpoint functions::
 
     >>> flow.train([gen_data(10, 50), None, gen_data(10, 50)],
     ...            [CheckPCA(10), None, None])
@@ -299,8 +288,7 @@ To train it we have to supply 3 generators and 3 checkpoint functions:
 
 The training fails with a ``PCADimensionExceededException``.
 If we only had 12 input dimensions instead of 50 we would have passed
-the checkpoint:
-::
+the checkpoint::
 
     >>> flow[0] = mdp.nodes.PCANode(output_dim=0.9) 
     >>> flow.train([gen_data(10, 12), None, gen_data(10, 12)],
@@ -308,8 +296,7 @@ the checkpoint:
     PCA output dimensions = 6
 
 We could use the built-in ``CheckpoinSaveFunction`` to save the ``SFANode`` 
-and analyze the results later :
-::
+and analyze the results later ::
     
     >>> pca = mdp.nodes.PCANode(output_dim=0.9)
     >>> exp = mdp.nodes.PolynomialExpansionNode(2)
@@ -324,8 +311,7 @@ and analyze the results later :
     ...
     PCA output dimensions = 7
 
-We can now reload and analyze the ``SFANode``:
-::
+We can now reload and analyze the ``SFANode``::
 
     >>> fl = file('dummy.pic')
     >>> import cPickle
@@ -333,8 +319,7 @@ We can now reload and analyze the ``SFANode``:
     >>> sfa_reloaded
     SFANode(input_dim=35, output_dim=35, dtype='d')
     
-Don't forget to clean the rubbish:
-::
+Don't forget to clean the rubbish::
 
     >>> fl.close()
     >>> import os
@@ -342,7 +327,7 @@ Don't forget to clean the rubbish:
 
 
 Node Extensions
----------------
+===============
 
 .. Note::
     The node extension mechanism is an advanced topic, so you can skip
@@ -390,7 +375,8 @@ so the best way to learn more is to look there.
 We also use these packages in the following examples.
 
 Using Extensions
-~~~~~~~~~~~~~~~~
+----------------
+
 First of all you can get all the available node extensions by calling
 the ``get_extensions`` function, or to get just a list of their names use
 ``get_extensions().keys()``. Be careful not to modify the dict returned
@@ -398,9 +384,7 @@ by ``get_extensions``, since this will actually modify the registered
 extensions. The currently activated extensions are returned
 by ``get_active_extensions``. To activate an extension use
 ``activate_extension``, e.g. to activate the parallel extension
-write:
-
-::
+write::
 
     >>> mdp.activate_extension("parallel")
     >>> # now you can use the added attributes / methods
@@ -409,9 +393,7 @@ write:
 
 Activating an extension adds the available extensions attributes to the 
 supported nodes. MDP also provides a context manager for the 
-``with`` statement: 
-
-::
+``with`` statement::
 
     >>> with mdp.extension("parallel"):
     ...     pass
@@ -429,14 +411,13 @@ Finally there is also a function decorator:
     >>>
 
 Writing Extension Nodes
-~~~~~~~~~~~~~~~~~~~~~~~
+-----------------------
+
 Suppose you have written your own nodes and would like to make them compatible
 with a particular extension (e.g. add the required methods).
 The first way to do this is by using multiple inheritance to derive from
 the base class of this extension and your custom node class. For example
-the parallel extension of the SFA node is defined in a class:
-
-::
+the parallel extension of the SFA node is defined in a class::
 
     >>> class ParallelSFANode(ParallelExtensionNode, mdp.nodes.SFANode):
     ...     def _fork(self):
@@ -458,9 +439,7 @@ extension node is automatically registered in the extension mechanism
 For methods you can alternatively use the ``extension_method`` function
 decorator. You define the extension method like a normal function, but add
 the function decorator on top. For example to define the ``_fork`` method
-for the ``SFANode`` we could have also used:
-
-::
+for the ``SFANode`` we could have also used::
 
     >>> @mdp.extension_method("parallel", mdp.nodes.SFANode) 
     ... def _fork(self):
@@ -474,12 +453,11 @@ argument, then the name of the function is ignored (this allows you to get
 rid of warnings about multiple functions with the same name).
 
 Creating Extensions
-~~~~~~~~~~~~~~~~~~~
+-------------------
+
 To create a new node extension you just have to create a new extension base
 class. For example the HTML representation extension in ``mdp.hinet``
-is created with
-
-::
+is created with::
 
     >>> class  HTMLExtensionNode(mdp.ExtensionNode, mdp.Node):
     ...     """Extension node for HTML representations of individual nodes."""
@@ -513,9 +491,7 @@ another currently active extension.
 The extension mechanism uses some magic to make the behavior more 
 intuitive with respect to inheritance. Basically methods or attributes 
 defined by extensions shadow those which are not defined in the 
-extension. Here is an example: 
-
-::
+extension. Here is an example::
 
     >>> class TestExtensionNode(mdp.ExtensionNode):
     ...     extension_name = "test"
@@ -541,96 +517,95 @@ this behavior to all node classes). Note that there is a ``verbose``
 argument in ``activate_extension`` which can help with debugging. 
 
 Hierarchical Networks
----------------------
+=====================
+
 In case the desired data processing application cannot be defined as a
 sequence of nodes, the ``hinet`` subpackage makes it possible to
 construct arbitrary feed-forward architectures, and in particular
 hierarchical networks.
 
 Building blocks
-~~~~~~~~~~~~~~~
+---------------
+
 The ``hinet`` package contains three basic building blocks (which are all nodes
 themselves) to construct hierarchical node networks: ``Layer``, 
 ``FlowNode``, ``Switchboard``.
 
-- The first building block is the ``Layer`` node, which works like a
-  horizontal version of flow. It acts as a wrapper for a set of nodes
-  that are trained and executed in parallel. For example, we can
-  combine two nodes with 100 dimensional input to construct a layer
-  with a 200-dimensional input
-  ::
+The first building block is the ``Layer`` node, which works like a
+horizontal version of flow. It acts as a wrapper for a set of nodes
+that are trained and executed in parallel. For example, we can
+combine two nodes with 100 dimensional input to construct a layer
+with a 200-dimensional input
+::
       
-      >>> node1 = mdp.nodes.PCANode(input_dim=100, output_dim=10)
-      >>> node2 = mdp.nodes.SFANode(input_dim=100, output_dim=20)
-      >>> layer = mdp.hinet.Layer([node1, node2])
-      >>> layer
-      Layer(input_dim=200, output_dim=30, dtype=None) 
+    >>> node1 = mdp.nodes.PCANode(input_dim=100, output_dim=10)
+    >>> node2 = mdp.nodes.SFANode(input_dim=100, output_dim=20)
+    >>> layer = mdp.hinet.Layer([node1, node2])
+    >>> layer
+    Layer(input_dim=200, output_dim=30, dtype=None) 
 
-  The first half of the 200 dimensional input data is then
-  automatically assigned to ``node1`` and the second half to
-  ``node2``. We can train and execute a ``Layer`` just like any other
-  node. Note that the dimensions of the nodes must be already set when
-  the layer is constructed.
+The first half of the 200 dimensional input data is then
+automatically assigned to ``node1`` and the second half to
+``node2``. We can train and execute a ``Layer`` just like any other
+node. Note that the dimensions of the nodes must be already set when
+the layer is constructed.
 
-- In order to be able to build arbitrary feed-forward node structures,
-  ``hinet`` provides a wrapper class for flows (i.e., vertical stacks
-  of nodes) called ``FlowNode``. For example, we can replace
-  ``node1`` in the above example with a ``FlowNode``:
-  ::
+In order to be able to build arbitrary feed-forward node structures,
+``hinet`` provides a wrapper class for flows (i.e., vertical stacks
+of nodes) called ``FlowNode``. For example, we can replace
+``node1`` in the above example with a ``FlowNode``::
 
-      >>> node1_1 = mdp.nodes.PCANode(input_dim=100, output_dim=50)
-      >>> node1_2 = mdp.nodes.SFANode(input_dim=50, output_dim=10)
-      >>> node1_flow = mdp.Flow([node1_1, node1_2]) 
-      >>> node1 = mdp.hinet.FlowNode(node1_flow)
-      >>> layer = mdp.hinet.Layer([node1, node2])
-      >>> layer
-      Layer(input_dim=200, output_dim=30, dtype=None) 
+    >>> node1_1 = mdp.nodes.PCANode(input_dim=100, output_dim=50)
+    >>> node1_2 = mdp.nodes.SFANode(input_dim=50, output_dim=10)
+    >>> node1_flow = mdp.Flow([node1_1, node1_2]) 
+    >>> node1 = mdp.hinet.FlowNode(node1_flow)
+    >>> layer = mdp.hinet.Layer([node1, node2])
+    >>> layer
+    Layer(input_dim=200, output_dim=30, dtype=None) 
 
-  in this example ``node1`` has two training phases (one for each 
-  internal node). Therefore ``layer`` now has two training phases as well and 
-  behaves like any other node with two training phases. 
-  By combining and nesting ``FlowNode`` and ``Layer``, it is thus possible
-  to build complex node structures.
+in this example ``node1`` has two training phases (one for each 
+internal node). Therefore ``layer`` now has two training phases as well and 
+behaves like any other node with two training phases. 
+By combining and nesting ``FlowNode`` and ``Layer``, it is thus possible
+to build complex node structures.
  
-- When implementing networks one might have to route
-  different parts of the data to different nodes in a layer in complex
-  ways. This is done by the ``Switchboard`` node, which can handle such
-  the routing. A ``Switchboard`` is initialized with a 1-D Array with
-  one entry for each output connection, containing the corresponding
-  index of the input connection that it receives its input from, e.g.: 
-  ::
+When implementing networks one might have to route
+different parts of the data to different nodes in a layer in complex
+ways. This is done by the ``Switchboard`` node, which can handle such
+the routing. A ``Switchboard`` is initialized with a 1-D Array with
+one entry for each output connection, containing the corresponding
+index of the input connection that it receives its input from, e.g.::
 
-      >>> switchboard = mdp.hinet.Switchboard(input_dim=6, connections=[0,1,2,3,4,3,4,5])
-      >>> switchboard
-      Switchboard(input_dim=3, output_dim=2, dtype=None)
-      >>> x = mdp.numx.array([[2,4,6,8,10,12]]) 
-      >>> switchboard.execute(x)
-      array([[ 2,  4,  6,  8, 10,  8, 10, 12]])
+    >>> switchboard = mdp.hinet.Switchboard(input_dim=6, connections=[0,1,2,3,4,3,4,5])
+    >>> switchboard
+    Switchboard(input_dim=3, output_dim=2, dtype=None)
+    >>> x = mdp.numx.array([[2,4,6,8,10,12]]) 
+    >>> switchboard.execute(x)
+    array([[ 2,  4,  6,  8, 10,  8, 10, 12]])
 
-  The switchboard can then be followed by a layer that
-  splits the routed input to the appropriate nodes, as
-  illustrated in following picture:
+The switchboard can then be followed by a layer that
+splits the routed input to the appropriate nodes, as
+illustrated in following picture:
 
-  .. image:: hinet_switchboard.png
-          :width: 400
-          :alt: switchboard example
+.. image:: hinet_switchboard.png
+        :width: 400
+        :alt: switchboard example
 
-  By combining layers with switchboards one can realize any
-  feed-forward network topology.  Defining the switchboard routing
-  manually can be quite tedious. One way to automatize this is by
-  defining switchboard subclasses for special routing situations. The
-  ``Rectangular2dSwitchboard`` class is one such example and will be
-  briefly described in a later example.
+By combining layers with switchboards one can realize any
+feed-forward network topology.  Defining the switchboard routing
+manually can be quite tedious. One way to automatize this is by
+defining switchboard subclasses for special routing situations. The
+``Rectangular2dSwitchboard`` class is one such example and will be
+briefly described in a later example.
 
 HTML representation
-~~~~~~~~~~~~~~~~~~~
+-------------------
 
 Since hierarchical networks can be quite complicated, ``hinet``
 includes the class ``HiNetHTMLTranslator`` that translates
 an MDP flow into a graphical visualization in an HTML file. We also provide
 the helper function ``show_flow`` which creates a complete HTML file with
 the flow visualization in it and opens it in your standard browser.
-
 ::
 
     >>> mdp.hinet.show_flow(flow)
@@ -645,7 +620,7 @@ the base class for general flow translations and is for example also used in
 the ``parallel`` package (to translate a flow into a parallel version).
 
 Example application (2-D image data)
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+------------------------------------
 
 As promised we now present a more complicated example. We define the
 lowest layer for some kind of image processing system. The input
@@ -669,13 +644,7 @@ dimensionality) that is followed by an ``SFA2Node``. Since we assume
 that the statistics are similar in each receptive filed we actually
 use the same nodes for each receptive field. Therefore we use a
 ``CloneLayer`` instead of the standard ``Layer``. Here is the actual
-code:
-
-.. raw:: html
-
-   <!-- ignore -->
-
-::
+code::
 
     >>> switchboard = mdp.hinet.Rectangular2dSwitchboard(x_in_channels=50, 
     ...                                                  y_in_channels=50, 
@@ -725,32 +694,31 @@ of one unit in the ``CloneLayer`` (instead of 3 in the first switchboard,
 corresponding to the three RGB colors).
 
 Parallelization
----------------
+===============
+
 The ``parallel`` package adds the ability to parallelize the training 
 and execution of MPD flows. This package is split into two decoupled parts:
 
-- The first part consists of a parallel extension of the familiar MDP
-  structures of nodes and flows. The first basic building block is the
-  extension class ``ParallelExtensionNode`` for nodes which can be trained
-  in a parallelized way. It adds the ``fork`` and ``join`` methods. When
-  providing a parallel extension for custom node classes you should provide
-  ``_fork`` and ``_join``.
-  Secondly there is the ``ParallelFlow`` class,
-  which internally splits the training or execution into tasks which can 
-  then be processed in parallel.
+The first part consists of a parallel extension of the familiar MDP
+structures of nodes and flows. The first basic building block is the
+extension class ``ParallelExtensionNode`` for nodes which can be trained
+in a parallelized way. It adds the ``fork`` and ``join`` methods. When
+providing a parallel extension for custom node classes you should provide
+``_fork`` and ``_join``.
+Secondly there is the ``ParallelFlow`` class,
+which internally splits the training or execution into tasks which can 
+then be processed in parallel.
 
-- The second part consists of the schedulers. A scheduler takes tasks
-  and processes them in a more or less parallel way (e.g. in multiple
-  Python processes). A scheduler deals with the more technical aspects
-  of the parallelization, but does not need to know anything about
-  nodes and flows.
+The second part consists of the schedulers. A scheduler takes tasks
+and processes them in a more or less parallel way (e.g. in multiple
+Python processes). A scheduler deals with the more technical aspects
+of the parallelization, but does not need to know anything about
+nodes and flows.
 
 Basic Examples
-~~~~~~~~~~~~~~
+--------------
 In the following example we parallelize a simple ``Flow`` consisting of
-PCA and quadratic SFA, so that it makes use of two cores on a modern CPU:
-
-::
+PCA and quadratic SFA, so that it makes use of two cores on a modern CPU::
 
     >>> node1 = mdp.nodes.PCANode(input_dim=100, output_dim=10)
     >>> node2 = mdp.nodes.SFA2Node(input_dim=10, output_dim=10)
@@ -769,9 +737,7 @@ of the flow. All one has to do is use a ``ParallelFlow`` insttead of the normal
 ``shutdown`` method should be always called at the end to make sure
 that the threads and processes used by the scheduler are cleaned up
 properly. So one should better put the ``shutdown`` call into a safer
-try/finally statement:
-
-::
+try/finally statement::
 
     >>> try:
     ...     parallel_flow.train(data_iterables, scheduler=scheduler)
@@ -780,7 +746,8 @@ try/finally statement:
     ...
 
 Scheduler
-~~~~~~~~~
+---------
+
 A scheduler is an instance of one of the scheduler classes we
 provide. They are all derived from the ``Scheduler`` base class. Apart 
 from the base class we currently only provide  the ``ProcessScheduler`` 
@@ -820,7 +787,8 @@ result container to the scheduler you modify the storage. For example the
 default result container is an instance of ``OrderedResultContainer`` 
 
 Parallel Nodes
-~~~~~~~~~~~~~~
+--------------
+
 If you want to parallelize your own nodes you have to provide parallel
 extensions for them. The ``ParallelExtensionNode`` base class has
 the new template methods ``fork`` and ``join``. 
@@ -845,7 +813,8 @@ Currently we provide the following parallel nodes:
 package).
 
 Parallel Flows
-~~~~~~~~~~~~~~
+--------------
+
 As shown earlier in the example a parallel flow implements the
 parallel training (and execution) using a provided scheduler. The
 scheduler is simply provided as an additional argument for the train
@@ -857,7 +826,8 @@ fetching tasks and assigning them to a scheduler. However, this should
 rarely be required.
 
 Classifier nodes
-----------------
+================
+
 New in MDP 2.6 is the ``ClassifierNode`` base class which offers a simple
 interface for creating classification tasks. Usually, one does not want to use
 the classification output in a flow but extract this information independently.
@@ -868,24 +838,23 @@ Most classification nodes will therefore simply return the identity function on
 As a first example, we will use the ``GaussianClassifierNode``.
 ::
 
-	>>> gc = mdp.nodes.GaussianClassifierNode()
-	>>> gc.train(mdp.numx_rand.random((50, 3)), +1)
-	>>> gc.train(mdp.numx_rand.random((50, 3)) - 0.8, -1)
+    >>> gc = mdp.nodes.GaussianClassifierNode()
+    >>> gc.train(mdp.numx_rand.random((50, 3)), +1)
+    >>> gc.train(mdp.numx_rand.random((50, 3)) - 0.8, -1)
 	
 We have trained the node and assigned the labels +1 and -1 to the sample points.
 Note that in this simple case we don’t need to give a label to each individual point,
 when only a single label is given, it is assigned to the whole batch of features.
-However, it is also possible to use the more explicit form:
-::
+However, it is also possible to use the more explicit form::
 
-	>>> gc.train(mdp.numx_rand.random((50, 3)), [+1] * 50)
+    >>> gc.train(mdp.numx_rand.random((50, 3)), [+1] * 50)
 	
 We can then retrieve the most probable labels for some testing data,
 ::
 
-	>>> test_data = mdp.numx.array([[0.1, 0.2, 0.1], [-0.1, -0.2, -0.1]])
-	>>> gc.label(test_data)
-	[1, -1]
+    >>> test_data = mdp.numx.array([[0.1, 0.2, 0.1], [-0.1, -0.2, -0.1]])
+    >>> gc.label(test_data)
+    [1, -1]
 	
 and also get the probability for each label.
 ::
@@ -898,8 +867,8 @@ and also get the probability for each label.
 Finally, it is possible to get the ranking of the labels, starting with the likeliest.
 ::
 
-	>>> gc.rank(test_data)
-	[[1, -1], [-1, 1]]
+    >>> gc.rank(test_data)
+    [[1, -1], [-1, 1]]
 	
 
 New nodes should inherit from ``ClassifierNode`` and implement the ``_label`` and ``_prob``
