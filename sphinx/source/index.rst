@@ -39,6 +39,7 @@ To learn more about MDP:
 * :ref:`Full list <node-list>` of implemented algorithms
 * Typical usage :ref:`examples <examples>`
 * `API Index <api/index.html>`_
+* `autodoc api <doc/index.html>`_
 
 Using MDP is as easy as: ::
 
