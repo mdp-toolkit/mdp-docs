@@ -1,0 +1,5 @@
+.gp, .go {
+    -moz-user-select:-moz-none;
+    -khtml-user-select: -khtml-none;
+    user-select: none;
+} /* Generic.Prompt & Generic.Operator */
