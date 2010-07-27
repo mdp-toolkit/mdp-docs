@@ -256,7 +256,16 @@ the inspection. One simple example is provided in
 plot the data and present it inside the HTML view. Note that 
 ``bimdp.show_training`` and ``bimdp.show_execution`` are just helper 
 functions. If you need more flexibility you can directly access the 
-machinery below (but this is rather messy and hardly ever needed). 
+machinery below (but this is rather messy and hardly ever needed).
+
+.. admonition:: Browser Compatibility
+
+    The inspection works with all browser except Chrome 5.0.
+    This is due to a `chromium bug 
+    <http://code.google.com/p/chromium/issues/detail?id=47416>`_, and will 
+    hopefully be fixed soon by the Chrome developers. The only workaround
+    is to start Chrome with the ``--allow-file-access-from-files`` flag.
+
 
 Extending BiNode and Message Handling
 =====================================
