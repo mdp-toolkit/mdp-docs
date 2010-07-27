@@ -330,8 +330,9 @@ Node Extensions
 ===============
 
 .. Note::
-    The node extension mechanism is an advanced topic, so you can skip
-    this section.
+    The node extension mechanism is an advanced topic, so you might want to
+    skip this section at first. The examples here partly use the ``parallel``
+    and ``hinet`` packages, which are explained later in the tutorial.
 
 The node extension mechanism makes it possible to dynamically add methods or
 class attributes for specific features to node classes (e.g. for
@@ -384,24 +385,32 @@ by ``get_extensions``, since this will actually modify the registered
 extensions. The currently activated extensions are returned
 by ``get_active_extensions``. To activate an extension use
 ``activate_extension``, e.g. to activate the parallel extension
-write::
+write:
+::
 
     >>> mdp.activate_extension("parallel")
     >>> # now you can use the added attributes / methods
     >>> mdp.deactivate_extension("parallel")
     >>> # the additional attributes are no longer available
 
+.. Note::
+    As a user you will never have to activate the parallel extension yourself,
+    this is done automatically by the ``ParallelFlow`` class. The parallel
+    package will be explained later, it is used here only as an example.
+    
 Activating an extension adds the available extensions attributes to the 
 supported nodes. MDP also provides a context manager for the 
-``with`` statement::
+``with`` statement:
+::
 
     >>> with mdp.extension("parallel"):
     ...     pass
     ...
     >>>
 
-Finally there is also a function decorator:
-
+The ``with`` statement ensures that the activated extension is deactivated
+after the code block, even if there is an exception. Finally there is also a
+function decorator:
 ::
 
     >>> @mdp.with_extension("parallel")
@@ -409,6 +418,9 @@ Finally there is also a function decorator:
     ...     pass
     ...
     >>>
+    
+Again this ensures that the extension is deactivated after the function call,
+even in the case of an exception.
 
 Writing Extension Nodes
 -----------------------
@@ -749,14 +761,14 @@ try/finally statement:
     ...
     
 The ``Scheduler`` class also supports the context manager interface of Python.
-One can therefore use a ``with``-statement:
+One can therefore use a ``with`` statement:
 ::
 
     >>> with mdp.parallel.ProcessScheduler() as scheduler:
     ...     parallel_flow.train(data_iterables, scheduler=scheduler)
     ...
     
-The ``with``-statement ensures that ``scheduler.shutdown`` ist automatically
+The ``with`` statement ensures that ``scheduler.shutdown`` ist automatically
 called (even if there is an exception).
  
 
