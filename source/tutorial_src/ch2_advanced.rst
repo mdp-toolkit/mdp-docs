@@ -718,7 +718,8 @@ nodes and flows.
 Basic Examples
 --------------
 In the following example we parallelize a simple ``Flow`` consisting of
-PCA and quadratic SFA, so that it makes use of two cores on a modern CPU::
+PCA and quadratic SFA, so that it makes use of multiple cores on a modern CPU:
+::
 
     >>> node1 = mdp.nodes.PCANode(input_dim=100, output_dim=10)
     >>> node2 = mdp.nodes.SFA2Node(input_dim=10, output_dim=10)
@@ -727,23 +728,37 @@ PCA and quadratic SFA, so that it makes use of two cores on a modern CPU::
     >>> data_iterables = [[mdp.numx_rand.random((200, 100))
     ...                    for _ in range(n_data_chunks)]
     ...                    for _ in range(2)]
-    >>> scheduler = mdp.parallel.ProcessScheduler(n_processes=2)
+    >>> scheduler = mdp.parallel.ProcessScheduler()
     >>> parallel_flow.train(data_iterables, scheduler=scheduler)
     >>> scheduler.shutdown()
 
-So only two additional lines were needed to parallelize the training
-of the flow. All one has to do is use a ``ParallelFlow`` insttead of the normal
+Only two additional lines were needed to parallelize the training
+of the flow. All one has to do is use a ``ParallelFlow`` instead of the normal
 ``Flow`` and provide a scheduler. Note that the
 ``shutdown`` method should be always called at the end to make sure
 that the threads and processes used by the scheduler are cleaned up
-properly. So one should better put the ``shutdown`` call into a safer
-try/finally statement::
+properly. One should therefore put the ``shutdown`` call into a safe
+try/finally statement:
+::
 
+    >>> scheduler = mdp.parallel.ProcessScheduler()
     >>> try:
     ...     parallel_flow.train(data_iterables, scheduler=scheduler)
     ... finally:
     ...     scheduler.shutdown()
     ...
+    
+The ``Scheduler`` class also supports the context manager interface of Python.
+One can therefore use a ``with``-statement:
+::
+
+    >>> with mdp.parallel.ProcessScheduler() as scheduler:
+    ...     parallel_flow.train(data_iterables, scheduler=scheduler)
+    ...
+    
+The ``with``-statement ensures that ``scheduler.shutdown`` ist automatically
+called (even if there is an exception).
+ 
 
 Scheduler
 ---------
