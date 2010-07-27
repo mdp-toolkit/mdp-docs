@@ -387,20 +387,22 @@ want to use a custom callable you will have to make a few modifications
 
 Coroutine Decorator
 ===================
-For complex flow control (like in the DBN example) one sometimes needs a node
-that keeps track of the current status in the execution. The standard pattern for
-this is to implement a state machine, which requires some boilerplate code.
-Python on the other hand also supports continuations in coroutines. A coroutine
-is very similar to a generator function, but the `yield` statement returns
-a value (i.e. the coroutine receives a value). Coroutine might be difficult to
-grasp at first, but they are well documented on the web. Most importantly
-coroutines allow a very natural implementation of the state machine pattern.
+For complex flow control (like in the DBN example) one might need a node 
+that keeps track of the current status in the execution. The standard 
+pattern for this is to implement a state machine, which would require 
+some boilerplate code. Python on the other hand supports so called 
+continuations via coroutines. A coroutine is very similar to a generator 
+function, but the `yield` statement returns a value (i.e., the coroutine 
+is receiving a value). Coroutines might be difficult to grasp, but they 
+are well documented on the web. Most importantly, coroutines can be a 
+very elegenat implementation of the state machine pattern. 
 
-Using a couroutine in a BiNode to represent a state machine would require some
-boilerplate code. However, BiMDP provides a special function decorator to
-do this work for you, making it very convenient to use coroutines. It is for
-example used in the `gradnewton` and `binetdbn` examples. For example
-decorating the `_execute` method can be done like this:
+Using a couroutine in a BiNode for a state machine would normally still 
+require some boilerplate code. Therefore BiMDP provides a special 
+function decorator to eliminate this effort, making it even more 
+convenient to use coroutines. This is demonstrated in the `gradnewton` 
+and `binetdbn` examples. For example decorating the `_execute` method 
+can be done like this:
 ::
 
     @bimdp.binode_coroutine(["b", "c"])
@@ -412,7 +414,7 @@ decorating the `_execute` method can be done like this:
             bs.append(b)
         raise StopIteration(x, {"all the b": bs}) 
 
-This example as runable and commented code can be found in the
+A complete node class together with some more code can be found in the
 `bimdp_simple_coroutine.py` example.
 
 Classifiers in BiMDP
