@@ -765,7 +765,7 @@ One can therefore use a ``with`` statement:
     ...     parallel_flow.train(data_iterables, scheduler=scheduler)
     ...
     
-The ``with`` statement ensures that ``scheduler.shutdown`` ist automatically
+The ``with`` statement ensures that ``scheduler.shutdown`` is automatically
 called (even if there is an exception).
  
 
@@ -836,18 +836,6 @@ Currently we provide the following parallel nodes:
 ``ParallelCloneLayer`` (the last three are derived from the ``hinet``
 package).
 
-Parallel Flows
---------------
-
-As shown earlier in the example a parallel flow implements the
-parallel training (and execution) using a provided scheduler. The
-scheduler is simply provided as an additional argument for the train
-or execute method of the parallel flow. If no scheduler is provided
-the parallel flow behaves just like a normal flow.
-
-You can also do the parallel training in a customized way by manually
-fetching tasks and assigning them to a scheduler. However, this should
-rarely be required.
 
 Classifier nodes
 ================
