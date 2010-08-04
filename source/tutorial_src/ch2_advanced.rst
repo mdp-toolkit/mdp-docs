@@ -695,7 +695,6 @@ L., `Slow feature analysis yields a rich repertoire of complex cell
 properties`.  
 `Journal of Vision, 5(6):579-602 <http://journalofvision.org/5/6/9/>`_. 
 
-
 One could also add more layers on top of this first layer to do more 
 complicated stuff. Note that the ``in_channel_dim`` in the next 
 ``Rectangular2dSwitchboard`` would be 32, since this is the output dimension 
@@ -733,21 +732,24 @@ PCA and quadratic SFA, so that it makes use of multiple cores on a modern CPU:
     >>> node1 = mdp.nodes.PCANode(input_dim=100, output_dim=10)
     >>> node2 = mdp.nodes.SFA2Node(input_dim=10, output_dim=10)
     >>> parallel_flow = mdp.parallel.ParallelFlow([node1, node2])
-    >>> n_data_chunks = 2
-    >>> data_iterables = [[mdp.numx_rand.random((200, 100))
-    ...                    for _ in range(n_data_chunks)]
-    ...                    for _ in range(2)]
+    >>> n_data_chunks = 10
+    >>> data_iterables = [[np.random.random((50, 100))
+    ...                    for _ in range(n_data_chunks)]] * 2
     >>> scheduler = mdp.parallel.ProcessScheduler()
     >>> parallel_flow.train(data_iterables, scheduler=scheduler)
     >>> scheduler.shutdown()
 
-Only two additional lines were needed to parallelize the training
-of the flow. All one has to do is use a ``ParallelFlow`` instead of the normal
-``Flow`` and provide a scheduler. Note that the
-``shutdown`` method should be always called at the end to make sure
-that the threads and processes used by the scheduler are cleaned up
-properly. One should therefore put the ``shutdown`` call into a safe
-try/finally statement:
+Only two additional lines were needed to parallelize the training of the 
+flow. All one has to do is use a ``ParallelFlow`` instead of the normal 
+``Flow`` and provide a scheduler. The ``ProcessScheduler`` will 
+automatically create as many Python processes as there are CPU cores. 
+The parallel flow gives the training task for each data chunk over to 
+the scheduler, which in turn then distributes them across the available 
+worker processes. The results are then returned to the flow, which puts 
+them together in the right way. Note that the ``shutdown`` method should 
+be always called at the end to make sure that the recources used by the 
+scheduler are cleaned up properly. One should therefore put the 
+``shutdown`` call into a safe try/finally statement: 
 ::
 
     >>> scheduler = mdp.parallel.ProcessScheduler()
