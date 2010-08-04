@@ -626,10 +626,7 @@ To integrate the HTML representation into your own custom HTML file
 you can take a look at ``show_flow`` to learn the usage of
 ``HiNetHTMLTranslator``. You can also specify custom translations for
 node types via the extension mechanism (e.g to define which parameters are
-displayed). Note that ``HiNetHTMLTranslator`` is derived from
-``HiNetTranslator`` which is
-the base class for general flow translations and is for example also used in
-the ``parallel`` package (to translate a flow into a parallel version).
+displayed).
 
 Example application (2-D image data)
 ------------------------------------
