@@ -774,36 +774,48 @@ called (even if there is an exception).
 Scheduler
 ---------
 
-A scheduler is an instance of one of the scheduler classes we
-provide. They are all derived from the ``Scheduler`` base class. Apart 
-from the base class we currently only provide  the ``ProcessScheduler`` 
-which distributes the incoming tasks over multiple Python
-processes (circumventing the global interpreter lock). There is also
-experimental support for the 
-`Parallel Python library <http://www.parallelpython.com>`_ 
-in the ``mdp.parallel.pp_support`` package.
+The scheduler classes in MDP are derived from the ``Scheduler`` base 
+class (which itself does not implement any parallelization). The 
+standard choice at the moment is the ``ProcessScheduler``, which 
+distributes the incoming tasks over multiple Python processes 
+(circumventing the global interpreter lock or GIL). The performance gain 
+is highly dependent on the specific situation, but can potentially scale 
+well with the number of CPU cores (in one real world case we saw a 
+speed-up factor of 4.2 on an Intel Core i7 processor with 4 physical / 8 
+logical cores). 
 
+MDP has experimental support for the `Parallel Python library 
+<http://www.parallelpython.com>`_ in the ``mdp.parallel.pp_support`` 
+package. In principle this makes it possible to parallelize across 
+multiple machines. Recently we also added the thread based scheduler 
+``ThreadScheduler``. While it is limited by the GIL it can still 
+achieve a real-world speedup (since NumPy releases the GIL when 
+possible) and it causes less overhead compared to the 
+``ProcessScheduler``.
 
-The first important method of the scheduler class is
-``add_task``. This method takes two arguments: ``data`` and
-``task_callable``, which can be a function or an object with a
-``__call__`` method. The return value of the ``task_callable`` is the
-result of the task. If ``task_callable`` is ``None`` then the last
-provided ``task_callable`` will be used. This splitting into callable
-and data makes it possible to implement caching of the
-``task_callable`` in the scheduler and its workers (caching is turned on by
-default in the ``ProcessScheduler``). To further influence caching you can also
-derive from the ``TaskCallable`` class, which has a ``fork`` to generate new
-callables when the cached callable must be preserved. For MDP training and
-execution there already are corresponding ``TaskCallable`` classes which are
-automatically used, so normally there is no need to worry about this. 
+The following information is only releveant for people who wan't to implement
+custom scheduler classes.
+
+The first important method of the scheduler class is ``add_task``. This 
+method takes two arguments: ``data`` and ``task_callable``, which can be 
+a function or an object with a ``__call__`` method. The return value of 
+the ``task_callable`` is the result of the task. If ``task_callable`` is 
+``None`` then the last provided ``task_callable`` will be used. This 
+splitting into callable and data makes it possible to implement caching 
+of the ``task_callable`` in the scheduler and its workers (caching is 
+turned on by default in the ``ProcessScheduler``). To further influence 
+caching you can also derive from the ``TaskCallable`` class, which has a 
+``fork`` method to generate new callables when the cached callable must 
+be preserved. For MDP training and execution there already are 
+corresponding ``TaskCallable`` classes which are automatically used, so 
+normally there is no need to worry about this. 
 
 After submitting all the tasks with ``add_task`` you can then call
 the ``get_results`` method. This method returns all the task results,
-normally in a list. If there are open tasks in the scheduler
+normally in a list. If there are open tasks in the scheduler then
 ``get_results`` will wait until all the tasks are finished. You can
 also check the status of the scheduler by looking at the
-``n_open_tasks`` property, which tells you the number of open tasks.
+``n_open_tasks`` property, which gives you the number of open tasks.
 After using the scheduler you should always call the ``shutdown`` method,
 otherwise you might get error messages from not properly closed processes.
 
