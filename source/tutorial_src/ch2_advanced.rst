@@ -837,8 +837,8 @@ the new template methods ``fork`` and ``join``.
 ``fork`` should return a new node instance. This new instance can then be
 trained somewhere else (e.g. in a different process) with the usual ``train``
 method. Afterwards one calls ``join`` on the original node, with the
-forked node as the argument. This is effectively the same as calling
-``train`` directly on the original node.
+forked node as the argument (or the other way round). This is supposed to be
+equivalent to calling ``train`` directly on the original node.
 
 When writing your own parallel node extension you should only overwrite the 
 ``_fork`` and ``_join`` methods, which are automatically called by ``fork`` and
