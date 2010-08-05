@@ -677,7 +677,7 @@ The HTML representation of the the constructed flow looks like this in your
 browser:
 
 .. image:: hinet_html.png
-        :width: 450
+        :width: 400
         :alt: hinet HTML rendering
 
 Now one can train this flow for example with image sequences from a movie.
