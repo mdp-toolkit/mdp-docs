@@ -304,7 +304,7 @@ features ("magic") to make handling messages more convenient:
   address parts of the message to a specific node. When the node with the 
   corresponding id is reached then the value is not only provided as an 
   argument, but the key is also deleted from the message. If the
-  argument_key is not an argument of the method then the whole key is
+  ``argument_key`` is not an argument of the method then the whole key is
   simply erased.
 
 - If a private method like ``_train`` has a keyword argument called 
@@ -315,7 +315,7 @@ features ("magic") to make handling messages more convenient:
   
 - The key ``"method"`` is treated in a special way. Instead of calling the 
   standard private method like ``_train`` (or ``_execute``, depending on the 
-  called public method) the "method" value will be used as the method 
+  called public method) the ``"method"`` value will be used as the method 
   name, with an underscore in front. For example the message ``{"method": 
   "classify"}`` has the effect that a method ``_classify`` will be called.
   Note that this feature can be combined with the extension mechanism,
@@ -401,7 +401,7 @@ that keeps track of the current status in the execution. The standard
 pattern for this is to implement a state machine, which would require 
 some boilerplate code. Python on the other hand supports so called 
 continuations via coroutines. A coroutine is very similar to a generator 
-function, but the `yield` statement returns a value (i.e., the coroutine 
+function, but the ``yield`` statement returns a value (i.e., the coroutine 
 is receiving a value). Coroutines might be difficult to grasp, but they 
 are well documented on the web. Most importantly, coroutines can be a 
 very elegenat implementation of the state machine pattern. 
@@ -409,8 +409,8 @@ very elegenat implementation of the state machine pattern.
 Using a couroutine in a BiNode for a state machine would normally still 
 require some boilerplate code. Therefore BiMDP provides a special 
 function decorator to eliminate this effort, making it even more 
-convenient to use coroutines. This is demonstrated in the `gradnewton` 
-and `binetdbn` examples. For example decorating the `_execute` method 
+convenient to use coroutines. This is demonstrated in the ``gradnewton`` 
+and ``binetdbn`` examples. For example decorating the ``_execute`` method 
 can be done like this:
 ::
 
@@ -424,7 +424,7 @@ can be done like this:
         raise StopIteration(x, {"all the b": bs}) 
 
 A complete node class together with some more code can be found in the
-`bimdp_simple_coroutine.py` example.
+``bimdp_simple_coroutine.py`` example.
 
 Classifiers in BiMDP
 ====================
