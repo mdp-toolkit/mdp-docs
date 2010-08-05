@@ -793,8 +793,8 @@ achieve a real-world speedup (since NumPy releases the GIL when
 possible) and it causes less overhead compared to the 
 ``ProcessScheduler``.
 
-The following information is only releveant for people who wan't to implement
-custom scheduler classes.
+(The following information is only releveant for people who want to implement
+custom scheduler classes.)
 
 The first important method of the scheduler class is ``add_task``. This 
 method takes two arguments: ``data`` and ``task_callable``, which can be 
@@ -806,14 +806,14 @@ of the ``task_callable`` in the scheduler and its workers (caching is
 turned on by default in the ``ProcessScheduler``). To further influence 
 caching you can also derive from the ``TaskCallable`` class, which has a 
 ``fork`` method to generate new callables when the cached callable must 
-be preserved. For MDP training and execution there already are 
-corresponding ``TaskCallable`` classes which are automatically used, so 
+be preserved. For MDP training and execution there are corresponding 
+classes derived from ``TaskCallable`` which are automatically used, so 
 normally there is no need to worry about this. 
 
 After submitting all the tasks with ``add_task`` you can then call
 the ``get_results`` method. This method returns all the task results,
 normally in a list. If there are open tasks in the scheduler then
-``get_results`` will wait until all the tasks are finished. You can
+``get_results`` will wait until all the tasks are finished (it blocks). You can
 also check the status of the scheduler by looking at the
 ``n_open_tasks`` property, which gives you the number of open tasks.
 After using the scheduler you should always call the ``shutdown`` method,
@@ -822,7 +822,11 @@ otherwise you might get error messages from not properly closed processes.
 Internally an instance of the base class ``mdp.parallel.ResultContainer`` is
 used for the storage of the results in the scheduler. By providing your own
 result container to the scheduler you modify the storage. For example the
-default result container is an instance of ``OrderedResultContainer`` 
+default result container is an instance of ``OrderedResultContainer``. The
+``ParallelFlow`` class by default makes sure that the right container is
+used for the task (this can be overriden manually via the
+``overwrite_result_container`` parameter of the ``train`` and ``execute``
+methods).
 
 Parallel Nodes
 --------------
