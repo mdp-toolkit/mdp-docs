@@ -339,7 +339,7 @@ class attributes for specific features to node classes (e.g. for
 parallelization the nodes need a ``_fork`` and ``_join`` method). Note that
 methods are just a special case of class attributes, the extension mechanism
 treats them like any other class attributes.
-It is also possible for users to define new extensions
+It is also possible for users to define custom extensions
 to introduce new functionality for MDP nodes without having to directly modify
 any MDP code. The node extension mechanism basically enables some
 form of *Aspect-oriented programming* (AOP) to deal with *cross-cutting
