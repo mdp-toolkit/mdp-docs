@@ -531,17 +531,16 @@ argument in ``activate_extension`` which can help with debugging.
 Hierarchical Networks
 =====================
 
-In case the desired data processing application cannot be defined as a
-sequence of nodes, the ``hinet`` subpackage makes it possible to
+The ``hinet`` subpackage makes it possible to
 construct arbitrary feed-forward architectures, and in particular
-hierarchical networks.
+hierarchical networks (networks which are organized in layers).
 
 Building blocks
 ---------------
 
-The ``hinet`` package contains three basic building blocks (which are all nodes
-themselves) to construct hierarchical node networks: ``Layer``, 
-``FlowNode``, ``Switchboard``.
+The ``hinet`` package contains three basic building blocks, all of which are
+derived from the ``Node`` class: ``Layer``, ``FlowNode``,
+and ``Switchboard``.
 
 The first building block is the ``Layer`` node, which works like a
 horizontal version of flow. It acts as a wrapper for a set of nodes
@@ -556,11 +555,11 @@ with a 200-dimensional input
     >>> layer
     Layer(input_dim=200, output_dim=30, dtype=None) 
 
-The first half of the 200 dimensional input data is then
-automatically assigned to ``node1`` and the second half to
-``node2``. We can train and execute a ``Layer`` just like any other
-node. Note that the dimensions of the nodes must be already set when
-the layer is constructed.
+The first half of the 200 dimensional input data is then automatically 
+assigned to ``node1`` and the second half to ``node2``. A layer 
+``Layer`` node can be trained and executed just like any other node. 
+Note that the dimensions of the nodes must be already set when the layer 
+is constructed. 
 
 In order to be able to build arbitrary feed-forward node structures,
 ``hinet`` provides a wrapper class for flows (i.e., vertical stacks
@@ -575,18 +574,21 @@ of nodes) called ``FlowNode``. For example, we can replace
     >>> layer
     Layer(input_dim=200, output_dim=30, dtype=None) 
 
-in this example ``node1`` has two training phases (one for each 
-internal node). Therefore ``layer`` now has two training phases as well and 
-behaves like any other node with two training phases. 
-By combining and nesting ``FlowNode`` and ``Layer``, it is thus possible
-to build complex node structures.
+in this example ``node1`` has two training phases (one for each internal 
+node). Therefore ``layer`` now has two training phases as well and 
+behaves like any other node with two training phases. By combining and 
+nesting ``FlowNode`` and ``Layer``, it is thus possible to build modular 
+node structures. Note that while the ``Flow'' interface looks pretty 
+similar to that of ``Node'' it is not compatible and therefore we must 
+use ``FlowNode'' as an adapter. 
  
-When implementing networks one might have to route
-different parts of the data to different nodes in a layer in complex
-ways. This is done by the ``Switchboard`` node, which can handle such
-the routing. A ``Switchboard`` is initialized with a 1-D Array with
-one entry for each output connection, containing the corresponding
-index of the input connection that it receives its input from, e.g.::
+When implementing networks one might have to route different parts of 
+the data to different nodes in a layer. This functionality is provided 
+by the ``Switchboard'' node. A basic ``Switchboard`` is initialized with a 1-D 
+Array with one entry for each output connection, containing the 
+corresponding index of the input connection that it receives its input 
+from, e.g.:
+:: 
 
     >>> switchboard = mdp.hinet.Switchboard(input_dim=6, connections=[0,1,2,3,4,3,4,5])
     >>> switchboard
