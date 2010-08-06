@@ -414,17 +414,32 @@ and ``binetdbn`` examples. For example decorating the ``_execute`` method
 can be done like this:
 ::
 
-    @bimdp.binode_coroutine(["b", "c"])
-    def _execute(self, x, n_iterations):
-        """Gather all the incomming b and return them finally."""
-        bs = []
-        for _ in range(n_iterations):
-            x, b = yield x
-            bs.append(b)
-        raise StopIteration(x, {"all the b": bs}) 
+    class SimpleCoroutineNode(bimdp.nodes.IdentityBiNode):
+        
+        # the arg ["b"] means that that the signature will be (x, b)
+        @bimdp.binode_coroutine(["b"])
+        def _execute(self, x, n_iterations):
+            """Gather all the incomming b and return them finally."""
+            bs = []
+            for _ in range(n_iterations):
+                x, b = yield x
+                bs.append(b)
+            raise StopIteration(x, {"all the b": bs}) 
 
-A complete node class together with some more code can be found in the
-``bimdp_simple_coroutine.py`` example.
+            
+    n_iterations = 3
+    x = np.random.random((1,1))
+    node = SimpleCoroutineNode()
+    # during the first call the decorator creates the actual coroutine
+    x, msg = node.execute(x, {"n_iterations": n_iterations})
+    # the following calls go to the yield statement,
+    # finally the bs are returned
+    for i in range(n_iterations-1):
+        x, msg = node.execute(x, {"b": i})
+    x, msg = node.execute(x, {"b": n_iterations-1})
+
+You can find the complete runable code in the ``bimdp_simple_coroutine.py``
+example.
 
 Classifiers in BiMDP
 ====================
