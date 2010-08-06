@@ -7,12 +7,9 @@ import bimdp
 
 
 class SimpleCoroutineNode(bimdp.nodes.IdentityBiNode):
-    """Just a stupid example."""
     
-    # ["b"] means that yield will return a tuple with x (which is always
-    # the first value) and "a" and "b" from the msg
-    
-    @bimdp.binode_coroutine(["b", "c"])
+    # the arg ["b"] means that that the signature will be (x, b)
+    @bimdp.binode_coroutine(["b"])
     def _execute(self, x, n_iterations):
         """Gather all the incomming b and return them finally."""
         bs = []
@@ -25,13 +22,13 @@ class SimpleCoroutineNode(bimdp.nodes.IdentityBiNode):
 n_iterations = 3
 x = np.random.random((1,1))
 node = SimpleCoroutineNode()
-
 # during the first call the decorator creates the actual coroutine
-print node.execute(x, {"n_iterations": n_iterations})
-
-# the following calls no go to the yield statement,
-# finally the arguments of the StopIteration are returned
-for i in range(n_iterations):
-    print node.execute(x, {"b": i})
-
-    
+x, msg = node.execute(x, {"n_iterations": n_iterations})
+print msg  # leftover msg
+# the following calls go to the yield statement,
+# finally the bs are returned
+for i in range(n_iterations-1):
+    x, msg = node.execute(x, {"b": i})
+    print msg
+x, msg = node.execute(x, {"b": n_iterations-1})
+print msg
