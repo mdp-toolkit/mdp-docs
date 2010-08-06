@@ -25,9 +25,9 @@ flownode = bimdp.hinet.BiFlowNode(bimdp.BiFlow([sfa_node]))
 sfa_layer = bimdp.hinet.CloneBiLayer(flownode,
                                      switchboard.output_channels)
 flow = bimdp.BiFlow([switchboard, sfa_layer])
-train_gen = [np.random.random((10, switchboard.input_dim))
+train_data = [np.random.random((10, switchboard.input_dim))
              for _ in range(3)]
-flow.train([None, train_gen])
+flow.train([None, train_data])
 
 ## add the Newton optimization to the flow
 sender_node = bimdp.nodes.SenderBiNode(node_id="sender", recipient_id="newton")
