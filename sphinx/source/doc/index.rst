@@ -3,7 +3,13 @@
 API documentation
 =================
 
-.. toctree::
+.. autosummary::
+   :toctree:
 
-   mdp/index
+   mdp
+   mdp.nodes
+   mdp.graph
+   mdp.parallel
+   mdp.hinet
+   mdp.utils
    bimdp
