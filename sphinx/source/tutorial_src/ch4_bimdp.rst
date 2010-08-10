@@ -132,25 +132,40 @@ be the same as that of ``data_iterables``, but instead of yielding
 arrays it should yield dictionaries (containing the additional data 
 values with the corresponding keys). Here is an example::
   
-    >>> samples = mdp.numx_rand.random((100,10))
-    >>> labels = mdp.numx.arange(100)
-    >>> flow = bimdp.BiFlow([mdp.nodes.PCANode(), bimdp.nodes.FDABiNode()])
-    >>> flow.train([[samples],[samples]], msg_iterables=[None,[{"cl": labels}]])
+    >>> samples = np.random.random((100,10))
+    >>> labels = np.arange(100)
+    >>> biflow = bimdp.BiFlow([mdp.nodes.PCANode(), bimdp.nodes.FDABiNode()])
+    >>> biflow.train([[samples],[samples]], msg_iterables=[None,[{"cl": labels}]])
 
     
-The ``_train`` method of ``FDANode`` requires the ``cl`` argument, so this
-is used as the key value. Note that we have to use the ``BiNode``
-version of ``FDANode``, called ``FDABiNode`` (alomost every MDP node has a
-``BiNode`` version following this naming scheme). The ``BiNode`` class provides
-the ``cl`` value from the message to the ``_train`` method.
+The ``_train`` method of ``FDANode`` requires the ``cl`` argument, so 
+this is used as the key value. Note that we have to use the ``BiNode`` 
+version of ``FDANode``, called ``FDABiNode`` (alomost every MDP node has 
+a ``BiNode`` version following this naming convention). The ``BiNode`` 
+class provides the ``cl`` value from the message to the ``_train`` 
+method. 
 
 In a normal ``Flow`` the additional arguments can only be given to the 
 node which is currently in training. This limitation does not apply to a 
 ``BiFlow``, where the message can be accessed by all nodes (more on this 
 later). Message iterators can also be used during execution, via the 
 ``msg_iterable`` argument in ``BiFlow.execute``. Of course messages can 
-be also returned by ``BiFlow.execute``, so the return value has the form 
-``(y, msg)``. If iterables are used then the ``BiFlow`` not only 
+be also returned by ``BiFlow.execute``, so the return value always has 
+the form ``(y, msg)`` (where ``msg`` can be an empty dictionary). For exmple:
+
+    >>> biflow = bimdp.nodes.PCABiNode(output_dim=10) + bimdp.nodes.SFABiNode()
+    >>> x = np.random.random((100,20))
+    >>> biflow.train(x)
+    >>> y, msg = biflow.execute(x)
+    >>> msg
+    {}
+    >>> # include a message that is not used
+    >>> y, msg = biflow.execute(x, msg_iterable={"test": 1})
+    >>> msg
+    {'test': 1}
+
+Note that ``BiNode`` overloads the plus operator to create a ``BiFlow``. 
+If iterables are used for execution then the ``BiFlow`` not only 
 concatenates the ``y`` result arrays, but also tries to join the ``msg`` 
 dictionaries into a single one. Arrays in the ``msg`` will be 
 concatenated, for all other types the plus operator is used. 
