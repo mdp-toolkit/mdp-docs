@@ -18,7 +18,7 @@ x = np.random.random((50,5))
 flow.train(x)
 
 x = np.random.random((3,5))
-y = flow.execute(x)
+y, msg = flow.execute(x)
 
 # the target value 1 is the absolute index of the sfa_node,
 # alternatively one could have used a node_id
