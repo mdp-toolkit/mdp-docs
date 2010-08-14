@@ -59,11 +59,12 @@ module ``bimdp.nodes`` contains ``BiNode`` versions of nearly all MDP nodes.
 For example ``bimdp.nodes.PCABiNode`` is derived from both ``BiNode`` 
 and ``mdp.nodes.PCANode``.
 
-There are currently two examples available in the ``mdp-examples`` repository,
-which demonstrate how BiMDP can be used. The first example
-``backpropagation`` is a simple multilayer perceptron, using
-backpropagation for learning. The second example ``binetdbn`` is a
-proof-of-concept implementation of a deep belief network.
+There are several examples available in the ``mdp-examples`` repository, 
+which demonstrate how BiMDP can be used. For example ``backpropagation`` 
+demonstrates how to implement a simple multilayer perceptron, using 
+backpropagation for learning. The example ``binetdbn`` is a 
+proof-of-concept implementation of a deep belief network. In addition 
+there are a couple of smaller examples in ``bimdp_examples``. 
 
 Finally note that this tutorial is intended to serve as an introduction, 
 covering all the basic aspects of BiMDP. For more detailed specifications 
