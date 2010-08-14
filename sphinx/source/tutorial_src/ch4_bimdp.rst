@@ -74,7 +74,7 @@ have a look at the docstrings.
 Targets, id's and Messages
 ==========================
 
-The return value of the ``execute`` method in a normal MDP node is 
+In a normal MDP node the return value of the ``execute`` method is 
 restricted to a single 2d array. A BiMDP ``BiNode`` on the other hand can 
 optionally return a tuple containing an additional message dictionary 
 and a target value. So in general the return value is a tuple ``(x, msg, 
