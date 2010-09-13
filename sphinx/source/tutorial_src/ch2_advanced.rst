@@ -709,15 +709,17 @@ Parallelization
 The ``parallel`` package adds the ability to parallelize the training 
 and execution of MPD flows. This package is split into two decoupled parts:
 
-The first part consists of a parallel extension of the familiar MDP
-structures of nodes and flows. The first basic building block is the
-extension class ``ParallelExtensionNode`` for nodes which can be trained
-in a parallelized way. It adds the ``fork`` and ``join`` methods. When
-providing a parallel extension for custom node classes you should provide
-``_fork`` and ``_join``.
-Secondly there is the ``ParallelFlow`` class,
-which internally splits the training or execution into tasks which can 
-then be processed in parallel.
+The first part consists of a parallel extension for the familiar MDP 
+structures of nodes and flows. In principle all MDP nodes aldready 
+support parallel execution, since copies of a node can be made and used 
+in parallel. Parallelization of the training on the other hand depends 
+on the specific node or algorithm. For nodes which can be trained in a 
+parallelized way there is the extension class ``ParallelExtensionNode``.
+It adds the ``fork`` and ``join`` methods. When providing a parallel 
+extension for custom node classes you should implement ``_fork`` and 
+``_join``. Secondly there is the ``ParallelFlow`` class, which 
+internally splits the training or execution into tasks which are then 
+processed in parallel. 
 
 The second part consists of the schedulers. A scheduler takes tasks
 and processes them in a more or less parallel way (e.g. in multiple
@@ -806,11 +808,11 @@ the ``task_callable`` is the result of the task. If ``task_callable`` is
 splitting into callable and data makes it possible to implement caching 
 of the ``task_callable`` in the scheduler and its workers (caching is 
 turned on by default in the ``ProcessScheduler``). To further influence 
-caching you can also derive from the ``TaskCallable`` class, which has a 
-``fork`` method to generate new callables when the cached callable must 
-be preserved. For MDP training and execution there are corresponding 
-classes derived from ``TaskCallable`` which are automatically used, so 
-normally there is no need to worry about this. 
+caching one can derive from the ``TaskCallable`` class, which has a 
+``fork`` method to generate new callables in order to preserve the 
+original cached callable. For MDP training and execution there are 
+corresponding classes derived from ``TaskCallable`` which are 
+automatically used, so normally there is no need to worry about this. 
 
 After submitting all the tasks with ``add_task`` you can then call
 the ``get_results`` method. This method returns all the task results,
@@ -838,16 +840,30 @@ extensions for them. The ``ParallelExtensionNode`` base class has
 the new template methods ``fork`` and ``join``. 
 ``fork`` should return a new node instance. This new instance can then be
 trained somewhere else (e.g. in a different process) with the usual ``train``
-method. Afterwards one calls ``join`` on the original node, with the
-forked node as the argument (or the other way round). This is supposed to be
+method. Afterwards ``join`` is called on the original node, with the
+forked node as the argument. This should be
 equivalent to calling ``train`` directly on the original node.
 
-When writing your own parallel node extension you should only overwrite the 
-``_fork`` and ``_join`` methods, which are automatically called by ``fork`` and
-``join``. The ``fork`` and ``join`` take care of the standard node
-attributes like the dimensions. You should also look at the source
-code of a parallel node like ``ParallelPCANode`` to get a better idea
-of how to parallelize nodes.
+During Execution nodes are not forked by default, instead they are just 
+copied (for example they are pickled and send to the Python worker 
+processes). It is possible for nodes during execution to 
+explicitly request that they are forked and joined (like during 
+training). This is done by overriding the ``use_execute_fork`` method, 
+which by default returns ``False``. For example nodes that record data 
+during execution can use this feature to become compatible with 
+parallelization. 
+
+When writing custom parallel node extension you should only overwrite 
+the ``_fork`` and ``_join`` methods, which are automatically called by 
+``fork`` and ``join``. The ``fork`` and ``join`` take care of the 
+standard node attributes like the dimensions. You should also look at 
+the source code of a parallel node like ``ParallelPCANode`` to get a 
+better idea of how to parallelize nodes. By overwriting 
+``use_execute_fork`` to return ``True`` you can force forking and 
+joining during execution. Note that the same ``_fork`` and ``_join`` 
+implementation is called as during training, so if necessary one should 
+add an ``node.is_training()`` check there to determine the correct 
+action. 
 
 Currently we provide the following parallel nodes:
 ``ParallelPCANode``, ``ParallelWhiteningNode``, ``ParallelSFANode``,

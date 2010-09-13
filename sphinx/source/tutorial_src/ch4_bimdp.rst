@@ -219,7 +219,7 @@ can simply ignore those that you don't need and concentrate on the
 features that are useful for your current project. For example you could 
 use messages without ever worrying about targets.
 
-There are also three more additions to the ``BiNode`` API:
+There are also two more additions to the ``BiNode`` API:
 
 - ``node_id``
     This is a read-only property, which returns the node id
@@ -232,15 +232,6 @@ There are also three more additions to the ``BiNode`` API:
     execution (and after the ``stop_training`` execution phase). You
     can be override the private ``_bi_reset`` method to reset internal
     state variables (``_bi_reset`` is called by ``bi_reset``).
-    
-- ``is_bi_training``
-    This method is similar to the ``is_training`` method of standard MDP nodes.
-    It can be used to signal that a node is doing some data gathering. A node
-    might for example do perform training during the normal execute (e.g., a
-    neural network might adjust internal weights while it is already returning
-    results). Generally this method isn't that important, but the
-    ``ParallelBiFlow`` uses it to determine if nodes can simply be copied or
-    must be forked.
 
 Inspection
 ==========
@@ -276,11 +267,12 @@ machinery below (but this is rather messy and hardly ever needed).
 
 .. admonition:: Browser Compatibility
 
-    The inspection works with all browser except Chrome 5.0.
-    This is due to a `chromium bug 
-    <http://code.google.com/p/chromium/issues/detail?id=47416>`_, and will 
-    hopefully be fixed soon by the Chrome developers. The only workaround
-    is to start Chrome with the ``--allow-file-access-from-files`` flag.
+    The inspection works with all browser except Chrome.
+    This is due to a controversial `chromium issue 
+    <http://code.google.com/p/chromium/issues/detail?id=47416>`_. Until
+    this is fixed by the Chrome developers the only workarounds
+    are to either start Chrome with the ``--allow-file-access-from-files``
+    flag or to access the inspection via a webserver.
 
 
 Extending BiNode and Message Handling
@@ -291,9 +283,7 @@ directly overwrite the public ``execute`` or ``train`` methods but
 instead the private versions with an underscore in front (for training 
 you can of course also overwrite ``_get_train_seq``). In addition to the 
 dimensionality checks performed on ``x`` by the ``Node`` class this 
-enables a couple of message handling features. On the other hand 
-``is_bi_training`` can be directly overwritten (because it only returns 
-a boolean value, like ``is_training`` in ``Node``). 
+enables a couple of message handling features.
 
 The automatic message handling is a major feature in ``BiNode`` and 
 relies on the dynamic nature of Python. In the ``FDABiNode`` and 
@@ -399,16 +389,10 @@ used for BiMDP. The ``bimdp.parallel`` module provides a
 ``ParallelBiFlow`` class which can be used like the normal 
 ``ParallelFlow``. No changes to schedulers are required. 
 
-The most important difference between the parallelization in standard 
-MDP and BiMDP is that BiNodes can signal via the ``is_bi_training`` 
-method wether they should be forked instead of the usual deep copy. 
-Unlike the ``is_training`` method there can be multiple nodes for which 
-``is_bi_training`` returns ``True``. All these forked nodes are joined 
-after the execution or training. 
-
-Note that a ``ParallelBiFlow`` uses a special callable class. So if you 
-want to use a custom callable you will have to make a few modifications 
-(compared to the standard callable class used by ``ParallFlow``).
+Note that a ``ParallelBiFlow`` uses a special callable class to handle 
+the message data. So if you want to use a custom callable you will have 
+to make a few modifications (compared to the standard callable class 
+used by ``ParallFlow``). 
 
 Coroutine Decorator
 ===================
