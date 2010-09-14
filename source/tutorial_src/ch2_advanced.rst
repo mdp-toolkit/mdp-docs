@@ -409,8 +409,12 @@ supported nodes. MDP also provides a context manager for the
     >>>
 
 The ``with`` statement ensures that the activated extension is deactivated
-after the code block, even if there is an exception. Finally there is also a
-function decorator:
+after the code block, even if there is an exception.
+But the deactivation at the end happens only for the extensions that were
+activated by this context manager (not for those that were already active
+when the context was entered). This prevents unintended side effects.
+
+Finally there is also a function decorator:
 ::
 
     >>> @mdp.with_extension("parallel")
@@ -419,8 +423,10 @@ function decorator:
     ...
     >>>
     
-Again this ensures that the extension is deactivated after the function call,
-even in the case of an exception.
+Again this ensures that the extension is deactivated after the function 
+call, even in the case of an exception. The deactivation happens only if 
+the extension was activated by the decorator (not if it was already 
+active before).
 
 Writing Extension Nodes
 -----------------------
