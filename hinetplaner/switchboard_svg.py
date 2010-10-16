@@ -76,14 +76,14 @@ def _rect2d_switchoard_svd(self, id_prefix, element_size=1, element_gap=1,
                            element_class="coverage_element"):
     es = element_size
     gs = element_gap
-    svg_width = self.out_channels_xy[0] * (es + gs)
-    svg_height = self.out_channels_xy[1] * (es + gs)
+    svg_width = self.x_out_channels * (es + gs)
+    svg_height = self.y_out_channels * (es + gs)
     code_lines = ['<svg width="%dpx" height="%dpx"' %
                   (svg_width, svg_height) + 
                   ' xmlns="http://www.w3.org/2000/svg" version="1.1">']
-    for y in range(self.out_channels_xy[1]):
-        for x in range(self.out_channels_xy[0]):
-            i_channel = x + (y * self.out_channels_xy[0])
+    for y in range(self.y_out_channels):
+        for x in range(self.x_out_channels):
+            i_channel = x + (y * self.x_out_channels)
             code_lines.append(
                       '<rect id="%s_%d"' % (id_prefix, i_channel) +
                       ' class="%s"' % element_class +
@@ -99,24 +99,24 @@ def _double_rect2d_switchoard_svg(self, id_prefix, element_size=1,
                                   element_class="coverage_element"):
     es = element_size
     gs = element_gap
-    svg_width = self.long_out_channels_xy[0] * (es + gs) * 2
-    svg_height = self.long_out_channels_xy[1] * (es + gs) * 2
+    svg_width = self.x_long_out_channels * (es + gs) * 2
+    svg_height = self.y_long_out_channels * (es + gs) * 2
     code_lines = ['<svg width="%dpx" height="%dpx"' %
                   (svg_width, svg_height) + 
                   ' xmlns="http://www.w3.org/2000/svg" version="1.1">']
-    for y in range(self.long_out_channels_xy[1]):
-        for x in range(self.long_out_channels_xy[0]):
-            i_channel = x + (y * self.long_out_channels_xy[0])
+    for y in range(self.y_long_out_channels):
+        for x in range(self.x_long_out_channels):
+            i_channel = x + (y * self.x_long_out_channels)
             code_lines.append(
                      '<rect id="%s_%d"' % (id_prefix, i_channel) +
                      ' class="%s"' % element_class +
                      ' width="%s" height="%s"' % (es, es) +
                      ' x="%d" y="%d"' % (2*x*(es+gs), 2*y*(es+gs)) +
                      ' />' )
-    offset = self.long_out_channels_xy[0] * self.long_out_channels_xy[1]
-    for y in range(self.long_out_channels_xy[1] - 1):
-        for x in range(self.long_out_channels_xy[0] - 1):
-            i_channel = offset + x + (y * (self.long_out_channels_xy[0]-1))
+    offset = self.x_long_out_channels * self.y_long_out_channels
+    for y in range(self.y_long_out_channels - 1):
+        for x in range(self.x_long_out_channels - 1):
+            i_channel = offset + x + (y * (self.x_long_out_channels-1))
             code_lines.append(
                      '<rect id="%s_%d"' % (id_prefix, i_channel) +
                      ' class="%s"' % element_class +

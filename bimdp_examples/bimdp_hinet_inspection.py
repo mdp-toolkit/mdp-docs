@@ -16,9 +16,12 @@ noisenode = mdp.nodes.NormalNoiseNode(input_dim=20*20,
 sfa_node = mdp.nodes.SFANode(input_dim=20*20, output_dim=20, dtype='f')
 sfa2_node = mdp.nodes.SFA2Node(input_dim=20, output_dim=10)
 switchboard = mdp.hinet.Rectangular2dSwitchboard(
-                                          in_channels_xy=100,
-                                          field_channels_xy=20,
-                                          field_spacing_xy=10)
+                                          x_in_channels=100,
+                                          y_in_channels=100,
+                                          x_field_channels=20,
+                                          y_field_channels=20,
+                                          x_field_spacing=10,
+                                          y_field_spacing=10)
 flownode = mdp.hinet.FlowNode(noisenode + sfa_node + sfa2_node)
 sfa_layer = mdp.hinet.CloneLayer(flownode, switchboard.output_channels)
 flow = switchboard + sfa_layer

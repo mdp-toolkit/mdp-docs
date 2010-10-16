@@ -15,9 +15,12 @@ show_inspection = True
 ## create and train the flow
 sfa_node = bimdp.nodes.SFA2BiNode(input_dim=4*4, output_dim=5)
 switchboard = bimdp.hinet.Rectangular2dBiSwitchboard(
-                                          in_channels_xy=8, 
-                                          field_channels_xy=4, 
-                                          field_spacing_xy=2)
+                                          x_in_channels=8, 
+                                          y_in_channels=8,
+                                          x_field_channels=4, 
+                                          y_field_channels=4,
+                                          x_field_spacing=2, 
+                                          y_field_spacing=2)
 flownode = bimdp.hinet.BiFlowNode(bimdp.BiFlow([sfa_node]))
 sfa_layer = bimdp.hinet.CloneBiLayer(flownode,
                                      switchboard.output_channels)
