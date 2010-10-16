@@ -5,11 +5,11 @@
     ], 
     "layer_configs": [
         {
-            "field_size_xy": [
+            "field_channels_xy": [
                 10, 
                 10
             ], 
-            "field_step_xy": [
+            "field_spacing_xy": [
                 10, 
                 10
             ], 
@@ -18,11 +18,11 @@
             "sfa_dim": 30
         }, 
         {
-            "field_size_xy": [
+            "field_channels_xy": [
                 2, 
                 2
             ], 
-            "field_step_xy": [
+            "field_spacing_xy": [
                 1, 
                 1
             ], 
@@ -31,11 +31,11 @@
             "sfa_dim": 30
         }, 
         {
-            "field_size_xy": [
+            "field_channels_xy": [
                 4, 
                 4
             ], 
-            "field_step_xy": [
+            "field_spacing_xy": [
                 2, 
                 2
             ], 
@@ -44,11 +44,11 @@
             "sfa_dim": 40
         }, 
         {
-            "field_size_xy": [
+            "field_channels_xy": [
                 3, 
                 3
             ], 
-            "field_step_xy": [
+            "field_spacing_xy": [
                 1, 
                 1
             ], 

@@ -5,7 +5,7 @@
     ], 
     "layer_configs": [
         {
-            "field_size_xy": [
+            "field_channels_xy": [
                 10, 
                 10
             ], 
@@ -20,7 +20,7 @@
             "sfa_dim": 32
         }, 
         {
-            "field_size_xy": [
+            "field_channels_xy": [
                 2, 
                 2
             ], 
