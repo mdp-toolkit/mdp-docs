@@ -61,6 +61,7 @@ epydoc:
 	--redundant-details \
 	--verbose \
 	--docformat=plaintext \
+	--external-api=numpy \
 	$(MDPTOOLKIT)/mdp/__init__.py
 
 dirhtml:
