@@ -4,13 +4,13 @@ Example for digit recognition with the MNIST dataset.
 This example demonstrates how classifiers can be used with BiMDP and is also
 another benchmark for parallelization.
 
-closely based on: 
+closely based on:
 Berkes, P. (2005).
 Handwritten digit recognition with Nonlinear Fisher Discriminant Analysis.
 Proc. of ICANN Vol. 2, Springer, LNCS 3696, 285-287.
 
 To run this example you need the MNIST dataset in Matlab format from
-Sam Roweis, available at:
+Sam Roweis, available at (about 13 MB large):
 http://www.cs.nyu.edu/~roweis/data/mnist_all.mat
 """
 
@@ -22,6 +22,7 @@ import mdp
 import bimdp
 
 # TODO: use special job class to expand data remotely
+# TODO: use different chunk sizes for different training phases and testing
 
 ## global variables / parameters
 n_ids = 10
@@ -57,8 +58,8 @@ for id in range(n_ids):
 
 ## training and execution
 start_time = time.time()
-with mdp.parallel.ThreadScheduler(n_threads=4, verbose=verbose) as scheduler:
-#with mdp.parallel.Scheduler(verbose=verbose) as scheduler:
+#with mdp.parallel.ThreadScheduler(n_threads=4, verbose=verbose) as scheduler:
+with mdp.parallel.Scheduler(verbose=verbose) as scheduler:
     biflow.train([train_data, None, train_data, train_data],
                  msg_iterables=[None, None, train_msgs, train_msgs],
                  scheduler=scheduler)
