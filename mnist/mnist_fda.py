@@ -1,10 +1,13 @@
 
+import numpy as np
 import scipy.io
+import time
 
 import mdp
 import bimdp
 
 # global variables
+verbose = True
 n_ids = 10
 mat_data = scipy.io.loadmat("mnist_all.mat")
 
@@ -25,24 +28,39 @@ mat_data = scipy.io.loadmat("mnist_all.mat")
             
 
 biflow = bimdp.parallel.ParallelBiFlow([
-    mdp.nodes.PCANode(output_dim=2),
-    mdp.nodes.PolynomialExpansionNode(degree=3),
-    bimdp.nodes.FDABiNode(),
-    bimdp.nodes.GaussianBiClassifier()
-], verbose=True)
+            mdp.nodes.PCANode(output_dim=3),
+            mdp.nodes.PolynomialExpansionNode(degree=3),
+            bimdp.nodes.FDABiNode(),
+            bimdp.nodes.GaussianBiClassifier()
+         ], verbose=verbose)
 
-scheduler = mdp.parallel.Scheduler(verbose=True)
+train_data = [mat_data["train%d" % i].astype("float32")
+              for i in range(n_ids)]
+train_msgs = [{"labels": i} for i in range(n_ids)]
+test_data = [mat_data["test%d" % i].astype("float32")
+             for i in range(n_ids)]
 
-data = [mat_data["train%d" % i].astype("float32")[:10] for i in range(n_ids)]
-msgs = [{"labels": i} for i in range(n_ids)]
-biflow.train([data, None, data, data],
-             msg_iterables=[None, None, msgs, msgs],
-             scheduler=scheduler)
+start_time = time.time()
+#with mdp.parallel.ProcessScheduler(verbose=True) as scheduler:
+with mdp.parallel.Scheduler(verbose=verbose) as scheduler:
+    biflow.train([train_data, None, train_data, train_data],
+                 msg_iterables=[None, None, train_msgs, train_msgs],
+                 scheduler=scheduler)
+    y, result_msg = biflow.execute(test_data,
+                                   [{"return_labels": True}] * len(test_data),
+                                   scheduler=scheduler)
+total_time = time.time() - start_time
 
-data = [mat_data["test%d" % i].astype("float32")[:10] for i in range(n_ids)]
-y, msg = biflow.execute(data, [{"return_labels": "label"}] * len(data),
-                        scheduler=scheduler)
+result_labels = result_msg["labels"]
+n_total = 0 
+n_total_hits = 0
+for i in range(n_ids):
+    n_samples_i = len(test_data[i])
+    labels_i = result_labels[n_total_hits:(n_total_hits+n_samples_i)]
+    n_total_hits += labels_i.count(i)
+    n_total += n_samples_i
 
-
-
-print "done."
+if verbose:
+    print "==============================================="
+print "time: %.3f secs" % total_time
+print "performance: %.1f%%" % (100. * n_total_hits / n_total)
