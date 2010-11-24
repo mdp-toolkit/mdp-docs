@@ -30,7 +30,7 @@ mat_data = scipy.io.loadmat("mnist_all.mat")
 biflow = bimdp.parallel.ParallelBiFlow([
             mdp.nodes.PCANode(output_dim=15),
             mdp.nodes.PolynomialExpansionNode(degree=2),
-            bimdp.nodes.FDABiNode(),
+            bimdp.nodes.FDABiNode(output_dim=(n_ids-1)),
             bimdp.nodes.GaussianBiClassifier()
 #            bimdp.nodes.NearestMeanBiClassifier()
          ], verbose=verbose)
@@ -38,7 +38,7 @@ biflow = bimdp.parallel.ParallelBiFlow([
 train_data = [mat_data["train%d" % i].astype("float32")
               for i in range(n_ids)]
 train_msgs = [{"labels": i} for i in range(n_ids)]
-test_data = [mat_data["test%d" % i].astype("float32")[:2]
+test_data = [mat_data["test%d" % i].astype("float32")
              for i in range(n_ids)]
 
 start_time = time.time()
