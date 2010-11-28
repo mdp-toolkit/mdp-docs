@@ -21,18 +21,20 @@ import time
 import mdp
 import bimdp
 
+# TODO: add split function to MDP utils?
 # TODO: use special job class to expand data remotely
 # TODO: use different chunk sizes for different training phases and testing
 
 ## global variables / parameters
 n_ids = 10
 mat_data = scipy.io.loadmat("mnist_all.mat")
-chunk_size = 5000  # for each digit there are about 5000 training samples
-verbose = False
+chunk_size = 3000  # for each digit there are about 5000 training samples
+verbose = True
 
 biflow = bimdp.parallel.ParallelBiFlow([
-            mdp.nodes.PCANode(output_dim=35),
-            mdp.nodes.PolynomialExpansionNode(degree=2),
+            mdp.nodes.PCANode(output_dim=50),
+#            mdp.nodes.PolynomialExpansionNode(degree=2),
+            mdp.nodes.QuadraticExpansionNode(),
             bimdp.nodes.FDABiNode(output_dim=(n_ids-1)),
             bimdp.nodes.GaussianBiClassifier()
 #            bimdp.nodes.NearestMeanBiClassifier()
@@ -45,7 +47,7 @@ for id in range(n_ids):
     id_key = "train%d" % id
     n_chunks = int(np.ceil(len(mat_data[id_key]) / float(chunk_size)))
     train_data += [mat_data[id_key][i_chunk*chunk_size :
-                                    (i_chunk+1)*chunk_size].astype("float32")
+                                    (i_chunk+1)*chunk_size].astype("float64")
                    for i_chunk in range(n_chunks)]
     train_msgs += [{"labels": id} for i in range(n_chunks)]
 test_data = []
@@ -53,13 +55,14 @@ for id in range(n_ids):
     id_key = "test%d" % id
     n_chunks = int(np.ceil(len(mat_data[id_key]) / float(chunk_size)))
     test_data += [mat_data[id_key][i_chunk*chunk_size :
-                                    (i_chunk+1)*chunk_size].astype("float32")
-                   for i_chunk in range(n_chunks)]
+                                    (i_chunk+1)*chunk_size].astype("float64")
+                  for i_chunk in range(n_chunks)]
 
 ## training and execution
 start_time = time.time()
 #with mdp.parallel.ThreadScheduler(n_threads=4, verbose=verbose) as scheduler:
-with mdp.parallel.Scheduler(verbose=verbose) as scheduler:
+with mdp.parallel.ProcessScheduler(n_processes=4, verbose=verbose) as scheduler:
+#with mdp.parallel.Scheduler(verbose=verbose) as scheduler:
     biflow.train([train_data, None, train_data, train_data],
                  msg_iterables=[None, None, train_msgs, train_msgs],
                  scheduler=scheduler)
