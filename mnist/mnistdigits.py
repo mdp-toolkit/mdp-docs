@@ -32,13 +32,13 @@ def get_data(prefix="train", max_chunk_size=6000):
     """Return two lists, one with the data chunks and one with the ids."""
     mat_data = scipy.io.loadmat(FILENAME)
     n_ids = 10
-    train_data = []
-    train_ids = []
+    data = []
+    ids = []
     for id_num in range(n_ids):
         id_key = prefix + "%d" % id_num
         new_chunks = _split(mat_data[id_key].astype("float64"), max_chunk_size)
-        train_data += new_chunks
-        train_ids += [id_num] * len(new_chunks)
-    return train_data, train_ids
+        data += new_chunks
+        ids += [id_num] * len(new_chunks)
+    return data, ids
 
     
