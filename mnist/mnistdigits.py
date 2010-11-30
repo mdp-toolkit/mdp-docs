@@ -1,0 +1,32 @@
+
+import numpy as np
+import scipy.io
+
+N_IDS = 10
+FILENAME = "mnist_all.mat"
+
+def _split(data, chunk_size):
+    """Split data into arrays with length up to chunk_size and return as list.
+    
+    Unlike the numpy 'split' function this also works when the data length is
+    not a multiple of chunk_size (the last chunk will simply be shorter).
+    """
+    n_chunks = int(np.ceil(len(data) / float(chunk_size)))
+    split_data = [data[i_chunk*chunk_size :(i_chunk+1)*chunk_size]
+                  for i_chunk in range(n_chunks)]
+    return split_data
+
+def get_data(prefix="train", max_chunk_size=6000):
+    """Return two lists, one with the data chunks and one with the ids."""
+    mat_data = scipy.io.loadmat(FILENAME)
+    n_ids = 10
+    train_data = []
+    train_ids = []
+    for id_num in range(n_ids):
+        id_key = prefix + "%d" % id_num
+        new_chunks = _split(mat_data[id_key].astype("float64"), max_chunk_size)
+        train_data += new_chunks
+        train_ids += [id_num] * len(new_chunks)
+    return train_data, train_ids
+
+    
