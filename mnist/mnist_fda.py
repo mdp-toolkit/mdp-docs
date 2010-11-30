@@ -18,7 +18,7 @@ import time
 import mdp
 import mnistdigits
 
-chunk_size = 3000  # for each digit there are about 5000 training samples
+chunk_size = 7000
 verbose = True
 
 flow = mdp.parallel.ParallelFlow([
@@ -29,9 +29,10 @@ flow = mdp.parallel.ParallelFlow([
         ], verbose=verbose)
 
 ## training and execution
-train_data, train_ids = mnistdigits.get_data("train", max_chunk_size=3000)
+train_data, train_ids = mnistdigits.get_data("train",
+                                             max_chunk_size=chunk_size)
 train_labeled_data = zip(train_data, train_ids)
-test_data, test_ids = mnistdigits.get_data("test", max_chunk_size=3000)
+test_data, test_ids = mnistdigits.get_data("test", max_chunk_size=chunk_size)
 start_time = time.time()
 #with mdp.parallel.Scheduler(verbose=verbose) as scheduler:
 #with mdp.parallel.ThreadScheduler(n_threads=4, verbose=verbose) as scheduler:

@@ -9,7 +9,7 @@ import mnistdigits
 
 # TODO: use special job class to expand data remotely
 
-chunk_size = 3000  # for each digit there are about 5000 training samples
+chunk_size = 7000  # for each digit there are about 5000 training samples
 verbose = True
 
 flow = bimdp.parallel.ParallelBiFlow([
@@ -20,9 +20,10 @@ flow = bimdp.parallel.ParallelBiFlow([
         ], verbose=verbose)
 
 ## training and execution
-train_data, train_ids = mnistdigits.get_data("train", max_chunk_size=3000)
+train_data, train_ids = mnistdigits.get_data("train",
+                                             max_chunk_size=chunk_size)
 train_msgs = [{"labels": id} for id in train_ids]
-test_data, test_ids = mnistdigits.get_data("test", max_chunk_size=3000)
+test_data, test_ids = mnistdigits.get_data("test", max_chunk_size=chunk_size)
 start_time = time.time()
 #with mdp.parallel.Scheduler(verbose=verbose) as scheduler:
 #with mdp.parallel.ThreadScheduler(n_threads=4, verbose=verbose) as scheduler:

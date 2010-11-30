@@ -8,11 +8,9 @@ mnist_bifda, so this is only a proof-of-concept.
 import time
 import mdp
 import bimdp
+import mnistdigits
 
-import mnist
-
-## global variables / parameters
-chunk_size = 3000  # for each digit there are about 5000 training samples
+chunk_size = 2000
 verbose = True
 
 pca_dim = 35
@@ -30,18 +28,19 @@ biflow = bimdp.parallel.ParallelBiFlow([
             bimdp.hinet.CloneBiLayer(layer1_node, n_nodes=4),
 #            mdp.nodes.PCANode(output_dim=pca_dim),
             mdp.nodes.QuadraticExpansionNode(),
-            bimdp.nodes.FDABiNode(output_dim=(mnist.N_IDS)),
+            bimdp.nodes.FDABiNode(output_dim=(mnistdigits.N_IDS)),
             bimdp.nodes.GaussianBiClassifier()
          ], verbose=verbose)
 
 ## training and execution
-train_data, train_ids = mnist.digits("train", max_chunk_size=3000)
+train_data, train_ids = mnistdigits.get_data("train",
+                                             max_chunk_size=chunk_size)
 train_msgs = [{"labels": id} for id in train_ids]
-test_data, test_ids = mnist.digits("test", max_chunk_size=3000)
+test_data, test_ids = mnistdigits.get_data("test", max_chunk_size=chunk_size)
 start_time = time.time()
-#with mdp.parallel.Scheduler(verbose=verbose) as scheduler:
+with mdp.parallel.Scheduler(verbose=verbose) as scheduler:
 #with mdp.parallel.ThreadScheduler(n_threads=4, verbose=verbose) as scheduler:
-with mdp.parallel.ProcessScheduler(n_processes=4, verbose=verbose) as scheduler:
+#with mdp.parallel.ProcessScheduler(n_processes=4, verbose=verbose) as scheduler:
     biflow.train([train_data] * len(biflow),
                  msg_iterables=[train_msgs] * len(biflow),
                  scheduler=scheduler)
