@@ -48,4 +48,4 @@ for i, id_num in enumerate(test_ids):
     n_samples += chunk_size
 print "performance: %.1f%%" % (100. * n_hits / n_samples)
 
-#mdp.hinet.show_flow(biflow)
+#mdp.hinet.show_flow(flow)
