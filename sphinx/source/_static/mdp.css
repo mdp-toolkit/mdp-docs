@@ -86,7 +86,8 @@ cite, code, tt {
 }
 
 hr {
-    border: 1px solid #abc;
+    border-width: 1px;
+    border-style: solid;
     margin: 2em;
 }
 
@@ -303,10 +304,6 @@ div.sphinxsidebar ul ul ul li{
     margin-left:2em;
 }
 
-div.sphinxsidebar ul li {
-    margin-top:0px;
-    margin-bottom:0px;
-}
 div.sphinxsidebar ul ul li a{
     /*padding: 4px 0px 4px 0px;*/
     /*font-weight: bold;*/
@@ -374,17 +371,17 @@ table td, table th {
 }
 
 div.footer {
-    background-color: #E3EFF1;
-    color: #86989B;
-    padding: 3px 8px 3px 0;
+    margin:0px;
+    padding:0px;
     clear: both;
-    font-size: 0.8em;
-    text-align: right;
+    text-align: left;
 }
 
-div.footer a {
-    color: #86989B;
-    text-decoration: underline;
+div.footer hr {
+    border-width: 1px;
+    border-style: solid;
+    margin: 0px;
+    margin-bottom:3px;
 }
 
 div.pagination {
@@ -599,6 +596,6 @@ div.sphinxsidebar ul ul li a:hover {
 div.navigation_title a:hover, div.sphinxsidebar li a:hover { color: #AF8320;}
 
 
-#header, div.body, div.navigation_title, div.sphinxsidebar li a {
+#header, div.body, div.navigation_title, div.sphinxsidebar li a, hr {
     border-color:#01261C;
 }
