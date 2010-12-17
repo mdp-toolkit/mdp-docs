@@ -8,16 +8,15 @@
     {# add mdp logo to the top relbar #}
     {% block relbar1 %}
 
-    <div id="frame">
     <div id="header">
-
-    <span class="img_header"><a href="{{ pathto('index') }}"><img src="{{pathto("_static/logo.png", 1) }}" border="0" alt="sampledoc"/></a></span>
-
-    <h1>Modular toolkit for Data Processing</h1>
-
+    <table width="100%">
+    <tr>
+    <td align="left" class="td_header">Modular toolkit for<br>Data Processing</td>
+    <td align="right" class="td_header">
+    <a href="{{pathto('logo_animation')}}"><img src="{{pathto('_static/logo.png',1)}}" alt="MDP logo" title="click to see the animated logo!" class="img_header"/></a></td></tr></td>
+    </table>
     <div class="clear"></div>
     </div>
-    {{ super() }}
     {% endblock %}
 
     {# remove the lower relbar #}
@@ -33,15 +32,6 @@
 
     {# modify the search bar in the sidebar #}
     {% block sidebarsearch %}
-    <h3>{{ _('Navigation') }}</h3>
+    <div class="navigation_title"><a href="{{pathto('index')}}">Home</a></div>
         {{ toctree() }}
-        <!-- SiteSearch Google -->
-        <h3>{{ _('Quick search') }}</h3>
-        <form method=GET action="http://www.google.com/search">
-        <input type=text name=q size=25 maxlength=255 value="">
-        <input type=submit name=btnG value="Google Search Site">
-        <input type=hidden name=domains value="http://mdp-toolkit.sourceforge.net"><br>
-        <input type=hidden name=sitesearch value="http://mdp-toolkit.sourceforge.net"> <br>
-        </form>
-
-    {% endblock %}
+       {% endblock %}

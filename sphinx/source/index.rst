@@ -13,7 +13,7 @@
    tutorial_src/tutorial.rst
    examples_src/examples.rst
 
-The Modular toolkit for Data Processing (MDP) is a Python data processing
+**Modular toolkit for Data Processing (MDP)** is a Python data processing
 framework.
 
 From the user's perspective, MDP is a collection of supervised and
@@ -50,9 +50,4 @@ Using MDP is as easy as: ::
     ...
     >>> y = mdp.fastica(x, dtype='float32')
 
-**Indices and tables**
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 
