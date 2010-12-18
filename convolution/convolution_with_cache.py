@@ -38,7 +38,8 @@ print '- first uncached execution'
 print '  ', timer.repeat(1, 1), 'sec'
 
 
-with mdp.caching.cache(cachedir=CACHEDIR):
+with mdp.caching.cache(cachedir=CACHEDIR,
+                       cache_classes=[mdp.nodes.Convolution2DNode]):
     print '- caching mechanism activated'
     print "- second execution, uncached if it's the first time the script is run"
     print '  ', timer.repeat(1, 1), 'sec'
