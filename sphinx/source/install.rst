@@ -12,6 +12,12 @@ Requirements
 * `Python <http://www.python.org/>`_ 2.5/2.6/2.7/3.1/3.2
 * `NumPy <http://numpy.scipy.org/>`_ |gE| 1.1 or `Scipy <http://www.scipy.org/>`_ |gE| 0.5.2.
 
+Optional Libraries
+==================
+
+Python 3
+========
+
 License
 =======
 MDP is distributed under the open source `BSD license <http://www.opensource.org/licenses/bsd-license.php>`_. 
