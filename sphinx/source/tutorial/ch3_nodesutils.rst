@@ -40,12 +40,12 @@ for the full documentation and interface description.
     The delta value of a signal is a measure of its temporal
     variation, and is defined as the mean of the derivative squared,
     i.e. ``delta(x) = mean(dx/dt(t)^2)``. ``delta(x)`` is zero if
-    'x' is a constant signal, and increases if the temporal variation
+    ``x`` is a constant signal, and increases if the temporal variation
     of the signal is bigger.
     The eta value is a more intuitive measure of temporal variation,
     defined as ``eta(x) = T/(2*pi) * sqrt(delta(x))``.
-    If 'x' is a signal of length 'T' which consists of a sine function
-    that accomplishes exactly 'N' oscillations, then ``eta(x) = N``.
+    If ``x`` is a signal of length ``T`` which consists of a sine function
+    that accomplishes exactly ``N`` oscillations, then ``eta(x) = N``.
    
     Reference: Wiskott, L. and Sejnowski, T.J. (2002).
     *Slow Feature Analysis:
@@ -58,7 +58,7 @@ for the full documentation and interface description.
     efficient for long data sets: the sufficient statistics are
     collected in the training phase, and all EM-cycles are performed at
     its end. More information about Factor Analysis can be found in
-    `Max Welling's classnotes<http://www.ics.uci.edu/~welling/classnotes/classnotes.html>`_ in the chapter "Linear Models".
+    `Max Welling's classnotes <http://www.ics.uci.edu/~welling/classnotes/classnotes.html>`_ in the chapter "Linear Models".
 
 :api:`mdp.nodes.FastICANode`
 
@@ -104,8 +104,8 @@ for the full documentation and interface description.
 
 :api:`mdp.nodes.HitParadeNode`
 
-    Collect the first 'n' local maxima and minima of the training signal
-    which are separated by a minimum gap 'd'.
+    Collect the first ``n`` local maxima and minima of the training signal
+    which are separated by a minimum gap ``d``.
 
 :api:`mdp.nodes.HLLENode`
 
@@ -151,7 +151,9 @@ for the full documentation and interface description.
 
 :api:`mdp.nodes.LibSVMClassifier`
 
-    The LibSVMClassifier class acts as a wrapper around the LibSVM library for support vector machines, which needs to be installed as a python module. The software can be found `here<http://www.csie.ntu.edu.tw/~cjlin/libsvm/>`_
+    The LibSVMClassifier class acts as a wrapper around the LibSVM
+    library for support vector machines, which needs to be installed
+    as a python module. The software can be found `here <http://www.csie.ntu.edu.tw/~cjlin/libsvm/>`_
 
     **Warning**: Because it is a new 
     addition to MDP, the LibSVMClassifier should be used with caution. Also, the
@@ -321,7 +323,7 @@ for the full documentation and interface description.
 
 :api:`mdp.nodes.WhiteningNode`
 
-    'Whiten' the input data by filtering it through the most
+    "Whiten" the input data by filtering it through the most
     significatives of its principal components. All output
     signals have zero mean, unit variance and are decorrelated.
 
@@ -387,7 +389,7 @@ for the full documentation and interface description.
     and string is a nice string representation of it.
 
 :api:`mdp.utils.get_node_size` (node)
-    Get 'node' total byte-size using ``cPickle`` with protocol=2.
+    Get ``node`` total byte-size using ``cPickle`` with protocol=2.
     (The byte-size is related the memory needed by the node).
 
 :api:`mdp.utils.progressinfo` (sequence, length, style, custom)
@@ -424,11 +426,11 @@ for the full documentation and interface description.
 
 
 :api:`mdp.utils.refcast` (array, dtype)
-    Cast the array to 'dtype' only if necessary,
+    Cast the array to ``dtype`` only if necessary,
     otherwise return a reference.
 
 :api:`mdp.utils.rotate` (mat, angle, columns, units)
-    Rotate in-place a NxM data matrix in the plane defined by the 'columns'
+    Rotate in-place a NxM data matrix in the plane defined by the ``columns``
     when observation are stored on rows. Observations are rotated
     counterclockwise. This corresponds to the following matrix-multiplication
     for each data-point (unchanged elements omitted)::

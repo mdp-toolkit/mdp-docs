@@ -193,7 +193,7 @@ values of a ``BiNode`` and briefly explain their meaning:
     - ``x`` or ``(x, msg)`` or ``(x, msg, target)``. Means that execution is
       continued and that this node will be reached again to terminate training.
       If ``x`` is ``None`` and no target is specified then the remaining
-      ``msg`` is dropped (so it is not required to 'clear' the message
+      ``msg`` is dropped (so it is not required to "clear" the message
       manually in ``_train`` for custom nodes to terminate training).
 - ``stop_training``
     - ``None`` doesn't do anything, like the normal MDP ``stop_training``.

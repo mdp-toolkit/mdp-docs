@@ -2,6 +2,8 @@
 Advanced Features
 *****************
 
+.. _iterables:
+
 Iterables
 =========
 
@@ -552,9 +554,8 @@ The first building block is the ``Layer`` node, which works like a
 horizontal version of flow. It acts as a wrapper for a set of nodes
 that are trained and executed in parallel. For example, we can
 combine two nodes with 100 dimensional input to construct a layer
-with a 200-dimensional input
-::
-      
+with a 200-dimensional input::
+
     >>> node1 = mdp.nodes.PCANode(input_dim=100, output_dim=10)
     >>> node2 = mdp.nodes.SFANode(input_dim=100, output_dim=20)
     >>> layer = mdp.hinet.Layer([node1, node2])
@@ -574,23 +575,23 @@ of nodes) called ``FlowNode``. For example, we can replace
 
     >>> node1_1 = mdp.nodes.PCANode(input_dim=100, output_dim=50)
     >>> node1_2 = mdp.nodes.SFANode(input_dim=50, output_dim=10)
-    >>> node1_flow = mdp.Flow([node1_1, node1_2]) 
+    >>> node1_flow = mdp.Flow([node1_1, node1_2])
     >>> node1 = mdp.hinet.FlowNode(node1_flow)
     >>> layer = mdp.hinet.Layer([node1, node2])
     >>> layer
-    Layer(input_dim=200, output_dim=30, dtype=None) 
+    Layer(input_dim=200, output_dim=30, dtype=None)
 
-in this example ``node1`` has two training phases (one for each internal 
+In this example ``node1`` has two training phases (one for each internal 
 node). Therefore ``layer`` now has two training phases as well and 
 behaves like any other node with two training phases. By combining and 
 nesting ``FlowNode`` and ``Layer``, it is thus possible to build modular 
-node structures. Note that while the ``Flow'' interface looks pretty 
-similar to that of ``Node'' it is not compatible and therefore we must 
-use ``FlowNode'' as an adapter. 
+node structures. Note that while the ``Flow`` interface looks pretty 
+similar to that of ``Node`` it is not compatible and therefore we must 
+use ``FlowNode`` as an adapter. 
  
 When implementing networks one might have to route different parts of 
 the data to different nodes in a layer. This functionality is provided 
-by the ``Switchboard'' node. A basic ``Switchboard`` is initialized with a 1-D 
+by the ``Switchboard`` node. A basic ``Switchboard`` is initialized with a 1-D 
 Array with one entry for each output connection, containing the 
 corresponding index of the input connection that it receives its input 
 from, e.g.:
@@ -897,7 +898,7 @@ As a first example, we will use the ``GaussianClassifierNode``.
     >>> gc.train(mdp.numx_rand.random((50, 3)) - 0.8, -1)
 	
 We have trained the node and assigned the labels +1 and -1 to the sample points.
-Note that in this simple case we don’t need to give a label to each individual point,
+Note that in this simple case we do not need to give a label to each individual point,
 when only a single label is given, it is assigned to the whole batch of features.
 However, it is also possible to use the more explicit form::
 

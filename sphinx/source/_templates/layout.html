@@ -1,6 +1,8 @@
 {% extends "!layout.html" %}
-
-
+    {# set title manually for homepage#}
+    {%- if pagename == 'index' %}
+      {% set title= 'Homepage' %}
+    {%- endif %}
     {# remove the index, search and contents links in the relbars #}
     {% block rootrellink %}{% endblock %}
 
@@ -11,7 +13,7 @@
     <div id="header">
     <table width="100%">
     <tr>
-    <td align="left" class="td_header">Modular toolkit for<br>Data Processing</td>
+    <td align="left" class="td_header"><a href="http://mdp-toolkit.sourceforge.net">Modular toolkit for<br>Data Processing</a></td>
     <td align="right" class="td_header">
     <a href="{{pathto('logo_animation')}}"><img src="{{pathto('_static/logo.png',1)}}" alt="MDP logo" title="click to see the animated logo!" class="img_header"/></a></td></tr></td>
     </table>

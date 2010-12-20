@@ -2,7 +2,6 @@
     toolkit/index.php?title=MDP_Sprint_2010
 .. _changes     since last release: CHANGES
 .. _git: http://mdp-toolkit.git.sourceforge.net/
-.. _presented: EuroScipy2009Talk.pdf
 .. _EuroScipy:
     http://www.euroscipy.org/presentations/abstracts/abstract_zito.html
 .. _presented: CNS2009Talk.pdf

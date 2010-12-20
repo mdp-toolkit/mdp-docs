@@ -9,7 +9,7 @@ Tutorial
 :Copyright: This document has been placed in the public domain.
 :Version: 2.6
 
-This document is also available as `pdf file<http://downloads.sourceforge.net/mdp-toolkit/MDP2_6_tutorial.pdf?download>`_.
+This document is also available as `pdf file <http://downloads.sourceforge.net/mdp-toolkit/MDP2_6_tutorial.pdf?download>`_.
 
 This is a guide to basic and some more advanced features of
 the MDP library. Besides the present tutorial, you can learn 
@@ -40,6 +40,7 @@ available.
 
 .. toctree::
 
+   ch0_introduction.rst
    ch1_standard.rst
    ch2_advanced.rst
    ch3_nodesutils.rst
