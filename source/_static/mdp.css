@@ -1,6 +1,6 @@
 body {
     font-family:verdana, sans-serif;
-    font-size: 12px;
+    font-size: 11px;
     text-align:justify;
     padding-right:30px;
     padding-left:30px;
@@ -46,23 +46,24 @@ a:visited, a:link {
 }
 
 
-UL.simple { 
+ul { 
     padding-left:1em;
     list-style-image: url('blkpearl.png');
 }
 
-UL.simple LI {
+ul li {
     margin:0.5em 0.5em 0.5em 0.5em;
 }
 
 
 pre {
-    font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
+font-family: 'Deja Vu Sans Mono', 'Courier', 'Bitstream Vera Sans Mono', monospace;
     font-size: 0.95em;
     letter-spacing: 0.015em;
     padding: 0.5em;
-    border: 1px solid #ccc;
-    background-color: #f8f8f8;
+    border-width: 1px;
+    border-style: solid;
+    overflow: auto;
 }
 
 td.linenos pre {
@@ -81,21 +82,20 @@ table.highlighttable td {
 }
 
 cite, code, tt {
-    font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
-    font-size: 0.95em;
-    letter-spacing: 0.01em;
+    font-family: 'Deja Vu Sans Mono', 'Courier', 'Bitstream Vera Sans Mono', monospace;
 }
 
 hr {
     border-width: 1px;
     border-style: solid;
-    margin: 2em;
+    /*margin: 2em;*/
 }
 
 tt {
-    background-color: #f2f2f2;
+    /*background-color: #f2f2f2;
     border-bottom: 1px solid #ddd;
-    color: #333;
+    color: #333;*/
+    font-weight:bold;
 }
 
 tt.descname {
@@ -129,6 +129,12 @@ a tt:hover {
 
 dl {
     margin-bottom: 15px;
+}
+
+dt {
+    padding-left:1em;
+/*    font-family: 'Deja Vu Sans Mono', 'Courier', 'Bitstream Vera Sans Mono', monospace;*/
+    font-weight: bold;
 }
 
 dd p {
@@ -182,7 +188,7 @@ pre a {
 
 div.document {
     background-color: white;
-    text-align: left;
+    text-align: justify;
     background-image: url(contents.png);
     background-repeat: repeat-x;
 }
@@ -236,13 +242,14 @@ div.related ul li a:hover {
 div.body {
     margin-top: 10px;
     padding-left:2em;
-    padding-right:2em;
-    margin-left:20em;
+    padding-right:0px;
+    margin-left:15em;
+    margin-right:0px;
 }
 
 div.sphinxsidebar {
     margin-top:10px;
-    width: 20em;
+    width: 15em;
     float: left;
     clear:left;
     text-align: left;
@@ -264,14 +271,16 @@ div.navigation_title a{
 
 
 div.sphinxsidebar ul {
-    margin:0px;
-    padding:0px;
+    margin:0px 0px 0px 0px;
+    padding:0px 0px 0px 0px;
     list-style: none;
-    width:20em;
+    width:15em;
     text-align:center;
 }
 
 div.sphinxsidebar ul li {
+    margin-left:0px; 
+    margin-right:0px;
     margin-top:4px;
     margin-bottom:4px;
 }
@@ -292,8 +301,9 @@ div.sphinxsidebar ul ul {
     margin-left:auto;
     margin-right:auto;
     width:auto;
-    max-width:17em;
+    max-width:13em;
     text-align:left;
+    font-size:10px;
     display:inline-block;
 }
 
@@ -325,19 +335,21 @@ p.rubric {
 h1 {
     margin: 0;
     padding: 0.7em 0 0.3em 0;
-    font-size: 1.5em;
-    color: #11557C;
+    font-size: 2em;
+    font-family: times,serif;
 }
 
 h2 {
     margin: 1.3em 0 0.2em 0;
-    font-size: 1.35em;
+    font-size: 1.8em;
     padding: 0;
+    font-family: times,serif;
 }
 
 h3 {
     margin: 1em 0 -0.3em 0;
-    font-size: 1.2em;
+    font-size: 1.6em;
+    font-family: times,serif;
 }
 
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
@@ -421,9 +433,14 @@ div.sphinxsidebar ul.toc ul li {
 div.admonition, div.warning {
     font-size: 0.9em;
     margin: 1em 0 0 0;
-    border: 1px solid #86989B;
-    background-color: #f7f7f7;
+    border-width: 1px;
+    border-style: solid;
 }
+
+div.admonition-news {
+    font-size: 80%;
+}
+
 
 div.admonition p, div.warning p {
     margin: 0.5em 1em 0.5em 1em;
@@ -438,10 +455,10 @@ div.admonition p.admonition-title,
 div.warning p.admonition-title {
     margin: 0;
     padding: 0.1em 0 0.1em 0.5em;
-    color: white;
-    border-bottom: 1px solid #86989B;
+    border: 0px;
+    border-bottom:1px;
+    border-style: solid;
     font-weight: bold;
-    background-color: #AFC1C4;
 }
 
 div.warning {
@@ -512,6 +529,10 @@ table.indextable tr.cap {
     background-color: #f2f2f2;
 }
 
+img {
+    max-width:500px;
+}
+
 img.toggler {
     margin-right: 3px;
     margin-top: 3px;
@@ -574,11 +595,16 @@ ul.keywordmatches li.goodmatch a {
 /* COLORS DEFINITION */
 body { background: white; }
 
-#header, pre.literal-block, .img_header a:hover, div.sphinxsidebar li a, div.navigation_title a {
+#header,.img_header a:hover, div.sphinxsidebar li a, div.navigation_title a {
     background-color: #BFBB7E; color:#01261C;
 }
 
-a:visited, a:link, div.sphinxsidebar ul li .current {color:#AF8320;} 
+div.admonition p.admonition-title {
+    background-color: #BFBB7E; 
+    color:#01261C;
+}
+
+h1, h2, h3, a:visited, a:link, div.sphinxsidebar ul li .current {color:#AF8320;} 
 
 a:hover {
 	color: black;
@@ -594,9 +620,18 @@ div.sphinxsidebar ul ul li a:hover {
     color: black;
 }
 
-div.navigation_title a:hover, div.sphinxsidebar li a:hover { color: #AF8320;}
+.td_header a {
+    color: #01261C;
+}
+
+.td_header a:hover, div.navigation_title a:hover, div.sphinxsidebar li a:hover { color: #AF8320;}
 
 
-#header, div.body, div.navigation_title, div.sphinxsidebar li a, hr {
+#header, pre, div.body, div.admonition, div.warning, div.navigation_title, div.sphinxsidebar li a, hr {
     border-color:#01261C;
 }
+
+pre {
+    background-color: #f8f8f8;
+}
+
