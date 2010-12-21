@@ -126,4 +126,7 @@ Python shell as follows: ::
     >>> import bimdp
     >>> bimdp.test()
 
-
+If some test fails, please report it to the `mailing list
+<https://lists.sourceforge.net/lists/listinfo/mdp-toolkit-users>`_.  
+If you want to help in debugging, start by installing the `py.test
+<http://pytest.org/>`_ testing framework.
