@@ -1,61 +1,79 @@
 {% extends "!layout.html" %}
-    {# set title manually for homepage#}
-    {%- if pagename == 'index' %}
-      {% set title= 'Homepage' %}
-    {%- endif %}
-    {# remove the index, search and contents links in the relbars #}
-    {% block rootrellink %}{% endblock %}
+{# set title manually for homepage#}
+{%- if pagename == 'index' %}
+{% set title= 'Homepage' %}
+{%- endif %}
+{# remove the index, search and contents links in the relbars #}
+{% block rootrellink %}{% endblock %}
 
 
-    {# add mdp logo to the top relbar #}
-    {% block relbar1 %}
+{# add mdp logo to the top relbar #}
+{% block relbar1 %}
 
-    <div id="header">
+<div id="header">
     <table width="100%">
-    <tr>
-    <td align="left" class="td_header"><a href="http://mdp-toolkit.sourceforge.net">Modular toolkit for<br>Data Processing</a></td>
-    <td align="right" class="td_header">
-    <a href="{{pathto('logo_animation')}}"><img src="{{pathto('_static/logo.png',1)}}" alt="MDP logo" title="click to see the animated logo!" class="img_header"/></a></td></tr></td>
+	<tr>
+	    <td align="left" class="td_header">
+		<a href="http://mdp-toolkit.sourceforge.net">
+		    Modular toolkit for<br>Data Processing
+		</a>
+	    </td>
+	    <td align="right" class="td_header">
+		<a href="{{pathto('logo_animation')}}">
+		    <img src="{{pathto('_static/logo.png',1)}}" alt="MDP logo"
+			 title="click to see the animated logo!" class="img_header"/>
+		</a>
+	    </td>
+	</tr>
     </table>
     <div class="clear"></div>
-    </div>
-    {% endblock %}
+</div>
+{% endblock %}
 
-    {# remove the lower relbar #}
-    {% block relbar2 %}{% endblock %}
+{# remove the lower relbar #}
+{% block relbar2 %}{% endblock %}
 
-    {# put the sidebar before the body #}
-    {% block sidebar1 %}{{ sidebar() }}{% endblock %}
-    {% block sidebar2 %}{% endblock %}
+{# put the sidebar before the body #}
+{% block sidebar1 %}{{ sidebar() }}{% endblock %}
+{% block sidebar2 %}{% endblock %}
 
-    {% block sidebartoc %}{% endblock %}
+{% block sidebartoc %}{% endblock %}
 
-    {% block sidebarrel %}{% endblock %}
+{% block sidebarrel %}{% endblock %}
 
-    {# modify the search bar in the sidebar #}
-    {% block sidebarsearch %}
-    <div class="navigation_title"><a href="{{pathto('index')}}">Home</a></div>
-        {{ toctree() }}
-       {% endblock %}
-    {% block footer %} 
+{# modify the search bar in the sidebar #}
+{% block sidebarsearch %}
+<div class="navigation_title"><a href="{{pathto('index')}}">Home</a></div>
+{{ toctree() }}
+{% endblock %}
+{% block footer %} 
 <div class="footer">
-<hr />
-<a href="http://sourceforge.net/projects/mdp-toolkit"> <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=116959&amp;type=12" width="88" height="31" border="0" alt="Get Modular toolkit for Data Processing MDP at SourceForge.net. Fast, secure and Free Open Source software downloads" /></a>
-{%- if last_updated %}
+    <hr />
+    <a href="http://sourceforge.net/projects/mdp-toolkit">
+	<img src="http://sflogo.sourceforge.net/sflogo.php?group_id=116959&amp;type=12"
+	     width="88" height="31" border="0"
+	     alt="Get Modular toolkit for Data Processing MDP at SourceForge.net. Fast, secure and Free Open Source software downloads">
+    </a>
+    {%- if last_updated %}
     {% trans last_updated=last_updated|e %}Last updated on {{ last_updated }}.{% endtrans %}
-{%- endif %}
-<!-- Piwik -->
-<script type="text/javascript">
-var pkBaseURL = (("https:" == document.location.protocol) ? "https://apps.sourceforge.net/piwik/mdp-toolkit/" : "http://apps.sourceforge.net/piwik/mdp-toolkit/");
-document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
-</script><script type="text/javascript">
-piwik_action_name = '';
-piwik_idsite = 1;
-piwik_url = pkBaseURL + "piwik.php";
-piwik_log(piwik_action_name, piwik_idsite, piwik_url);
-</script>
-<object><noscript><p><img src="http://apps.sourceforge.net/piwik/mdp-toolkit/piwik.php?idsite=1" alt="piwik"/></p></noscript></object>
-<!-- End Piwik Tag -->
+    {%- endif %}
+    <!-- Piwik -->
+    <script type="text/javascript">
+	var pkBaseURL = (("https:" == document.location.protocol) ? "https://apps.sourceforge.net/piwik/mdp-toolkit/" : "http://apps.sourceforge.net/piwik/mdp-toolkit/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+	piwik_action_name = '';
+	piwik_idsite = 1;
+	piwik_url = pkBaseURL + "piwik.php";
+	piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+    </script>
+    <object><noscript>
+	    <p>
+		<img src="http://apps.sourceforge.net/piwik/mdp-toolkit/piwik.php?idsite=1"
+		     alt="piwik">
+	    </p>
+    </noscript></object>
+    <!-- End Piwik Tag -->
 </div>   
-    {% endblock %}
-   
+{% endblock %}
