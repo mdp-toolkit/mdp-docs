@@ -73,14 +73,16 @@ need to iterate over a training phase until a convergence criterion is
 satisfied. It is possible to train each phase using chunks of input data 
 if the chunks are given as an iterable. Moreover, crash recovery can be 
 optionally enabled, which will save the state of the flow in case of a 
-failure for later inspection 
+failure for later inspection.
 
-MDP is distributed under the open source `BSD license <http://www.opensource.org/licenses/bsd-license.php>`_. It has been
-written in the context of theoretical research in neuroscience, but it
-has been designed to be helpful in any context where trainable data
-processing algorithms are used. Its simplicity on the user's side, the
-variety of readily available algorithms, and the reusability of the
-implemented nodes also make it a useful educational tool.
+MDP is distributed under the open source `BSD license
+<http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/mdp-toolkit;a=blob_plain;f=COPYRIGHT;hb=HEAD>`_. It
+has been written in the context of theoretical research in
+neuroscience, but it has been designed to be helpful in any context
+where trainable data processing algorithms are used. Its simplicity on
+the user's side, the variety of readily available algorithms, and the
+reusability of the implemented nodes also make it a useful educational
+tool.
 
 With over 10,000 downloads since its first public release in 2004, MDP
 has become a widely used Python scientific software. It has minimal
