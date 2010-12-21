@@ -10,17 +10,46 @@ Requirements
 .. |gE| unicode:: U+2267
 
 * `Python <http://www.python.org/>`_ 2.5/2.6/2.7/3.1/3.2
-* `NumPy <http://numpy.scipy.org/>`_ |gE| 1.1 or `Scipy <http://www.scipy.org/>`_ |gE| 0.5.2.
+* `NumPy <http://numpy.scipy.org/>`_ |gE| 1.1 
 
 Optional Libraries
 ==================
+MDP can make use of several additional libraries if they are installed on your
+system. They are not required for using MDP, but may give more
+functionality. Here a list of optional libraries and the corresponding
+additional features in MDP:
+  
+* `SciPy <http://www.scipy.org/>`_ |gE| 0.5.2: Use the fast and
+  efficient LAPACK wrapper for the symmetrical eigensolver, used
+  interally by many nodes; use the fast FFT routines in some nodes;
+  provide the ``Convolution2DNode``, using the fast convolution routines
+  in SciPy.
+* `Parallel Python <http://www.parallelpython.com/>`_:  provide the
+  parallel python scheduler ``PPScheduler`` in the ``parallel``
+  module.
+* `Shogun <http://www.shogun-toolbox.org/>`_ |gE| 0.9: provide the
+  ``ShogunSVMClassifier``  node.
+* `LibSVM <http://www.csie.ntu.edu.tw/~cjlin/libsvm/>`_ |gE| 2.91:
+  provide the ``LibSVMClassifier`` node.
+* `joblib <http://packages.python.org/joblib/>`_: provide the
+  ``caching`` extension and the corresponding ``cache`` context
+  manager.
+* `scikits.learn <http://scikit-learn.sourceforge.net/>`_: provide
+  wrapper nodes to several scikits.learn algorithms.
 
 Python 3
 ========
+MDP supports Python 3.X and Python 2.X within a single code base. Thanks
+to the great work by Pauli Virtanen and David Cournapeau of the NumPy
+developers' team, the Python 3 compatible code is generated
+automatically when you install with Python 3. Note that NumPy is
+compatible with Python 3 since release 1.5. At the moment there are
+still no binary packages of NumPy for Python 3, so you may have to
+build NumPy from `source <https://github.com/numpy/numpy>`_.
 
 License
 =======
-MDP is distributed under the open source `BSD license <http://www.opensource.org/licenses/bsd-license.php>`_. 
+MDP is distributed under the open source `BSD license <http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/mdp-toolkit;a=blob_plain;f=COPYRIGHT;hb=HEAD>`_. 
 
 Download
 ========
