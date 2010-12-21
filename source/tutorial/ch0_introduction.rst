@@ -40,12 +40,24 @@ allows the user to specify complex algorithms as a series of simpler data
 processing steps. 
 
 The number of available algorithms is steadily increasing and includes,
-to name just the most common, Principal Component Analysis (PCA and
-NIPALS), several Independent Component Analysis algorithms (CuBICA,
-FastICA, TDSEP, JADE, and XSFA), Slow Feature Analysis, Gaussian
-Classifiers, Restricted Boltzmann Machine, and Locally Linear Embedding
+to name just the most common, Principal Component Analysis (`PCA`_ and
+`NIPALS`_), several Independent Component Analysis algorithms (`CuBICA`_,
+`FastICA`_, `TDSEP`_, `JADE`_, and `XSFA`_), `Slow Feature Analysis`_,
+`Gaussian Classifiers`_, `Restricted Boltzmann Machine`_, and `Locally Linear Embedding`_
 (see the :ref:`node-list` section for a more exhaustive list and 
 references).
+
+.. _PCA: ../api/mdp.nodes.PCANode-class.html
+.. _NIPALS: ../api/mdp.nodes.NIPALSNode-class.html
+.. _CuBICA: ../api/mdp.nodes.CuBICANode-class.html
+.. _FastICA: ../api/mdp.nodes.FastICANode-class.html
+.. _TDSEP: ../api/mdp.nodes.TDSEPNode-class.html
+.. _JADE: ../api/mdp.nodes.JADENode-class.html
+.. _XSFA: ../api/mdp.nodes.XSFANode-class.html
+.. _`Slow Feature Analysis`: ../api/mdp.nodes.SFANode-class.html
+.. _`Gaussian Classifiers`: ../api/mdp.nodes.GaussianClassifierNode-class.html
+.. _`Restricted Boltzmann Machine`: ../api/mdp.nodes.RBMNode-class.html
+.. _`Locally Linear Embedding`: ../api/mdp.nodes.LLENode-class.html
 
 Particular care has been taken to make computations efficient in terms of speed
 and memory.  To reduce the memory footprint, it is possible to perform learning
@@ -103,9 +115,7 @@ processing algorithms.
 Quick Start
 ===========
 
-Using MDP is as easy as:
-
-::
+Using MDP is as easy as::
 
     >>> import mdp
     >>> # perform pca on some data x

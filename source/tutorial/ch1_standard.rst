@@ -45,7 +45,8 @@ each node class can require other task-specific arguments. The full
 documentation is always available in the doc-string of the node's
 class.
 
-Some examples of node instantiation:
+Some examples of node instantiation
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Create a node that performs Principal Component Analysis (PCA) 
 whose input dimension and ``dtype``
@@ -61,16 +62,15 @@ Setting ``output_dim = 10`` means that the node will keep only the
 first 10 principal components of the input.
 ::
 
-    >>> pcanode2 = mdp.nodes.PCANode(output_dim = 10)
+    >>> pcanode2 = mdp.nodes.PCANode(output_dim=10)
     >>> pcanode2
     PCANode(input_dim=None, output_dim=10, dtype=None)
 
 The output dimensionality can also be specified in terms of the explained
 variance. If we want to keep the number of principal components which can 
-account for 80% of the input variance, we set:
-::
+account for 80% of the input variance, we set::
 
-    >>> pcanode3 = mdp.nodes.PCANode(output_dim = 0.8)
+    >>> pcanode3 = mdp.nodes.PCANode(output_dim=0.8)
     >>> pcanode3.desired_variance
     0.80000000000000004
 
@@ -81,13 +81,12 @@ memory space necessary for a node and the precision with which the
 computations are performed.
 ::
 
-    >>> pcanode4 = mdp.nodes.PCANode(dtype = 'float32')
+    >>> pcanode4 = mdp.nodes.PCANode(dtype='float32')
     >>> pcanode4
     PCANode(input_dim=None, output_dim=None, dtype='float32')
 
 You can obtain a list of the numerical types supported by a node
-lookng at its ``supported_dtypes`` property:
-::
+looking at its ``supported_dtypes`` property::
 
     >>> pcanode4.supported_dtypes
     [dtype('float32'), dtype('float64')]
@@ -117,21 +116,17 @@ algorithms with multiple training phases.
 
 Some examples of node training:
 
-Create some random data to train the node
-::
+Create some random data to train the node::
 
    >>> x = mdp.numx_rand.random((100, 25))  # 25 variables, 100 observations
 
-
 Analyzes the batch of data ``x`` and update the estimation of 
-mean and covariance matrix:
-::
+mean and covariance matrix::
 
     >>> pcanode1.train(x)
 
 At this point the input dimension and the ``dtype`` have been
-inherited from ``x``:
-::
+inherited from ``x``::
 
     >>> pcanode1
     PCANode(input_dim=25, output_dim=None, dtype='float64')
@@ -139,16 +134,14 @@ inherited from ``x``:
 We can train our node with more than one chunk of data. This
 is especially useful when the input data is too long to
 be stored in memory or when it has to be created on-the-fly.
-(See also the :ref:`iterables` section):
-::
+(See also the :ref:`iterables` section)::
 
     >>> for i in range(100):
     ...     x = mdp.numx_rand.random((100, 25))
     ...     pcanode1.train(x)
     >>>
 
-Some nodes don't need to or cannot be trained:
-::
+Some nodes don't need to or cannot be trained::
 
     >>> expnode.is_trainable()
     False
@@ -158,16 +151,14 @@ an ``IsNotTrainableException``.
 
 The training phase ends when the ``stop_training``, ``execute``,
 ``inverse``, and possibly some other node-specific methods are called.
-For example we can finalyze the PCA algorithm by computing and selecting
-the principal eigenvectors  
-::
+For example we can finalize the PCA algorithm by computing and selecting
+the principal eigenvectors::
 
     >>> pcanode1.stop_training()
 
 If the ``PCANode`` was declared to have a number of output components 
 dependent on the input variance to be explained, we can check after
-training the number of output components and the actually explained variance:
-::
+training the number of output components and the actually explained variance::
 
     >>> pcanode3.train(x)
     >>> pcanode3.stop_training()
@@ -183,6 +174,8 @@ class documentation.
 
     >>> avg = pcanode1.avg            # mean of the input data
     >>> v = pcanode1.get_projmatrix() # projection matrix
+
+.. break here
 
 Some nodes, namely the one corresponding to supervised algorithms, e.g.
 Fisher Discriminant Analysis (FDA), may need some labels or other
@@ -202,8 +195,7 @@ training of ``fdanode`` is not complete yet, since it has two
 training phases: The first one computing the mean of the data
 conditioned on the labels, and the second one computing the overall
 and within-class covariance matrices and solving the FDA
-problem. The first phase must be stopped and the second one trained:
-::
+problem. The first phase must be stopped and the second one trained::
 
     >>> fdanode.stop_training()
     >>> for label in ['a', 'b', 'c']:
@@ -221,14 +213,12 @@ Node Execution
 Once the training is finished, it is possible to execute the node:
 
 The input data is projected on the principal components learned
-in the training phase:
-::
+in the training phase::
 
     >>> x = mdp.numx_rand.random((100, 25))
     >>> y_pca = pcanode1.execute(x)
 
-Calling a node instance is equivalent to executing it:
-::
+Calling a node instance is equivalent to executing it::
 
     >>> y_pca = pcanode1(x)
 
@@ -278,7 +268,7 @@ existing data processing elements.
 The ``Node`` class is designed to make the implementation of new
 algorithms easy and intuitive. This base class takes care of setting
 input and output dimension and casting the data to match the numerical
-type (e.g. float or double) of the internal variables, and offers
+type (e.g. ``float`` or ``double``) of the internal variables, and offers
 utility methods that can be used by the developer.
 
 To expand the MDP library of implemented nodes with user-made nodes,
@@ -332,8 +322,6 @@ The inverse of the multiplication by 2 is of course the division by 2::
   
     ...     def _inverse(self, y):
     ...         return y/2
-    ...
-    >>>
 
 Test the new node::
 
@@ -390,8 +378,6 @@ The ``_execute`` method::
 
     ...     def _execute(self, x):
     ...         return self._refcast(x**self.power)
-    ...
-    >>>
  
 Test the new node::
 
@@ -463,8 +449,6 @@ upon execution. The ``_execute`` and ``_inverse`` methods::
     ...         return x - self.avg
     ...     def _inverse(self, y):
     ...         return y + self.avg
-    ...
-    >>>
 
 Test the new node::
 
@@ -472,9 +456,10 @@ Test the new node::
     >>> x = mdp.numx_rand.random((10,4))
     >>> node.train(x)
     >>> y = node(x)
-    >>> print 'Mean of y (should be zero): ', mdp.numx.mean(y, 0)
-    Mean of y (should be zero):  [  0.00000000e+00   2.22044605e-17  
-    -2.22044605e-17   1.11022302e-17]
+    >>> print 'Mean of y (should be zero):\n', mdp.numx.mean(y, 0)
+    Mean of y (should be zero):
+    [  0.00000000e+00   2.22044605e-17
+      -2.22044605e-17   1.11022302e-17]
 
 It is also possible to define nodes with multiple training phases.
 In such a case, calling the ``train`` and ``stop_training`` functions
@@ -539,7 +524,6 @@ The ``_execute`` and ``_inverse`` methods are not surprising, either::
     ...         return (x - self.avg)/self.std
     ...     def _inverse(self, y):
     ...         return y*self.std + self.avg
-    >>>
 
 Test the new node::
 
@@ -594,11 +578,8 @@ The ``_execute`` method::
 
     ...     def _execute(self, x):
     ...         return mdp.numx.concatenate((x, x), 1)
-    ...
-    >>>
 
-Test the new node
-::
+Test the new node::
 
     >>> node = TwiceNode()
     >>> x = mdp.numx.zeros((5,2))

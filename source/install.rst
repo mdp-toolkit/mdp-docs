@@ -7,7 +7,7 @@ Installation
 Requirements
 ============
 
-.. |gE| unicode:: U+2267
+.. |gE| unicode:: U+2265
 
 * `Python <http://www.python.org/>`_ 2.5/2.6/2.7/3.1/3.2
 * `NumPy <http://numpy.scipy.org/>`_ |gE| 1.1 

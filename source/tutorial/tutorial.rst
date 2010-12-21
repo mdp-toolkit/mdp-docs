@@ -9,7 +9,9 @@ Tutorial
 :Copyright: This document has been placed in the public domain.
 :Version: 2.6
 
-This document is also available as `pdf file <http://downloads.sourceforge.net/mdp-toolkit/MDP2_6_tutorial.pdf?download>`_.
+This document is also available as `pdf file`_.
+
+.. _`pdf file`: http://downloads.sourceforge.net/mdp-toolkit/MDP2_6_tutorial.pdf?download
 
 This is a guide to basic and some more advanced features of
 the MDP library. Besides the present tutorial, you can learn 
@@ -18,20 +20,18 @@ All MDP nodes have doc-strings, the public
 attributes and methods have telling names: All information about a 
 node can be obtained using  the ``help`` and ``dir`` functions within 
 the Python interpreter. In addition to that, an automatically generated 
-`API <http://mdp-toolkit.sourceforge.net/docs/api/index.html>`_ is 
-available.
+`API documentation`_ is available.
+
+.. _`API documentation`: ../api/index.html
 
 .. Note::
-  Code snippets throughout the script will be denoted by:
-
-  ::
+  Code snippets throughout the script will be denoted by::
 
       >>> print "Hello world!"
       Hello world!
 
   To run the following code examples don't forget to import mdp
-  in your Python session with:
-  ::
+  in your Python session with::
   
      >>> import mdp
 

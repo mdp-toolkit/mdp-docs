@@ -1,8 +1,8 @@
-.. _maintainers:
-
 ***********
 Development
 ***********
+
+.. _maintainers:
 
 -----------
 Maintainers
