@@ -7,7 +7,7 @@
 {% block rootrellink %}{% endblock %}
 
 
-{# add mdp logo to the top relbar #}
+{# add mdp logo to the top relbar, keep links for tutorial #}
 {% block relbar1 %}
 
 <div id="header">
@@ -28,10 +28,17 @@
     </table>
     <div class="clear"></div>
 </div>
+{%- if pagename[:8] == 'tutorial' %}
+    {{ super() }}
+{%- endif %}
 {% endblock %}
 
-{# remove the lower relbar #}
-{% block relbar2 %}{% endblock %}
+{# remove the lower relbar, keep for tutorial #}
+{% block relbar2 %}
+{%- if pagename[:8] == 'tutorial' %}
+    {{ super() }}
+{%- endif %}
+{% endblock %}
 
 {# put the sidebar before the body #}
 {% block sidebar1 %}{{ sidebar() }}{% endblock %}
