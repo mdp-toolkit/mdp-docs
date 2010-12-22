@@ -492,13 +492,12 @@ upon execution. The ``_execute`` and ``_inverse`` methods::
 Test the new node
 
     >>> node = MeanFreeNode()
-    >>> x = mdp.numx_rand.random((10,4))
+    >>> x = np.random.random((10,4))
     >>> node.train(x)
     >>> y = node(x)
-    >>> print 'Mean of y (should be zero):\n', mdp.numx.mean(y, 0)  # doctest: +SKIP
+    >>> print 'Mean of y (should be zero):\n', mdp.numx.mean(y, 0)
     Mean of y (should be zero):
-    [  0.00000000e+00   2.22044605e-17
-      -2.22044605e-17   1.11022302e-17]
+    [  8.88178420e-17  -3.33066907e-17  -4.44089210e-17   0.00000000e+00]
 
 It is also possible to define nodes with multiple training phases.
 In such a case, calling the ``train`` and ``stop_training`` functions
@@ -602,7 +601,7 @@ The ``_execute`` and ``_inverse`` methods are not surprising, either::
 Test the new node
 
     >>> node = UnitVarianceNode()
-    >>> x = mdp.numx_rand.random((10,4))
+    >>> x = np.random.random((10,4))
     >>> # loop over phases
     ... for phase in range(2):
     ...     node.train(x)

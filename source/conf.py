@@ -210,4 +210,5 @@ trim_doctest_flags = True
 doctest_global_setup ="""
 import mdp
 import numpy as np
+np.random.seed(0)
 """

@@ -80,9 +80,9 @@ If we only had 12 input dimensions instead of 50 we would have passed
 the checkpoint
 
     >>> flow[0] = mdp.nodes.PCANode(output_dim=0.9) 
-    >>> flow.train([gen_data(10, 12), None, gen_data(10, 12)], # doctest: +SKIP
+    >>> flow.train([gen_data(10, 12), None, gen_data(10, 12)],
     ...            [CheckPCA(10), None, None])
-    PCA output dimensions = 6
+    PCA output dimensions = 7
 
 We could use the built-in ``CheckpoinSaveFunction`` to save the ``SFANode`` 
 and analyze the results later
@@ -91,24 +91,23 @@ and analyze the results later
     >>> exp = mdp.nodes.PolynomialExpansionNode(2)
     >>> sfa = mdp.nodes.SFANode()
     >>> flow = mdp.CheckpointFlow([pca, exp, sfa])
-    >>> flow.train([gen_data(10, 12), None, gen_data(10, 12)], # doctest: +SKIP
+    >>> flow.train([gen_data(10, 12), None, gen_data(10, 12)], 
     ...            [CheckPCA(10),
     ...             None, 
     ...             mdp.CheckpointSaveFunction('dummy.pic',
     ...                                        stop_training = 1,
     ...                                        protocol = 0)])
-    ...
-    PCA output dimensions = 7
+    PCA output dimensions = 6
 
 We can now reload and analyze the ``SFANode``
 
     >>> fl = file('dummy.pic')
     >>> import cPickle
     >>> sfa_reloaded = cPickle.load(fl)
-    >>> sfa_reloaded # doctest: +SKIP
-    SFANode(input_dim=35, output_dim=35, dtype='d')
+    >>> sfa_reloaded
+    SFANode(input_dim=27, output_dim=27, dtype='float64')
     
-Don't forget to clean the rubbish::
+Don't forget to clean the rubbish
 
     >>> fl.close()
     >>> import os

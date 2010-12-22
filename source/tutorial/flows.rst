@@ -121,8 +121,8 @@ can calculate covariance between the generated sources and the output
 
     >>> out = flow.execute(x)
     >>> cov = np.amax(abs(mdp.utils.cov2(inp[:,:5], out)), axis=1)
-    >>> print cov # doctest: +SKIP
-    [ 0.98992083  0.99244511  0.99227319  0.99663185  0.9871812 ]
+    >>> print cov
+    [ 0.9957042   0.98482351  0.99557617  0.99680391  0.99232424]
 
 The ``HitParadeNode`` is an analysis node and as such does not
 interfere with the data flow.
@@ -148,11 +148,8 @@ Calculate covariance between input mix and reconstructed mix:
 
     >>> cov = np.amax(abs(mdp.utils.cov2(x/np.std(x,axis=0),
     ...                                  rec/np.std(rec,axis=0))))
-    >>> print cov # doctest: +SKIP
-    [ 0.99839606  0.99744461  0.99616208  0.99772863  0.99690947  
-      0.99864056  0.99734378  0.98722502  0.98118101  0.99407939
-      0.99683096  0.99756988  0.99664384  0.99723419  0.9985529 
-      0.99829763  0.9982712   0.99721741  0.99682906  0.98858858]
+    >>> print cov
+    0.999622205447
 
 Flows are container type objects
 --------------------------------
