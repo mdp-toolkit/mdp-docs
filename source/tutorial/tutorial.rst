@@ -46,5 +46,3 @@ the Python interpreter. In addition to that, an automatically generated
    ch3_nodesutils.rst
    ch4_bimdp.rst
  
-.. include:: <isonum.txt>
-
