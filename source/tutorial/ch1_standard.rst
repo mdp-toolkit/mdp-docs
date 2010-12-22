@@ -52,7 +52,6 @@ Create a node that performs Principal Component Analysis (PCA)
 whose input dimension and ``dtype``
 are inherited from the input data during training. Output dimensions
 default to input dimensions.
-::
 
     >>> pcanode1 = mdp.nodes.PCANode()
     >>> pcanode1
@@ -60,7 +59,6 @@ default to input dimensions.
       
 Setting ``output_dim = 10`` means that the node will keep only the 
 first 10 principal components of the input.
-::
 
     >>> pcanode2 = mdp.nodes.PCANode(output_dim=10)
     >>> pcanode2
@@ -68,7 +66,7 @@ first 10 principal components of the input.
 
 The output dimensionality can also be specified in terms of the explained
 variance. If we want to keep the number of principal components which can 
-account for 80% of the input variance, we set::
+account for 80% of the input variance, we set
 
     >>> pcanode3 = mdp.nodes.PCANode(output_dim=0.8)
     >>> pcanode3.desired_variance
@@ -79,17 +77,16 @@ data is cast to single precision when received and the internal
 structures are also stored as ``float32``. ``dtype`` influences the 
 memory space necessary for a node and the precision with which the 
 computations are performed.
-::
 
     >>> pcanode4 = mdp.nodes.PCANode(dtype='float32')
     >>> pcanode4
     PCANode(input_dim=None, output_dim=None, dtype='float32')
 
 You can obtain a list of the numerical types supported by a node
-looking at its ``supported_dtypes`` property::
+looking at its ``supported_dtypes`` property
 
     >>> pcanode4.supported_dtypes
-    [dtype('float32'), dtype('float64')]
+    [dtype('float32'), dtype('float64'), dtype('float96')]
 
 This attribute is a list of ``numpy.dtype`` objects.
 
@@ -97,8 +94,7 @@ This attribute is a list of ``numpy.dtype`` objects.
 A ``PolynomialExpansionNode`` expands its input in the space
 of polynomials of a given degree by computing all monomials up
 to the specified degree. Its constructor needs as first argument
-the degree of the polynomials space (3 in this case).
-::
+the degree of the polynomials space (3 in this case):
 
     >>> expnode = mdp.nodes.PolynomialExpansionNode(3)
 
@@ -116,17 +112,17 @@ algorithms with multiple training phases.
 
 Some examples of node training:
 
-Create some random data to train the node::
+Create some random data to train the node
 
-   >>> x = mdp.numx_rand.random((100, 25))  # 25 variables, 100 observations
+   >>> x = np.random.random((100, 25))  # 25 variables, 100 observations
 
 Analyzes the batch of data ``x`` and update the estimation of 
-mean and covariance matrix::
+mean and covariance matrix
 
     >>> pcanode1.train(x)
 
 At this point the input dimension and the ``dtype`` have been
-inherited from ``x``::
+inherited from ``x``
 
     >>> pcanode1
     PCANode(input_dim=25, output_dim=None, dtype='float64')
@@ -134,14 +130,14 @@ inherited from ``x``::
 We can train our node with more than one chunk of data. This
 is especially useful when the input data is too long to
 be stored in memory or when it has to be created on-the-fly.
-(See also the :ref:`iterables` section)::
+(See also the :ref:`iterables` section)
 
     >>> for i in range(100):
-    ...     x = mdp.numx_rand.random((100, 25))
+    ...     x = np.random.random((100, 25))
     ...     pcanode1.train(x)
     >>>
 
-Some nodes don't need to or cannot be trained::
+Some nodes don't need to or cannot be trained
 
     >>> expnode.is_trainable()
     False
@@ -152,56 +148,51 @@ an ``IsNotTrainableException``.
 The training phase ends when the ``stop_training``, ``execute``,
 ``inverse``, and possibly some other node-specific methods are called.
 For example we can finalize the PCA algorithm by computing and selecting
-the principal eigenvectors::
+the principal eigenvectors
 
     >>> pcanode1.stop_training()
 
 If the ``PCANode`` was declared to have a number of output components 
 dependent on the input variance to be explained, we can check after
-training the number of output components and the actually explained variance::
+training the number of output components and the actually explained variance
 
     >>> pcanode3.train(x)
     >>> pcanode3.stop_training()
-    >>> pcanode3.output_dim
+    >>> pcanode3.output_dim # doctest: +SKIP
     16
-    >>> pcanode3.explained_variance
+    >>> pcanode3.explained_variance # doctest: +SKIP
     0.85261144755506446 
 
 It is now possible to access the trained internal data. In general,
 a list of the interesting internal attributes can be found in the
 class documentation.
-::
 
     >>> avg = pcanode1.avg            # mean of the input data
     >>> v = pcanode1.get_projmatrix() # projection matrix
-
-.. break here
 
 Some nodes, namely the one corresponding to supervised algorithms, e.g.
 Fisher Discriminant Analysis (FDA), may need some labels or other
 supervised signals to be passed
 during training. Detailed information about the signature of the 
 ``train`` method can be read in its doc-string.
-::
 
     >>> fdanode = mdp.nodes.FDANode()
     >>> for label in ['a', 'b', 'c']:
     ...     x = mdp.numx_rand.random((100, 25))
     ...     fdanode.train(x, label)
-    >>> 
-      
+
+
 A node could also require multiple training phases. For example, the
 training of ``fdanode`` is not complete yet, since it has two
 training phases: The first one computing the mean of the data
 conditioned on the labels, and the second one computing the overall
 and within-class covariance matrices and solving the FDA
-problem. The first phase must be stopped and the second one trained::
+problem. The first phase must be stopped and the second one trained
 
     >>> fdanode.stop_training()
     >>> for label in ['a', 'b', 'c']:
     ...     x = mdp.numx_rand.random((100, 25))
     ...     fdanode.train(x, label)
-    >>>
 
 The easiest way to train multiple phase nodes is using flows,
 which automatically handle multiple phases (see the `Flows`_ section).
@@ -213,22 +204,22 @@ Node Execution
 Once the training is finished, it is possible to execute the node:
 
 The input data is projected on the principal components learned
-in the training phase::
+in the training phase
 
-    >>> x = mdp.numx_rand.random((100, 25))
+    >>> x = np.random.random((100, 25))
     >>> y_pca = pcanode1.execute(x)
 
-Calling a node instance is equivalent to executing it::
+Calling a node instance is equivalent to executing it
 
     >>> y_pca = pcanode1(x)
 
 The input data is expanded in the space of polynomials of
-degree 3::
+degree 3
 
     >>> x = mdp.numx_rand.random((100, 5))
     >>> y_exp = expnode(x)
 
-The input data is projected to the directions learned by FDA::
+The input data is projected to the directions learned by FDA
 
     >>> x = mdp.numx_rand.random((100, 25))
     >>> y_fda = fdanode(x)
@@ -244,14 +235,14 @@ be executed *backwards*, thus computing the inverse transformation:
 
 In the case of PCA, for example, this corresponds to projecting a
 vector in the principal components space back to the original data
-space::
+space
 
     >>> pcanode1.is_invertible()
     True
     >>> x = pcanode1.inverse(y_pca)
 
 
-The expansion node in not invertible::
+The expansion node in not invertible
 
     >>> expnode.is_invertible()
     False
@@ -294,20 +285,20 @@ We'll illustrate all this with some toy examples.
 
 We start by defining a node that multiplies its input by 2.
   
-Define the class as a subclass of ``Node``::
+Define the class as a subclass of ``Node``
   
-    >>> class TimesTwoNode(mdp.Node):
+    >>> class TimesTwoNode(mdp.Node): # doctest: +SKIP
 
 This node cannot be trained. To specify this, one has to overwrite
-the ``is_trainable`` method to return False::
+the ``is_trainable`` method to return False
   
-    ...     def is_trainable(self): 
-    ...         return False
+    ...     def is_trainable(self):  # doctest: +SKIP
+    ...         return False # doctest: +SKIP
   
-Execute only needs to multiply ``x`` by 2::
+Execute only needs to multiply ``x`` by 2
 
-    ...     def _execute(self, x):
-    ...         return 2*x
+    ...     def _execute(self, x): # doctest: +SKIP
+    ...         return 2*x # doctest: +SKIP
 
 Note that the ``execute`` method, which should never be overwritten
 and which is inherited from the ``Node`` parent class, will perform
@@ -320,111 +311,135 @@ consistently. To help with this the ``Node`` base class has a method
 called ``_refcast(array)`` that casts the input ``array`` only when its
 ``dtype`` is different from the ``Node`` instance's ``dtype``.
 
-The inverse of the multiplication by 2 is of course the division by 2::
-  
-    ...     def _inverse(self, y):
-    ...         return y/2
+The inverse of the multiplication by 2 is of course the division by 2
+    ...     def _inverse(self, y): # doctest: +SKIP
+    ...         return y/2 # doctest: +SKIP
 
-Test the new node::
+.. testsetup:: *
+    
+    class TimesTwoNode(mdp.Node):
+         def is_trainable(self): 
+             return False
+         def _execute(self, x):
+             return 2*x
+         def _inverse(self, y):
+             return y/2
 
-    >>> node = TimesTwoNode(dtype = 'int32')
+Test the new node
+    
+    >>> node = TimesTwoNode(dtype = 'float32')
     >>> x = mdp.numx.array([[1.0, 2.0, 3.0]])
     >>> y = node(x)
     >>> print x, '* 2 =  ', y
-    [ [ 1.  2.  3.]] * 2 =   [ [2 4 6]]
+    [[ 1.  2.  3.]] * 2 =   [[ 2.  4.  6.]]
     >>> print y, '/ 2 =', node.inverse(y)
-    [ [2 4 6]] / 2 = [ [1 2 3]]
+    [[ 2.  4.  6.]] / 2 = [[ 1.  2.  3.]]
 
 We then define a node that raises the input to the power specified
-in the initialiser::
+in the initialiser
 
-    >>> class PowerNode(mdp.Node):
+    >>> class PowerNode(mdp.Node): # doctest: +SKIP
 
 We redefine the init method to take the power as first argument.
 In general one should always give the possibility to set the ``dtype``
 and the input dimensions. The default value is ``None``, which means that
-the exact value is going to be inherited from the input data::
+the exact value is going to be inherited from the input data
 
-    ...     def __init__(self, power, input_dim=None, dtype=None):
+    ...     def __init__(self, power, input_dim=None, dtype=None): # doctest: +SKIP
   
-Initialize the parent class::
+Initialize the parent class
 
-    ...         super(PowerNode, self).__init__(input_dim=input_dim, dtype=dtype)
+    ...         super(PowerNode, self).__init__(input_dim=input_dim, dtype=dtype) # doctest: +SKIP
 
-Store the power::
+Store the power
 
-    ...         self.power = power
+    ...         self.power = power # doctest: +SKIP
 
-``PowerNode`` is not trainable ::
+``PowerNode`` is not trainable
 
-    ...     def is_trainable(self): 
-    ...         return False
+    ...     def is_trainable(self):  # doctest: +SKIP
+    ...         return False # doctest: +SKIP
 
-... nor invertible::
+nor invertible
 
-    ...     def is_invertible(self): 
-    ...         return False
+    ...     def is_invertible(self):  # doctest: +SKIP
+    ...         return False # doctest: +SKIP
 
 It is possible to overwrite the function ``_get_supported_dtypes``
-to return a list of ``dtype`` supported by the node::
+to return a list of ``dtype`` supported by the node
 
-    ...     def _get_supported_dtypes(self):
-    ...         return ['float32', 'float64']
+    ...     def _get_supported_dtypes(self): # doctest: +SKIP
+    ...         return ['float32', 'float64'] # doctest: +SKIP
 
 The supported types can be specified in any format allowed by the
 ``numpy.dtype`` constructor. The interface method ``get_supported_dtypes``
 converts them and sets the property ``supported_dtypes``, which is
 a list of ``numpy.dtype`` objects.
 
-The ``_execute`` method::
+The ``_execute`` method
 
-    ...     def _execute(self, x):
-    ...         return self._refcast(x**self.power)
+    ...     def _execute(self, x): # doctest: +SKIP
+    ...         return self._refcast(x**self.power) # doctest: +SKIP
  
-Test the new node::
+.. testsetup:: *
+
+     class PowerNode(mdp.Node):
+         def __init__(self, power, input_dim=None, dtype=None):
+             super(PowerNode, self).__init__(input_dim=input_dim, dtype=dtype)
+             self.power = power
+         def is_trainable(self): 
+             return False
+         def is_invertible(self): 
+             return False
+         def _get_supported_dtypes(self):
+             return ['float32', 'float64']
+         def _execute(self, x):
+             return self._refcast(x**self.power)
+
+Test the new node
 
     >>> node = PowerNode(3)
     >>> x = mdp.numx.array([[1.0, 2.0, 3.0]])
     >>> y = node(x)
     >>> print x, '**', node.power, '=', node(x)
-    [ [ 1.  2.  3.]] ** 3 = [ [  1.   8.  27.]]
+    [[ 1.  2.  3.]] ** 3 = [[  1.   8.  27.]]
 
 We now define a node that needs to be trained. The ``MeanFreeNode``
 computes the mean of its training data and subtracts it from the input
-during execution::
+during execution
 
-    >>> class MeanFreeNode(mdp.Node):
-    ...     def __init__(self, input_dim=None, dtype=None):
-    ...         super(MeanFreeNode, self).__init__(input_dim=input_dim, 
-    ...                                            dtype=dtype)
+    >>> class MeanFreeNode(mdp.Node): # doctest: +SKIP
+    ...     def __init__(self, input_dim=None, dtype=None): # doctest: +SKIP
+    ...         super(MeanFreeNode, self).__init__(input_dim=input_dim,  # doctest: +SKIP
+    ...                                            dtype=dtype) # doctest: +SKIP
 
 We store the mean of the input data in an attribute. We initialize it
-to ``None`` since we still don't know how large is an input vector::
+to ``None`` since we still don't know how large is an input vector
 
-    ...         self.avg = None
+    ...         self.avg = None # doctest: +SKIP
 
-Same for the number of training points::
+Same for the number of training points
 
-    ...         self.tlen = 0
+    ...         self.tlen = 0 # doctest: +SKIP
     
 The subclass only needs to overwrite the ``_train`` method, which
 will be called by the parent ``train`` after some testing and casting has
-been done::
+been done
 
-    ...     def _train(self, x):
-    ...         # Initialize the mean vector with the right 
-    ...         # size and dtype if necessary:
-    ...         if self.avg is None:
-    ...             self.avg = mdp.numx.zeros(self.input_dim,
-    ...                                       dtype=self.dtype)
+    ...     def _train(self, x): # doctest: +SKIP
+    ...         # Initialize the mean vector with the right # doctest: +SKIP 
+    ...         # size and dtype if necessary: # doctest: +SKIP
+    ...         if self.avg is None: # doctest: +SKIP
+    ...             self.avg = mdp.numx.zeros(self.input_dim, # doctest: +SKIP
+    ...                                       dtype=self.dtype) # doctest: +SKIP
          
-Update the mean with the sum of the new data::
+Update the mean with the sum of the new data
 
-    ...         self.avg += mdp.numx.sum(x, axis=0)
+    ...         self.avg += mdp.numx.sum(x, axis=0) # doctest: +SKIP
  
-Count the number of points processed::
+Count the number of points processed
 
-    ...         self.tlen += x.shape[0]
+    ...         self.tlen += x.shape # doctest: +SKIP[0]
 
 Note that the ``train`` method can have further arguments, which might be
 useful to implement algorithms that require supervised learning.
@@ -435,30 +450,55 @@ the ``labels`` on (cf. for example ``mdp.nodes.FDANode``).
 
 The ``_stop_training`` function is called by the parent ``stop_training`` 
 method when the training phase is over. We divide the sum of the training 
-data by the number of training vectors to obtain the mean::
+data by the number of training vectors to obtain the mean
 
-    ...     def _stop_training(self):
-    ...         self.avg /= self.tlen
-    ...         if self.output_dim is None:
-    ...             self.output_dim = self.input_dim
+    ...     def _stop_training(self): # doctest: +SKIP
+    ...         self.avg /= self.tlen # doctest: +SKIP
+    ...         if self.output_dim is None: # doctest: +SKIP
+    ...             self.output_dim = self.input_dim # doctest: +SKIP
 
 Note that we ``input_dim`` are set automatically by the ``train`` method,
 and we want to ensure that the node has ``output_dim`` set after training.
 For nodes that do not need training, the setting is performed automatically
-upon execution. The ``_execute`` and ``_inverse`` methods::
+upon execution. The ``_execute`` and ``_inverse`` methods
 
-    ...     def _execute(self, x):
-    ...         return x - self.avg
-    ...     def _inverse(self, y):
-    ...         return y + self.avg
+    ...     def _execute(self, x): # doctest: +SKIP
+    ...         return x - self.avg # doctest: +SKIP
+    ...     def _inverse(self, y): # doctest: +SKIP
+    ...         return y + self.avg # doctest: +SKIP
 
-Test the new node::
+.. testsetup:: *
+
+     class MeanFreeNode(mdp.Node):
+         def __init__(self, input_dim=None, dtype=None):
+             super(MeanFreeNode, self).__init__(input_dim=input_dim, 
+                                                dtype=dtype)
+             self.avg = None
+             self.tlen = 0
+         def _train(self, x):
+             # Initialize the mean vector with the right 
+             # size and dtype if necessary:
+             if self.avg is None:
+                 self.avg = mdp.numx.zeros(self.input_dim,
+                                           dtype=self.dtype)
+             self.avg += mdp.numx.sum(x, axis=0)
+             self.tlen += x.shape[0]
+         def _stop_training(self):
+             self.avg /= self.tlen
+             if self.output_dim is None:
+                 self.output_dim = self.input_dim
+         def _execute(self, x):
+             return x - self.avg
+         def _inverse(self, y):
+             return y + self.avg
+
+Test the new node
 
     >>> node = MeanFreeNode()
     >>> x = mdp.numx_rand.random((10,4))
     >>> node.train(x)
     >>> y = node(x)
-    >>> print 'Mean of y (should be zero):\n', mdp.numx.mean(y, 0)
+    >>> print 'Mean of y (should be zero):\n', mdp.numx.mean(y, 0)  # doctest: +SKIP
     Mean of y (should be zero):
     [  0.00000000e+00   2.22044605e-17
       -2.22044605e-17   1.11022302e-17]

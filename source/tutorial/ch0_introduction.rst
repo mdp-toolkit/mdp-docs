@@ -114,15 +114,15 @@ processing algorithms.
 Quick Start
 ===========
 
-Using MDP is as easy as::
+Using MDP is as easy as
 
     >>> import mdp
     >>> # perform pca on some data x
     ...
-    >>> y = mdp.pca(x) 
+    >>> y = mdp.pca(x) # doctest: +SKIP
     >>> # perform ica on some data x using single precision
     ...
-    >>> y = mdp.fastica(x, dtype='float32') 
+    >>> y = mdp.fastica(x, dtype='float32') # doctest: +SKIP 
 
 MDP requires the numerical Python extensions `NumPy`_ or `SciPy`_. At
 import time MDP will select ``scipy`` if available, otherwise

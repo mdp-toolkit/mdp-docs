@@ -205,3 +205,9 @@ latex_documents = [
 
 # If false, no module index is generated.
 #latex_domain_indices = True
+
+trim_doctest_flags = True
+doctest_global_setup ="""
+import mdp
+import numpy as np
+"""
