@@ -139,7 +139,7 @@ values with the corresponding keys). Here is an example
     >>> biflow.train([[samples],[samples]], msg_iterables=[None,[{"labels": labels}]])
 
     
-The ``_train`` method of ``FDANode`` requires the ``cl`` argument, so 
+The ``_train`` method of ``FDANode`` requires the ``labels`` argument, so 
 this is used as the key value. Note that we have to use the ``BiNode`` 
 version of ``FDANode``, called ``FDABiNode`` (alomost every MDP node has 
 a ``BiNode`` version following this naming convention). The ``BiNode`` 
