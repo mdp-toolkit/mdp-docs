@@ -87,8 +87,7 @@ if the chunks are given as an iterable. Moreover, crash recovery can be
 optionally enabled, which will save the state of the flow in case of a 
 failure for later inspection.
 
-MDP is distributed under the open source `BSD license
-<http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/mdp-toolkit;a=blob_plain;f=COPYRIGHT;hb=HEAD>`_. It
+MDP is distributed under the open source :ref:`BSD license <license>`. It
 has been written in the context of theoretical research in
 neuroscience, but it has been designed to be helpful in any context
 where trainable data processing algorithms are used. Its simplicity on
