@@ -25,7 +25,8 @@ import sys, os
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.doctest', 'sphinx.ext.autosummary', 'extapi']
+extensions = ['sphinx.ext.autodoc', 'sphinx.ext.doctest',
+              'sphinx.ext.autosummary', 'extapi']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -204,13 +205,3 @@ latex_documents = [
 
 # If false, no module index is generated.
 #latex_domain_indices = True
-
-
-# -- Options for manual page output --------------------------------------------
-
-# One entry per manual page. List of tuples
-# (source start file, name, description, authors, manual section).
-man_pages = [
-    ('tutorial_src/tutorial', 'MDP-tutorial', u'MDP-toolkit Documentation',
-     [u'Pietro Berkes \and Rike-Benjamin Schuppner \and Niko Wilbert \and Tiziano Zito'], 1)
-]

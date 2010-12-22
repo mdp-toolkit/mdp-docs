@@ -1,5 +1,6 @@
 .. toctree::
    :hidden:
+   :maxdepth: 3
 
    install.rst
    development.rst
