@@ -5,7 +5,7 @@ body {
     padding-left:1em;
     margin-right:auto;
     margin-left:auto;
-    max-width: 102em;
+    max-width: 82em;
 }
 
 
@@ -14,18 +14,28 @@ body {
     text-decoration:none;
     border-width:1px;
     border-style:solid;
-    width:100em;
+    width:80em;
+}
+
+div.footer {
+    width: 80em;
+    margin:0px;
+    padding:0px;
+    clear: both;
+    text-align: left;
 }
 
 div.sphinxsidebar {
     margin-top:1em;
+    margin-right:0em;
+    padding: 0em 0em 0em 0em;
     width: 15em;
     float: left;
     text-align: left;
 }
 
 .clear {
-    width: 100%;
+    width: 80em;
     height: 1px;
     margin: 0px;
     clear: both;
@@ -33,8 +43,8 @@ div.sphinxsidebar {
 
 
 div.document {
-    width:83em;
-    max-width:83em;
+    width:63em;
+    max-width:63em;
     margin-top: 1em;
     padding-left:0em;
     padding-right:0em;
@@ -45,19 +55,23 @@ div.document {
 }
 
 div.documentwrapper {
-    width:83em;
-    max-width:83em;
+    width:63em;
+    max-width:63em;
 }
 
 div.bodywrapper {
-    width:83em;
-    max-width:83em;
+    width:63em;
+    max-width:63em;
 }
 
 div.body {
     margin-bottom: 1em;
-    width:83em;
-    max-width:83em;
+    width:63em;
+    max-width:63em;
+}
+
+img {
+    max-width:62em;
 }
 
 div.clearer {
@@ -371,13 +385,6 @@ table td, table th {
     padding: 0.2em 0.5em 0.2em 0.5em;
 }
 
-div.footer {
-    margin:0px;
-    padding:0px;
-    clear: both;
-    text-align: left;
-}
-
 div.footer hr {
     border-width: 1px;
     border-style: solid;
@@ -505,10 +512,6 @@ table.indextable tr.pcap {
 table.indextable tr.cap {
     margin-top: 1em;
     background-color: #f2f2f2;
-}
-
-img {
-    max-width:82em;
 }
 
 img.toggler {
