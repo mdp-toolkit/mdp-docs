@@ -49,7 +49,7 @@ build NumPy from `source <https://github.com/numpy/numpy>`_.
 
 License
 =======
-MDP is distributed under the open source `BSD license <http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/mdp-toolkit;a=blob_plain;f=COPYRIGHT;hb=HEAD>`_. 
+MDP is distributed under the open source :ref:`BSD license <license>`.
 
 Download
 ========

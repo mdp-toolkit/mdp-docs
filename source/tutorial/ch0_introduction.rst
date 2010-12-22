@@ -87,8 +87,7 @@ if the chunks are given as an iterable. Moreover, crash recovery can be
 optionally enabled, which will save the state of the flow in case of a 
 failure for later inspection.
 
-MDP is distributed under the open source `BSD license
-<http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/mdp-toolkit;a=blob_plain;f=COPYRIGHT;hb=HEAD>`_. It
+MDP is distributed under the open source :ref:`BSD license <license>`. It
 has been written in the context of theoretical research in
 neuroscience, but it has been designed to be helpful in any context
 where trainable data processing algorithms are used. Its simplicity on
@@ -115,15 +114,15 @@ processing algorithms.
 Quick Start
 ===========
 
-Using MDP is as easy as::
+Using MDP is as easy as
 
     >>> import mdp
     >>> # perform pca on some data x
     ...
-    >>> y = mdp.pca(x) 
+    >>> y = mdp.pca(x) # doctest: +SKIP
     >>> # perform ica on some data x using single precision
     ...
-    >>> y = mdp.fastica(x, dtype='float32') 
+    >>> y = mdp.fastica(x, dtype='float32') # doctest: +SKIP 
 
 MDP requires the numerical Python extensions `NumPy`_ or `SciPy`_. At
 import time MDP will select ``scipy`` if available, otherwise

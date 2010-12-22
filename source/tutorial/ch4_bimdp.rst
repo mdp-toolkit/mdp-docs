@@ -10,7 +10,7 @@ additional data, and a HTML based flow inspection utility. Because BiMDP
 is a rather large addition and changes a few things compared to 
 standard MDP it is not included in ``mdp`` but must be imported 
 separately as ``bimdp`` (BiMDP is included in the standard MDP 
-installation)::
+installation)
 
     >>> import bimdp
 
@@ -105,7 +105,7 @@ instance. The standard MDP ``Flow`` class already implements
 standard Python container methods, so ``flow[2]`` will return the third 
 node in the flow. ``BiFlow`` in addition enables you to use the 
 ``node_id`` to index nodes in the flow, just like for a dictionary. Here is
-a simple example::
+a simple example
 
     >>> pca_node = bimdp.nodes.PCABiNode(node_id="pca")
     >>> biflow = bimdp.BiFlow([pca_node])
@@ -131,7 +131,7 @@ is a new ``msg_iterables`` argument, to provide iterables for the
 message dictionary. The structure of the ``msg_iterables`` argument must 
 be the same as that of ``data_iterables``, but instead of yielding 
 arrays it should yield dictionaries (containing the additional data 
-values with the corresponding keys). Here is an example::
+values with the corresponding keys). Here is an example
   
     >>> samples = np.random.random((100,10))
     >>> labels = np.arange(100)
@@ -152,7 +152,7 @@ node which is currently in training. This limitation does not apply to a
 later). Message iterators can also be used during execution, via the 
 ``msg_iterable`` argument in ``BiFlow.execute``. Of course messages can 
 be also returned by ``BiFlow.execute``, so the return value always has 
-the form ``(y, msg)`` (where ``msg`` can be an empty dictionary). For exmple:
+the form ``(y, msg)`` (where ``msg`` can be an empty dictionary). For example:
 
     >>> biflow = bimdp.nodes.PCABiNode(output_dim=10) + bimdp.nodes.SFABiNode()
     >>> x = np.random.random((100,20))
@@ -413,31 +413,27 @@ decorator to minimize the effort, making it extremely convenient to use
 coroutines. This is demonstrated in the ``gradnewton`` and ``binetdbn`` 
 examples. For example decorating the ``_execute`` method can be done 
 like this: 
-::
 
-    class SimpleCoroutineNode(bimdp.nodes.IdentityBiNode):
-        
-        # the arg ["b"] means that that the signature will be (x, b)
-        @bimdp.binode_coroutine(["b"])
-        def _execute(self, x, n_iterations):
-            """Gather all the incomming b and return them finally."""
-            bs = []
-            for _ in range(n_iterations):
-                x, b = yield x
-                bs.append(b)
-            raise StopIteration(x, {"all the b": bs}) 
-
-            
-    n_iterations = 3
-    x = np.random.random((1,1))
-    node = SimpleCoroutineNode()
-    # during the first call the decorator creates the actual coroutine
-    x, msg = node.execute(x, {"n_iterations": n_iterations})
-    # the following calls go to the yield statement,
-    # finally the bs are returned
-    for i in range(n_iterations-1):
-        x, msg = node.execute(x, {"b": i})
-    x, msg = node.execute(x, {"b": n_iterations-1})
+    >>> class SimpleCoroutineNode(bimdp.nodes.IdentityBiNode):
+    ...    # the arg ["b"] means that that the signature will be (x, b)
+    ...    @bimdp.binode_coroutine(["b"])
+    ...    def _execute(self, x, n_iterations):
+    ...        """Gather all the incomming b and return them finally."""
+    ...        bs = []
+    ...        for _ in range(n_iterations):
+    ...            x, b = yield x
+    ...            bs.append(b)
+    ...        raise StopIteration(x, {"all the b": bs}) 
+    >>> n_iterations = 3
+    >>> x = np.random.random((1,1))
+    >>> node = SimpleCoroutineNode()
+    >>> # during the first call the decorator creates the actual coroutine
+    >>> x, msg = node.execute(x, {"n_iterations": n_iterations})
+    >>> # the following calls go to the yield statement,
+    >>> # finally the bs are returned
+    >>> for i in range(n_iterations-1):
+    ...    x, msg = node.execute(x, {"b": i})
+    >>> x, msg = node.execute(x, {"b": n_iterations-1})
 
 You can find the complete runable code in the ``bimdp_simple_coroutine.py``
 example.
