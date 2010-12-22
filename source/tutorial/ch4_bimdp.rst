@@ -136,7 +136,7 @@ values with the corresponding keys). Here is an example::
     >>> samples = np.random.random((100,10))
     >>> labels = np.arange(100)
     >>> biflow = bimdp.BiFlow([mdp.nodes.PCANode(), bimdp.nodes.FDABiNode()])
-    >>> biflow.train([[samples],[samples]], msg_iterables=[None,[{"cl": labels}]])
+    >>> biflow.train([[samples],[samples]], msg_iterables=[None,[{"labels": labels}]])
 
     
 The ``_train`` method of ``FDANode`` requires the ``cl`` argument, so 
