@@ -41,9 +41,17 @@ the Python interpreter. In addition to that, an automatically generated
 
 .. toctree::
 
-   ch0_introduction.rst
-   ch1_standard.rst
-   ch2_advanced.rst
-   ch3_nodesutils.rst
-   ch4_bimdp.rst
+   introduction.rst
+   quick_start.rst
+   nodes.rst
+   flows.rst
+   iterables.rst
+   checkpoints.rst
+   extensions.rst
+   hinet.rst
+   parallel.rst
+   classifiers.rst
+   node_lists.rst
+   additional_utilities.rst
+   bimdp.rst
  
