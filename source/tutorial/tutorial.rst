@@ -51,7 +51,7 @@ the Python interpreter. In addition to that, an automatically generated
    hinet.rst
    parallel.rst
    classifiers.rst
-   node_lists.rst
+   node_list.rst
    additional_utilities.rst
    bimdp.rst
  
