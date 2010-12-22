@@ -259,8 +259,10 @@ The expansion node in not invertible::
 Trying to compute the inverse would raise an ``IsNotInvertibleException``.
 
 
-Writing your own nodes: subclassing Node
-----------------------------------------
+.. _write-your-own-nodes:
+
+Writing your own nodes: subclassing ``Node``
+--------------------------------------------
 
 MDP tries to make it easy to write new nodes that interface with the
 existing data processing elements. 

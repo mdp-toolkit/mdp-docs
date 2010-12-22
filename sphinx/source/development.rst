@@ -259,6 +259,9 @@ should agree between themselves on a history rewriting policy.
 General Style Guidelines
 ------------------------
 
+- Read carefully the :ref:`Writing your own 
+  nodes: subclassing Node <write-your-own-nodes>`
+  section of the :ref:`Tutorial <tutorial>`. 
 - Remember to set the supported dtypes for your nodes.
   Example of a node supporting only single and double precision:
   * ``SFANode`` in mdp-toolkit/mdp/nodes/sfa_nodes.py
