@@ -53,7 +53,7 @@ body {
     margin-right: auto;
     margin-left: auto;
     font-size: 100%;
-    line-height: 1.2;
+    line-height: 1.125em;
 }
 
 #header {
@@ -73,6 +73,7 @@ div.footer {
     margin: 0px;
     padding: 0px;
     clear: both;
+    font-size: 0.75em;
     text-align: left;
 }
 div.sphinxsidebar {
@@ -82,7 +83,7 @@ div.sphinxsidebar {
     width: 15em;
     float: left;
     text-align: left;
-    font-size: 80%;
+    font-size: 0.875em;
 }
 div.document {
     margin-top: 1em;
@@ -92,7 +93,7 @@ div.document {
     margin-right: 17em;
     background-color: white;
     text-align: justify;
-    font-size: 80%;
+    font-size: 0.875em;
 }
 div.body {
     margin-bottom: 1em;
