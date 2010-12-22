@@ -35,21 +35,17 @@ introduction, and the
 `official PEP <http://www.python.org/peps/pep-0255.html>`_ for a
 complete description.
 
-Let us define two bogus node classes to be used as examples of nodes::
+Let us define two bogus node classes to be used as examples of nodes
 
     >>> class BogusNode(mdp.Node):
     ...     """This node does nothing."""
     ...     def _train(self, x):
     ...         pass
-    ...
     >>> class BogusNode2(mdp.Node):
     ...     """This node does nothing. But it's not trainable nor invertible.
     ...     """
     ...     def is_trainable(self): return False
     ...     def is_invertible(self): return False
-    ...
-    >>>
-
 
 This generator generates ``blocks`` input blocks to be used as training set.
 In this example one block is a 2-dimensional time series. The first variable
@@ -58,26 +54,22 @@ All blocks are equal, this of course would not be the case in a real-life
 example.
 
 In this example we use a progress bar to get progress information.
-::
 
     >>> def gen_data(blocks):
     ...     for i in mdp.utils.progressinfo(xrange(blocks)):
-    ...         block_x = mdp.numx.atleast_2d(mdp.numx.arange(2,1001,2))
-    ...         block_y = mdp.numx.atleast_2d(mdp.numx.arange(1,1001,2))
+    ...         block_x = np.atleast_2d(np.arange(2.,1001,2))
+    ...         block_y = np.atleast_2d(np.arange(1.,1001,2))
     ...         # put variables on columns and observations on rows
-    ...         block = mdp.numx.transpose(mdp.numx.concatenate([block_x,block_y]))
+    ...         block = np.transpose(np.concatenate([block_x,block_y]))
     ...         yield block
-    ...
-    >>>
 
 The ``progressinfo`` function is a fully configurable text-mode
 progress info box tailored to the command-line die-hards. Have a look
 at its doc-string and prepare to be amazed!
 
-Let's define a bogus flow consisting of 2 ``BogusNode``::
+Let's define a bogus flow consisting of 2 ``BogusNode``
 
     >>> flow = mdp.Flow([BogusNode(),BogusNode()], verbose=1)
-
 
 Train the first node with 5000 blocks and the second node with 3000 blocks. 
 Note that the only allowed argument to ``train`` is a sequence (list or 
@@ -87,9 +79,8 @@ argument to ``train`` a single array of data:
 
 block-mode training
 -------------------
-::
 
-    >>> flow.train([gen_data(5000),gen_data(3000)])
+    >>> flow.train([gen_data(5000),gen_data(3000)]) # doctest: +SKIP
     Training node #0 (BogusNode)
 
     [===================================100%==================================>]  
@@ -103,19 +94,18 @@ block-mode training
 
 **one-shot training** using one single set of data for both nodes
 -----------------------------------------------------------------
-::
 
     >>> flow = BogusNode() + BogusNode()
-    >>> block_x = mdp.numx.atleast_2d(mdp.numx.arange(2,1001,2))
-    >>> block_y = mdp.numx.atleast_2d(mdp.numx.arange(1,1001,2))
-    >>> single_block = mdp.numx.transpose(mdp.numx.concatenate([block_x,block_y]))
+    >>> block_x = np.atleast_2d(np.arange(2.,1001,2))
+    >>> block_y = np.atleast_2d(np.arange(1.,1001,2))
+    >>> single_block = np.transpose(np.concatenate([block_x,block_y]))
     >>> flow.train(single_block)
 
 If your flow contains non-trainable nodes, you must specify a ``None``
-for the non-trainable nodes::
+for the non-trainable nodes
 
     >>> flow = mdp.Flow([BogusNode2(),BogusNode()], verbose=1)
-    >>> flow.train([None, gen_data(5000)])
+    >>> flow.train([None, gen_data(5000)]) # doctest: +SKIP
     Training node #0 (BogusNode2)
     Training finished
     Training node #1 (BogusNode)
@@ -125,10 +115,10 @@ for the non-trainable nodes::
     Close the training phase of the last node
 
 
-You can use the one-shot training::
+You can use the one-shot training
 
     >>> flow = mdp.Flow([BogusNode2(),BogusNode()], verbose=1)
-    >>> flow.train(single_block)
+    >>> flow.train(single_block) # doctest: +SKIP
     Training node #0 (BogusNode2)
     Training finished
     Training node #1 (BogusNode)
@@ -136,10 +126,10 @@ You can use the one-shot training::
     Close the training phase of the last node
 
 Iterators can always be safely used for execution and inversion, since only a 
-single iteration is needed::
+single iteration is needed
 
     >>> flow = mdp.Flow([BogusNode(),BogusNode()], verbose=1)
-    >>> flow.train([gen_data(1), gen_data(1)])
+    >>> flow.train([gen_data(1), gen_data(1)]) # doctest: +SKIP
     Training node #0 (BogusNode)
     Training finished
     Training node #1 (BosgusNode)
@@ -154,7 +144,7 @@ single iteration is needed::
 
 Execution and inversion can be done in one-shot mode also. Note that
 since training is finished you are not going to get a warning
-::
+
 
     >>> output = flow(single_block)
     >>> output = flow.inverse(single_block)
@@ -164,7 +154,7 @@ If a node requires multiple training phases (e.g.,
 iterable multiple times. In this case generators (and iterators) are not 
 allowed, since they are spend after yielding the last data block.
 
-However, it is fairly easy to wrap a generator in a simple iterable if you need to::
+However, it is fairly easy to wrap a generator in a simple iterable if you need to
 
     >>> class SimpleIterable(object):
     ...     def __init__(self, blocks):
@@ -173,31 +163,28 @@ However, it is fairly easy to wrap a generator in a simple iterable if you need 
     ...         # this is a generator
     ...         for i in range(self.blocks):
     ...             yield generate_some_data()
-    >>>
 
 Note that if you use random numbers within the generator, you usually
 would like to reset the random number generator to produce the
-same sequence every time::
+same sequence every time
 
     >>> class RandomIterable(object):
     ...     def __init__(self):
     ...         self.state = None
     ...     def __iter__(self):
     ...         if self.state is None:
-    ...             self.state = mdp.numx_rand.get_state()
+    ...             self.state = np.random.get_state()
     ...         else:
-    ...             mdp.numx_rand.set_state(self.state)
+    ...             np.random.set_state(self.state)
     ...         for i in range(2):
-    ...             yield mdp.numx_rand.random((1,4))
+    ...             yield np.random.random((1,4))
     >>> iterable = RandomIterable()
-    >>> for x in iterable: 
+    >>> for x in iterable: # doctest: +SKIP 
     ...     print x
-    ... 
     [[ 0.99586495  0.53463386  0.6306412   0.09679571]]
     [[ 0.51117469  0.46647448  0.95089738  0.94837122]]
-    >>> for x in iterable: 
+    >>> for x in iterable: # doctest: +SKIP
     ...     print x
-    ... 
     [[ 0.99586495  0.53463386  0.6306412   0.09679571]]
     [[ 0.51117469  0.46647448  0.95089738  0.94837122]]
 
