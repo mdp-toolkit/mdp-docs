@@ -59,7 +59,6 @@ extensions. The currently activated extensions are returned
 by ``get_active_extensions``. To activate an extension use
 ``activate_extension``, e.g. to activate the parallel extension
 write:
-::
 
     >>> mdp.activate_extension("parallel")
     >>> # now you can use the added attributes / methods
@@ -74,12 +73,9 @@ write:
 Activating an extension adds the available extensions attributes to the 
 supported nodes. MDP also provides a context manager for the 
 ``with`` statement:
-::
 
     >>> with mdp.extension("parallel"):
     ...     pass
-    ...
-    >>>
 
 The ``with`` statement ensures that the activated extension is deactivated
 after the code block, even if there is an exception.
@@ -88,13 +84,10 @@ activated by this context manager (not for those that were already active
 when the context was entered). This prevents unintended side effects.
 
 Finally there is also a function decorator:
-::
 
     >>> @mdp.with_extension("parallel")
     ... def f():
     ...     pass
-    ...
-    >>>
     
 Again this ensures that the extension is deactivated after the function 
 call, even in the case of an exception. The deactivation happens only if 
@@ -108,17 +101,16 @@ Suppose you have written your own nodes and would like to make them compatible
 with a particular extension (e.g. add the required methods).
 The first way to do this is by using multiple inheritance to derive from
 the base class of this extension and your custom node class. For example
-the parallel extension of the SFA node is defined in a class::
+the parallel extension of the SFA node is defined in a class
 
-    >>> class ParallelSFANode(ParallelExtensionNode, mdp.nodes.SFANode):
+    >>> class ParallelSFANode(mdp.parallel.ParallelExtensionNode, 
+    ...                       mdp.nodes.SFANode):
     ...     def _fork(self):
     ...         # implement the forking for SFANode
     ...         pass
     ...     def _join(self):
     ...         # implement the joining for SFANode
     ...         pass
-    ...
-    >>>
 
 Here ``ParallelExtensionNode`` is the base class of the extension. Then 
 you define the required methods or attributes just like in a normal 
@@ -130,14 +122,12 @@ extension node is automatically registered in the extension mechanism
 For methods you can alternatively use the ``extension_method`` function
 decorator. You define the extension method like a normal function, but add
 the function decorator on top. For example to define the ``_fork`` method
-for the ``SFANode`` we could have also used::
+for the ``SFANode`` we could have also used
 
     >>> @mdp.extension_method("parallel", mdp.nodes.SFANode) 
     ... def _fork(self):
     ...     pass
-    ...
-    >>>
-        
+
 The first decorator argument is the name of the extension, the second is the
 class you want to extend. You can also specify the method name as a third
 argument, then the name of the function is ignored (this allows you to get
@@ -148,18 +138,16 @@ Creating Extensions
 
 To create a new node extension you just have to create a new extension base
 class. For example the HTML representation extension in ``mdp.hinet``
-is created with::
+is created with
 
     >>> class  HTMLExtensionNode(mdp.ExtensionNode, mdp.Node):
     ...     """Extension node for HTML representations of individual nodes."""
-    ...     extension_name = "html"
+    ...     extension_name = "html2"
     ...     def html_representation(self):
     ...         pass
     ...     def _html_representation(self):
     ...         pass
-    ...
-    >>>
-            
+
 Note that you must derive from ``ExtensionNode``. If you also derive 
 from ``mdp.Node`` then the methods (and attributes) in this class are 
 the default implementation for the ``mdp.Node`` class. So they will be 
@@ -182,21 +170,17 @@ another currently active extension.
 The extension mechanism uses some magic to make the behavior more 
 intuitive with respect to inheritance. Basically methods or attributes 
 defined by extensions shadow those which are not defined in the 
-extension. Here is an example::
+extension. Here is an example
 
     >>> class TestExtensionNode(mdp.ExtensionNode):
     ...     extension_name = "test"
     ...     def _execute(self):
     ...         return 0
-    ...
     >>> class TestNode(mdp.Node):
     ...     def _execute(self):
     ...         return 1
-    ...
     >>> class ExtendedTestNode(TestExtensionNode, TestNode):
     ...     pass
-    ...
-    >>>
 
 After this extension is activated any calls of ``_execute`` in instances 
 of ``TestNode`` will return 0 instead of 1. The ``_execute`` from the 
@@ -206,4 +190,3 @@ would have to explicitly override ``_execute`` in ``ExtendedTestNode``
 (or derive the extension base-class from ``Node``, but that would give 
 this behavior to all node classes). Note that there is a ``verbose`` 
 argument in ``activate_extension`` which can help with debugging. 
-
