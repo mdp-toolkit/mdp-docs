@@ -112,6 +112,7 @@ div.clearer {
     padding-left: 1em;
     padding-right: 1em;
     font-size: 200%;
+    line-height: 1.125em;
     font-weight: bold;
 }
 #header .img_header {
