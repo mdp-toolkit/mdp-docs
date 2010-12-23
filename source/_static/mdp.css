@@ -16,6 +16,7 @@ div.sphinxsidebar {
     margin-right:1em;
     float: left;
     text-align: left;
+    font-size: 80%;
 }
 
 .clear {
@@ -34,6 +35,7 @@ div.body {
     margin-bottom: 1em;
     max-width: 50em;
     text-align: justify;
+    font-size: 80%;
 }
 
 div.clearer {
