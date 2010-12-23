@@ -13,7 +13,6 @@ on an S-shaped 2D surface embedded in a 3D space:
         :alt: S-shaped surface
 
 The surface is defined by the function
-::
 
     >>> def s_distr(npoints, hole=False):
     ...     """Return a 3D S-shaped surface. If hole is True, the surface has
@@ -33,7 +32,6 @@ We generate 1000 points on this surface, then define an LLENode with
 parameters k=15 (number of neighbors) and output_dim=2 (the number of
 dimensions of the reduced representation), then train and execute the
 node to obtain the projected data:
-::
 
     >>> n, k = 1000, 15
     >>> x, y, z, t = s_distr(n, hole=False)
@@ -56,7 +54,6 @@ middle:
 
 In this case, the LLE algorithm has some difficulty finding the
 correct representation. The lines
-::
 
     >>> x, y, z, t = s_distr(n, hole=True)
     >>> data = mdp.numx.array([x,y,z]).T
@@ -70,7 +67,6 @@ return a distorted mapping:
 
 The Hessian LLE Node takes the local curvature of the surface into
 account, and is able to find a better representation:
-::
 
     >>> hlle_projected_data = mdp.nodes.HLLENode(k, output_dim=2)(data)
 

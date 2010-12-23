@@ -21,7 +21,6 @@ with Slow Feature Analysis`.
 Generate the slowly varying driving force, 
 a combination of three sine waves (freqs: 5, 11, 13 Hz), and define a function
 to generate the logistic map
-::
 
     >>> p2 = mdp.numx.pi*2
     >>> t = mdp.numx.linspace(0,1,10000,endpoint=0) # time axis 1s, samplerate 10KHz
@@ -35,25 +34,19 @@ Note that we define ``series`` to be a two-dimensional array.
 Inputs to MDP must be two-dimensional arrays with variables
 on columns and observations on rows. In this case we have only
 one variable:
-::
 
     >>> series = mdp.numx.zeros((10000,1),'d')
 
 
 Fix the initial condition:
-::
 
     >>> series[0] = 0.6
 
-
 Generate the time series using the logistic equation.
 The driving force modifies the logistic equation parameter ``r``:
-::
 
     >>> for i in range(1,10000):
     ...     series[i] = logistic_map(series[i-1],3.6+0.13*dforce[i])
-    ...
-    >>>
 
 If you have a plotting package ``series`` should look like this:
 
@@ -75,27 +68,22 @@ In order to measure the slowness of the input time series before and
 after processing, we put at the beginning and at the end of the node
 sequence a node that computes the $\eta$-value (a measure of slowness)
 of its input (``EtaComputerNode()``): 
-::
 
     >>> flow = (mdp.nodes.EtaComputerNode() +
     ...         mdp.nodes.TimeFramesNode(10) +
     ...         mdp.nodes.PolynomialExpansionNode(3) +
     ...         mdp.nodes.SFANode(output_dim=1) +
     ...         mdp.nodes.EtaComputerNode() )
-    ...
-    >>>
 
 Since the time series is short enough to be kept in memory
 we don't need to define generators and we can feed the flow
 directly with the whole signal:
-::
 
     >>> flow.train(series)
 
 Since the second and the third nodes are not trainable we are
 going to get two warnings (``Training Interrupted``). We can safely
 ignore them. Execute the flow to get the slow feature
-::
 
     >>> slow = flow(series)
 
@@ -103,21 +91,18 @@ The slow feature should match the driving force
 up to a scaling factor, a constant offset and the sign.
 To allow a comparison we rescale the driving force
 to have zero mean and unit variance:
-::
 
     >>> resc_dforce = (dforce - mdp.numx.mean(dforce,0))/mdp.numx.std(dforce,0)
 
 Print covariance between the rescaled driving force and
 the slow feature. Note that embedding the time series with
 10 time frames leads to a time series with 9 observations less:
-::
 
     >>> mdp.utils.cov2(resc_dforce[:-9],slow)
     0.99992501533859179
 
 Print the *eta-values* of the chaotic time series and of
 the slow feature
-::
 
     >>> print 'Eta value (time series): ', flow[0].get_eta(t=10000)
     Eta value (time series):  [ 3002.53380245]
