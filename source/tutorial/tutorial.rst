@@ -41,8 +41,8 @@ the Python interpreter. In addition to that, an automatically generated
 
 .. toctree::
 
-   introduction.rst
    quick_start.rst
+   introduction.rst
    nodes.rst
    flows.rst
    iterables.rst
