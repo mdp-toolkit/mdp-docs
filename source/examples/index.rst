@@ -6,9 +6,9 @@ Examples
 .. toctree::
    :hidden:
    
-   logmap_src/logmap.rst
-   lle_src/lle.rst
-   gng_src/gng.rst
+   logmap/logmap.rst
+   lle/lle.rst
+   gng/gng.rst
 
 Here are examples on how to use MDP for typical machine learning
 applications:

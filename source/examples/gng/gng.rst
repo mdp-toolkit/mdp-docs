@@ -3,6 +3,11 @@
 Growing Neural Gas
 ==================
 
+.. toctree::
+   :hidden:
+   
+   animated_training.rst
+
 We generate uniformly distributed random data points confined on different
 2-D geometrical objects. The Growing Neural Gas Node builds a graph with the
 same topological structure.
@@ -99,9 +104,7 @@ the evolution of the graph:
     ...
     >>> gng.stop_training()
 
-See here_ the animation of training.
-
-.. _here: animated_training.gif
+See :ref:`training_animation`.
 
 Visualizing the neural gas network, we'll see that it is
 adapted to the topological structure of the data distribution:

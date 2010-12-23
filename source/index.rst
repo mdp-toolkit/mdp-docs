@@ -6,7 +6,7 @@
    development.rst
    how_to_cite_mdp.rst
    tutorial/tutorial.rst
-   examples/examples.rst
+   examples/index.rst
    contact.rst   
 
 .. admonition:: News
@@ -62,7 +62,7 @@ To learn more about MDP:
 * Tutorial: :ref:`html
   <tutorial>`/`pdf <http://prdownloads.sourceforge.net/mdp-toolkit/MDP2_6_tutorial.pdf?download>`_
 * :ref:`Full list <node-list>` of implemented algorithms
-* Typical usage :ref:`examples <examples>`
+* Typical usage :ref:`examples`
 * `API Index <api/index.html>`_
 
 Using MDP is as easy as::
