@@ -9,10 +9,9 @@ Most classification nodes will therefore simply return the identity function on
 ``execute``; all classification work is done with the new methods ``label``,
 ``prob`` and ``rank``.
 
-As a first example, we will use the ``GaussianClassifierNode``.
-::
+As a first example, we will use the ``GaussianClassifier``.
 
-    >>> gc = mdp.nodes.GaussianClassifierNode()
+    >>> gc = mdp.nodes.GaussianClassifier()
     >>> gc.train(mdp.numx_rand.random((50, 3)), +1)
     >>> gc.train(mdp.numx_rand.random((50, 3)) - 0.8, -1)
 	
@@ -24,14 +23,12 @@ However, it is also possible to use the more explicit form::
     >>> gc.train(mdp.numx_rand.random((50, 3)), [+1] * 50)
 	
 We can then retrieve the most probable labels for some testing data,
-::
 
     >>> test_data = mdp.numx.array([[0.1, 0.2, 0.1], [-0.1, -0.2, -0.1]])
     >>> gc.label(test_data)
     [1, -1]
 	
 and also get the probability for each label.
-::
 
     >>> gc.prob(test_data)
     [{-1: 0.21013407927789607, 1: 0.78986592072210393},
@@ -39,7 +36,6 @@ and also get the probability for each label.
 
 
 Finally, it is possible to get the ranking of the labels, starting with the likeliest.
-::
 
     >>> gc.rank(test_data)
     [[1, -1], [-1, 1]]

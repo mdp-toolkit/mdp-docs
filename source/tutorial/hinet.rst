@@ -17,7 +17,7 @@ The first building block is the ``Layer`` node, which works like a
 horizontal version of flow. It acts as a wrapper for a set of nodes
 that are trained and executed in parallel. For example, we can
 combine two nodes with 100 dimensional input to construct a layer
-with a 200-dimensional input::
+with a 200-dimensional input:
 
     >>> node1 = mdp.nodes.PCANode(input_dim=100, output_dim=10)
     >>> node2 = mdp.nodes.SFANode(input_dim=100, output_dim=20)
@@ -34,7 +34,7 @@ is constructed.
 In order to be able to build arbitrary feed-forward node structures,
 ``hinet`` provides a wrapper class for flows (i.e., vertical stacks
 of nodes) called ``FlowNode``. For example, we can replace
-``node1`` in the above example with a ``FlowNode``::
+``node1`` in the above example with a ``FlowNode``:
 
     >>> node1_1 = mdp.nodes.PCANode(input_dim=100, output_dim=50)
     >>> node1_2 = mdp.nodes.SFANode(input_dim=50, output_dim=10)
@@ -58,11 +58,10 @@ by the ``Switchboard`` node. A basic ``Switchboard`` is initialized with a 1-D
 Array with one entry for each output connection, containing the 
 corresponding index of the input connection that it receives its input 
 from, e.g.:
-:: 
 
     >>> switchboard = mdp.hinet.Switchboard(input_dim=6, connections=[0,1,2,3,4,3,4,5])
     >>> switchboard
-    Switchboard(input_dim=3, output_dim=2, dtype=None)
+    Switchboard(input_dim=6, output_dim=8, dtype=None)
     >>> x = mdp.numx.array([[2,4,6,8,10,12]]) 
     >>> switchboard.execute(x)
     array([[ 2,  4,  6,  8, 10,  8, 10, 12]])
@@ -90,9 +89,8 @@ includes the class ``HiNetHTMLTranslator`` that translates
 an MDP flow into a graphical visualization in an HTML file. We also provide
 the helper function ``show_flow`` which creates a complete HTML file with
 the flow visualization in it and opens it in your standard browser.
-::
 
-    >>> mdp.hinet.show_flow(flow)
+    >>> mdp.hinet.show_flow(flow)              # doctest: +SKIP
 
 To integrate the HTML representation into your own custom HTML file
 you can take a look at ``show_flow`` to learn the usage of
@@ -125,7 +123,7 @@ dimensionality) that is followed by an ``SFA2Node``. Since we assume
 that the statistics are similar in each receptive filed we actually
 use the same nodes for each receptive field. Therefore we use a
 ``CloneLayer`` instead of the standard ``Layer``. Here is the actual
-code::
+code:
 
     >>> switchboard = mdp.hinet.Rectangular2dSwitchboard(x_in_channels=50, 
     ...                                                  y_in_channels=50, 

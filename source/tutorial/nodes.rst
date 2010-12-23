@@ -342,7 +342,7 @@ in the initialiser::
 We redefine the init method to take the power as first argument.
 In general one should always give the possibility to set the ``dtype``
 and the input dimensions. The default value is ``None``, which means that
-the exact value is going to be inherited from the input data ::
+the exact value is going to be inherited from the input data::
 
     ...     def __init__(self, power, input_dim=None, dtype=None): 
   
