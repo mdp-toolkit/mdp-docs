@@ -82,8 +82,10 @@ computations are performed.
 You can obtain a list of the numerical types supported by a node
 looking at its ``supported_dtypes`` property
 
-    >>> pcanode4.supported_dtypes
-    [dtype('float32'), dtype('float64'), dtype('float96')]
+    >>> pcanode4.supported_dtypes             # doctest: +ELLIPSIS
+    [dtype('float32'), dtype('float64'), ...]
+
+    .. supported_dtypes includes float96 on 32 bit, and float128 otherwise
 
 This attribute is a list of ``numpy.dtype`` objects.
 
