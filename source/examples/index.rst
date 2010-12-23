@@ -9,6 +9,7 @@ Examples
    logmap/logmap.rst
    lle/lle.rst
    gng/gng.rst
+   logo/logo_animation.rst
 
 Here are examples on how to use MDP for typical machine learning
 applications:
