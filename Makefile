@@ -8,7 +8,7 @@ PAPER         =
 BUILDDIR      = build
 
 # mdp specific modifications
-PYTHONPATH    = ext:../mdp-toolkit
+PYTHONPATH    = ext:$(MDPTOOLKIT)
 EPYDOC        = epydoc
 MDPTOOLKIT    = ../mdp-toolkit
 APIBUILD      = $(BUILDDIR)/html/api
