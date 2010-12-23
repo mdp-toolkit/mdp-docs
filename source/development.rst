@@ -43,7 +43,8 @@ If you want to contribute some code or a new algorithm, please do not
 hesitate to submit it!
 
 .. _`Pietro Berkes`: http://people.brandeis.edu/~berkes
-.. _`Niko Wilbert`: http://itb.biologie.hu-berlin.de/~wilbert
+.. _`Niko Wilbert`: http://itb.biologie.hu-berlin.de/~wilbert/
+..                             This slash is required by itb ^, how lame is that?
 .. _`Tiziano Zito`: http://www.cognition.tu-berlin.de/zito
 .. _`Rike-Benjamin Schuppner`: http://www.bccn-berlin.de/People/home/?contentId=686
 .. _`Zbigniew Jędrzejewski-Szmek`: http://dimer.fuw.edu.pl/Members/ZbyszekJSzmek
@@ -73,7 +74,7 @@ Strictly in alphabetical order:
 - `Samuel John <http://www.samueljohn.de/>`_
 - Susanne Lezius
 - `Michael Schmuker <http://userpage.fu-berlin.de/~schmuker/>`_
-- `Benjamin Schrauwen <http://snn.elis.ugent.be/benjamin>`_
+- `Benjamin Schrauwen <http://reslab.elis.ugent.be/benjamin>`_
 - `Henning Sprekeler <http://lcn.epfl.ch/~sprekele>`_
 - `Jake VanderPlas <http://www.astro.washington.edu/vanderplas/>`_
 

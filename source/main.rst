@@ -1,6 +1,5 @@
 .. _MDP Sprint 2010: http://sourceforge.net/apps/mediawiki/mdp-
     toolkit/index.php?title=MDP_Sprint_2010
-.. _changes     since last release: CHANGES
 .. _git: http://mdp-toolkit.git.sourceforge.net/
 .. _EuroScipy:
     http://www.euroscipy.org/presentations/abstracts/abstract_zito.html
@@ -29,13 +28,8 @@
 .. _sci-mathematics/mdp:
     http://git.overlays.gentoo.org/gitweb/?p=proj/sci.git;a=tree;f=sci-
     mathematics/mdp
-.. _Pietro Berkes: http://people.brandeis.edu/~berkes
-.. _Tiziano Zito: http://itb.biologie.hu-berlin.de/~zito
 .. _Institute for Theoretical Biology: http://itb.biologie.hu-berlin.de/
 .. _Humboldt University: http://www.hu-berlin.de/
-.. _Niko Wilbert: http://itb.biologie.hu-berlin.de/~wilbert
-.. _Yaroslav Halchenko: http://www.onerussian.com/
-.. _Maximilian Nickel: http://2manyvariables.inmachina.com
 .. _mailing list: https://lists.sourceforge.net/mailman/listinfo/mdp-
     toolkit-users
 .. _http://mdp-toolkit.sourceforge.net: http://mdp-
