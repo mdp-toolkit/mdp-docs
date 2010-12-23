@@ -497,9 +497,9 @@ Test the new node
     >>> x = np.random.random((10,4))
     >>> node.train(x)
     >>> y = node(x)
-    >>> print 'Mean of y (should be zero):\n', mdp.numx.mean(y, 0)
+    >>> print 'Mean of y (should be zero):\n', np.abs(np.around(np.mean(y, 0), 15))
     Mean of y (should be zero):
-    [  8.88178420e-17  -3.33066907e-17  -4.44089210e-17   0.00000000e+00]
+    [ 0.  0.  0.  0.]
 
 It is also possible to define nodes with multiple training phases.
 In such a case, calling the ``train`` and ``stop_training`` functions
