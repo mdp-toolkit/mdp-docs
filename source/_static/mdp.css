@@ -4,13 +4,6 @@ body {
 }
 
 
-#header {
-    text-align:center;
-    text-decoration:none;
-    border-width:1px;
-    border-style:solid;
-}
-
 div.footer {
     margin:0px;
     padding:0px;
@@ -33,19 +26,23 @@ div.sphinxsidebar {
 
 
 div.document {
-    max-width: 50em;
-    margin-top: 1em;
     background-color: white;
-    text-align: justify;
     display: table;
 }
 
 div.body {
     margin-bottom: 1em;
+    max-width: 50em;
+    text-align: justify;
 }
 
 div.clearer {
     clear: both;
+}
+
+#header {
+    border-width:1px;
+    border-style:solid;
 }
 
 #header .td_header {
@@ -271,7 +268,7 @@ div.sphinxsidebar ul li {
     margin-bottom:0.5em;
 }
 div.sphinxsidebar ul li a{
-    padding: 0.5em 0em 0.5em 0em;
+    padding: 0.5em;
     font-weight: bold;
     text-decoration: none;
     display: block;
