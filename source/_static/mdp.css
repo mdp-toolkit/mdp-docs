@@ -202,11 +202,6 @@ pre a {
 }
 
 div.related {
-    border-left: 0px;
-    border-right: 0px;
-    border-top: 1px;
-    border-bottom: 1px;
-    border-style: solid;
     margin-bottom: 1em;
 }
 
