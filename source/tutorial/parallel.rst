@@ -3,7 +3,7 @@ Parallelization
 ===============
 
 The ``parallel`` package adds the ability to parallelize the training 
-and execution of MPD flows. This package is split into two decoupled parts:
+and execution of MPD flows. This package is split into two decoupled parts.
 
 The first part consists of a parallel extension for the familiar MDP 
 structures of nodes and flows. In principle all MDP nodes aldready 
@@ -65,7 +65,6 @@ One can therefore use a ``with`` statement:
 
     >>> with mdp.parallel.ProcessScheduler() as scheduler:
     ...     parallel_flow.train(data_iterables, scheduler=scheduler)
-    ...
     
 The ``with`` statement ensures that ``scheduler.shutdown`` is automatically
 called (even if there is an exception).

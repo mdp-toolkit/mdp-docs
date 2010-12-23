@@ -171,7 +171,7 @@ htmlhelp_basename = 'MDP-toolkitdoc'
 # -- Options for LaTeX output --------------------------------------------------
 
 # The paper size ('letter' or 'a4').
-#latex_paper_size = 'a4'
+latex_paper_size = 'a4'
 
 # The font size ('10pt', '11pt' or '12pt').
 #latex_font_size = '10pt'
@@ -179,13 +179,14 @@ htmlhelp_basename = 'MDP-toolkitdoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('tutorial_src/tutorial', 'MDP-tutorial.tex', u'MDP-toolkit Tutorial',
-   u'Pietro Berkes, Rike-Benjamin Schuppner, Niko Wilbert, and Tiziano Zito', 'manual'),
+  ('tutorial/tutorial', 'MDP-tutorial.tex', u'MDP-toolkit Tutorial',
+   ur'''Pietro Berkes\\Rike-Benjamin Schuppner\\
+        Niko Wilbert\\Tiziano Zito''', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
-#latex_logo = None
+latex_logo = 'examples/logo/logo.png'
 
 # For "manual" documents, if this is true, then toplevel headings are parts,
 # not chapters.

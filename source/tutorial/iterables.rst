@@ -67,7 +67,7 @@ The ``progressinfo`` function is a fully configurable text-mode
 progress info box tailored to the command-line die-hards. Have a look
 at its doc-string and prepare to be amazed!
 
-Let's define a bogus flow consisting of 2 ``BogusNode``
+Let's define a bogus flow consisting of 2 ``BogusNode``\ s
 
     >>> flow = mdp.Flow([BogusNode(),BogusNode()], verbose=1)
 
@@ -75,25 +75,25 @@ Train the first node with 5000 blocks and the second node with 3000 blocks.
 Note that the only allowed argument to ``train`` is a sequence (list or 
 tuple) of iterables or iterators. In case you don't want or need to use 
 incremental learning and want to do a one-shot training, you can use as 
-argument to ``train`` a single array of data:
+argument to ``train`` a single array of data.
 
-block-mode training
+Block-mode training
 -------------------
 
     >>> flow.train([gen_data(5000),gen_data(3000)]) # doctest: +SKIP
     Training node #0 (BogusNode)
-
+    <BLANKLINE>
     [===================================100%==================================>]  
-
+    <BLANKLINE>
     Training finished
     Training node #1 (BogusNode)
     [===================================100%==================================>]  
-
+    <BLANKLINE>
     Training finished
     Close the training phase of the last node
 
-**one-shot training** using one single set of data for both nodes
------------------------------------------------------------------
+One-shot training using one single set of data for both nodes
+-------------------------------------------------------------
 
     >>> flow = BogusNode() + BogusNode()
     >>> block_x = np.atleast_2d(np.arange(2.,1001,2))
@@ -110,10 +110,9 @@ for the non-trainable nodes
     Training finished
     Training node #1 (BogusNode)
     [===================================100%==================================>]  
-
+    <BLANKLINE>
     Training finished
     Close the training phase of the last node
-
 
 You can use the one-shot training
 
@@ -134,7 +133,7 @@ single iteration is needed
     Training finished
     Training node #1 (BosgusNode)
     [===================================100%==================================>]  
-
+    <BLANKLINE>
     Training finished
     Close the training phase of the last node
     >>> output = flow.execute(gen_data(1000))
@@ -144,7 +143,6 @@ single iteration is needed
 
 Execution and inversion can be done in one-shot mode also. Note that
 since training is finished you are not going to get a warning
-
 
     >>> output = flow(single_block)
     >>> output = flow.inverse(single_block)
@@ -187,5 +185,3 @@ same sequence every time
     ...     print x
     [[ 0.5488135   0.71518937  0.60276338  0.54488318]]
     [[ 0.4236548   0.64589411  0.43758721  0.891773  ]]
-
-

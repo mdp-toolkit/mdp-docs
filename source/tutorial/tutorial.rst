@@ -28,7 +28,7 @@ the Python interpreter. In addition to that, an automatically generated
   Code snippets throughout the script will be denoted by
  
       >>> print "Hello world!" #doctest: +SKIP
-      Hello world! # doctest: +SKIP
+      Hello world!
 
   To run the following code examples don't forget to import ``mdp``
   and ``numpy`` in your Python session with

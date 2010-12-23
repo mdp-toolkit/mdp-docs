@@ -1,6 +1,8 @@
 Quick Start
 ===========
 
+.. include:: ../main.rst
+
 Using MDP is as easy as
 
     >>> import mdp

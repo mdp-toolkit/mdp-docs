@@ -194,7 +194,7 @@ problem. The first phase must be stopped and the second one trained
     ...     fdanode.train(x, label)
 
 The easiest way to train multiple phase nodes is using flows,
-which automatically handle multiple phases (see the `Flows`_ section).
+which automatically handle multiple phases (see the :ref:`flows` section).
 
 
 Node Execution
@@ -504,7 +504,7 @@ Test the new node
 It is also possible to define nodes with multiple training phases.
 In such a case, calling the ``train`` and ``stop_training`` functions
 multiple times is going to execute successive training phases
-(this kind of node is much easier to train using Flows_).
+(this kind of node is much easier to train using :ref:`flows`).
 Here we'll define a node that returns a meanfree, unit variance signal.
 We define two training phases: first we compute the mean of the
 signal and next we sum the squared, meanfree input to compute

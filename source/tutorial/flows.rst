@@ -1,3 +1,5 @@
+.. _flows:
+
 =====
 Flows
 =====
@@ -75,7 +77,7 @@ We could now perform our analysis using only nodes, that's the lengthy way...
     >>> out2 = ica(out1)
 
 3. Find the three largest local maxima in the output of the ICA node
-when applied to the test data, using a ``HitParadeNode``
+   when applied to the test data, using a ``HitParadeNode``
 
     >>> out1_test = pca(x_test)
     >>> out2_test = ica(out1_test)
