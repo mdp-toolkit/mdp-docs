@@ -125,12 +125,9 @@ use the same nodes for each receptive field. Therefore we use a
 ``CloneLayer`` instead of the standard ``Layer``. Here is the actual
 code:
 
-    >>> switchboard = mdp.hinet.Rectangular2dSwitchboard(x_in_channels=50, 
-    ...                                                  y_in_channels=50, 
-    ...                                                  x_field_channels=10, 
-    ...                                                  y_field_channels=10,
-    ...                                                  x_field_spacing=5, 
-    ...                                                  y_field_spacing=5,
+    >>> switchboard = mdp.hinet.Rectangular2dSwitchboard(in_channels_xy=(50, 50),
+    ...                                                  field_channels_xy=(10, 10),
+    ...                                                  field_spacing_xy=(5, 5),
     ...                                                  in_channel_dim=3)
     >>> sfa_dim = 48
     >>> sfa_node = mdp.nodes.SFANode(input_dim=switchboard.out_channel_dim, 
