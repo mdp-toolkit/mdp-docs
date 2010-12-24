@@ -128,18 +128,21 @@ Iterators can always be safely used for execution and inversion, since only a
 single iteration is needed
 
     >>> flow = mdp.Flow([BogusNode(),BogusNode()], verbose=1)
-    >>> flow.train([gen_data(1), gen_data(1)]) # doctest: +SKIP
+    >>> flow.train([gen_data(1), gen_data(1)])                     # doctest: +SKIP
     Training node #0 (BogusNode)
     Training finished
     Training node #1 (BosgusNode)
-    [===================================100%==================================>]  
+    [===================================100%==================================>]
     <BLANKLINE>
     Training finished
     Close the training phase of the last node
-    >>> output = flow.execute(gen_data(1000))
-    [===================================100%==================================>]  
-    >>> output = flow.inverse(gen_data(1000))
-    [===================================100%==================================>]  
+    >>> output = flow.execute(gen_data(1000))                      # doctest: +SKIP
+    [===================================100%==================================>]
+    >>> output = flow.inverse(gen_data(1000))                      # doctest: +SKIP
+    [===================================100%==================================>]
+
+.. doctests must be skipped, because doctest doesn’t cope with carriage returns
+.. in console output
 
 Execution and inversion can be done in one-shot mode also. Note that
 since training is finished you are not going to get a warning

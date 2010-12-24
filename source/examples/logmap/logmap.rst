@@ -95,16 +95,16 @@ Print covariance between the rescaled driving force and
 the slow feature. Note that embedding the time series with
 10 time frames leads to a time series with 9 observations less:
 
-    >>> mdp.utils.cov2(resc_dforce[:-9], slow)
-    0.99992501533859179
+    >>> print '%.4f' % mdp.utils.cov2(resc_dforce[:-9], slow)
+    1.0000
 
 Print the *eta-values* of the chaotic time series and of
 the slow feature
 
-    >>> print 'Eta value (time series): ', flow[0].get_eta(t=10000)
-    Eta value (time series):  [ 3002.53380245]
-    >>> print 'Eta value (slow feature): ', flow[-1].get_eta(t=9996)
-    Eta value (slow feature):  [ 10.2185087]
+    >>> print 'Eta value (time series): %d' % flow[0].get_eta(t=10000)
+    Eta value (time series): 3004
+    >>> print 'Eta value (slow feature): %.3f' % flow[-1].get_eta(t=9996)
+    Eta value (slow feature): 10.218
 
 If you have a plotting package you could plot the real driving force
 is plotted together with the driving force estimated by SFA and see
