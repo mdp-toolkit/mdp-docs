@@ -310,7 +310,9 @@ consistently. To help with this the ``Node`` base class has a method
 called ``_refcast(array)`` that casts the input ``array`` only when its
 ``dtype`` is different from the ``Node`` instance's ``dtype``.
 
-The inverse of the multiplication by 2 is of course the division by 2::
+The inverse of the multiplication by 2 is of course the division by 2
+::
+
     ...     def _inverse(self, y): 
     ...         return y/2 
 
@@ -557,7 +559,9 @@ The ``_execute`` and ``_inverse`` methods are not surprising, either::
     ...     def _inverse(self, y):
     ...         return y*self.std + self.avg
 
+
 Test the new node
+
     >>> class UnitVarianceNode(mdp.Node):
     ...     def __init__(self, input_dim=None, dtype=None):
     ...         super(UnitVarianceNode, self).__init__(input_dim=input_dim, 
@@ -642,7 +646,9 @@ The ``_execute`` method::
     ...     def _execute(self, x):
     ...         return mdp.numx.concatenate((x, x), 1)
 
+
 Test the new node
+
     >>> class TwiceNode(mdp.Node):
     ...     def is_trainable(self): return False
     ...     def is_invertible(self): return False
@@ -661,7 +667,6 @@ Test the new node
            [ 0.,  0.],
            [ 0.,  0.],
            [ 0.,  0.]])
-
     >>> node.execute(x)
     array([[ 0.,  0.,  0.,  0.],
            [ 0.,  0.,  0.,  0.],
