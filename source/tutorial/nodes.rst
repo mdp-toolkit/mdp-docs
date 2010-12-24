@@ -314,18 +314,16 @@ The inverse of the multiplication by 2 is of course the division by 2::
     ...     def _inverse(self, y): 
     ...         return y/2 
 
-.. testsetup:: *
-    
-    class TimesTwoNode(mdp.Node):
-         def is_trainable(self): 
-             return False
-         def _execute(self, x):
-             return 2*x
-         def _inverse(self, y):
-             return y/2
 
 Test the new node
     
+    >>> class TimesTwoNode(mdp.Node):
+    ...      def is_trainable(self): 
+    ...          return False
+    ...      def _execute(self, x):
+    ...          return 2*x
+    ...      def _inverse(self, y):
+    ...          return y/2
     >>> node = TimesTwoNode(dtype = 'float32')
     >>> x = mdp.numx.array([[1.0, 2.0, 3.0]])
     >>> y = node(x)
@@ -380,23 +378,20 @@ The ``_execute`` method::
     ...     def _execute(self, x): 
     ...         return self._refcast(x**self.power) 
  
-.. testsetup:: *
-
-     class PowerNode(mdp.Node):
-         def __init__(self, power, input_dim=None, dtype=None):
-             super(PowerNode, self).__init__(input_dim=input_dim, dtype=dtype)
-             self.power = power
-         def is_trainable(self): 
-             return False
-         def is_invertible(self): 
-             return False
-         def _get_supported_dtypes(self):
-             return ['float32', 'float64']
-         def _execute(self, x):
-             return self._refcast(x**self.power)
-
 Test the new node
 
+    >>> class PowerNode(mdp.Node):
+    ...     def __init__(self, power, input_dim=None, dtype=None):
+    ...         super(PowerNode, self).__init__(input_dim=input_dim, dtype=dtype)
+    ...         self.power = power
+    ...     def is_trainable(self): 
+    ...         return False
+    ...     def is_invertible(self): 
+    ...         return False
+    ...     def _get_supported_dtypes(self):
+    ...         return ['float32', 'float64']
+    ...     def _execute(self, x):
+    ...         return self._refcast(x**self.power)
     >>> node = PowerNode(3)
     >>> x = mdp.numx.array([[1.0, 2.0, 3.0]])
     >>> y = node(x)
@@ -466,33 +461,30 @@ upon execution. The ``_execute`` and ``_inverse`` methods::
     ...     def _inverse(self, y): 
     ...         return y + self.avg 
 
-.. testsetup:: *
-
-     class MeanFreeNode(mdp.Node):
-         def __init__(self, input_dim=None, dtype=None):
-             super(MeanFreeNode, self).__init__(input_dim=input_dim, 
-                                                dtype=dtype)
-             self.avg = None
-             self.tlen = 0
-         def _train(self, x):
-             # Initialize the mean vector with the right 
-             # size and dtype if necessary:
-             if self.avg is None:
-                 self.avg = mdp.numx.zeros(self.input_dim,
-                                           dtype=self.dtype)
-             self.avg += mdp.numx.sum(x, axis=0)
-             self.tlen += x.shape[0]
-         def _stop_training(self):
-             self.avg /= self.tlen
-             if self.output_dim is None:
-                 self.output_dim = self.input_dim
-         def _execute(self, x):
-             return x - self.avg
-         def _inverse(self, y):
-             return y + self.avg
-
 Test the new node
 
+    >>> class MeanFreeNode(mdp.Node):
+    ...     def __init__(self, input_dim=None, dtype=None):
+    ...         super(MeanFreeNode, self).__init__(input_dim=input_dim, 
+    ...                                            dtype=dtype)
+    ...         self.avg = None
+    ...         self.tlen = 0
+    ...     def _train(self, x):
+    ...         # Initialize the mean vector with the right 
+    ...         # size and dtype if necessary:
+    ...         if self.avg is None:
+    ...             self.avg = mdp.numx.zeros(self.input_dim,
+    ...                                       dtype=self.dtype)
+    ...         self.avg += mdp.numx.sum(x, axis=0)
+    ...         self.tlen += x.shape[0]
+    ...     def _stop_training(self):
+    ...         self.avg /= self.tlen
+    ...         if self.output_dim is None:
+    ...             self.output_dim = self.input_dim
+    ...     def _execute(self, x):
+    ...         return x - self.avg
+    ...     def _inverse(self, y):
+    ...         return y + self.avg
     >>> node = MeanFreeNode()
     >>> x = np.random.random((10,4))
     >>> node.train(x)
@@ -565,43 +557,39 @@ The ``_execute`` and ``_inverse`` methods are not surprising, either::
     ...     def _inverse(self, y):
     ...         return y*self.std + self.avg
 
-.. testsetup:: *
-
-     class UnitVarianceNode(mdp.Node):
-         def __init__(self, input_dim=None, dtype=None):
-             super(UnitVarianceNode, self).__init__(input_dim=input_dim, 
-                                                    dtype=dtype)
-             self.avg = None # average
-             self.std = None # standard deviation
-             self.tlen = 0
-         def _get_train_seq(self):
-             return [(self._train_mean, self._stop_mean),
-                     (self._train_std, self._stop_std)]
-         def _train_mean(self, x):
-             if self.avg is None:
-                 self.avg = mdp.numx.zeros(self.input_dim,
-                                           dtype=self.dtype)
-             self.avg += mdp.numx.sum(x, 0)
-             self.tlen += x.shape[0]
-         def _stop_mean(self):
-             self.avg /= self.tlen
-         def _train_std(self, x):
-             if self.std is None:
-                 self.tlen = 0
-                 self.std = mdp.numx.zeros(self.input_dim,
-                                           dtype=self.dtype)
-             self.std += mdp.numx.sum((x - self.avg)**2., 0)
-             self.tlen += x.shape[0]
-         def _stop_std(self):
-             # compute the standard deviation
-             self.std = mdp.numx.sqrt(self.std/(self.tlen-1))
-         def _execute(self, x):
-             return (x - self.avg)/self.std
-         def _inverse(self, y):
-             return y*self.std + self.avg
-
 Test the new node
-
+    >>> class UnitVarianceNode(mdp.Node):
+    ...     def __init__(self, input_dim=None, dtype=None):
+    ...         super(UnitVarianceNode, self).__init__(input_dim=input_dim, 
+    ...                                                 dtype=dtype)
+    ...         self.avg = None # average
+    ...         self.std = None # standard deviation
+    ...         self.tlen = 0
+    ...     def _get_train_seq(self):
+    ...         return [(self._train_mean, self._stop_mean),
+    ...                 (self._train_std, self._stop_std)]
+    ...     def _train_mean(self, x):
+    ...         if self.avg is None:
+    ...             self.avg = mdp.numx.zeros(self.input_dim,
+    ...                                       dtype=self.dtype)
+    ...         self.avg += mdp.numx.sum(x, 0)
+    ...         self.tlen += x.shape[0]
+    ...     def _stop_mean(self):
+    ...         self.avg /= self.tlen
+    ...     def _train_std(self, x):
+    ...         if self.std is None:
+    ...             self.tlen = 0
+    ...             self.std = mdp.numx.zeros(self.input_dim,
+    ...                                       dtype=self.dtype)
+    ...         self.std += mdp.numx.sum((x - self.avg)**2., 0)
+    ...         self.tlen += x.shape[0]
+    ...     def _stop_std(self):
+    ...         # compute the standard deviation
+    ...         self.std = mdp.numx.sqrt(self.std/(self.tlen-1))
+    ...     def _execute(self, x):
+    ...         return (x - self.avg)/self.std
+    ...     def _inverse(self, y):
+    ...         return y*self.std + self.avg
     >>> node = UnitVarianceNode()
     >>> x = np.random.random((10,4))
     >>> # loop over phases
@@ -654,21 +642,17 @@ The ``_execute`` method::
     ...     def _execute(self, x):
     ...         return mdp.numx.concatenate((x, x), 1)
 
-.. testsetup:: *
-
-     class TwiceNode(mdp.Node):
-         def is_trainable(self): return False
-         def is_invertible(self): return False
-         def _set_input_dim(self, n):
-             self._input_dim = n
-             self._output_dim = 2*n
-         def _set_output_dim(self, n):
-             raise mdp.NodeException, "Output dim can not be set explicitly!"
-         def _execute(self, x):
-             return mdp.numx.concatenate((x, x), 1)
-
 Test the new node
-
+    >>> class TwiceNode(mdp.Node):
+    ...     def is_trainable(self): return False
+    ...     def is_invertible(self): return False
+    ...     def _set_input_dim(self, n):
+    ...         self._input_dim = n
+    ...         self._output_dim = 2*n
+    ...     def _set_output_dim(self, n):
+    ...         raise mdp.NodeException, "Output dim can not be set explicitly!"
+    ...     def _execute(self, x):
+    ...         return mdp.numx.concatenate((x, x), 1)
     >>> node = TwiceNode()
     >>> x = mdp.numx.zeros((5,2))
     >>> x
