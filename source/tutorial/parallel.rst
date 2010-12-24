@@ -31,6 +31,8 @@ PCA and quadratic SFA, so that it makes use of multiple cores on a modern CPU:
     >>> node1 = mdp.nodes.PCANode(input_dim=100, output_dim=10)
     >>> node2 = mdp.nodes.SFA2Node(input_dim=10, output_dim=10)
     >>> parallel_flow = mdp.parallel.ParallelFlow([node1, node2])
+    >>> parallel_flow2 = parallel_flow.copy()
+    >>> parallel_flow3 = parallel_flow.copy()
     >>> n_data_chunks = 10
     >>> data_iterables = [[np.random.random((50, 100))
     ...                    for _ in range(n_data_chunks)]] * 2
@@ -48,19 +50,19 @@ worker processes. The results are then returned to the flow, which puts
 them together in the right way. Note that the ``shutdown`` method should 
 be always called at the end to make sure that the recources used by the 
 scheduler are cleaned up properly. One should therefore put the 
-``shutdown`` call into a safe try/finally statement::
+``shutdown`` call into a safe try/finally statement
 
     >>> scheduler = mdp.parallel.ProcessScheduler()
     >>> try:
-    ...     parallel_flow.train(data_iterables, scheduler=scheduler)
+    ...     parallel_flow2.train(data_iterables, scheduler=scheduler)
     ... finally:
     ...     scheduler.shutdown()
     
 The ``Scheduler`` class also supports the context manager interface of Python.
-One can therefore use a ``with`` statement::
+One can therefore use a ``with`` statement
 
     >>> with mdp.parallel.ProcessScheduler() as scheduler:
-    ...     parallel_flow.train(data_iterables, scheduler=scheduler)
+    ...     parallel_flow3.train(data_iterables, scheduler=scheduler)
     
 The ``with`` statement ensures that ``scheduler.shutdown`` is automatically
 called (even if there is an exception).
