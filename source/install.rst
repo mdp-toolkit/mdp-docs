@@ -80,6 +80,8 @@ Gentoo users can install the ebuild `sci-mathematics/mdp
 <http://git.overlays.gentoo.org/gitweb/?p=proj/sci.git;a=tree;f=sci-mathematics/mdp>`_ from the
 ``science`` overlay.
 
+MDP is also listed in the `Python Package Index <http://pypi.python.org/pypi/MDP>`_.
+
 Installation
 ============
 
@@ -96,15 +98,6 @@ On Debian you can just type: ::
 
     sudo aptitude install python-mdp
 
-On Mac OS X if you use the `MacPorts <http://www.macports.org/>`_ system, just type: ::
-
-    sudo port install py25-mdp-toolkit
-
-or: ::
-
-    sudo port install py26-mdp-toolkit
-
-depending on your favoured version of Python.
 On Gentoo you can use your favourite package manager or, alternatively: ::
 
     emerge layman
@@ -112,8 +105,30 @@ On Gentoo you can use your favourite package manager or, alternatively: ::
     layman -a science
     emerge sci-mathematics/mdp
 
+Users who like to install MDP using Python’s own packaging tools may want to use either the Python Package Index (PyPI) ::
+
+    pip install MDP
+
+or install directly from the repository: ::
+
+    pip install -e git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/mdp-toolkit#egg=MDP
+
+Note that instead of ``pip`` you may also use ``easy_install`` but usually we recommend `pip <http://pip.openplans.org/>`_ (and `virtualenv <http://virtualenv.openplans.org/>`_).
+
+On Mac OS X, if you use the `MacPorts <http://www.macports.org/>`_ system, just type: ::
+
+    sudo port install py25-mdp-toolkit
+
+or: ::
+
+    sudo port install py26-mdp-toolkit
+
+depending on your favoured version of Python. If you happen to use `homebrew <http://mxcl.github.com/homebrew/>`_ as your OS X package manager, you will have to install from the archive or alternatively, use ``pip``.
+
+
 On Windows, the installation of the binary distribution is as easy as executing
 the installer and following the instructions.
+
 
 Testing
 =======
