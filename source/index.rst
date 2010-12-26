@@ -65,12 +65,4 @@ To learn more about MDP:
 * Typical usage :ref:`examples`
 * `API Index <api/index.html>`_
 
-Using MDP is as easy as::
-
-    >>> import mdp
-    >>> # perform pca on some data x
-    ...
-    >>> y = mdp.pca(x)
-    >>> # perform ica on some data x using single precision
-    ...
-    >>> y = mdp.fastica(x, dtype='float32')
+.. include:: tutorial/using_mdp_is_as_easy.rst
