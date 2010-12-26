@@ -17,6 +17,7 @@ div.sphinxsidebar {
     float: left;
     text-align: left;
     font-size: 80%;
+    max-width: 11em;
 }
 
 .clear {
