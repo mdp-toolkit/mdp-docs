@@ -321,21 +321,18 @@ p.rubric {
 h1 {
     margin: 0;
     padding: 0em;
-    font-size: 3em;
-    font-family: times,serif;
+    font-size: 2em;
 }
 
 h2 {
     margin: 1.3em 0 0.2em 0;
-    font-size: 2.5em;
+    font-size: 1.6em;
     padding: 0;
-    font-family: times,serif;
 }
 
 h3 {
     margin: 1em 0 -0.3em 0;
-    font-size: 2em;
-    font-family: times,serif;
+    font-size: 1.2em;
 }
 
 h1 a.anchor, h2 a.anchor, h3 a.anchor, h4 a.anchor, h5 a.anchor, h6 a.anchor {
@@ -557,7 +554,7 @@ div.admonition p.admonition-title {
     color:#01261C;
 }
 
-h1, h2, h3, div.related ul li a, a:visited, a:link, 
+h3, div.related ul li a, a:visited, a:link, 
 div.sphinxsidebar ul li .current {
     color:#AF8320;
 }
@@ -569,11 +566,10 @@ h1 a.anchor, h2 a.anchor, h3 a.anchor, h4 a.anchor, h5 a.anchor, h6 a.anchor {
 a.headerlink {
     color:#CC0000;
 }
-a.headerlink:hover,
-h1 a.anchor:hover, h2 a.anchor:hover, h3 a.anchor:hover, h4 a.anchor:hover,
+h3 a.headerlink:hover,
+h3 a.anchor:hover, h4 a.anchor:hover,
 h5 a.anchor:hover, h6 a.anchor:hover {
     color: #AF8320;
-    background-color: #BFBB7E;
 }
 
 
