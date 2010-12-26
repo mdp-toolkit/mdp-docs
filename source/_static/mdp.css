@@ -52,21 +52,29 @@ div.clearer {
 #header {
     border-width:1px;
     border-style:solid;
+    margin: 0;
+    padding: 0.2em 1em;
 }
 
-#header .td_header {
+#header h1 {
     vertical-align:middle;
-    padding-left:1em;
-    padding-right:1em;
     font-size: 2.5em;
     font-weight:bold;
+    font-family: verdana, sans-serif;
+    margin: 0.2em 0.5em 0.2em 0.5em;
 }
 
-#header .img_header {
-     border-width:2px;
-     border-color:white;
-     border-style:solid;
-     float: right;
+#header h1 a {
+  color: #01261C;
+}
+
+#header #logo {
+    border-width:2px;
+    border-color:white;
+    border-style:solid;
+    float: right;
+    font-size: 2.5em;
+    margin: 0.2em 0.5em 0.2em 0.5em;
 }
 
 a:visited, a:link { 
@@ -545,7 +553,7 @@ ul.keywordmatches li.goodmatch a {
 /* COLORS DEFINITION */
 body { background: white; }
 
-#header,.img_header a:hover, div.sphinxsidebar li a, div.navigation_title a {
+#header, #header #logo a:hover, div.sphinxsidebar li a, div.navigation_title a {
     background-color: #BFBB7E; color:#01261C;
 }
 
@@ -588,11 +596,7 @@ div.sphinxsidebar ul ul li a:hover {
     color: black;
 }
 
-.td_header a {
-    color: #01261C;
-}
-
-.td_header a:hover, div.navigation_title a:hover, div.sphinxsidebar li a:hover { color: #AF8320;}
+#header a:hover, div.navigation_title a:hover, div.sphinxsidebar li a:hover { color: #AF8320;}
 
 
 #header, pre, div.related, div.body, div.admonition, div.warning, div.navigation_title, div.sphinxsidebar li a, hr {
