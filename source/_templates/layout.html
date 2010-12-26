@@ -9,15 +9,22 @@
 {# add mdp logo to the top relbar#}
 {% block relbar1 %}
 <div id="header">
-  <div id="logo">
-      <a href="{{pathto('examples/logo/logo_animation')}}">
-	  <img src="{{pathto('_static/logo.png',1)}}" alt="MDP logo"
-	       title="click to see the animated logo!" class="img_header"/></a>
-  </div>
-  <h1><a href="http://mdp-toolkit.sourceforge.net">
-      Modular toolkit for<br>Data Processing
-  </a></h1>
-  <div class="clear"></div>
+    <table width="100%">
+	<tr>
+	    <td align="left" class="td_header">
+		<a href="http://mdp-toolkit.sourceforge.net">
+		    Modular toolkit for<br>Data Processing
+		</a>
+	    </td>
+	    <td align="right" class="td_header">
+		<a href="{{pathto('examples/logo/logo_animation')}}">
+		    <img src="{{pathto('_static/logo.png',1)}}" alt="MDP logo"
+			 title="click to see the animated logo!" class="img_header"/>
+		</a>
+	    </td>
+	</tr>
+    </table>
+    <div class="clear"></div>
 </div>
 {% endblock %}
 
