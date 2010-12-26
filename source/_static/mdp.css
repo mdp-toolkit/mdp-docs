@@ -73,6 +73,10 @@ div.clearer {
     margin: 0.2em 0.5em 0.2em 0.5em;
 }
 
+#header #logo img {
+    border: none;
+}
+
 a:visited, a:link { 
 	   text-decoration:none;
 }
