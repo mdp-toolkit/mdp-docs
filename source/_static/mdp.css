@@ -87,8 +87,8 @@ ul li {
 
 pre {
     font-family: 'Deja Vu Sans Mono', 'Courier', 'Bitstream Vera Sans Mono', monospace;
-    font-size: 0.95em;
-    letter-spacing: 0.015em;
+    /*font-size: 0.95em;*/
+    /*letter-spacing: 0.015em;*/
     padding: 0.5em;
     border-width: 1px;
     border-style: solid;
@@ -318,18 +318,21 @@ p.rubric {
 h1 {
     margin: 0;
     padding: 0em;
-    font-size: 2em;
+    font-size: 2.5em;
+    font-family: times, serif;
 }
 
 h2 {
     margin: 1.3em 0 0.2em 0;
-    font-size: 1.6em;
+    font-size: 2em;
+    font-family: times, serif;
     padding: 0;
 }
 
 h3 {
     margin: 1em 0 -0.3em 0;
-    font-size: 1.2em;
+    font-size: 1.5em;
+    font-family: times, serif;
 }
 
 h1 a.anchor, h2 a.anchor, h3 a.anchor, h4 a.anchor, h5 a.anchor, h6 a.anchor {
@@ -551,7 +554,7 @@ div.admonition p.admonition-title {
     color:#01261C;
 }
 
-h3, div.related ul li a, a:visited, a:link, 
+h1, h2, h3, div.related ul li a, a:visited, a:link, 
 div.sphinxsidebar ul li .current {
     color:#AF8320;
 }
@@ -563,10 +566,13 @@ h1 a.anchor, h2 a.anchor, h3 a.anchor, h4 a.anchor, h5 a.anchor, h6 a.anchor {
 a.headerlink {
     color:#CC0000;
 }
-h3 a.headerlink:hover,
+
+a.headerlink:hover,
+h1 a.anchor:hover, h2 a.anchor:hover,
 h3 a.anchor:hover, h4 a.anchor:hover,
 h5 a.anchor:hover, h6 a.anchor:hover {
     color: #AF8320;
+    background-color: #BFBB7E;
 }
 
 
