@@ -271,9 +271,8 @@ for the full documentation and interface description.
 
 :api:`mdp.nodes.TimeFramesNode`
     Copy delayed version of the input signal on the space dimensions.
-    ::
 
-       For example, for time_frames=3 and gap=2: 
+    For example, for `time_frames`\ =3 and `gap`\ =2::
     
        [ X(1) Y(1)        [ X(1) Y(1) X(3) Y(3) X(5) Y(5)
          X(2) Y(2)          X(2) Y(2) X(4) Y(4) X(6) Y(6)
@@ -304,7 +303,7 @@ for the full documentation and interface description.
     *An Extension of Slow Feature Analysis for Nonlinear Blind Source Separation.*
     Journal of Machine Learning Research, under revision.
       
-.. admonition:: Didn't you find what you were looking for?
-   
+.. admonition:: Did not find what you were looking for?
+
     If you want to contribute some code or a new
-    algorithm, please do not hesitate to submit it!
+    algorithm, please do not hesitate to :ref:`submit <contact>` it!
