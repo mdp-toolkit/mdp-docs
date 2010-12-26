@@ -3,42 +3,26 @@
 {%- if pagename == 'index' %}
 {% set title= 'Homepage' %}
 {%- endif %}
+
 {# remove the index, search and contents links in the relbars #}
 {% block rootrellink %}{% endblock %}
-
-
-{# add mdp logo to the top relbar, keep links for tutorial #}
+{# add mdp logo to the top relbar#}
 {% block relbar1 %}
-
 <div id="header">
-    <table width="100%">
-	<tr>
-	    <td align="left" class="td_header">
-		<a href="http://mdp-toolkit.sourceforge.net">
-		    Modular toolkit for<br>Data Processing
-		</a>
-	    </td>
-	    <td align="right" class="td_header">
-		<a href="{{pathto('logo_animation')}}">
-		    <img src="{{pathto('_static/logo.png',1)}}" alt="MDP logo"
-			 title="click to see the animated logo!" class="img_header"/>
-		</a>
-	    </td>
-	</tr>
-    </table>
-    <div class="clear"></div>
+  <div id="logo">
+      <a href="{{pathto('logo_animation')}}">
+	  <img src="{{pathto('_static/logo.png',1)}}" alt="MDP logo"
+	       title="click to see the animated logo!" class="img_header"/></a>
+  </div>
+  <h1><a href="http://mdp-toolkit.sourceforge.net">
+      Modular toolkit for<br>Data Processing
+  </a></h1>
+  <div class="clear"></div>
 </div>
-{%- if pagename[:8] == 'tutorial' %}
-    {{ super() }}
-{%- endif %}
 {% endblock %}
 
-{# remove the lower relbar, keep for tutorial #}
-{% block relbar2 %}
-{%- if pagename[:8] == 'tutorial' %}
-    {{ super() }}
-{%- endif %}
-{% endblock %}
+{# remove the lower relbar#}
+{% block relbar2 %} {% endblock %}
 
 {# put the sidebar before the body #}
 {% block sidebar1 %}{{ sidebar() }}{% endblock %}
@@ -52,6 +36,16 @@
 {% block sidebarsearch %}
 <div class="navigation_title"><a href="{{pathto('index')}}">Home</a></div>
 {{ toctree() }}
+{% endblock %}
+{% block document %}
+   {# add relbar only for tutorial within the body #}
+   {%- if pagename[:8] == 'tutorial' %}
+        {{ relbar() }}
+   {%- endif %}
+   {{ super() }}
+   {%- if pagename[:8] == 'tutorial' %}
+        {{ relbar() }}
+   {%- endif %}
 {% endblock %}
 {% block footer %} 
 <div class="footer">
