@@ -24,12 +24,10 @@ for the full documentation and interface description.
      this `interesting article <http://docs.sun.com/source/806-3568/ncg_goldberg.html>`_.
 
 :api:`mdp.utils.DelayCovarianceMatrix`
-
      This class stores an empirical covariance matrix between the signal and
      time delayed signal that can be updated incrementally.
 
 :api:`mdp.utils.MultipleCovarianceMatrices`
-
      Container class for multiple covariance matrices to easily
      execute operations on all matrices at the same time.
     
@@ -57,7 +55,6 @@ for the full documentation and interface description.
         >>> for line in progressinfo(open_file, nlines):
         ...     do_something(line)
           
-
     A few examples of the available layouts:: 
  
         [===================================73%==============>...................]
@@ -67,7 +64,6 @@ for the full documentation and interface description.
         23% [02:01:28] - [00:12:37]
 
 :api:`mdp.utils.QuadraticForm`
-
     Define an inhomogeneous quadratic form as ``1/2 x'Hx + f'x + c``.
     This class implements the quadratic form analysis methods
     presented in:
@@ -141,7 +137,6 @@ Graph module
 MDP contains ``mdp.graph``, a lightweight package to handle directed graphs.
 
 :api:`mdp.graph.Graph`
-
     Represent a directed graph. This class contains several methods
     to create graph structures and manipulate them, among which
     
@@ -151,17 +146,20 @@ MDP contains ``mdp.graph``, a lightweight package to handle directed graphs.
         the single nodes.
         Return an equivalent nested list with the nodes instead of the values.
 
-        Example::
+        Example:
  
-            >>> a=b=c=d=e=None
-            >>> g.add_tree( (a, b, (c, d ,e)) )
-            # corresponds to this tree structure, with all node values set to None:
+          >>> g = mdp.graph.Graph()
+          >>> a = b = c = d = e = None
+          >>> nodes = g.add_tree( (a, b, (c, d ,e)) )
 
-                    a
+        Graph ``g`` corresponds to this tree, with all node values
+        being ``None``::
+
+                  a
+                 / \
+                b   c
                    / \
-                  b   c
-                     / \
-                    d   e
+                  d   e
 
     - ``topological_sort``: Perform a topological sort of the nodes.
 
@@ -170,12 +168,11 @@ MDP contains ``mdp.graph``, a lightweight package to handle directed graphs.
     - ``bfs``, ``undirected_bfs``: Perform Breadth First sort.
 
     - ``connected_components``: Return a list of lists containing
-        the nodes of all connected components of the graph.
-    
+      the nodes of all connected components of the graph.
+
     - ``is_weakly_connected``: Return True if the graph is weakly connected.
 
 :api:`mdp.graph.GraphEdge`
-
     Represent a graph edge and all information attached to it.
 
 :api:`mdp.graph.GraphNode`
