@@ -1,6 +1,10 @@
 body {
     font-family:verdana, sans-serif;
     text-align:justify;
+    max-width: 62em;
+    font-size: 80%;
+    margin-right: auto;
+    margin-left: auto;
 }
 
 
@@ -16,7 +20,6 @@ div.sphinxsidebar {
     margin-right:1em;
     float: left;
     text-align: left;
-    font-size: 80%;
     max-width: 11em;
 }
 
@@ -30,15 +33,14 @@ div.sphinxsidebar {
 div.document {
     background-color: white;
     display: table;
-
     margin-top: 0em;
+    float:right;
 }
 
 div.body {
     margin-bottom: 1em;
     max-width: 50em;
     text-align: justify;
-    font-size: 80%;
 }
 
 div.clearer {
@@ -302,6 +304,7 @@ div.sphinxsidebar ul ul ul li{
 
 div.sphinxsidebar ul ul li a{
     text-decoration: none;
+    padding: 0.1em;
     display: block;
     border-width: 0px;
     border-style: solid;
