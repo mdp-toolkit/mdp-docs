@@ -9,11 +9,9 @@ Refer to the
 for the full documentation and interface description.
 
 :api:`mdp.nodes.AdaptiveCutoffNode`
-
     Works like the `HistogramNode`. The cutoff bounds are then chosen such     that a given fraction of the training data would have been clipped.
 
 :api:`mdp.nodes.CuBICANode`
- 
     Perform Independent Component Analysis using the CuBICA algorithm.
 
     Reference: Blaschke, T. and Wiskott, L. (2003).
@@ -24,15 +22,12 @@ for the full documentation and interface description.
     Hyvarinen A., Karhunen J., Oja E. (2001). *Independent Component Analysis*, Wiley.
 
 :api:`mdp.nodes.CutoffNode`
-
     Clip the data at the specified upper and lower bounds.
 
 :api:`mdp.nodes.DiscreteHopfieldClassifier`
-
     Learns discrete patterns and can retrieve them again even when they are slightly distorted.
 
 :api:`mdp.nodes.EtaComputerNode`
-
     Compute the eta values of the normalized training data.
     The delta value of a signal is a measure of its temporal
     variation, and is defined as the mean of the derivative squared,
@@ -50,7 +45,6 @@ for the full documentation and interface description.
     14(4):715-770.
 
 :api:`mdp.nodes.FANode`
-
     Perform Factor Analysis. The current implementation should be most
     efficient for long data sets: the sufficient statistics are
     collected in the training phase, and all EM-cycles are performed at
@@ -58,7 +52,6 @@ for the full documentation and interface description.
     `Max Welling's classnotes <http://www.ics.uci.edu/~welling/classnotes/classnotes.html>`_ in the chapter "Linear Models".
 
 :api:`mdp.nodes.FastICANode`
-
     Perform Independent Component Analysis using the FastICA algorithm.
    
     Reference: Aapo Hyvarinen (1999).
@@ -69,7 +62,6 @@ for the full documentation and interface description.
     Wiley.
 
 :api:`mdp.nodes.FDANode`
-
     Perform a (generalized) Fisher Discriminant Analysis of its
     input. It is a supervised node that implements FDA using a
     generalized eigenvalue approach.
@@ -79,13 +71,11 @@ for the full documentation and interface description.
     Oxford Press, pp. 105-112.
 
 :api:`mdp.nodes.GaussianClassifierNode`
-
     Perform a supervised Gaussian classification.  Given a set of
     labelled data, the node fits a gaussian distribution to each
     class.
 
 :api:`mdp.nodes.GrowingNeuralGasNode`
-
     Learn the topological structure of the input data by building a corresponding
     graph approximation. 
    
@@ -95,17 +85,14 @@ for the full documentation and interface description.
     Processing Systems 7*, pages 625-632. MIT Press, Cambridge MA, 1995.
 
 :api:`mdp.nodes.HistogramNode`
-
     Store a fraction of the incoming data during training. This data can then
     be used to analyse the histogram of the data.
 
 :api:`mdp.nodes.HitParadeNode`
-
     Collect the first ``n`` local maxima and minima of the training signal
     which are separated by a minimum gap ``d``.
 
 :api:`mdp.nodes.HLLENode`
-
     Original code contributed by Jake VanderPlas.
 
     Perform a Hessian Locally Linear Embedding analysis on the data.
@@ -117,7 +104,6 @@ for the full documentation and interface description.
     100(10):5591-5596 (2003).
 
 :api:`mdp.nodes.ISFANode`
-
     Perform Independent Slow Feature Analysis on the input data.
    
     More information about ISFA can be found in:
@@ -126,7 +112,6 @@ for the full documentation and interface description.
     Neural Computation 19(4):994-1021 (2007).
 
 :api:`mdp.nodes.JADENode`
-
     Original code contributed by Gabriel Beckers.
 
     Perform Independent Component Analysis using the JADE algorithm.
@@ -143,11 +128,9 @@ for the full documentation and interface description.
     Wiley.
 
 :api:`mdp.nodes.KMeansClassifier`
-
     Employs K-Means Clustering for a given number of centroids.
 
 :api:`mdp.nodes.LibSVMClassifier`
-
     The LibSVMClassifier class acts as a wrapper around the LibSVM
     library for support vector machines, which needs to be installed
     as a python module. The software can be found `here <http://www.csie.ntu.edu.tw/~cjlin/libsvm/>`_
@@ -160,11 +143,9 @@ for the full documentation and interface description.
     Chih-Chung Chang and Chih-Jen Lin, *LIBSVM : a library for support vector machines* (2001). 
 
 :api:`mdp.nodes.LinearRegressionNode`
-
     Compute least-square, multivariate linear regression on the input data.
 
 :api:`mdp.nodes.LLENode`
-
     Original code contributed by Jake VanderPlas.
 
     Perform a Locally Linear Embedding analysis on the data.
@@ -177,7 +158,6 @@ for the full documentation and interface description.
     References: Sam Roweis and Lawrence Saul, *Nonlinear dimensionality reduction by locally linear embedding*, Science 290(5500):2323-2326, 2000.
 
 :api:`mdp.nodes.NIPALSNode`
-
     Original code contributed by Michael Schmuker, Susanne Lezius, and Farzad Farkhooi.
 
     Perform Principal Component Analysis using the NIPALS algorithm.
@@ -199,13 +179,11 @@ for the full documentation and interface description.
     I.T. Jolliffe, *Principal Component Analysis*, Springer-Verlag (1986).
 
 :api:`mdp.nodes.NoiseNode`
-
     Original code contributed by Mathias Franzius.
    
     Inject multiplicative or additive noise into the input data.
 
 :api:`mdp.nodes.PCANode`
-
     Filter the input data throug the most significatives of its
     principal components.
  
@@ -214,20 +192,16 @@ for the full documentation and interface description.
     I.T. Jolliffe, *Principal Component Analysis*, Springer-Verlag (1986).
 
 :api:`mdp.nodes.PerceptronClassifier`
-
     Trains a single binary perceptron with multiple inputs.
 
 :api:`mdp.nodes.PolynomialExpansionNode`
-
     Perform expansion in a polynomial space.
 
 :api:`mdp.nodes.QuadraticExpansionNode`
-
     Perform expansion in the space formed by all linear and quadratic
     monomials.
 
 :api:`mdp.nodes.RBMNode`
-
     Implementation of a Restricted Boltzmann Machine.
 
     For more information on RBMs, see
@@ -237,7 +211,6 @@ for the full documentation and interface description.
 
 
 :api:`mdp.nodes.RBMWithLabelsNode`
-
     Implementation of a Restricted Boltzmann Machine with softmax labels.
 
     For more information on RBMs, see
@@ -249,7 +222,6 @@ for the full documentation and interface description.
     algorithm for deep belief nets*, Neural Computation, 18:1527-1554 (2006). 
    
 :api:`mdp.nodes.ShogunSVMClassifier`
-
     The ShogunSVMClassifier class works as a wrapper class for accessing the
     SHOGUN machine learning toolbox. We use the python_modular wrapper to access SHOGUN
     and SHOGUN must not be older than version 0.9. **Warning**: Because it is a new 
@@ -266,7 +238,6 @@ for the full documentation and interface description.
     Learning*, Journal of Machine Learning Research, 7:1531-1565 (2006).
 
 :api:`mdp.nodes.SFANode`
-
     Extract the slowly varying components from the input data.
  
     More information about Slow Feature Analysis can be found in
@@ -274,7 +245,6 @@ for the full documentation and interface description.
     Learning of Invariances*, Neural Computation, 14(4):715-770 (2002).
 
 :api:`mdp.nodes.SFA2Node`
-
     Get an input signal, expand it in the space of
     inhomogeneous polynomials of degree 2 and extract its slowly varying
     components. The ``get_quadratic_form`` method returns the input-output
@@ -285,11 +255,9 @@ for the full documentation and interface description.
     Learning of Invariances*, Neural Computation, 14(4):715-770 (2002).
 
 :api:`mdp.nodes.SimpleMarkovClassifier`
-
     Learns the probability with which a label is assigned to a label.
 
 :api:`mdp.nodes.TDSEPNode`
-
     Perform Independent Component Analysis using the TDSEP algorithm.
     Note that TDSEP, as implemented in this Node, is an online algorithm,
     i.e. it is suited to be trained on huge data sets, provided that the
@@ -302,7 +270,6 @@ for the full documentation and interface description.
     Artificial Neural Networks (ICANN 1998).
 
 :api:`mdp.nodes.TimeFramesNode`
-
     Copy delayed version of the input signal on the space dimensions.
     ::
 
@@ -319,13 +286,11 @@ for the full documentation and interface description.
          ...  ...  ]
 
 :api:`mdp.nodes.WhiteningNode`
-
     "Whiten" the input data by filtering it through the most
     significatives of its principal components. All output
     signals have zero mean, unit variance and are decorrelated.
 
 :api:`mdp.nodes.XSFANode`
-
     Perform Non-linear Blind Source Separation using Slow Feature Analysis.
     This node is designed to iteratively extract statistically
     independent sources from (in principle) arbitrary invertible
