@@ -30,6 +30,12 @@ div.sphinxsidebar {
 div.document {
     background-color: white;
     display: table;
+
+    margin-top: 0.3em;
+    /* sidebar has margin-top 1em, but with a smaller font-size,
+       so our margin-top here is just changed to appear the same size.
+       The idea is to align the top of e.g. 'Installation' and 'Home'.
+     */
 }
 
 div.body {
