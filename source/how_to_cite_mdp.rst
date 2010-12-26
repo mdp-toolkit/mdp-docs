@@ -1,4 +1,4 @@
- .. _how_to_cite_mdp:
+.. _how_to_cite_mdp:
 
 ***************
 How to cite MDP
