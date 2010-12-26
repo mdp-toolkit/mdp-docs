@@ -42,7 +42,7 @@ Let us define two bogus node classes to be used as examples of nodes
     ...     def _train(self, x):
     ...         pass
     >>> class BogusNode2(mdp.Node):
-    ...     """This node does nothing. But it's not trainable nor invertible.
+    ...     """This node does nothing. But it's neither trainable nor invertible.
     ...     """
     ...     def is_trainable(self): return False
     ...     def is_invertible(self): return False

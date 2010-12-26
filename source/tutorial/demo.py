@@ -268,7 +268,7 @@ class BogusNode(mdp.Node):
         pass
 # ...
 class BogusNode2(mdp.Node):
-    """This node does nothing. But it's not trainable nor invertible.
+    """This node does nothing. But it's neither trainable nor invertible.
     """
     def is_trainable(self): return False
     def is_invertible(self): return False
