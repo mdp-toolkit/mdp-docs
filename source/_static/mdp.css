@@ -12,7 +12,7 @@ div.footer {
 }
 
 div.sphinxsidebar {
-    margin-top:1em;
+    margin-top:0em;
     margin-right:1em;
     float: left;
     text-align: left;
@@ -31,11 +31,7 @@ div.document {
     background-color: white;
     display: table;
 
-    margin-top: 0.3em;
-    /* sidebar has margin-top 1em, but with a smaller font-size,
-       so our margin-top here is just changed to appear the same size.
-       The idea is to align the top of e.g. 'Installation' and 'Home'.
-     */
+    margin-top: 0em;
 }
 
 div.body {
@@ -52,7 +48,7 @@ div.clearer {
 #header {
     border-width:1px;
     border-style:solid;
-    margin: 0;
+    margin: 0 0 1em 0;
     padding: 0.2em 1em;
 }
 
@@ -404,7 +400,6 @@ div.sphinxsidebar ul.toc ul li {
 
 div.admonition, div.warning {
     font-size: 0.9em;
-    margin: 1em 0 0 0;
     border-width: 1px;
     border-style: solid;
 }
