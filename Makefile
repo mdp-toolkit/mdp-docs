@@ -52,7 +52,7 @@ epydoc:
 	mkdir -p $(APIBUILD)
 	$(EPYDOC) \
 	--html -o $(APIBUILD) --name="Modular toolkit for Data Processing MDP" \
-	--url="http://mdp-toolkit.sourceforge.net"  \
+	--url="../index.html"  \
 	--css=API.css \
 	--show-frames \
 	--introspect-only --no-sourcecode --no-imports --redundant-details \
