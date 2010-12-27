@@ -5,9 +5,11 @@ Classifier nodes
 New in MDP 2.6 is the ``ClassifierNode`` base class which offers a simple
 interface for creating classification tasks. Usually, one does not want to use
 the classification output in a flow but extract this information independently.
-Most classification nodes will therefore simply return the identity function on
+By default classification nodes will therefore simply return the identity function on
 ``execute``; all classification work is done with the new methods ``label``,
-``prob`` and ``rank``.
+``prob`` and ``rank``. However, if a classification node is the last node in a flow
+then it is possible to perform the classification as part of the normal flow
+execution by setting the ``execute_method`` attribute (more on this later).
 
 .. testsetup:: *
 
@@ -48,3 +50,16 @@ Finally, it is possible to get the ranking of the labels, starting with the like
 New nodes should inherit from ``ClassifierNode`` and implement the
 ``_label`` and ``_prob`` methods. The public ``rank`` method will be
 created automatically from ``prob``.
+
+As mentioned earlier it is possible to perform the classification
+in via the ``execute`` method of a classifier node. Every classifier node
+has an ``execute_method`` attribite which can be set to the string values
+``"label"``, ``"rank"``, or ``"prob"``. The ``execute`` method of the node
+will then automatically call the indicated classification method and return
+the result. This is especially useful when the classification node is the
+last node in a flow, because then the normal flow execution can be used
+to get the classification results.  An example application is given
+in the MNSIT handwritten digits classification example.
+
+The ``execute_method`` attribute can be also set when the node
+is created via the ``execute_method`` argument of the ``__init__`` method.
