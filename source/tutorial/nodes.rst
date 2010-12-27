@@ -137,7 +137,6 @@ be stored in memory or when it has to be created on-the-fly.
     >>> for i in range(100):
     ...     x = np.random.random((100, 25))
     ...     pcanode1.train(x)
-    >>>
 
 Some nodes don't need to or cannot be trained
 

@@ -32,7 +32,7 @@ __ http://packages.ubuntu.com/python-mdp
 .. _py26-mdp-toolkit:
    http://trac.macports.org/browser/trunk/dports/python/py26-mdp-toolkit/Portfile
 .. _`sci-mathematics/mdp`:
-   http://git.overlays.gentoo.org/gitweb/?p=proj/sci.git;a=tree;f=sci-mathematics/mdp>
+   http://git.overlays.gentoo.org/gitweb/?p=proj/sci.git;a=tree;f=sci-mathematics/mdp
 
 Debian, Ubuntu and derivatives
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
