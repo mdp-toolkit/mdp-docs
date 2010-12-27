@@ -65,8 +65,7 @@ release = '2.6'
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['license.rst',
-                    'main.rst',
+exclude_patterns = ['main.rst',
                     'tutorial/using_mdp_is_as_easy.rst',
                     ]
 
