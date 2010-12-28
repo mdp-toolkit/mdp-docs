@@ -4,6 +4,8 @@
 Nodes
 =====
 
+.. codesnippet::
+
 A *node* is the basic building block of an MDP application.  It
 represents a data processing element, for example a learning
 algorithm, a data filter, or a visualization step (see the :ref:`node-list` 
