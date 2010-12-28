@@ -215,3 +215,6 @@ import mdp
 import numpy as np
 np.random.seed(0)
 """
+
+# set path for download links in genmodule
+genmodule_path = "code"
