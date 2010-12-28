@@ -20,7 +20,7 @@ div.sphinxsidebar {
     margin-right:1em;
     float: left;
     text-align: left;
-    max-width: 11em;
+    width: 11em;
 }
 
 .clear {
@@ -32,9 +32,8 @@ div.sphinxsidebar {
 
 div.document {
     background-color: white;
-    display: table;
     margin-top: 0em;
-    float:right;
+    margin-left: 12em;
 }
 
 div.body {
