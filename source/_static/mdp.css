@@ -3,6 +3,8 @@ body {
     text-align:justify;
     max-width: 62em;
     font-size: 80%;
+    padding-left: 0.5em;
+    padding-right: 0.5em;
     margin-right: auto;
     margin-left: auto;
 }

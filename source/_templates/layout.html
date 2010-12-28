@@ -4,6 +4,10 @@
 {% set title= 'Homepage' %}
 {%- endif %}
 
+{% block extrahead %} 
+<meta name="viewport" content="width=740" />
+{% endblock %} 
+
 {# remove the index, search and contents links in the relbars #}
 {% block rootrellink %}{% endblock %}
 {# add mdp logo to the top relbar#}
