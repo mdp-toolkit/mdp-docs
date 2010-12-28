@@ -1,4 +1,4 @@
-.. _examples_lle:
+.. _lle:
 
 Locally Linear Embedding
 ========================

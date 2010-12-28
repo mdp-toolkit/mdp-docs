@@ -1,3 +1,5 @@
+.. _classifiers:
+
 ================
 Classifier nodes
 ================

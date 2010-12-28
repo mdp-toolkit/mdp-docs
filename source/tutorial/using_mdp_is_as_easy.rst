@@ -1,3 +1,5 @@
+.. _using_mdp_is_as_easy:
+
 Using MDP is as easy as
 
     >>> import mdp

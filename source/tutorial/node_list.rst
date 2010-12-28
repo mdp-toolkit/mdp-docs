@@ -1,4 +1,4 @@
-.. _node-list:
+.. _node_list:
 
 =========
 Node List

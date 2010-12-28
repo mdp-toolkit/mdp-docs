@@ -1,3 +1,5 @@
+.. _additional_utilities:
+
 ====================
 Additional utilities
 ====================

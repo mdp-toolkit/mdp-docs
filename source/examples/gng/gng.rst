@@ -1,4 +1,4 @@
-.. _examples_gng:
+.. _gng:
 
 Growing Neural Gas
 ==================

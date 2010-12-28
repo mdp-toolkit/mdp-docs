@@ -1,4 +1,4 @@
-.. _examples_logmap:
+.. _logmap:
 
 Logistic Maps
 =============

@@ -1,4 +1,4 @@
-.. _training_animation:
+.. _animated_training:
 
 The Animation of Training
 =========================
