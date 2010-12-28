@@ -39,7 +39,7 @@ div.document {
 
 div.body {
     margin-bottom: 1em;
-    max-width: 50em;
+    width: 50em;
     text-align: justify;
 }
 
