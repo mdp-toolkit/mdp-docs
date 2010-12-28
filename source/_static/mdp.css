@@ -612,3 +612,12 @@ pre {
     background-color: #f8f8f8;
 }
 
+@media print {
+    .sphinxsidebar, .footer {
+	display: none;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+	page-break-after: avoid;
+    }
+}
