@@ -4,7 +4,7 @@
 # You can set these variables from the command line.
 SPHINXOPTS    =
 SPHINXBUILD   = PYTHONPATH=$(PYTHONPATH) sphinx-build
-PAPER         =
+PAPER         = a4
 BUILDDIR      = build
 
 # mdp specific modifications
@@ -12,6 +12,7 @@ PYTHONPATH    = ext:$(MDPTOOLKIT)
 EPYDOC        = epydoc
 MDPTOOLKIT    = ../mdp-toolkit
 APIBUILD      = $(BUILDDIR)/html/api
+CODEDIR       = source/code
 
 # Internal variables.
 PAPEROPT_a4     = -D latex_paper_size=a4
@@ -155,5 +156,6 @@ doctest:
 
 genmodule:
 	$(SPHINXBUILD) -b genmodule $(ALLSPHINXOPTS) $(BUILDDIR)/genmodule
+	cp $(BUILDDIR)/genmodule/* $(CODEDIR)
 	@echo "Generation of module from doctest finished, look at the " \
 	      "results in $(BUILDDIR)/genmodule/."
