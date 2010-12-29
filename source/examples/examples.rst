@@ -12,6 +12,7 @@ Examples
    logo/logo_animation.rst
    bayes_guesser/bayes_guesser.rst
    word_generator/word_generator.rst
+   slideshow/slideshow.rst
 
 Here are examples on how to use MDP for typical machine learning
 applications:
@@ -26,7 +27,7 @@ applications:
 * `hinet_html.py`__ — Get the HTML representation for a simple hinet network.
 * `benchmark_parallel.py`__ — Simple benchmark to compare the different
   schedulers in MDP.
-* `slideshow.py`__ and `slideshow_double.py`__ — Created slideshows of
+* :ref:`slideshow` and :ref:`slideshow_double.py` — Created slideshows of
   matplotlib plots, demonstrates the slideshow module in MDP.
 * `hinetplaner`__ — Interactive HTML/JS/AJAX based GUI for constructing special
   hinet networks. This is a complicated example which won't teach you much
@@ -34,10 +35,6 @@ applications:
 
 __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=blob_plain;f=hinet_html.py
 __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=blob_plain;f=benchmark_parallel.py
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=blob_plain;f=bayes_guesser.py
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=blob_plain;f=word_generator.py
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=blob_plain;f=slideshow.py
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=blob_plain;f=slideshow_double.py
 __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=tree;f=hinetplaner
 
 The following examples use and illustrate BiMDP.
