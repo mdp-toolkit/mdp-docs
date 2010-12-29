@@ -12,6 +12,25 @@ from sphinx.builders import Builder
 from sphinx.util.console import bold
 from sphinx.util.compat import Directive, make_admonition
 
+def write_if_changed(filename, text, logger):
+    """Write file to disk, only if contents would be different.
+
+    :Return: True if file was actually written
+    """
+    try:
+        file = codecs.open(filename, 'rw', encoding='utf-8')
+    except IOError:
+        file = codecs.open(filename, 'w', encoding='utf-8')
+    else:
+        if file.read() == text:
+            file.close()
+            logger.info('%s is unchanged' % filename)
+            return False
+        file.seek(0)
+    with file as file:
+        file.write(text)
+    return True
+
 RSTTEXT="""\
 .. _%s:
 
@@ -143,13 +162,12 @@ class GenmoduleBuilder(Builder):
 
     def write_code(self, docname, code):
         text = self.header + '\n'.join(code)
-        lines = text.count('\n')
-        self.total_lines += lines
         flname = self.get_module_name(docname, '.py')
-        with codecs.open(flname, 'w', encoding='utf-8') as fl:
-            fl.write(text)
-        self.files += 1
-        self.info('Wrote %d lines to %s' % (lines, self.shortname(flname)))
+        if write_if_changed(flname, text, self):
+            self.files += 1
+            lines = text.count('\n')
+            self.total_lines += lines
+            self.info('Wrote %d lines to %s' % (lines, self.shortname(flname)))
 
     def write_rst(self, docname):
         rstname = self.get_module_name(docname, '.rst')
@@ -165,9 +183,8 @@ class GenmoduleBuilder(Builder):
                           overline,
                           os.path.basename(download), download,
                           include)
-        with codecs.open(rstname, 'w', encoding='utf-8') as fl:
-            fl.write(text)
-        self.info('Wrote link page to %s' % self.shortname(rstname))
+        if write_if_changed(rstname, text, self):
+            self.info('Wrote link page to %s' % self.shortname(rstname))
         self.docs.append(self.get_module_name(docname, '.rst', abs=False))
 
     def write_toctree(self):
@@ -178,9 +195,8 @@ class GenmoduleBuilder(Builder):
                 '=============\n',
                 '.. toctree::\n']
         text.extend('   '+doc for doc in self.docs)
-        with codecs.open(name, 'w', encoding='utf-8') as fl:
-            fl.write('\n'.join(text))
-        self.info(bold('Created toctree page in %s' % self.shortname(name)))
+        if write_if_changed(name, '\n'.join(text), self):
+            self.info(bold('Created toctree page in %s' % self.shortname(name)))
 
 
 def setup(app):
