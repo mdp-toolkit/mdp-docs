@@ -14,6 +14,7 @@ Examples
    word_generator/word_generator.rst
    slideshow/slideshow.rst
    gradnewton/gradnewton.rst
+   pp_simple_slave_test/pp_simple_slave_test.rst
 
 Here are examples on how to use MDP for typical machine learning
 applications:
