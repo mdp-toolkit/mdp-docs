@@ -73,7 +73,7 @@ class CodeSnippetDirective(Directive):
                              self.block_text, self.state, self.state_machine)
         return [targetnode] + ad
 
-class GenmoduleBuilder(Builder):
+class CodeSnippetBuilder(Builder):
     name = 'codesnippet'
 
     def init(self):
@@ -198,7 +198,7 @@ class GenmoduleBuilder(Builder):
 
 
 def setup(app):
-    app.add_builder(GenmoduleBuilder)
+    app.add_builder(CodeSnippetBuilder)
     app.add_config_value('codesnippet_path', '', 'env')
     app.add_config_value('codesnippet_strip_doctest_directives', True, False)
     app.add_directive('codesnippet', CodeSnippetDirective)
