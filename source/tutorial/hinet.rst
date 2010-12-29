@@ -3,6 +3,7 @@
 =====================
 Hierarchical Networks
 =====================
+.. codesnippet::
 
 The ``hinet`` subpackage makes it possible to
 construct arbitrary feed-forward architectures, and in particular

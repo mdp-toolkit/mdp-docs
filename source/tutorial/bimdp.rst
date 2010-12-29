@@ -3,6 +3,7 @@
 *****
 BiMDP
 *****
+.. codesnippet::
 
 BiMDP defines a framework for more general flow sequences, involving 
 top-down processes (e.g. for error backpropagation) and loops. So 

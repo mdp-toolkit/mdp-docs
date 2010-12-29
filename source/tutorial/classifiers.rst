@@ -3,6 +3,7 @@
 ================
 Classifier nodes
 ================
+.. codesnippet::
 
 New in MDP 2.6 is the ``ClassifierNode`` base class which offers a simple
 interface for creating classification tasks. Usually, one does not want to use

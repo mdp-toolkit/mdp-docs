@@ -3,6 +3,7 @@
 =========
 Iterables
 =========
+.. codesnippet::
 
 Python allows user-defined classes to support iteration,
 as described in the `Python docs 

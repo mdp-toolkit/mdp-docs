@@ -3,12 +3,11 @@
 =====
 Nodes
 =====
-
 .. codesnippet::
 
 A *node* is the basic building block of an MDP application.  It
 represents a data processing element, for example a learning
-algorithm, a data filter, or a visualization step (see the :ref:`node-list` 
+algorithm, a data filter, or a visualization step (see the :ref:`node_list` 
 section for an exhaustive list and references).
 
 Each node can have one or more *training phases*, during which the

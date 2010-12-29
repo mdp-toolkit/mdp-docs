@@ -3,6 +3,8 @@
 Growing Neural Gas
 ==================
 
+.. codesnippet::
+
 .. toctree::
    :hidden:
    

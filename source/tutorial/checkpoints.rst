@@ -3,6 +3,7 @@
 ===========
 Checkpoints
 ===========
+.. codesnippet::
 
 It can sometimes be useful to execute arbitrary functions at the end
 of the training or execution phase, for example to save the internal

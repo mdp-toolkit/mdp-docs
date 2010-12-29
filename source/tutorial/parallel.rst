@@ -3,6 +3,7 @@
 ===============
 Parallelization
 ===============
+.. codesnippet::
 
 The ``parallel`` package adds the ability to parallelize the training 
 and execution of MPD flows. This package is split into two decoupled parts.

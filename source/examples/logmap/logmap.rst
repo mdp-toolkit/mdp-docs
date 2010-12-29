@@ -2,6 +2,7 @@
 
 Logistic Maps
 =============
+.. codesnippet::
 
 In this example we show MDP usage in a machine learning application, and 
 use non-linear Slow Feature Analysis for processing of non-stationary 

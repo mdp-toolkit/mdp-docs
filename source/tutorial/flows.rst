@@ -3,6 +3,7 @@
 =====
 Flows
 =====
+.. codesnippet::
 
 A *flow* is a sequence of nodes that are trained and executed
 together to form a more complex algorithm.  Input data is sent to the

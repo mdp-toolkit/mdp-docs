@@ -36,8 +36,7 @@ the Python interpreter. In addition to that, an automatically generated
      >>> import mdp
      >>> import numpy as np
 
-  You'll find all the code of this tutorial within the ``demo`` directory
-  in the MDP installation path. 
+  You'll find all the code of this tutorial :ref:`here <code_snippets>`.
 
 .. toctree::
 

@@ -3,8 +3,6 @@
 Quick Start
 ===========
 
-.. include:: ../main.rst
-
 .. include:: using_mdp_is_as_easy.rst
 
 MDP requires the numerical Python extensions `NumPy`_ or `SciPy`_. At

@@ -3,6 +3,7 @@
 ====================
 Additional utilities
 ====================
+.. codesnippet::
 
 MDP offers some additional utilities of general interest
 in the ``mdp.utils`` module. Refer to the

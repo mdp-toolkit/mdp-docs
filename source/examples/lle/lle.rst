@@ -2,6 +2,7 @@
 
 Locally Linear Embedding
 ========================
+.. codesnippet::
 
 Locally linear embedding (LLE) approximates the input data with a
 low-dimensional surface and reduces its dimensionality by learning

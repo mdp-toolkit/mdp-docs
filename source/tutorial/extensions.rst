@@ -3,11 +3,11 @@
 ===============
 Node Extensions
 ===============
+.. codesnippet::
 
-.. Note::
-    The node extension mechanism is an advanced topic, so you might want to
-    skip this section at first. The examples here partly use the ``parallel``
-    and ``hinet`` packages, which are explained later in the tutorial.
+The node extension mechanism is an advanced topic, so you might want to
+skip this section at first. The examples here partly use the ``parallel``
+and ``hinet`` packages, which are explained later in the tutorial.
 
 The node extension mechanism makes it possible to dynamically add methods or
 class attributes for specific features to node classes (e.g. for
