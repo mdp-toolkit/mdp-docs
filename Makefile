@@ -156,6 +156,7 @@ doctest:
 
 genmodule:
 	$(SPHINXBUILD) -b genmodule $(ALLSPHINXOPTS) $(BUILDDIR)/genmodule
+	rm -rf $(CODEDIR)
 	mkdir -p $(CODEDIR)
 	cp $(BUILDDIR)/genmodule/* $(CODEDIR)
 	@echo "Generation of module from doctest finished, look at the " \
