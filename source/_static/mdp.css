@@ -616,11 +616,11 @@ div.admonition-codesnippet p.admonition-title {
 body { background: white; }
 
 #header,.img_header a:hover, div.sphinxsidebar li a, div.navigation_title a {
-    background-color: silver; color:#01261C;
+    background-color: #C4C0Ca; color:#01261C;
 }
 
 div.admonition p.admonition-title {
-    background-color: silver; 
+    background-color: #C4C0Ca; 
     color:#01261C;
 }
 
