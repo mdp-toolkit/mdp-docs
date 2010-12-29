@@ -89,6 +89,7 @@ ul {
 
 ul li {
     margin:0.5em;
+    list-style-image: url('blkpearl.png');
 }
 
 
@@ -238,6 +239,7 @@ div.related ul li {
     padding: 0;
     height: 2em;
     float: left;
+    list-style: none;
 }
 
 div.related ul li.right {
@@ -278,6 +280,7 @@ div.sphinxsidebar ul li {
     margin-right:0em;
     margin-top:0.5em;
     margin-bottom:0.5em;
+    list-style: none;
 }
 div.sphinxsidebar ul li a{
     padding: 0.5em;
@@ -299,12 +302,17 @@ div.sphinxsidebar ul ul {
     display:inline-block;
 }
 
+div.sphinxsidebar ul ul li {
+    list-style: none;
+}
+
 div.sphinxsidebar ul ul ul {
     list-style:square;
 }
 
 div.sphinxsidebar ul ul ul li{
     margin-left:2em;
+    list-style:square;
 }
 
 div.sphinxsidebar ul ul li a{
@@ -387,6 +395,7 @@ div.sphinxsidebar ul.toc li {
     margin: 0.5em 0 0.5em 0;
     font-size: 0.9em;
     line-height: 130%;
+    list-style: none;
 }
 
 div.sphinxsidebar ul.toc li p {
@@ -622,3 +631,4 @@ pre {
 	page-break-after: avoid;
     }
 }
+
