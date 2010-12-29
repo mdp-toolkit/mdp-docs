@@ -166,8 +166,8 @@ codesnippet:
 	$(SPHINXBUILD) -b codesnippet $(ALLSPHINXOPTS) $(BUILDDIR)/codesnippet
 	rm -rf $(CODEDIR)
 	mkdir -p $(CODEDIR)
-	cp $(BUILDDIR)/codesnippet/* $(CODEDIR)
-	@echo "Generation of module from doctest finished, look at the " \
+	cp -a $(BUILDDIR)/codesnippet/* $(CODEDIR)
+	@echo "Generation of module from doctest finished, look at the" \
 	      "results in $(BUILDDIR)/codesnippet/."
 
 website: epydoc codesnippet html latexpdf
