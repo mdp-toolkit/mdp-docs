@@ -10,6 +10,7 @@ Examples
    lle/lle.rst
    gng/gng.rst
    logo/logo_animation.rst
+   bayes_guesser/bayes_guesser.rst
 
 Here are examples on how to use MDP for typical machine learning
 applications:
@@ -19,16 +20,11 @@ applications:
 * :ref:`gng` — Capture the topological structure of a
   data distribution.
 * :ref:`lle` — Approximate data with a low-dimensional surface
-  and reduces its dimensionality by learning a mapping to the surface.
-
-The following examples are available in mdp examples repository or can
-be downloaded separately from the last release. Some of
-them are explained with docstrings and come with readme files.
+  and reduce its dimensionality by learning a mapping to the surface.
 
 * `hinet_html.py`__ — Get the HTML representation for a simple hinet network.
 * `benchmark_parallel.py`__ — Simple benchmark to compare the different
   schedulers in MDP.
-* `bayes_guesser.py`__
 * `word_generator.py`__
 * `slideshow.py`__ and `slideshow_double.py`__ — Created slideshows of
   matplotlib plots, demonstrates the slideshow module in MDP.
