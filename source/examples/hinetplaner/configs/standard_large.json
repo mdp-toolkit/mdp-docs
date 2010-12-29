@@ -1,0 +1,60 @@
+{
+    "image_size": [
+        155, 
+        155
+    ], 
+    "layer_configs": [
+        {
+            "field_size_xy": [
+                10, 
+                10
+            ], 
+            "field_step_xy": [
+                5, 
+                5
+            ], 
+            "layer_type": "standard rect", 
+            "sfa2_dim": 32, 
+            "sfa_dim": 32
+        }, 
+        {
+            "field_size_xy": [
+                4, 
+                4
+            ], 
+            "field_step_xy": [
+                2, 
+                2
+            ], 
+            "layer_type": "standard rect", 
+            "sfa2_dim": 32, 
+            "sfa_dim": 32
+        }, 
+        {
+            "field_size_xy": [
+                4, 
+                4
+            ], 
+            "field_step_xy": [
+                2, 
+                2
+            ], 
+            "layer_type": "standard rect", 
+            "sfa2_dim": 32, 
+            "sfa_dim": 42
+        }, 
+        {
+            "field_size_xy": [
+                6, 
+                6
+            ], 
+            "field_step_xy": [
+                1, 
+                1
+            ], 
+            "layer_type": "standard rect", 
+            "sfa2_dim": 512, 
+            "sfa_dim": 52
+        }
+    ]
+}
