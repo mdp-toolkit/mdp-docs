@@ -41,9 +41,10 @@ def api_role(role, rawtext, text, lineno, inliner, options={}, content=[]):
     """
     basedir = 'api'
     prefix = 'build/html/' # fixme: fetch it from configuration
+    source_base = 'source'
     exists = lambda f: os.path.exists(prefix + f)
 
-    # assume module is references
+    # assume module is referenced
     name = '%s' % text
     uri = file = '%s/%s-module.html' % (basedir, text)
     chunks = text.split('.')
@@ -69,7 +70,12 @@ def api_role(role, rawtext, text, lineno, inliner, options={}, content=[]):
                 uri = '%s/%s-class.html#%s' % (basedir, fprefix, method)
 
     if exists(file):
-        node = nodes.reference(rawtext, name, refuri=uri, **options)
+        # ugly hack to add ../ when necessary
+        current_source = inliner.document.current_source
+        chunks = current_source.split('/')
+        nestedness = len(chunks) - chunks.index(source_base) - 2
+        refuri = '../' * nestedness + uri
+        node = nodes.reference(rawtext, name, refuri=refuri, **options)
     else:
         # cannot find reference, then just inline the text
         node = nodes.literal(rawtext, text)
