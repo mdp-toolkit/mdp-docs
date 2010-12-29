@@ -46,7 +46,7 @@ class CodeSnippetDirective(Directive):
                                                  ':ref:`here <%s>`'%link])
         targetid = "codesnippet-%d" % env.new_serialno('codesnippet')
         targetnode = nodes.target('', '', ids=[targetid])
-        ad = make_admonition(CodeSnippet, self.name, ['Note'],
+        ad = make_admonition(CodeSnippet, self.name, ['CodeSnippet'],
                              self.options,
                              self.content, self.lineno, self.content_offset,
                              self.block_text, self.state, self.state_machine)
