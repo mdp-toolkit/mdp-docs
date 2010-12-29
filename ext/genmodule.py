@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from __future__ import with_statement
 import time
 import os
 import codecs
@@ -10,7 +11,8 @@ from sphinx.builders import Builder
 from sphinx.util.console import bold
 from sphinx.util.compat import Directive, make_admonition
 
-RSTTEXT=""".. _%s:
+RSTTEXT="""\
+.. _%s:
 
 %s
 %s
@@ -89,7 +91,7 @@ class GenmoduleBuilder(Builder):
         return self.env.found_docs
 
     def finish(self):
-        msg = 'Wrote %d lines in %d files.'%(self.total_lines, self.files)
+        msg = 'Wrote %d lines in %d files.' % (self.total_lines, self.files)
         pad = len(msg)
         self.info('\n'+'='*pad +'\n'+ bold(msg) + '\n'+'='*pad)
         self.write_toctree()
@@ -98,8 +100,7 @@ class GenmoduleBuilder(Builder):
         return os.path.basename(docname)
 
     def get_module_name(self, docname, ext, abs=True):
-        newname = docname.replace('/','_')
-        newname = newname.replace('\\','_')
+        newname = docname.replace('/','_').replace('\\','_')
         filename = newname + ext
         if abs:
             filename = os.path.join(self.outdir, filename)
@@ -136,45 +137,41 @@ class GenmoduleBuilder(Builder):
         lines = text.count('\n')
         self.total_lines += lines
         flname = self.get_module_name(docname, '.py')
-        fl = codecs.open(flname, 'w', encoding='utf-8')
-        fl.write(text)
-        fl.close()
+        with codecs.open(flname, 'w', encoding='utf-8') as fl:
+            fl.write(text)
         self.files += 1
-        self.info('Wrote %d lines to %s'%(lines, self.shortname(flname)))
+        self.info('Wrote %d lines to %s' % (lines, self.shortname(flname)))
 
     def write_rst(self, docname):
         rstname = self.get_module_name(docname, '.rst')
-        fl = codecs.open(rstname, 'w', encoding='utf-8')
         label_to_us = self.get_relative_name(docname)+'_code'
         link_to_doc = self.get_relative_name(docname)
         download = self.get_code_link(docname)
         include = self.get_code_link(docname)
-        link_to_doc_text = 'Code snippets for page :ref:`%s`'%(link_to_doc)
+        link_to_doc_text = 'Code snippets for page :ref:`%s`' % link_to_doc
         overline = '='*len(link_to_doc_text)
-        text = RSTTEXT%(label_to_us,
-                        overline,
-                        link_to_doc_text,
-                        overline,
-                        download,
-                        include)
-        fl.write(text)
-        fl.close()
-        self.info('Wrote link page to %s'%(self.shortname(rstname)))
+        text = RSTTEXT % (label_to_us,
+                          overline,
+                          link_to_doc_text,
+                          overline,
+                          download,
+                          include)
+        with codecs.open(rstname, 'w', encoding='utf-8') as fl:
+            fl.write(text)
+        self.info('Wrote link page to %s' % self.shortname(rstname))
         self.docs.append(self.get_module_name(docname, '.rst', abs=False))
 
     def write_toctree(self):
         name = os.path.join(self.outdir, 'code_snippets.rst')
-        fl = codecs.open(name, 'w', encoding='utf-8')
         text = ['.. _code_snippets:\n',
                 '=============',
                 'Code Snippets',
                 '=============\n',
                 '.. toctree::\n']
-        for doc in self.docs:
-            text.append('   '+doc)
-        fl.write('\n'.join(text))
-        fl.close()
-        self.info(bold('Created toctree page in %s'%(self.shortname(name))))
+        text.extend('   '+doc for doc in self.docs)
+        with codecs.open(name, 'w', encoding='utf-8') as fl:
+            fl.write('\n'.join(text))
+        self.info(bold('Created toctree page in %s' % self.shortname(name)))
 
 
 def setup(app):
