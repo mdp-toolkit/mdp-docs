@@ -18,16 +18,14 @@ def write_if_changed(filename, text, logger):
     :Return: True if file was actually written
     """
     try:
-        file = codecs.open(filename, 'rw', encoding='utf-8')
+        with codecs.open(filename, 'r', encoding='utf-8') as file:
+            if file.read() == text:
+                logger.info('%s is unchanged' % filename)
+                return False
     except IOError:
-        file = codecs.open(filename, 'w', encoding='utf-8')
-    else:
-        if file.read() == text:
-            file.close()
-            logger.info('%s is unchanged' % filename)
-            return False
-        file.seek(0)
-    with file as file:
+        pass
+
+    with codecs.open(filename, 'w', encoding='utf-8') as file:
         file.write(text)
     return True
 
