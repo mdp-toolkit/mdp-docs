@@ -11,6 +11,7 @@ Examples
    gng/gng.rst
    logo/logo_animation.rst
    bayes_guesser/bayes_guesser.rst
+   word_generator/word_generator.rst
 
 Here are examples on how to use MDP for typical machine learning
 applications:
@@ -25,7 +26,6 @@ applications:
 * `hinet_html.py`__ — Get the HTML representation for a simple hinet network.
 * `benchmark_parallel.py`__ — Simple benchmark to compare the different
   schedulers in MDP.
-* `word_generator.py`__
 * `slideshow.py`__ and `slideshow_double.py`__ — Created slideshows of
   matplotlib plots, demonstrates the slideshow module in MDP.
 * `hinetplaner`__ — Interactive HTML/JS/AJAX based GUI for constructing special
