@@ -14,11 +14,11 @@ Examples
 Here are examples on how to use MDP for typical machine learning
 applications:
 
-* :ref:`examples_logmap` — Using Slow Feature Analysis (SFA) for
+* :ref:`logmap` — Using Slow Feature Analysis (SFA) for
   processing a non-stationary time series, derived by a logistic map.
-* :ref:`examples_gng` — Capture the topological structure of a
+* :ref:`gng` — Capture the topological structure of a
   data distribution.
-* :ref:`examples_lle` — Approximate data with a low-dimensional surface
+* :ref:`lle` — Approximate data with a low-dimensional surface
   and reduces its dimensionality by learning a mapping to the surface.
 
 The following examples are available in mdp examples repository or can

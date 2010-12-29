@@ -98,7 +98,7 @@ the evolution of the graph:
     ...
     >>> gng.stop_training()
 
-See :ref:`training_animation`.
+See :ref:`animated_training`.
 
 Visualizing the neural gas network, we'll see that it is
 adapted to the topological structure of the data distribution:

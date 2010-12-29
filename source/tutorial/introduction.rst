@@ -46,7 +46,7 @@ to name just the most common, Principal Component Analysis (`PCA`_ and
 `NIPALS`_), several Independent Component Analysis algorithms (`CuBICA`_,
 `FastICA`_, `TDSEP`_, `JADE`_, and `XSFA`_), `Slow Feature Analysis`_,
 `Gaussian Classifiers`_, `Restricted Boltzmann Machine`_, and `Locally Linear Embedding`_
-(see the :ref:`node-list` section for a more exhaustive list and 
+(see the :ref:`node_list` section for a more exhaustive list and 
 references).
 
 .. _PCA: ../api/mdp.nodes.PCANode-class.html
