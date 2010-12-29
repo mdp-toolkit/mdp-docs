@@ -211,7 +211,8 @@ a tt:hover {
 }
 
 dl {
-    margin-bottom: 2em;
+    margin-top: 1em;
+    margin-bottom: 1em;
 }
 
 dt {
