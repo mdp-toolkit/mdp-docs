@@ -19,12 +19,14 @@ RSTTEXT="""\
 %s
 %s
 
-:download:`Download <%s>`.
+Download :download:`%s <%s>`.
+Browse the :ref:`code snippet index <code_snippets>`.
 
 .. literalinclude:: %s
 """
 
-SNIPTEXT = "You can find all the code in this chapter "
+SNIPTEXT = ("You can download all the code in this chapter from the"
+            " :ref:`code snippets directory <%s>`")
 
 def condition(node):
     return (isinstance(node, (nodes.literal_block, nodes.comment))
@@ -45,8 +47,7 @@ class CodeSnippetDirective(Directive):
     def run(self):
         env = self.state.document.settings.env
         link = os.path.basename(env.docname)+'_code'
-        self.content = statemachine.StringList([ SNIPTEXT+
-                                                 ':ref:`here <%s>`'%link])
+        self.content = statemachine.StringList([ SNIPTEXT % link ])
         targetid = "codesnippet-%d" % env.new_serialno('codesnippet')
         targetnode = nodes.target('', '', ids=[targetid])
         ad = make_admonition(CodeSnippet, self.name, ['CodeSnippet'],
@@ -162,7 +163,7 @@ class GenmoduleBuilder(Builder):
                           overline,
                           link_to_doc_text,
                           overline,
-                          download,
+                          os.path.basename(download), download,
                           include)
         with codecs.open(rstname, 'w', encoding='utf-8') as fl:
             fl.write(text)

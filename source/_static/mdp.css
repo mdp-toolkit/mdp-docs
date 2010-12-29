@@ -462,6 +462,13 @@ div.admonition-news {
     font-size: 80%;
 }
 
+div.admonition-codesnippet {
+    float: right;
+    margin-left: 1em;
+    width: 10em;
+    font-weight: bold;
+    text-align: left;
+}
 
 div.admonition p, div.warning p {
     margin: 0.5em 1em 0.5em 1em;
