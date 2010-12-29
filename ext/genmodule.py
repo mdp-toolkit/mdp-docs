@@ -4,7 +4,7 @@ import os
 import codecs
 import doctest
 import sys
-from docutils import nodes
+from docutils import nodes, statemachine
 
 from sphinx.builders import Builder
 from sphinx.util.console import bold
@@ -20,6 +20,8 @@ RSTTEXT=""".. _%s:
 
 .. literalinclude:: %s
 """
+
+SNIPTEXT = "You can find all the code in this chapter "
 
 def condition(node):
     return (isinstance(node, (nodes.literal_block, nodes.comment))
@@ -38,13 +40,15 @@ class CodeSnippetDirective(Directive):
     has_content = True
 
     def run(self):
-        content = nodes.Text('Just Testing')
         env = self.state.document.settings.env
+        link = os.path.basename(env.docname)+'_code'
+        self.content = statemachine.StringList([ SNIPTEXT+
+                                                 ':ref:`here <%s>`'%link])
         targetid = "codesnippet-%d" % env.new_serialno('codesnippet')
         targetnode = nodes.target('', '', ids=[targetid])
         ad = make_admonition(CodeSnippet, self.name, ['Note'],
                              self.options,
-                             content, self.lineno, self.content_offset,
+                             self.content, self.lineno, self.content_offset,
                              self.block_text, self.state, self.state_machine)
         return [targetnode] + ad
 
@@ -145,7 +149,7 @@ class GenmoduleBuilder(Builder):
         link_to_doc = self.get_relative_name(docname)
         download = self.get_code_link(docname)
         include = self.get_code_link(docname)
-        link_to_doc_text = 'Code Snippets for page :ref:`%s`'%(link_to_doc)
+        link_to_doc_text = 'Code snippets for page :ref:`%s`'%(link_to_doc)
         overline = '='*len(link_to_doc_text)
         text = RSTTEXT%(label_to_us,
                         overline,
