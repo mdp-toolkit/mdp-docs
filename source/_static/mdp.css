@@ -598,6 +598,10 @@ ul.keywordmatches li.goodmatch a {
     font-weight: bold;
 }
 
+div.admonition-codesnippet p.admonition-title {
+    display: none;
+}
+
 
 /* COLORS DEFINITION */
 body { background: white; }
