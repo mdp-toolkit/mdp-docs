@@ -55,7 +55,7 @@ class CodeSnippetDirective(Directive):
         return [targetnode] + ad
 
 class GenmoduleBuilder(Builder):
-    name = 'genmodule'
+    name = 'codesnippet'
 
     def init(self):
         self.total_lines = 0
@@ -72,12 +72,12 @@ class GenmoduleBuilder(Builder):
         else:
             self.header = header
 
-        if self.config.genmodule_path == '':
+        if self.config.codesnippet_path == '':
             self.info('Need to set a path for the code links.')
-            self.info('Please set the "genmodule_path" variable in conf.py!')
+            self.info('Please set the "codesnippet_path" variable in conf.py!')
             sys.exit(1)
 
-        self.linkpath = os.path.normpath(os.path.sep+self.config.genmodule_path)
+        self.linkpath = os.path.normpath(os.path.sep+self.config.codesnippet_path)
         self.cwd = os.getcwd()+os.path.sep
 
     def shortname(self, name):
@@ -117,9 +117,9 @@ class GenmoduleBuilder(Builder):
         self.info(bold('Creating modules in "%s"'%self.shortname(self.outdir)))
         for docname in build_docnames:
             doctree = self.env.get_doctree(docname)
-            self.gen_module(docname, doctree)
+            self.gen_snippets(docname, doctree)
 
-    def gen_module(self, docname, doctree):
+    def gen_snippets(self, docname, doctree):
         code = []
         for node in doctree.traverse(condition):
             source = node.has_key('test') and node['test'] or node.astext()
@@ -176,7 +176,7 @@ class GenmoduleBuilder(Builder):
 
 def setup(app):
     app.add_builder(GenmoduleBuilder)
-    app.add_config_value('genmodule_path', '', 'env')
+    app.add_config_value('codesnippet_path', '', 'env')
     app.add_directive('codesnippet', CodeSnippetDirective)
     app.add_node(CodeSnippet,
                  html=(visit_codesnippet_node, depart_codesnippet_node),

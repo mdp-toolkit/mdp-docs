@@ -40,7 +40,7 @@ help:
 	@echo "  changes    to make an overview of all changed/added/deprecated items"
 	@echo "  linkcheck  to check all external links for integrity"
 	@echo "  doctest    to run all doctests embedded in the documentation (if enabled)"
-	@echo "  genmodule  to create python modules from doctests embedded in the documentation (if enabled)"
+	@echo "  codesnippet  to create python modules from doctests embedded in the documentation (if enabled)"
 
 clean:
 	-rm -rf $(BUILDDIR)/*
@@ -154,10 +154,10 @@ doctest:
 	@echo "Testing of doctests in the sources finished, look at the " \
 	      "results in $(BUILDDIR)/doctest/output.txt."
 
-genmodule:
-	$(SPHINXBUILD) -b genmodule $(ALLSPHINXOPTS) $(BUILDDIR)/genmodule
+codesnippet:
+	$(SPHINXBUILD) -b codesnippet $(ALLSPHINXOPTS) $(BUILDDIR)/codesnippet
 	rm -rf $(CODEDIR)
 	mkdir -p $(CODEDIR)
-	cp $(BUILDDIR)/genmodule/* $(CODEDIR)
+	cp $(BUILDDIR)/codesnippet/* $(CODEDIR)
 	@echo "Generation of module from doctest finished, look at the " \
-	      "results in $(BUILDDIR)/genmodule/."
+	      "results in $(BUILDDIR)/codesnippet/."

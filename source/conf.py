@@ -26,7 +26,7 @@ import sys, os
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.doctest',
-              'sphinx.ext.autosummary', 'extapi', 'genmodule']
+              'sphinx.ext.autosummary', 'extapi', 'codesnippet']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -216,5 +216,5 @@ import numpy as np
 np.random.seed(0)
 """
 
-# set path for download links in genmodule
-genmodule_path = "code"
+# set path for download links in codesnippet
+codesnippet_path = "code"
