@@ -6,6 +6,7 @@ import time
 import codecs
 import re
 import doctest
+import errno
 from docutils import nodes, statemachine
 
 from sphinx.builders import Builder
@@ -25,6 +26,12 @@ def write_if_changed(filename, text, logger):
     except IOError:
         pass
 
+    dirname = os.path.split(filename)[0]
+    try:
+        os.makedirs(dirname)
+    except OSError, e:
+        if e.errno != errno.EEXIST:
+            raise
     with codecs.open(filename, 'w', encoding='utf-8') as file:
         file.write(text)
     return True
@@ -119,7 +126,9 @@ class CodeSnippetBuilder(Builder):
         return os.path.basename(docname)
 
     def get_module_name(self, docname, ext, abs=True):
-        newname = docname.replace('/','_').replace('\\','_')
+        """Return the normalized name of the file with code
+        """
+        newname = docname.replace('\\', '_')
         filename = newname + ext
         if abs:
             filename = os.path.join(self.outdir, filename)
