@@ -133,7 +133,7 @@ class GenmoduleBuilder(Builder):
             self.write_rst(docname)
 
     def write_code(self, docname, code):
-        text = self.header + ''.join(code)
+        text = self.header + '\n'.join(code)
         lines = text.count('\n')
         self.total_lines += lines
         flname = self.get_module_name(docname, '.py')
