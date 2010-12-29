@@ -218,3 +218,6 @@ np.random.seed(0)
 
 # set path for download links in codesnippet
 codesnippet_path = "code"
+
+# wheter to strip '# doctest: ...' (True by default)
+# codesnippet_strip_doctest_directives = True

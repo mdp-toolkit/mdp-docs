@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import with_statement
-import time
-import os
-import codecs
-import doctest
 import sys
+import os
+import time
+import codecs
+import re
+import doctest
 from docutils import nodes, statemachine
 
 from sphinx.builders import Builder
@@ -124,6 +125,13 @@ class GenmoduleBuilder(Builder):
         for node in doctree.traverse(condition):
             source = node.has_key('test') and node['test'] or node.astext()
             example = doctest.script_from_examples(source)
+
+            if self.config.codesnippet_strip_doctest_directives:
+                # remove doctest directives
+                lines = (re.split(r'\s*#\s*doctest:', line, 1)[0]
+                         for line in example.split('\n'))
+                example = '\n'.join(lines)
+
             code.append(example)
 
         if len(code) > 0:
@@ -177,6 +185,7 @@ class GenmoduleBuilder(Builder):
 def setup(app):
     app.add_builder(GenmoduleBuilder)
     app.add_config_value('codesnippet_path', '', 'env')
+    app.add_config_value('codesnippet_strip_doctest_directives', True, False)
     app.add_directive('codesnippet', CodeSnippetDirective)
     app.add_node(CodeSnippet,
                  html=(visit_codesnippet_node, depart_codesnippet_node),
