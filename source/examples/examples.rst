@@ -13,6 +13,7 @@ Examples
    bayes_guesser/bayes_guesser.rst
    word_generator/word_generator.rst
    slideshow/slideshow.rst
+   gradnewton/gradnewton.rst
 
 Here are examples on how to use MDP for typical machine learning
 applications:
@@ -46,7 +47,7 @@ The following examples use and illustrate BiMDP.
 * `bimdp_custom_inspection.py`__ — Customization with maptlotlib
   plots of the BiFlow inspection.
 * `bimdp_simple_coroutine.py`__ — Minimal example for coroutine decorator.
-* `gradnewton`__ — Use Newton's method for gradient descent
+* :ref:`gradnewton` — Use Newton's method for gradient descent
   with the gradient extension.
 * `backpropagation`__ — Implement backpropagation for a multi layer
   perceptron.
@@ -56,6 +57,5 @@ __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;
 __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=blob_plain;f=bimdp_examples/bimdp_hinet_inspection.py
 __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=blob_plain;f=bimdp_examples/bimdp_custom_inspection.py
 __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=blob_plain;f=bimdp_examples/bimdp_simple_coroutine.py
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=tree;f=gradnewton
 __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=tree;f=backpropagation
 __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=tree;f=binetdbn
