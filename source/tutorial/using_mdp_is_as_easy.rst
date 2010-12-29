@@ -1,6 +1,6 @@
 .. _using_mdp_is_as_easy:
 
-Using MDP is as easy as
+Using MDP is as easy as::
 
     >>> import mdp
     >>> # perform pca on some data x

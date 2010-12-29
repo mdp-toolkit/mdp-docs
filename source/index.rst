@@ -6,7 +6,7 @@
    development.rst
    how_to_cite_mdp.rst
    tutorial/tutorial.rst
-   examples/index.rst
+   examples/examples.rst
    contact.rst   
 
 .. admonition:: News

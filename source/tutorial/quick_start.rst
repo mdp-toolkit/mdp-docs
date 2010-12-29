@@ -5,7 +5,8 @@ Quick Start
 
 .. include:: using_mdp_is_as_easy.rst
 
-MDP requires the numerical Python extensions `NumPy`_ or `SciPy`_. At
+MDP requires the numerical Python extensions 
+`NumPy <http://numpy.scipy.org/>`_ or `SciPy <http://www.scipy.org/>`_. At
 import time MDP will select ``scipy`` if available, otherwise
 ``numpy`` will be loaded. You can force the use of a numerical
 extension by setting the environment variable ``MDPNUMX=numpy`` or
