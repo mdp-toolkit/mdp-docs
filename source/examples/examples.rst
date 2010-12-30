@@ -5,6 +5,7 @@ Examples
 
 .. toctree::
    :hidden:
+   :maxdepth: 1
 
    logmap/logmap.rst
    lle/lle.rst
@@ -15,6 +16,7 @@ Examples
    slideshow/slideshow.rst
    gradnewton/gradnewton.rst
    pp_simple_slave_test/pp_simple_slave_test.rst
+   binetdbn/dbn.rst
 
 Here are examples on how to use MDP for typical machine learning
 applications:
@@ -52,11 +54,10 @@ The following examples use and illustrate BiMDP.
   with the gradient extension.
 * `backpropagation`__ — Implement backpropagation for a multi layer
   perceptron.
-* `binetdbn`__ — Proof of concept for a Deep Belief Network.
+* :ref:`binetdbn` — Proof of concept for a Deep Belief Network.
 
 __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=blob_plain;f=bimdp_examples/bimdp_inverse.py
 __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=blob_plain;f=bimdp_examples/bimdp_hinet_inspection.py
 __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=blob_plain;f=bimdp_examples/bimdp_custom_inspection.py
 __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=blob_plain;f=bimdp_examples/bimdp_simple_coroutine.py
 __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=tree;f=backpropagation
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=tree;f=binetdbn
