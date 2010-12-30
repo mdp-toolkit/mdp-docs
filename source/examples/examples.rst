@@ -17,6 +17,9 @@ Examples
    gradnewton/gradnewton.rst
    pp_simple_slave_test/pp_simple_slave_test.rst
    binetdbn/dbn.rst
+   bimdp_examples/bimdp_inverse.rst
+   bimdp_examples/bimdp_hinet_inspection.rst
+   bimdp_examples/bimdp_custom_inspection.rst
 
 Here are examples on how to use MDP for typical machine learning
 applications:
@@ -43,11 +46,11 @@ __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;
 
 The following examples use and illustrate BiMDP.
 
-* `bimdp_inverse.py`__ — A simple example on the alternative
+* :ref:`bimdp_inverse` — A simple example on the alternative
   mechanism to inverse a BiFlow.
-* `bimdp_hinet_inspection.py`__ — Demonstrates the inspection of
+* :ref:`bimdp_hinet_inspection` — Demonstrates the inspection of
   a BiFlow.
-* `bimdp_custom_inspection.py`__ — Customization with maptlotlib
+* :ref:`bimdp_custom_inspection` — Customization with maptlotlib
   plots of the BiFlow inspection.
 * `bimdp_simple_coroutine.py`__ — Minimal example for coroutine decorator.
 * :ref:`gradnewton` — Use Newton's method for gradient descent
@@ -56,8 +59,5 @@ The following examples use and illustrate BiMDP.
   perceptron.
 * :ref:`binetdbn` — Proof of concept for a Deep Belief Network.
 
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=blob_plain;f=bimdp_examples/bimdp_inverse.py
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=blob_plain;f=bimdp_examples/bimdp_hinet_inspection.py
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=blob_plain;f=bimdp_examples/bimdp_custom_inspection.py
 __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=blob_plain;f=bimdp_examples/bimdp_simple_coroutine.py
 __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=tree;f=backpropagation
