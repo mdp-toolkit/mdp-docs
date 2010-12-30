@@ -186,6 +186,13 @@ branch. After the decision to merge has been made:
    - If the code does anything platform specific if should also be
      tested on Windows.
 
+   - Code should be tested with both numpy and scipy as backends.
+     Since scipy will be selected by default if installed, the extra
+     step that can be performed is testing while selecting numpy
+     explicitely::
+
+         MDPNUMX=numpy py.test
+
    Before merging also make sure that the master branch passes tests :)
 
 #. The merge should be performed in a way that preserves the history
