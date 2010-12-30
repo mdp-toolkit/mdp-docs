@@ -190,6 +190,8 @@ tt.descname {
 
 tt.descclassname {
     background-color: transparent;
+    font-weight: bold;
+    font-size:1.2em;
     border: 0;
 }
 
@@ -245,9 +247,12 @@ dt:target,
 }
 
 dl.class, dl.function {
-    border-top: 2px solid #888;
+  /*  border-top: 2px solid #888;*/
 }
 
+.property {
+    display: none;
+}
 dl.method, dl.attribute {
     border-top: 1px solid #aaa;
 }

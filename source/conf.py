@@ -221,3 +221,31 @@ codesnippet_path = "code"
 
 # wheter to strip '# doctest: ...' (True by default)
 # codesnippet_strip_doctest_directives = True
+
+# overwrite default signature and members documentation
+# features of autodoc
+
+
+def setup(app):
+    from sphinx.ext.autodoc import cut_lines
+    def autodoc_skip_member(app, what, name, obj, skip, options):
+        # only document public nodes, but none of their members! 
+        if name.startswith('_') or what != 'module':
+            return True
+        else:
+            return False
+
+    def autodoc_process_signature(app, what, name, obj, options,
+                                  signature, return_annotation):
+        # remove signature altogether
+        return (None, None)
+
+    def autodoc_process_docstring(app, what, name, obj, options, lines):
+        # add link to api at the beginning of the docstring
+        link = 'Link to the API documentation: :api:`%s`'%name
+        lines.append(link)
+
+    # app.connect(event, callback)
+    app.connect('autodoc-process-signature', autodoc_process_signature)
+    app.connect('autodoc-skip-member', autodoc_skip_member)
+    app.connect('autodoc-process-docstring', autodoc_process_docstring)
