@@ -6,18 +6,24 @@
 Installation
 ************
 
-By far the easiest option is to use a package provided with your distribution.
+You can install :ref:`binary packages <binary_packages>` or 
+from :ref:`source <install_from_source>`.
+
+.. _binary_packages:
+
+Binary packages (Linux)
+=======================
 
 MDP is prepackaged for:
 
 .. _python-mdp: http://packages.debian.org/python-mdp
 
-* `Debian <www.debian.org>`_ (package `python-mdp`_)
-* `Ubuntu <www.ubuntu.com>`_ (package `python-mdp`__)
-* `Mandriva <www.mandriva.com>`_ (package `python-mdp`)
-* `PCLinuxOS <www.pclinuxos.com>`_ (package `python-mdp`)
-* Gentoo (ebuild `sci-mathematics/mdp`_)
-* MacOS through MacPorts (packages py25-mdp-toolkit_ and py26-mdp-toolkit_)
+* `Debian <http://www.debian.org>`_ (package `python-mdp`_)
+* `Ubuntu <http://www.ubuntu.com>`_ (package `python-mdp`__)
+* `Gentoo <http://www.gentoo.org>`_ (ebuild `sci-mathematics/mdp`_)
+* `Mandriva <http://www.mandriva.com>`_ (package `python-mdp`)
+* `PCLinuxOS <http://www.pclinuxos.com>`_ (package `python-mdp`)
+
 
 __ http://packages.ubuntu.com/python-mdp
 
@@ -27,26 +33,6 @@ __ http://packages.ubuntu.com/python-mdp
    http://trac.macports.org/browser/trunk/dports/python/py26-mdp-toolkit/Portfile
 .. _`sci-mathematics/mdp`:
    http://git.overlays.gentoo.org/gitweb/?p=proj/sci.git;a=tree;f=sci-mathematics/mdp>
-
-Don't install by hand unless you need a bleeding-edge version or are
-using a different distribution.
-
-
-Download
-========
-
-Source
-~~~~~~
-
-Download the latest MDP release `here <http://sourceforge.net/projects/mdp-toolkit>`_.
-
-If you want to live on the bleeding edge, check out the MDP git repositories.
-You can either `browse the repository <http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/mdp-toolkit;a=summary>`_ or clone the ``mdp-toolkit``
-repository with::
-
-    git clone git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/mdp-toolkit
-
-and then install as explained below.
 
 Debian, Ubuntu and derivatives
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -60,7 +46,6 @@ Just type::
 
 Gentoo
 ~~~~~~
-
 Gentoo users can install the ebuild `sci-mathematics/mdp`_ from the
 ``science`` overlay.
 
@@ -71,9 +56,8 @@ Use your favourite package manager or, alternatively::
     layman -a science
     emerge sci-mathematics/mdp
 
-MacOS
-~~~~~
-
+Binary Packages (MacOSX)
+========================
 Thanks to Maximilian Nickel, Mac OS X users using `MacPorts
 <http://www.macports.org/>`_ can install the packages `py25-mdp-toolkit
 <http://trac.macports.org/browser/trunk/dports/python/py25-mdp-toolkit/Portfile>`_
@@ -94,8 +78,14 @@ If you happen to use `homebrew <http://mxcl.github.com/homebrew/>`_ as
 your OS X package manager, you will have to install from the archive
 or alternatively, use ``pip`` (see `Python installers`_ below).
 
+Binary Packages (Microsoft Windows)
+===================================
+
+On Windows, the installation of the binary distribution is as easy as executing
+the installer and following the instructions. Get the installer `here <http://sourceforge.net/projects/mdp-toolkit>`_.
+
 Python installers
-~~~~~~~~~~~~~~~~~
+=================
 
 MDP is also listed in the `Python Package Index <http://pypi.python.org/pypi/MDP>`_.
 
@@ -108,17 +98,9 @@ or install directly from the repository: ::
 
     pip install -e git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/mdp-toolkit#egg=MDP
 
-Note that instead of ``pip`` you may also use ``easy_install`` but
-usually we recommend `pip <http://pip.openplans.org/>`_
-(and `virtualenv <http://virtualenv.openplans.org/>`_).
+Note that instead of ``pip`` you may also use ``easy_install``.
 
-Microsoft Windows
-~~~~~~~~~~~~~~~~~
-
-On Windows, the installation of the binary distribution is as easy as executing
-the installer and following the instructions.
-
-TODO: add link to download page
+.. _install_from_source:
 
 Installation from source
 ========================
@@ -128,8 +110,38 @@ Requirements
 * `Python <http://www.python.org/>`_ 2.5/2.6/2.7/3.1/3.2
 * `NumPy <http://numpy.scipy.org/>`_ |gE| 1.1
 
+Download the latest MDP release source archive `here <http://sourceforge.net/projects/mdp-toolkit>`_.
+
+If you want to live on the bleeding edge, check out the MDP git repositories.
+You can either `browse the repository
+<http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/mdp-toolkit;a=summary>`_ 
+or clone the ``mdp-toolkit`` repository with::
+
+    git clone git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/mdp-toolkit
+
+and then install as explained below.
+
+
+Installation
+~~~~~~~~~~~~
+Unpack the archive file and change to the project directory or change to the
+cloned git repository, and type::
+
+    python setup.py install
+
+If you want to use MDP without installing it on the system Python path::
+
+    python setup.py install --prefix=/some_dir_in_PYTHONPATH/
+
+
+
+License
+=======
+MDP is distributed under the open source :ref:`BSD license <license>`.
+
+
 Optional Libraries
-~~~~~~~~~~~~~~~~~~
+==================
 MDP can make use of several additional libraries if they are installed on your
 system. They are not required for using MDP, but may give more
 functionality. Here a list of optional libraries and the corresponding
@@ -153,8 +165,9 @@ additional features in MDP:
 * `scikits.learn <http://scikit-learn.sourceforge.net/>`_: provide
   wrapper nodes to several scikits.learn algorithms.
 
+
 Python 3
-~~~~~~~~
+========
 MDP supports Python 3.X and Python 2.X within a single code base. Thanks
 to the great work by Pauli Virtanen and David Cournapeau of the NumPy
 developers' team, the Python 3 compatible code is generated
@@ -163,24 +176,9 @@ compatible with Python 3 since release 1.5. At the moment there are
 still no binary packages of NumPy for Python 3, so you may have to
 build NumPy from `source <https://github.com/numpy/numpy>`_.
 
-Installation
-~~~~~~~~~~~~
-Unpack the archive file and change to the project directory or change to the
-cloned git repository, and type::
-
-    python setup.py install
-
-If you want to use MDP without installing it on the system Python path::
-
-    python setup.py install --prefix=/some_dir_in_PYTHONPATH/
-
-License
-=======
-MDP is distributed under the open source :ref:`BSD license <license>`.
 
 Testing
 =======
-
 If you have successfully installed MDP, you can test your installation in a
 Python shell as follows::
 
