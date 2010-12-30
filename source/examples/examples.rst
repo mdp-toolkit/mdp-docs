@@ -29,7 +29,7 @@ applications:
 * `hinet_html.py`__ — Get the HTML representation for a simple hinet network.
 * `benchmark_parallel.py`__ — Simple benchmark to compare the different
   schedulers in MDP.
-* :ref:`slideshow` and :ref:`slideshow_double.py` — Created slideshows of
+* :ref:`slideshow` and :ref:`slideshow_double` — Created slideshows of
   matplotlib plots, demonstrates the slideshow module in MDP.
 * `hinetplaner`__ — Interactive HTML/JS/AJAX based GUI for constructing special
   hinet networks. This is a complicated example which won't teach you much
