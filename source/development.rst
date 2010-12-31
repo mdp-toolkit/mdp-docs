@@ -71,6 +71,7 @@ Strictly in alphabetical order:
 - `Michael Hanke <http://mih.voxindeserto.de/>`_
 - `Konrad Hinsen <http://dirac.cnrs-orleans.fr/~hinsen/>`_
 - Christian Hinze
+- Sebastian Höfer <http://www.sebastianhoefer.de>_
 - `Samuel John <http://www.samueljohn.de/>`_
 - Susanne Lezius
 - `Michael Schmuker <http://userpage.fu-berlin.de/~schmuker/>`_
