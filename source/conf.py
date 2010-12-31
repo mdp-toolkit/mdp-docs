@@ -243,7 +243,8 @@ def setup(app):
     def autodoc_process_docstring(app, what, name, obj, options, lines):
         # add link to api at the beginning of the docstring
         link = 'Link to the API documentation: :api:`%s`'%name
-        lines.append(link)
+        lines.insert(0, link)
+        lines.insert(1, '')
 
     # app.connect(event, callback)
     app.connect('autodoc-process-signature', autodoc_process_signature)
