@@ -149,7 +149,7 @@ MDP contains ``mdp.graph``, a lightweight package to handle directed graphs.
         the single nodes.
         Return an equivalent nested list with the nodes instead of the values.
 
-        Example:
+        Example:::
  
           >>> g = mdp.graph.Graph()
           >>> a = b = c = d = e = None

@@ -25,13 +25,13 @@ the Python interpreter. In addition to that, an automatically generated
 .. _`API documentation`: ../api/index.html
 
 .. Note::
-  Code snippets throughout the script will be denoted by
+  Code snippets throughout the script will be denoted by::
  
-      >>> print "Hello world!" #doctest: +SKIP
+      >>> print "Hello world!"
       Hello world!
 
   To run the following code examples don't forget to import ``mdp``
-  and ``numpy`` in your Python session with
+  and ``numpy`` in your Python session with::
   
      >>> import mdp
      >>> import numpy as np
