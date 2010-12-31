@@ -73,7 +73,13 @@ def api_role(role, rawtext, text, lineno, inliner, options={}, content=[]):
         # ugly hack to add ../ when necessary
         current_source = inliner.document.current_source
         chunks = current_source.split('/')
-        nestedness = len(chunks) - chunks.index(source_base) - 2
+        print 'Hi'
+        print 'chunks: ', chunks
+        print 'source_base: ', source_base
+        try:
+            nestedness = len(chunks) - chunks.index(source_base) - 2
+        except ValueError:
+            nestedness = 1
         refuri = '../' * nestedness + uri
         node = nodes.reference(rawtext, name, refuri=refuri, **options)
     else:
