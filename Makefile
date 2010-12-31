@@ -9,9 +9,11 @@ BUILDDIR      = build
 
 # mdp specific modifications
 PYTHONPATH    = ext:$(MDPTOOLKIT)
-EPYDOC        = epydoc
+EPYDOC        = /home/tiziano/remote/bccn/svn/epydoc/scripts/epydoc
+EPYDOCPATH    = /home/tiziano/remote/bccn/svn/epydoc
 MDPTOOLKIT    = ../mdp-toolkit
-APIBUILD      = $(BUILDDIR)/html/api
+APIBUILD      = $(BUILDDIR)/api
+APICSS	      = source/_static/API.css
 CODEDIR       = source/code
 
 # Internal variables.
@@ -52,19 +54,24 @@ html:
 
 epydoc:
 	mkdir -p $(APIBUILD)
-	$(EPYDOC) \
+	mkdir -p $(BUILDDIR)/html
+	PYTHONPATH=$(EPYDOCPATH) $(EPYDOC) --debug \
 	--html -o $(APIBUILD) --name="Modular toolkit for Data Processing MDP" \
-	--url="../index.html"  \
-	--css=API.css \
+	--url="http://mdp-toolkit.sourceforge.net"  \
+	--css=$(APICSS) \
 	--show-frames \
-	--introspect-only --no-sourcecode --no-imports --redundant-details \
+	--introspect-only \
+        --no-sourcecode \
+        --no-imports \
+        --redundant-details \
 	--inheritance=grouped \
-	--no-imports \
-	--redundant-details \
 	--verbose \
+        --show-submodule-list \
+        --no-inherit-from-object \
+        --graph all --graph-image-format png --graph-font-size 9 \
 	--docformat=plaintext \
-	--external-api=numpy \
 	$(MDPTOOLKIT)/mdp/__init__.py
+	cp -r $(APIBUILD)  $(BUILDDIR)/html/
 
 dirhtml:
 	$(SPHINXBUILD) -b dirhtml $(ALLSPHINXOPTS) $(BUILDDIR)/dirhtml
