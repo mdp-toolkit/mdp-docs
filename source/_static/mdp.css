@@ -616,21 +616,21 @@ div.admonition-codesnippet p.admonition-title {
 body { background: white; }
 
 #header,.img_header a:hover, div.sphinxsidebar li a, div.navigation_title a {
-    background-color: #BFBB7E; color:#01261C;
+    background-color: silver; color:#01261C;
 }
 
 div.admonition p.admonition-title {
-    background-color: #BFBB7E; 
+    background-color: silver; 
     color:#01261C;
 }
 
 h1, h2, h3, div.related ul li a, a:visited, a:link, 
 div.sphinxsidebar ul li .current {
-    color:#AF8320;
+    color:#AF2320;
 }
 
 h1 a.anchor, h2 a.anchor, h3 a.anchor, h4 a.anchor, h5 a.anchor, h6 a.anchor {
-    color:#AF8320; 
+    color:#AF2320; 
 }
 
 a.headerlink {
@@ -641,8 +641,7 @@ a.headerlink:hover,
 h1 a.anchor:hover, h2 a.anchor:hover,
 h3 a.anchor:hover, h4 a.anchor:hover,
 h5 a.anchor:hover, h6 a.anchor:hover {
-    color: #AF8320;
-    background-color: #BFBB7E;
+    color: #AF2320;
 }
 
 
@@ -652,7 +651,7 @@ div.related ul li a:hover, a:hover {
 
 div.sphinxsidebar ul ul li a {
     background-color:white;
-    color: #AF8320;
+    color: #AF2320;
 }
 
 div.sphinxsidebar ul ul li a:hover {
@@ -664,7 +663,7 @@ div.sphinxsidebar ul ul li a:hover {
     color: #01261C;
 }
 
-.td_header a:hover, div.navigation_title a:hover, div.sphinxsidebar li a:hover { color: #AF8320;}
+.td_header a:hover, div.navigation_title a:hover, div.sphinxsidebar li a:hover { color: #AF2320;}
 
 
 #header, pre, div.related, div.body, div.admonition, div.warning, div.navigation_title, div.sphinxsidebar li a, hr {
