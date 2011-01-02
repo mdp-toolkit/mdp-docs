@@ -381,20 +381,17 @@ p.rubric {
 h1 {
     margin: 0;
     padding: 0em;
-    font-family: times, serif;
     font-size: 2em;
 }
 
 h2 {
     margin: 1.3em 0 0.2em 0;
-    font-family: times, serif;
     font-size: 1.6em;
     padding: 0;
 }
 
 h3 {
     margin: 1em 0 -0.3em 0;
-    font-family: times, serif;
     font-size: 1.2em;
 }
 
