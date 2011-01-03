@@ -12,7 +12,7 @@ PYTHONPATH    = ext:$(MDPTOOLKIT)
 EPYDOC        = /home/tiziano/remote/bccn/svn/epydoc/scripts/epydoc
 EPYDOCPATH    = /home/tiziano/remote/bccn/svn/epydoc
 MDPTOOLKIT    = ../mdp-toolkit
-APIBUILD      = $(BUILDDIR)/api
+APIBUILD      = build_api/api
 APICSS	      = source/_static/API.css
 CODEDIR       = source/code
 
@@ -43,6 +43,7 @@ help:
 	@echo "  linkcheck  to check all external links for integrity"
 	@echo "  doctest    to run all doctests embedded in the documentation (if enabled)"
 	@echo "  codesnippet  to create python modules from doctests embedded in the documentation (if enabled)"
+	@echo "  website    make MDP website"
 
 clean:
 	-rm -rf $(BUILDDIR)/*
@@ -168,3 +169,5 @@ codesnippet:
 	cp $(BUILDDIR)/codesnippet/* $(CODEDIR)
 	@echo "Generation of module from doctest finished, look at the " \
 	      "results in $(BUILDDIR)/codesnippet/."
+
+website: epydoc codesnippet html latexpdf
