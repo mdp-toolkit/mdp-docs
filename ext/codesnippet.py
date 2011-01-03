@@ -43,7 +43,7 @@ Browse the :ref:`code snippet index <code_snippets>`.
 """
 
 SNIPTEXT = ("You can download all the code in this chapter from the"
-            " :ref:`code snippets directory <%s>`")
+            " :code_snippet:`code snippets directory <%s>`")
 
 def condition(node):
     return (isinstance(node, (nodes.literal_block, nodes.comment))
@@ -63,7 +63,7 @@ class CodeSnippetDirective(Directive):
 
     def run(self):
         env = self.state.document.settings.env
-        link = os.path.basename(env.docname)+'_code'
+        link = env.docname.replace('/','_').replace('\\','_')+'.html'
         self.content = statemachine.StringList([ SNIPTEXT % link ])
         targetid = "codesnippet-%d" % env.new_serialno('codesnippet')
         targetnode = nodes.target('', '', ids=[targetid])

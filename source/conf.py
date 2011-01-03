@@ -29,8 +29,12 @@ needs_sphinx = '1.0'
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.doctest',
-              'sphinx.ext.autosummary', 'extapi', 'codesnippet',
+extensions = ['sphinx.ext.autodoc',
+              'sphinx.ext.doctest',
+              'sphinx.ext.autosummary',
+              'sphinx.ext.extlinks',
+              'extapi',
+              'codesnippet',
               'version_string']
 
 # Add any paths that contain templates here, relative to this directory.
@@ -166,6 +170,8 @@ latex_logo = 'examples/logo/logo.png'
 # If false, no module index is generated.
 latex_domain_indices = False
 
+# ========== Extensions configuration ===============
+# doctest
 trim_doctest_flags = True
 doctest_global_setup ="""
 import mdp
@@ -173,11 +179,17 @@ import numpy as np
 np.random.seed(0)
 """
 
+# codesnippet
 # set path for download links in codesnippet
 codesnippet_path = "code"
 
 # wheter to strip '# doctest: ...' (True by default)
 # codesnippet_strip_doctest_directives = True
+
+# extlinks
+prefix = '%s/%s' %(mdp.__homepage__, codesnippet_path)
+extlinks = {'code_snippet': (prefix+'/%s', 'code_snippet')}
+
 
 # overwrite default signature and members documentation
 # features of autodoc
