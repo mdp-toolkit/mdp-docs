@@ -4,10 +4,8 @@
 Tutorial
 ********
 
-:Author: Pietro Berkes, Rike-Benjamin Schuppner, Niko Wilbert and Tiziano Zito
-:Homepage: http://mdp-toolkit.sourceforge.net
-:Copyright: This document has been placed in the public domain.
-:Version: 2.6
+.. version-string::
+
 
 This document is also available as `pdf file`_.
 
