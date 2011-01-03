@@ -7,9 +7,15 @@ Tutorial
 .. version-string::
 
 
-This document is also available as `pdf file`_.
+.. only:: html
+    
+    This document is also available as `pdf file.
+    <http://downloads.sourceforge.net/mdp-toolkit/MDP2_6_tutorial.pdf?download>`_
 
-.. _`pdf file`: http://downloads.sourceforge.net/mdp-toolkit/MDP2_6_tutorial.pdf?download
+.. only:: latex
+    
+    This document is also available `online. <http://mdp-toolkit.sourceforge.net/tutorial.html>`_
+
 
 This is a guide to basic and some more advanced features of
 the MDP library. Besides the present tutorial, you can learn 
@@ -18,9 +24,9 @@ All MDP nodes have doc-strings, the public
 attributes and methods have telling names: All information about a 
 node can be obtained using  the ``help`` and ``dir`` functions within 
 the Python interpreter. In addition to that, an automatically generated 
-`API documentation`_ is available.
-
-.. _`API documentation`: ../api/index.html
+`API documentation
+<http://mdp-toolkit.sourceforge.net/api/index.html>`_ 
+is available.
 
 .. Note::
   Code snippets throughout the script will be denoted by::
@@ -34,7 +40,16 @@ the Python interpreter. In addition to that, an automatically generated
      >>> import mdp
      >>> import numpy as np
 
-  You'll find all the code of this tutorial :ref:`here <code_snippets>`.
+
+.. only:: html
+    
+   You'll find all the code of this tutorial :ref:`here <code_snippets>`.
+
+.. only:: latex
+
+   You'll find all the code of this tutorial `online 
+   <http://mdp-toolkit.sourceforge.net/code/code_snippets.html>`_.
+
 
 .. toctree::
 
