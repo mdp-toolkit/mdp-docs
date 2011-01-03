@@ -68,6 +68,8 @@ Strictly in alphabetical order:
 - Alberto Escalante
 - `Farzad Farkhooi <http://www.biologie.fu-berlin.de/neuroinformatik/people/farkhooi/index.html>`_
 - Mathias Franzius
+- `Valentin Haenel <http://www.cognition.tu-berlin.de/menue/members/valentin_haenel/>`_
+- `Yaroslav Halchenko <http://www.onerussian.com/>`_
 - `Michael Hanke <http://mih.voxindeserto.de/>`_
 - `Konrad Hinsen <http://dirac.cnrs-orleans.fr/~hinsen/>`_
 - Christian Hinze
@@ -78,6 +80,8 @@ Strictly in alphabetical order:
 - `Benjamin Schrauwen <http://reslab.elis.ugent.be/benjamin>`_
 - `Henning Sprekeler <http://lcn.epfl.ch/~sprekele>`_
 - `Jake VanderPlas <http://www.astro.washington.edu/vanderplas/>`_
+- `David Verstraeten <http://reslab.elis.ugent.be/david>`_
+- `Katharina Maria Zeiner <http://www.st-andrews.ac.uk/~www_sp/people/pg/kmz.shtml>`_
 
 ------------------------------
 Information for new developers
