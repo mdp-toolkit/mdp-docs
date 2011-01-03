@@ -10,7 +10,7 @@ Tutorial
 .. only:: html
     
     This document is also available as `pdf file.
-    <http://downloads.sourceforge.net/mdp-toolkit/MDP2_6_tutorial.pdf?download>`_
+    <http://downloads.sourceforge.net/mdp-toolkit/MDP-tutorial.pdf?download>`_
 
 .. only:: latex
     
