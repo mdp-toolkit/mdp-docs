@@ -190,6 +190,9 @@ codesnippet_path = "code"
 prefix = '%s/%s' %(mdp.__homepage__, codesnippet_path)
 extlinks = {'code_snippet': (prefix+'/%s', 'code_snippet')}
 
+# extapi
+extapi_epydoc_path = os.path.join('build_api','api')
+extapi_link_prefix = '%s/api'%mdp.__homepage__
 
 # overwrite default signature and members documentation
 # features of autodoc
