@@ -14,14 +14,14 @@ of the `Humboldt University <http://www.hu-berlin.de/>`_, Berlin in 2003.
 
 Current maintainers are:
 
-*   `Pietro Berkes`_
-*   `Rike-Benjamin Schuppner`_
-*   `Niko Wilbert`_
-*   `Tiziano Zito`_
-*   `Zbigniew Jędrzejewski-Szmek`_
+*   `Pietro Berkes <http://people.brandeis.edu/~berkes>`_
+*   `Rike-Benjamin Schuppner <http://www.bccn-berlin.de/People/home/?contentId=686>`_
+*   `Niko Wilbert <http://itb.biologie.hu-berlin.de/~wilbert/>`_
+*   `Tiziano Zito <http://www.cognition.tu-berlin.de/zito>`_
+*   `Zbigniew Jędrzejewski-Szmek <http://dimer.fuw.edu.pl/Members/ZbyszekJSzmek>`_
 
-`Yaroslav Halchenko`_ maintains the python-mdp_ Debian package,
-`Maximilian Nickel`_ maintains the py25-mdp-toolkit_ MacPorts package.
+`Yaroslav Halchenko <http://www.onerussian.com>`_ maintains the python-mdp_ Debian package,
+`Maximilian Nickel <http://2manyvariables.inmachina.com>`_ maintains the py25-mdp-toolkit_ MacPorts package.
 
 MDP is open to user contributions. Users have already contributed some
 of the nodes, and more contributions are currently being reviewed for
@@ -42,15 +42,7 @@ you can use the users’ `mailing list`_.
 If you want to contribute some code or a new algorithm, please do not
 hesitate to submit it!
 
-.. _`Pietro Berkes`: http://people.brandeis.edu/~berkes
-.. _`Niko Wilbert`: http://itb.biologie.hu-berlin.de/~wilbert/
-..                             This slash is required by itb ^, how lame is that?
-.. _`Tiziano Zito`: http://www.cognition.tu-berlin.de/zito
-.. _`Rike-Benjamin Schuppner`: http://www.bccn-berlin.de/People/home/?contentId=686
-.. _`Zbigniew Jędrzejewski-Szmek`: http://dimer.fuw.edu.pl/Members/ZbyszekJSzmek
-.. _`Yaroslav Halchenko`: http://www.onerussian.com
 .. _python-mdp: http://packages.debian.org/python-mdp
-.. _`Maximilian Nickel`: http://2manyvariables.inmachina.com
 .. _py25-mdp-toolkit: http://trac.macports.org/browser/trunk/dports/python/py25-mdp-toolkit/Portfile
 
 
