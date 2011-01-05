@@ -14,9 +14,11 @@
   05.01.2010
       MDP 3.0 released!
 
-      Several new exiting features
+      Several new exciting features.
 
-      Get the full list of `changes since last release <http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/mdp-toolkit;a=blob_plain;f=CHANGES;hb=HEAD>`_. 
+      Get the full list of `changes since last release`__.
+
+__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/mdp-toolkit;a=blob_plain;f=CHANGES;hb=HEAD
 
 **Modular toolkit for Data Processing (MDP)** is a Python data processing
 framework.
