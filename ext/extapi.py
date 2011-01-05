@@ -21,6 +21,20 @@
 
 import os.path
 from docutils import nodes
+import re
+
+def _extract_name(text):
+    """
+    >>> _extract_name('mdp.nodes.PCANode')
+    ('mdp.nodes.PCANode', 'mdp.nodes.PCANode')
+    >>> _extract_name('mdp.nodes.PCANode <PCA>')
+    ('mdp.nodes.PCANode', 'PCA')
+    """
+    match = re.match(r'(.*)\s+<(.+)>', text)
+    if match:
+        return match.groups()
+    else:
+        return text, text
 
 def api_role(role, rawtext, text, lineno, inliner, options={}, content=[]):
     """
@@ -47,6 +61,8 @@ def api_role(role, rawtext, text, lineno, inliner, options={}, content=[]):
                                                'in %s'%prefix)
     exists = lambda f: os.path.exists(os.path.join(prefix, f))
     link_prefix = inliner.document.settings.env.config.extapi_link_prefix
+
+    text, display = _extract_name(text)
     
     # assume module is referenced
     name = '%s' % text
@@ -76,10 +92,10 @@ def api_role(role, rawtext, text, lineno, inliner, options={}, content=[]):
                 uri = '%s/%s-class.html#%s' % (link_prefix, fprefix, method)
 
     if exists(file):
-        node = nodes.reference(rawtext, name, refuri=uri, **options)
+        node = nodes.reference(rawtext, display, refuri=uri, **options)
     else:
         # cannot find reference, then just inline the text
-        node = nodes.literal(rawtext, text)
+        node = nodes.literal(rawtext, display)
 
     return [node], []
 

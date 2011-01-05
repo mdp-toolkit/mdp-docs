@@ -42,11 +42,19 @@ allows the user to specify complex algorithms as a series of simpler data
 processing steps. 
 
 The number of available algorithms is steadily increasing and includes,
-to name just the most common, Principal Component Analysis (PCA and
-NIPALS), several Independent Component Analysis algorithms (CuBICA,
-FastICA, TDSEP, JADE, and XSFA), Slow Feature Analysis,
-Gaussian Classifiers, Restricted Boltzmann Machine, and Locally Linear Embedding
-(see the :ref:`node_list` section for a more exhaustive list and 
+to name just the most common, Principal Component Analysis
+(:api:`mdp.nodes.PCANode <PCA>` and
+:api:`mdp.nodes.NIPALSNode <NIPALS>`),
+several Independent Component Analysis algorithms (:api:`mdp.nodes.CuBICANode <CuBICA>`,
+:api:`mdp.nodes.FastICANode <FastICA>`,
+:api:`mdp.nodes.TDSEPNode <TDSEP>`,
+:api:`mdp.nodes.JADENode <JADE>`,
+and :api:`mdp.nodes.XSFANode <XSFA>`),
+:api:`mdp.nodes.SFANode <Slow Feature Analysis>`,
+:api:`mdp.nodes.GaussianClassifierNode <Gaussian Classifiers>`,
+:api:`mdp.nodes.RBMNode <Restricted Boltzmann Machine>`,
+and :api:`mdp.nodes.LLENode <Locally Linear Embedding>`
+(see the :ref:`node_list` section for a more exhaustive list and
 references).
 
 Particular care has been taken to make computations efficient in terms of speed
