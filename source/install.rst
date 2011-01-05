@@ -159,7 +159,7 @@ additional features in MDP:
   ``ShogunSVMClassifier``  node.
 * `LibSVM <http://www.csie.ntu.edu.tw/~cjlin/libsvm/>`_ |gE| 2.91:
   provide the ``LibSVMClassifier`` node.
-* `joblib <http://packages.python.org/joblib/>`_: provide the
+* `joblib <http://packages.python.org/joblib/>`_ |gE| 0.4.3: provide the
   ``caching`` extension and the corresponding ``cache`` context
   manager.
 * `scikits.learn <http://scikit-learn.sourceforge.net/>`_: provide
