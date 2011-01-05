@@ -8,9 +8,8 @@ PAPER         = a4
 BUILDDIR      = build
 
 # mdp specific modifications
-PYTHONPATH    = ext:$(MDPTOOLKIT)
-EPYDOC        = /home/tiziano/remote/bccn/svn/epydoc/scripts/epydoc
-EPYDOCPATH    = /home/tiziano/remote/bccn/svn/epydoc
+PYTHONPATH   := $(PYTHONPATH):ext:$(MDPTOOLKIT)      # use hard assignment to avoid recursion
+EPYDOC        = PYTHONPATH=$(PYTHONPATH) epydoc
 MDPTOOLKIT    = ../mdp-toolkit
 APIBUILD      = build_api/api
 APICSS	      = source/_static/API.css
@@ -56,7 +55,7 @@ html:
 epydoc:
 	mkdir -p $(APIBUILD)
 	mkdir -p $(BUILDDIR)/html
-	PYTHONPATH=$(EPYDOCPATH) $(EPYDOC) --debug \
+	$(EPYDOC) --debug \
 	--html -o $(APIBUILD) --name="Modular toolkit for Data Processing MDP" \
 	--url="http://mdp-toolkit.sourceforge.net"  \
 	--css=$(APICSS) \
@@ -67,10 +66,9 @@ epydoc:
         --redundant-details \
 	--inheritance=grouped \
 	--verbose \
-        --show-submodule-list \
-        --no-inherit-from-object \
-        --graph all --graph-image-format png --graph-font-size 9 \
+        --graph all --graph-font-size 9 \
 	--docformat=plaintext \
+	--external-api=numpy \
 	$(MDPTOOLKIT)/mdp/__init__.py
 	cp -r $(APIBUILD)  $(BUILDDIR)/html/
 
