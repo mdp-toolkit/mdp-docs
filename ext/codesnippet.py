@@ -49,7 +49,7 @@ Browse the :ref:`code snippet index <code_snippets>`.
 .. literalinclude:: %s
 """
 
-SNIPTEXT = ("You can download all the code in this chapter from the"
+SNIPTEXT = ("You can download all the code on this page from the"
             " :code_snippet:`code snippets directory <%s>`")
 
 def condition(node):
@@ -70,7 +70,7 @@ class CodeSnippetDirective(Directive):
 
     def run(self):
         env = self.state.document.settings.env
-        link = env.docname.replace('/','_').replace('\\','_')+'.html'
+        link = env.docname.replace('\\','_') + '.html'
         self.content = statemachine.StringList([ SNIPTEXT % link ])
         targetid = "codesnippet-%d" % env.new_serialno('codesnippet')
         targetnode = nodes.target('', '', ids=[targetid])
