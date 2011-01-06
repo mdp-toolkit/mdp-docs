@@ -14,7 +14,7 @@ Tutorial
 
 .. only:: latex
     
-    This document is also available `online. <http://mdp-toolkit.sourceforge.net/tutorial.html>`_
+    This document is also available `online. <http://mdp-toolkit.sourceforge.net/tutorial/tutorial.html>`_
 
 
 This is a guide to basic and some more advanced features of
