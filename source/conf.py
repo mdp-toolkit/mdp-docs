@@ -35,7 +35,8 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.extlinks',
               'extapi',
               'codesnippet',
-              'version_string']
+              'version_string',
+              'linkcheck2']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -126,6 +127,10 @@ html_show_copyright = False
 
 # If nonempty, this is the file name suffix for HTML files (e.g. ".xhtml").
 #html_file_suffix = ''
+
+# A list of regular expressions that match URIs that should not be checked
+# when doing a ``linkcheck`` build.
+linkcheck2_ignore = [r'http://mdp-toolkit.*']
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'MDP-toolkitdoc'
