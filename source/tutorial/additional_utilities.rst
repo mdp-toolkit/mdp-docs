@@ -20,7 +20,7 @@ for the full documentation and interface description.
      adding many numbers. If you want to contribute a ``CovarianceMatrix``
      class that uses such algorithms we would be happy to include it in
      MDP.  For a start see the `Python recipe
-     <http://aspn.activestate.com/ASPN/Cookbook/Python/Recipe/393090>`_
+     <http://code.activestate.com/recipes/393090/>`_
      by Raymond Hettinger. For a
      review about floating point arithmetic and its pitfalls see
      this `interesting article <http://docs.sun.com/source/806-3568/ncg_goldberg.html>`_.

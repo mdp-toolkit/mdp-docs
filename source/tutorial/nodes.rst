@@ -622,7 +622,7 @@ When ``Node`` inherits the input dimension, output dimension, and ``dtype``
 from the input data, it calls the methods ``set_input_dim``, 
 ``set_output_dim``, and ``set_dtype``. Those are the setters for
 ``input_dim``, ``output_dim`` and ``dtype``, which are Python 
-`properties <http://www.python.org/2.2/descrintro.html>`_. 
+`properties <http://www.python.org/download/releases/2.2/descrintro/#property>`_. 
 If a subclass needs to change the default behavior, the internal methods
 ``_set_input_dim``, ``_set_output_dim`` and ``_set_dtype`` can
 be overwritten. The property setter will call the internal method after

@@ -46,7 +46,7 @@ hesitate to submit it!
 .. _py25-mdp-toolkit: http://trac.macports.org/browser/trunk/dports/python/py25-mdp-toolkit/Portfile
 
 
-.. _`mailing list`: https://lists.sourceforge.net/mailman/listinfo/mdp-toolkit-users
+.. _`mailing list`: https://lists.sourceforge.net/lists/listinfo/mdp-toolkit-users
 
 
 

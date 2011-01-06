@@ -33,7 +33,7 @@ A convenient implementation of the iterator protocol is provided
 by generators:
 see `this article <http://linuxgazette.net/100/pramode.html>`_ for an
 introduction, and the
-`official PEP <http://www.python.org/peps/pep-0255.html>`_ for a
+`official PEP <http://www.python.org/dev/peps/pep-0255/>`_ for a
 complete description.
 
 Let us define two bogus node classes to be used as examples of nodes

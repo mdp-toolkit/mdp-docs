@@ -163,7 +163,7 @@ So the network units have developed some kind of primitive line
 detector. More on this topic can be found in: Berkes, P. and Wiskott,
 L., `Slow feature analysis yields a rich repertoire of complex cell
 properties`.  
-`Journal of Vision, 5(6):579-602 <http://journalofvision.org/5/6/9/>`_. 
+`Journal of Vision, 5(6):579-602 <http://www.journalofvision.org/content/5/6/9>`_. 
 
 One could also add more layers on top of this first layer to do more 
 complicated stuff. Note that the ``in_channel_dim`` in the next 

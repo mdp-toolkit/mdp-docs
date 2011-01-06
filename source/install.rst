@@ -21,7 +21,7 @@ MDP is prepackaged for:
 * `Debian <http://www.debian.org>`_ (package `python-mdp`_)
 * `Ubuntu <http://www.ubuntu.com>`_ (package `python-mdp`__)
 * `Gentoo <http://www.gentoo.org>`_ (ebuild `sci-mathematics/mdp`_)
-* `Mandriva <http://www.mandriva.com>`_ (package `python-mdp`)
+* `Mandriva <http://www2.mandriva.com/en/>`_ (package `python-mdp`)
 * `PCLinuxOS <http://www.pclinuxos.com>`_ (package `python-mdp`)
 
 
