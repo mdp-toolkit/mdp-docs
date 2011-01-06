@@ -19,8 +19,9 @@ CODEDIR       = source/code
 PAPEROPT_a4     = -D latex_paper_size=a4
 PAPEROPT_letter = -D latex_paper_size=letter
 ALLSPHINXOPTS   = -d $(BUILDDIR)/doctrees $(PAPEROPT_$(PAPER)) $(SPHINXOPTS) -n source
+LINKS           = absolute
 
-.PHONY: help clean html dirhtml singlehtml pickle json htmlhelp qthelp devhelp epub latex latexpdf text man changes linkcheck doctest
+.PHONY: help clean html htmllocal dirhtml singlehtml pickle json htmlhelp qthelp devhelp epub latex latexpdf text man changes linkcheck doctest
 
 help:
 	@echo "Please use \`make <target>' where <target> is one of"
@@ -43,14 +44,25 @@ help:
 	@echo "  doctest    to run all doctests embedded in the documentation (if enabled)"
 	@echo "  codesnippet  to create python modules from doctests embedded in the documentation (if enabled)"
 	@echo "  website    make MDP website"
+	@echo "        add MDPTOOLKIT=../... to specify path to mdp-toolkit (default ../mdp-toolkit)"
+	@echo "        add LINKS=local to generate local relative links in html"
+	@echo "        add PAPER=letter to set page size (default a4)"
 
 clean:
 	-rm -rf $(BUILDDIR)/*
 
-html:
+html: html$(LINKS)
+
+htmlabsolute:
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 	@echo
 	@echo "Build finished. The HTML pages are in $(BUILDDIR)/html."
+
+htmllocal: htmlabsolute
+	for file in `grep -l -I mdp-toolkit.sourceforge.net -r $(BUILDDIR)/html`; do\
+		repl=`echo $$file|sed -r "s|build/html/||; s|[^/]+/|../|g; s|[^/]+$$||"`; \
+		sed -r -i "s|http://mdp-toolkit.sourceforge.net/|$$repl|g" $$file; \
+        done
 
 epydoc:
 	mkdir -p $(APIBUILD)
@@ -168,4 +180,4 @@ codesnippet:
 	@echo "Generation of module from doctest finished, look at the" \
 	      "results in $(BUILDDIR)/codesnippet/."
 
-website: epydoc codesnippet html latexpdf
+website: epydoc codesnippet html$(LINKS) latexpdf
