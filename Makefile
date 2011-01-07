@@ -49,7 +49,7 @@ help:
 	@echo "        add PAPER=letter to set page size (default a4)"
 
 clean:
-	-rm -rf $(BUILDDIR)/*
+	-rm -rf $(BUILDDIR)/* $(APIBUILD)
 
 html: html$(LINKS)
 
