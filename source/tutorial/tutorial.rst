@@ -62,6 +62,7 @@ is available.
    extensions.rst
    hinet.rst
    parallel.rst
+   caching.rst
    classifiers.rst
    node_list.rst
    additional_utilities.rst
