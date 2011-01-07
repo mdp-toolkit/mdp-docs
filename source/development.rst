@@ -65,9 +65,12 @@ Strictly in alphabetical order:
 - `Michael Hanke <http://mih.voxindeserto.de/>`_
 - `Konrad Hinsen <http://dirac.cnrs-orleans.fr/~hinsen/>`_
 - Christian Hinze
-- Sebastian Höfer <http://www.sebastianhoefer.de>_
+- `Sebastian Höfer <http://www.sebastianhoefer.de>`_
+- `Michael Hull <http://www.inf.ed.ac.uk/people/students/Michael_Hull.html>`_
 - `Samuel John <http://www.samueljohn.de/>`_
 - Susanne Lezius
+- `José Quesada <http://www.josequesada.name/>`_
+- `Ariel Rokem <http://argentum.ucbso.berkeley.edu/ariel.html>`_
 - `Michael Schmuker <http://userpage.fu-berlin.de/~schmuker/>`_
 - `Benjamin Schrauwen <http://reslab.elis.ugent.be/benjamin>`_
 - `Henning Sprekeler <http://lcn.epfl.ch/~sprekele>`_
