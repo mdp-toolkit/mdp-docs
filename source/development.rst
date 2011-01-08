@@ -278,7 +278,7 @@ General Style Guidelines
   ``_set_output_dim``, ``_set_dtype`` functions.  Several examples are
   available in ``mdp-toolkit/mdp/nodes/``
 
-- Your code should strictly follow the `PEP 8 <http://www.python.org/dev/peps/pep-0008/>`_ 
+- Your code should strictly follow the :pep:`8`
   coding conventions. Note that some older code
   sections in MDP do not follow PEP 8 100%, but when the opportunity arises
   (e.g., when we make changes in the code) we are improving this. So new code
