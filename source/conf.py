@@ -147,7 +147,7 @@ latex_font_size = '10pt'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('tutorial/tutorial', 'MDP-tutorial.tex',
+  ('pdf', 'MDP-tutorial.tex',
    ur'''Modular toolkit for Data Processing\\\mbox{ }\\Tutorial''',
    u'Authors: MDP Developers', 'manual'),
 ]

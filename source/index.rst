@@ -3,10 +3,8 @@
    :maxdepth: 3
 
    install.rst
-   development.rst
+   documentation.rst
    how_to_cite_mdp.rst
-   tutorial/tutorial.rst
-   examples/examples.rst
    contact.rst
 
 .. admonition:: News

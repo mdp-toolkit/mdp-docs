@@ -63,7 +63,5 @@ is available.
    hinet.rst
    parallel.rst
    classifiers.rst
-   node_list.rst
-   additional_utilities.rst
    bimdp.rst
  
