@@ -135,11 +135,6 @@ If you want to use MDP without installing it on the system Python path::
 
 
 
-License
-=======
-MDP is distributed under the open source :ref:`BSD license <license>`.
-
-
 Optional Libraries
 ==================
 MDP can make use of several additional libraries if they are installed on your
@@ -191,3 +186,5 @@ If some test fails, please report it to the `mailing list
 <https://lists.sourceforge.net/lists/listinfo/mdp-toolkit-users>`_.
 If you want to help in debugging, start by installing the `py.test
 <http://pytest.org/>`_ testing framework.
+
+.. include:: license.rst
