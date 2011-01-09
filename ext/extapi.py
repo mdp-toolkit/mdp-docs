@@ -33,6 +33,10 @@ def _extract_name(text):
     match = re.match(r'(.*)\s+<(.+)>', text)
     if match:
         return match.groups()
+
+    match = re.match(r'~(.*\.([^.]+))', text)
+    if match:
+        return match.groups()
     else:
         return text, text
 

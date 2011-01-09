@@ -25,8 +25,9 @@ observations, or to batch learning if the whole data is sent in a
 single chunk). This makes it possible to perform computations on large amounts
 of data that would not fit into memory and to generate data on-the-fly.
 
-A ``Node`` also defines some utility methods, for example
-``copy``, which returns an exact copy of a node,  and ``save``, which writes it
+A :api:`~mdp.Node` also defines some utility methods, for example
+:api:`~mdp.Node.copy`, which returns an exact copy of a node,  and
+:api:`~mdp.Node.save`, which writes to
 in a file. Additional methods may also be present, depending on the
 algorithm.
 
@@ -88,7 +89,7 @@ looking at its ``supported_dtypes`` property
     >>> pcanode4.supported_dtypes             # doctest: +ELLIPSIS
     [dtype('float32'), dtype('float64'), ...]
 
-    .. supported_dtypes includes float96 on 32 bit, and float128 otherwise
+.. supported_dtypes includes float96 on 32 bit, and float128 otherwise
 
 This attribute is a list of ``numpy.dtype`` objects.
 
