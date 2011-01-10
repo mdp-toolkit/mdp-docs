@@ -15,11 +15,11 @@ data has to be processed by all the preceding ones. This duplication
 of efforts may be costly, for example in image processing, when one
 needs to repeatedly filter the images.
 
-MDP offers a node extension that automatically caches the result of
-the ``execute`` method, which can boost the speed of an application
-considerably in such scenarios. The cache can be activated globally
-(i.e., for all node instances), for a specific node class, or for
-specific instances.
+MDP offers a :ref:`node extension <extensions>` that automatically
+caches the result of the ``execute`` method, which can boost the speed
+of an application considerably in such scenarios. The cache can be
+activated globally (i.e., for all node instances), for some node
+classes only, or for specific instances.
 
 The caching mechanism is based on the library 
 `joblib <http://packages.python.org/joblib/>`_, version 0.4.3 or higher.
@@ -51,7 +51,7 @@ large Principal Component Analysis problem:
 The time for projecting the data ``x`` on the principal components
 drops dramatically after the caching extension is activated:
 
-    >>> # we will use this timer to measure the speed of 'pca_node'
+    >>> # we will use this timer to measure the speed of 'pca_node.execute'
     >>> timer = Timer("pca_node.execute(x)", "from __main__ import pca_node, x")
     >>> mdp.caching.set_cachedir("/tmp/my_cache")
     >>> mdp.activate_extension("cache_execute")
