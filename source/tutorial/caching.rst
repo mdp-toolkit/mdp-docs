@@ -5,8 +5,8 @@ Caching execution results
 =========================
 .. codesnippet::
 
-Intro
------
+Introduction
+------------
 
 It is relatively common for nodes to process the same data several
 times. Usually this happens when training a long sequence of nodes
@@ -24,8 +24,8 @@ classes only, or for specific instances.
 The caching mechanism is based on the library 
 `joblib <http://packages.python.org/joblib/>`_, version 0.4.3 or higher.
 
-Activating the extension
-------------------------
+Activating the caching extension
+--------------------------------
 
 It is possible to activate the caching extension as for regular
 extension using the extension name ``'cache_execute'``. By default,
