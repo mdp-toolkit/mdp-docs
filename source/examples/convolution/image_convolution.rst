@@ -52,3 +52,30 @@ obtaining these filtered images:
 .. image:: filtered_lena.png
         :width: 600
         :alt: Lena filtered by Gabors
+
+To demonstrate how to use the caching extension, we'll pretend we have
+several images by copying Lena several times, and measure the 
+filtering performance with and without cache:
+
+    >>> x = mdp.utils.lrep(im, 3)
+    >>> # set up a Timer object to measure performance
+    >>> from timeit import Timer
+    >>> timer = Timer("node.execute(x)", "from __main__ import node, x")
+    >>> # first uncached execution
+    >>> print timer.repeat(1, 1), 'sec'
+    6.91 sec
+    >>>
+    >>> # now activating the cache on the Convolution2DNode class:
+    >>> with mdp.caching.cache(cache_classes=[mdp.nodes.Convolution2DNode]):
+    >>>     # second execution, uncached if it's the first time the script is run
+    >>>    print timer.repeat(1, 1), 'sec'
+    >>>    # third execution, this time cached
+    >>>    print timer.repeat(1, 1), 'sec'
+    7.05 sec
+    39.6 msec
+
+That's a 178 times improvement!
+
+
+
+
