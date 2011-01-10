@@ -13,7 +13,8 @@ times. Usually this happens when training a long sequence of nodes
 using a fixed data set: to train the nodes at end of the sequence, the
 data has to be processed by all the preceding ones. This duplication
 of efforts may be costly, for example in image processing, when one
-needs to repeatedly filter the images.
+needs to repeatedly filter the images (:ref:`as in this
+example<convolution2D>`).
 
 MDP offers a :ref:`node extension <extensions>` that automatically
 caches the result of the ``execute`` method, which can boost the speed
