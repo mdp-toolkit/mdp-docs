@@ -10,6 +10,7 @@ Examples
    logmap/logmap.rst
    lle/lle.rst
    gng/gng.rst
+   convolution/image_convolution.rst
    logo/logo_animation.rst
    bayes_guesser/bayes_guesser.rst
    word_generator/word_generator.rst
@@ -30,6 +31,8 @@ applications:
   data distribution.
 * :ref:`lle` — Approximate data with a low-dimensional surface
   and reduce its dimensionality by learning a mapping to the surface.
+* :ref:`convolution2D` — Filter images with 2D wavelets and demonstrate use
+  of caching extension.
 
 * `hinet_html.py`__ — Get the HTML representation for a simple hinet network.
 * `benchmark_parallel.py`__ — Simple benchmark to compare the different
