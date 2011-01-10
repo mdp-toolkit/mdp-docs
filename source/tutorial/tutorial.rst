@@ -62,6 +62,8 @@ is available.
    extensions.rst
    hinet.rst
    parallel.rst
+   caching.rst
    classifiers.rst
+   wrappers.rst
    bimdp.rst
  
