@@ -5,11 +5,11 @@
     ], 
     "layer_configs": [
         {
-            "field_size_xy": [
+            "field_channels_xy": [
                 15, 
                 15
             ], 
-            "field_step_xy": [
+            "field_spacing_xy": [
                 10, 
                 10
             ], 
@@ -18,11 +18,11 @@
             "sfa_dim": 25
         }, 
         {
-            "field_size_xy": [
+            "field_channels_xy": [
                 15, 
                 15
             ], 
-            "field_step_xy": [
+            "field_spacing_xy": [
                 1, 
                 1
             ], 

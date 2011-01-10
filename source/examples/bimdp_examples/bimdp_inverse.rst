@@ -25,7 +25,7 @@ Create a simple pointless flow
 >>> flow.train(x)
 
 >>> x = np.random.random((3,5))
->>> y = flow.execute(x)
+>>> y, msg = flow.execute(x)
 
 The target value 1 is the absolute index of the sfa_node,
 alternatively one could have used a node_id
