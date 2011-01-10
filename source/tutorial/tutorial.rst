@@ -64,6 +64,7 @@ is available.
    parallel.rst
    caching.rst
    classifiers.rst
+   wrappers.rst
    node_list.rst
    additional_utilities.rst
    bimdp.rst
