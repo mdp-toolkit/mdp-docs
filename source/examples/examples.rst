@@ -11,6 +11,7 @@ Examples
    lle/lle.rst
    gng/gng.rst
    convolution/image_convolution.rst
+   scikits_learn/digit_classification.rst
    logo/logo_animation.rst
    bayes_guesser/bayes_guesser.rst
    word_generator/word_generator.rst
@@ -33,6 +34,8 @@ applications:
   and reduce its dimensionality by learning a mapping to the surface.
 * :ref:`convolution2D` — Filter images with 2D wavelets and demonstrate use
   of caching extension.
+* :ref:`digit_classification` — Use the combined power of MDP and scikits.learn
+  in an applciation for handwritten digit classification
 
 * `hinet_html.py`__ — Get the HTML representation for a simple hinet network.
 * `benchmark_parallel.py`__ — Simple benchmark to compare the different
