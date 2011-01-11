@@ -217,10 +217,19 @@ def setup(app):
         return (None, None)
 
     def autodoc_process_docstring(app, what, name, obj, options, lines):
-        # add link to api at the beginning of the docstring
-        shortname = name.split('.')[-1]
-        link = 'Full API documentation: :api:`%s <%s>`' % (name, shortname)
-        lines.extend(['', link])
+        if name.endswith('ScikitsLearnNode'):
+            new_lines = []
+            # search closing braket
+            for line in lines:
+                new_lines.append(line)
+                if line.find(']') != -1:
+                    break
+            lines[:] = new_lines
+        else:
+            # add link to api at the end of the docstring
+            shortname = name.split('.')[-1]
+            link = 'Full API documentation: :api:`%s <%s>`' % (name, shortname)
+            lines.extend(['', link])
 
     # app.connect(event, callback)
     app.connect('autodoc-process-signature', autodoc_process_signature)
