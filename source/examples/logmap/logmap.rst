@@ -103,7 +103,7 @@ Print the *eta-values* of the chaotic time series and of
 the slow feature
 
     >>> print 'Eta value (time series): %d' % flow[0].get_eta(t=10000)
-    Eta value (time series): 3004
+    Eta value (time series): 3005
     >>> print 'Eta value (slow feature): %.3f' % flow[-1].get_eta(t=9996)
     Eta value (slow feature): 10.218
 

@@ -38,5 +38,3 @@ Compare the result to the standard inverse
 
 >>> inv2_x = flow.inverse(y)
 >>> assert np.all(np.abs(inv2_x - inv_x) < 0.0000001)
-
->>> print "done."
