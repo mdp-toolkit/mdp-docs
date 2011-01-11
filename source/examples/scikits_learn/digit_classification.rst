@@ -12,7 +12,7 @@ In this example, we show how it is possible to merge MDP nodes and flows
 and a scikits.learn classifier to perform handwritten digit classification.
 
 One of the nice features of scikits.learn is that it provides access to
-several classical dataset. First of all, we will load the `digits` dataset::
+several classical dataset. First of all, we will load the `digits` dataset:
 
     >>> import mdp
     >>> import numpy
@@ -26,7 +26,7 @@ several classical dataset. First of all, we will load the `digits` dataset::
     >>> data = digits.images.reshape((images.shape[0],
     ...                               numpy.prod(images.shape[1:])))
 
-and divide it in a training and a test set::
+and divide it in a training and a test set:
 
     >>> # number of digits to be used as training data (2/3 of total)
     >>> ntrain = images.shape[0] // 3 * 2
@@ -64,7 +64,7 @@ performs these steps:
 - classify the digit using the Support Vector Classification algorithm
   defined in scikits.learn
 
-In the application, the data type is set to single precision to spare memory::
+In the application, the data type is set to single precision to spare memory:
 
     >>> flow = mdp.Flow([mdp.nodes.PCANode(output_dim=25, dtype='f'),
     ...                  mdp.nodes.PolynomialExpansionNode(3),
@@ -76,12 +76,10 @@ Note how it is possible to set parameters in the the scikits.learn algorithms
 simply by using the corresponding keyworg argument. In this case, we use
 Radial Basis Function kernels for the classifier.
 
-We're ready to train our algorithms on the training data set::
+We're ready to train our algorithms on the training data set:
 
     >>> flow.train([train_data, None, train_data,
     ...             train_data_with_labels, train_data_with_labels])
-    >>> # print the final state of the nodes
-    >>> print repr(flow)
     Training node #0 (PCANode)
     Training finished
     Training node #1 (PolynomialExpansionNode)
@@ -93,6 +91,8 @@ We're ready to train our algorithms on the training data set::
     Training node #4 (SVCScikitsLearnNode)
     Training finished
     Close the training phase of the last node
+    >>> # print the final state of the nodes
+    >>> print repr(flow)
     Flow([PCANode(input_dim=64, output_dim=25, dtype='float32'),
           PolynomialExpansionNode(input_dim=25, output_dim=3275, dtype='float32'),
 	  PCANode(input_dim=3275, output_dim=646, dtype='float32'),
@@ -109,10 +109,10 @@ the error rate:
    >>> prediction = flow(test_data)
    >>> # percent error
    >>> error = ((prediction.flatten() != test_labels).astype('f').sum()
-   >>>          / (images.shape[0] - ntrain) * 100.)
-   >>> print 'percent error:', error
+   ...          / (images.shape[0] - ntrain) * 100.)
+   >>> print 'percent error:', error # doctest: +SKIP
    percent error: 3.33889816361
 
-One can probably do better than that 3.3 percent error using a larger
-non-linear space, using mode PCA components, or using another
+One can probably do better than 3.3 percent error using a larger
+non-linear space, using more PCA components, or using another
 classifier. Have fun exploring the parameters!
