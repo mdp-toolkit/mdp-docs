@@ -151,8 +151,14 @@ class CodeSnippetBuilder(Builder):
         code = []
         for node in doctree.traverse(condition):
             source = node.has_key('test') and node['test'] or node.astext()
-            example = doctest.script_from_examples(source)
-
+            try:
+                example = doctest.script_from_examples(source)
+            except Exception, exc:
+                # catch doctest errors
+                self.info('\nDocument: %s\n----------%s\n' %
+                          (docname, '-'*len(docname)))
+                raise Exception(exc)
+            
             if self.config.codesnippet_strip_doctest_directives:
                 # remove doctest directives
                 lines = (re.split(r'\s*#\s*doctest:', line, 1)[0]
