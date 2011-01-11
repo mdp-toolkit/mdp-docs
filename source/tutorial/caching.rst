@@ -59,15 +59,15 @@ drops dramatically after the caching extension is activated:
     >>> # all calls to the 'execute' method will now be cached in 'my_cache'
     >>> # the first time execute is called, the method is run
     >>> # and the result is cached
-    >>> print timer.repeat(1, 1)[0], 'sec'
+    >>> print timer.repeat(1, 1)[0], 'sec' # doctest: +SKIP
     1.188946008682251 sec
     >>> # the second time, the result is retrieved from the cache
-    >>> print timer.repeat(1, 1)[0], 'sec'
+    >>> print timer.repeat(1, 1)[0], 'sec' # doctest: +SKIP
     0.112375974655 sec
     >>> mdp.deactivate_extension("cache_execute")
     >>> # when the cache extension is deactivated, the 'execute' method is
     >>> # called as usual
-    >>> print timer.repeat(1, 1)[0], 'sec'
+    >>> print timer.repeat(1, 1)[0], 'sec' # doctest: +SKIP
     0.801102161407 sec
 
 Alternative ways to activate the caching extension, which also expose
@@ -93,10 +93,10 @@ that closes the cache properly at the end of the block:
 
     >>> with mdp.caching.cache(cachedir='/tmp/my_cache', cache_instances=[pca_node]):
     ...     # in the block, the cache is active
-    ...     print timer.repeat(1, 1)[0], 'sec'
+    ...     print timer.repeat(1, 1)[0], 'sec' # doctest: +SKIP
     ... 
     0.101263999939 sec
     >>> # at the end of the block, the cache is deactivated
-    >>> print timer.repeat(1, 1)[0], 'sec'
+    >>> print timer.repeat(1, 1)[0], 'sec' # doctest: +SKIP
     0.801436901093 sec
 
