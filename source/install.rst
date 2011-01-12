@@ -167,10 +167,7 @@ MDP supports Python 3.X and Python 2.X within a single code base. Thanks
 to the great work by Pauli Virtanen and David Cournapeau of the NumPy
 developers' team, the Python 3 compatible code is generated
 automatically when you install with Python 3. Note that NumPy is
-compatible with Python 3 since release 1.5. At the moment there are
-still no binary packages of NumPy for Python 3, so you may have to
-build NumPy from `source <https://github.com/numpy/numpy>`_.
-
+compatible with Python 3 since release 1.5. 
 
 Testing
 =======
