@@ -15,10 +15,11 @@ of the `Humboldt University <http://www.hu-berlin.de/>`_, Berlin in 2003.
 Current maintainers are:
 
 *   `Pietro Berkes <http://people.brandeis.edu/~berkes>`_
+*   `Zbigniew Jędrzejewski-Szmek <http://dimer.fuw.edu.pl/Members/ZbyszekJSzmek>`_
 *   `Rike-Benjamin Schuppner <http://www.bccn-berlin.de/People/home/?contentId=686>`_
 *   `Niko Wilbert <http://itb.biologie.hu-berlin.de/~wilbert/>`_
 *   `Tiziano Zito <http://www.cognition.tu-berlin.de/zito>`_
-*   `Zbigniew Jędrzejewski-Szmek <http://dimer.fuw.edu.pl/Members/ZbyszekJSzmek>`_
+
 
 `Yaroslav Halchenko <http://www.onerussian.com>`_ maintains the python-mdp_ Debian package,
 `Maximilian Nickel <http://2manyvariables.inmachina.com>`_ maintains the py25-mdp-toolkit_ MacPorts package.
