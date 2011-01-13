@@ -36,7 +36,8 @@ extensions = ['sphinx.ext.autodoc',
               'extapi',
               'codesnippet',
               'version_string',
-              'linkcheck2']
+              'linkcheck2',
+              'descriptions_string']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
