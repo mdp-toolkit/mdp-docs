@@ -40,18 +40,18 @@ applications:
 * `hinet_html.py`__ — Get the HTML representation for a simple hinet network.
 * `benchmark_parallel.py`__ — Simple benchmark to compare the different
   schedulers in MDP.
-* `pp_remote_test.py`__ — Simple test of the remote Parallel Python support (
-	using the NetworkPPScheduler).
+* `pp_remote_test.py`__ — Simple test of the remote Parallel Python support,
+  using the NetworkPPScheduler.
 * :ref:`slideshow` and :ref:`slideshow_double` — Created slideshows of
   matplotlib plots, demonstrates the slideshow module in MDP.
 * `hinetplaner`__ — Interactive HTML/JS/AJAX based GUI for constructing special
   hinet networks. This is a complicated example which won't teach you much
   about MDP.
 
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=blob_plain;f=hinet_html.py
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=blob_plain;f=benchmark_parallel.py
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=blob_plain;f=pp_remote_test.py
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=tree;f=hinetplaner
+__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/docs;a=blob_plain;f=source/examples/hinet_html.py
+__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/docs;a=blob_plain;f=source/examples/benchmark_parallel.py
+__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/docs;a=blob_plain;f=source/examples/pp_remote_test.py
+__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/docs;a=blob_plain;f=source/examples/hinetplaner
 
 The following examples use and illustrate BiMDP.
 
@@ -68,5 +68,5 @@ The following examples use and illustrate BiMDP.
   perceptron.
 * :ref:`binetdbn` — Proof of concept for a Deep Belief Network.
 
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=blob_plain;f=bimdp_examples/bimdp_simple_coroutine.py
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=tree;f=backpropagation
+__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/docs;a=blob_plain;f=source/examples/bimdp_examples/bimdp_simple_coroutine.py
+__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/docs;a=blob_plain;f=source/examples/backpropagation
