@@ -7,7 +7,7 @@ import mdp
 import bimdp
 import mnistdigits
 
-# TODO: use special job class to expand data remotely
+# TODO: use special task class to expand data remotely
 
 chunk_size = 7000  # for each digit there are about 5000 training samples
 verbose = True
