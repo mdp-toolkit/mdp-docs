@@ -47,11 +47,14 @@ applications:
 * `hinetplaner`__ — Interactive HTML/JS/AJAX based GUI for constructing special
   hinet networks. This is a complicated example which won't teach you much
   about MDP.
+* `mnist`__ — Several more example for handwritten digit classification,
+  this time with Fisher Discriminant Analysis and without scikits.learn.
 
 __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/docs;a=blob_plain;f=source/examples/hinet_html.py
 __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/docs;a=blob_plain;f=source/examples/benchmark_parallel.py
 __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/docs;a=blob_plain;f=source/examples/pp_remote_test.py
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/docs;a=blob_plain;f=source/examples/hinetplaner
+__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/docs;a=tree;f=source/examples/hinetplaner
+__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/docs;a=tree;f=source/examples/mnist
 
 The following examples use and illustrate BiMDP.
 
@@ -69,4 +72,4 @@ The following examples use and illustrate BiMDP.
 * :ref:`binetdbn` — Proof of concept for a Deep Belief Network.
 
 __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/docs;a=blob_plain;f=source/examples/bimdp_examples/bimdp_simple_coroutine.py
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/docs;a=blob_plain;f=source/examples/backpropagation
+__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/docs;a=tree;f=source/examples/backpropagation
