@@ -40,6 +40,8 @@ applications:
 * `hinet_html.py`__ — Get the HTML representation for a simple hinet network.
 * `benchmark_parallel.py`__ — Simple benchmark to compare the different
   schedulers in MDP.
+* `pp_remote_test.py`__ — Simple test of the remote Parallel Python support (
+	using the NetworkPPScheduler).
 * :ref:`slideshow` and :ref:`slideshow_double` — Created slideshows of
   matplotlib plots, demonstrates the slideshow module in MDP.
 * `hinetplaner`__ — Interactive HTML/JS/AJAX based GUI for constructing special
@@ -48,6 +50,7 @@ applications:
 
 __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=blob_plain;f=hinet_html.py
 __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=blob_plain;f=benchmark_parallel.py
+__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=blob_plain;f=pp_remote_test.py
 __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/examples;a=tree;f=hinetplaner
 
 The following examples use and illustrate BiMDP.
