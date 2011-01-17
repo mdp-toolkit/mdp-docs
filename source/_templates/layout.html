@@ -15,12 +15,12 @@
 <div id="header">
     <table width="100%">
 	<tr>
-	    <td align="left" class="td_header">
+	    <td class="td_header_left">
 		<a href="http://mdp-toolkit.sourceforge.net">
 		    Modular toolkit for<br />Data Processing
 		</a>
 	    </td>
-	    <td align="right" class="td_header">
+	    <td class="td_header_right">
 		<a href="{{pathto('examples/logo/logo_animation')}}">
 		    <img src="{{pathto('_static/logo.png',1)}}" alt="MDP logo"
 			 title="click to see the animated logo!" class="img_header"/>
@@ -61,14 +61,28 @@
 {% block footer %} 
 <div class="footer">
     <hr />
-    <a href="http://sourceforge.net/projects/mdp-toolkit">
-	<img src="http://sflogo.sourceforge.net/sflogo.php?group_id=116959&amp;type=12"
-	     width="120" height="30" border="0"
-	     alt="Get Modular toolkit for Data Processing MDP at SourceForge.net. Fast, secure and Free Open Source software downloads" />
-    </a>
-    {%- if last_updated %}
-    {% trans last_updated=last_updated|e %}Last updated on {{ last_updated }}.{% endtrans %}
-    {%- endif %}
+    <table>
+      <tr>
+        <td class="footer-left">
+           <a href="http://sourceforge.net/projects/mdp-toolkit">
+ <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=116959&amp;type=12"
+      width="120" height="30" border="0" alt="MDP@SF.NET"/> </a>
+        </td>
+        {%- if last_updated %}
+        <td class="footer-center">
+          {% trans last_updated=last_updated|e %}Last updated on
+             {{ last_updated }}{% endtrans %}
+        </td>
+        {%- endif %}
+        <td class="footer-right">
+         <form class="search" action="{{ pathto('search') }}" method="get">
+          <input type="submit" value="{{ _('Search') }}" />
+          <input type="text" name="q" size="18" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+         </form>
+        </td>
+    </table>  
     <!-- Piwik -->
     <script type="text/javascript">
 	var pkBaseURL = (("https:" == document.location.protocol) ? "https://apps.sourceforge.net/piwik/mdp-toolkit/" : "http://apps.sourceforge.net/piwik/mdp-toolkit/");

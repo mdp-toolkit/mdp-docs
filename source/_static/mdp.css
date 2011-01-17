@@ -110,12 +110,20 @@ div.clearer {
     margin: 0 0 1em 0;
 }
 
-#header .td_header {
+#header .td_header_left, #header .td_header_right {
     vertical-align:middle;
     padding-left:1em;
     padding-right:1em;
     font-size: 2.5em;
     font-weight:bold;
+}
+
+#header .td_header_left { 
+    text-align: left;
+}
+
+#header .td_header_right { 
+    text-align: right;
 }
 
 #header .img_header {
@@ -425,6 +433,30 @@ div.footer hr {
     margin-bottom:0.5em;
 }
 
+div.footer table {
+    width: 100%;
+    padding: 0px;
+    margin: 0px;
+}
+
+div.footer tr, div.footer td {
+    vertical-align: middle;
+    padding: 0px;
+    margin: 0px;
+}
+
+div.footer .footer-left { 
+    text-align: left;
+}
+
+div.footer .footer-center { 
+    text-align: center;
+}
+
+div.footer .footer-right { 
+    text-align: right;
+}
+
 div.pagination {
     margin-top: 2em;
     padding-top: 0.5em;
@@ -663,11 +695,11 @@ div.sphinxsidebar ul ul li a:hover {
     color: black;
 }
 
-.td_header a {
+.td_header_left a, .td_header_right a {
     color: #01261C;
 }
 
-.td_header a:hover, div.navigation_title a:hover, div.sphinxsidebar li a:hover { color: #AF8320;}
+.td_header_left a:hover, .td_header_right a:hover, div.navigation_title a:hover, div.sphinxsidebar li a:hover { color: #AF8320;}
 
 
 #header, pre, div.related, div.body, div.admonition, div.warning, div.navigation_title, div.sphinxsidebar li a, hr {
