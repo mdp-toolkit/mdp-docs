@@ -9,10 +9,19 @@
 
 .. admonition:: News
 
-  05.01.2010
+  13.01.2010
       MDP 3.0 released!
 
-      Several new exciting features.
+      - Python 3 support 
+      - New extensions: caching and gradient 
+      - Automatically generated wrappers for scikits.learn algorithms 
+      - Shogun and libsvm wrappers 
+      - New algorithms: convolution, several classifiers and 
+        several user-contributed nodes 
+      - Several new examples on the homepage 
+      - Improved and expanded tutorial 
+      - Several improvements and bug fixes 
+      - New license: MDP goes BSD!
 
       Get the full list of `changes since last release`__.
 
@@ -20,12 +29,8 @@ __ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/mdp-toolk
 
 .. middle-description-string::
 
-To learn more about MDP:
-
-* Tutorial: :ref:`html
-  <tutorial>`/`pdf <http://downloads.sourceforge.net/mdp-toolkit/MDP-tutorial.pdf?download>`_
-* :ref:`Full list <node_list>` of implemented algorithms
-* Typical usage :ref:`examples`
-* `API Index <api/index.html>`_
-
 .. include:: tutorial/using_mdp_is_as_easy.rst
+
+To learn more about MDP, read through the :ref:`documentation`.
+
+

@@ -1,3 +1,5 @@
+.. _development:
+
 ***********
 Development
 ***********
@@ -21,7 +23,7 @@ Current maintainers are:
 *   `Tiziano Zito <http://www.cognition.tu-berlin.de/zito>`_
 
 
-`Yaroslav Halchenko <http://www.onerussian.com>`_ maintains the python-mdp_ Debian package,
+`Yaroslav Halchenko`_ maintains the python-mdp_ Debian package,
 `Maximilian Nickel <http://2manyvariables.inmachina.com>`_ maintains the py25-mdp-toolkit_ MacPorts package.
 
 MDP is open to user contributions. Users have already contributed some
@@ -62,7 +64,7 @@ Strictly in alphabetical order:
 - `Farzad Farkhooi <http://www.biologie.fu-berlin.de/neuroinformatik/people/farkhooi/index.html>`_
 - Mathias Franzius
 - `Valentin Haenel <http://www.cognition.tu-berlin.de/menue/members/valentin_haenel/>`_
-- `Yaroslav Halchenko <http://www.onerussian.com/>`_
+- `Yaroslav Halchenko`_
 - `Michael Hanke <http://mih.voxindeserto.de/>`_
 - `Konrad Hinsen <http://dirac.cnrs-orleans.fr/~hinsen/>`_
 - Christian Hinze
@@ -79,6 +81,8 @@ Strictly in alphabetical order:
 - `David Verstraeten <http://reslab.elis.ugent.be/david>`_
 - `Katharina Maria Zeiner <http://www.st-andrews.ac.uk/~www_sp/people/pg/kmz.shtml>`_
 
+.. _`Yaroslav Halchenko`: http://www.onerussian.com
+ 
 ------------------------------
 Information for new developers
 ------------------------------
