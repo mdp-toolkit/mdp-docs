@@ -23,7 +23,9 @@ for the full documentation and interface description.
      <http://code.activestate.com/recipes/393090/>`_
      by Raymond Hettinger. For a
      review about floating point arithmetic and its pitfalls see
-     this `interesting article <http://docs.sun.com/source/806-3568/ncg_goldberg.html>`_.
+     *What every computer scientist should know about floating-point
+     arithmetic* by David Goldberg, ACM Computing Surveys, Vol 23, No
+     1, March 1991. 
 
 :api:`mdp.utils.DelayCovarianceMatrix`
      This class stores an empirical covariance matrix between the signal and
