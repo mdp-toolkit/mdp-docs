@@ -82,7 +82,11 @@ Binary Packages (Microsoft Windows)
 ===================================
 
 On Windows, the installation of the binary distribution is as easy as executing
-the installer and following the instructions. Get the installer `here <http://sourceforge.net/projects/mdp-toolkit>`_.
+the installer and following the instructions. Get the installer `here
+<http://sourceforge.net/projects/mdp-toolkit>`_. If you run Windows
+Vista or Windows 7, you may need to right-click on the installer and
+pick *Run as Administrator*.
+
 
 Python installers
 =================
