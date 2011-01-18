@@ -94,15 +94,18 @@ Python installers
 MDP is also listed in the `Python Package Index <http://pypi.python.org/pypi/MDP>`_.
 
 Users who like to install MDP using Python’s own packaging tools may
-want to use either the Python Package Index (PyPI) ::
+want to use either:
 
-    pip install MDP
+.. download-link:: pip install
 
-or install directly from the repository: ::
+or
+
+.. download-link:: easy_install
+
+If you use ``pip`` you can even install from the git repository
+directly with: ::
 
     pip install -e git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/mdp-toolkit#egg=MDP
-
-Note that instead of ``pip`` you may also use ``easy_install``.
 
 .. _install_from_source:
 
