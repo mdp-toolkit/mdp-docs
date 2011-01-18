@@ -37,7 +37,8 @@ extensions = ['sphinx.ext.autodoc',
               'codesnippet',
               'version_string',
               'linkcheck2',
-              'descriptions_string']
+              'descriptions_string',
+              'download_links']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
@@ -199,6 +200,10 @@ extlinks = {'code_snippet': (prefix+'/%s', 'code_snippet')}
 # extapi
 extapi_epydoc_path = os.path.join('build_api','api')
 extapi_link_prefix = '%s/api'%mdp.__homepage__
+
+# download links
+download_link = ('http://sourceforge.net/projects/mdp-toolkit/files/mdp-toolkit'
+                 '/%s/MDP-%s.tar.gz/download'%(version, version))
 
 # overwrite default signature and members documentation
 # features of autodoc
