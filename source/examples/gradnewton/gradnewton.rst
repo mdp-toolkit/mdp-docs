@@ -7,11 +7,7 @@ Gradient Descent and the Newton Method
 .. codesnippet::
 
 Example that uses the gradient descent and the Newton method for optimization.
-The NewtonNode is implemented in `newton.py`__ and the code on this page is also
-available as `demo_newton.py`__.
-
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/docs;a=blob_plain;f=source/examples/gradnewton/newton.py
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/docs;a=blob_plain;f=source/examples/gradnewton/demo_newton.py
+The NewtonNode is implemented in :download:`newton.py`.
 
 The goal is to find an x for which flow.execute returns a given y.
 
