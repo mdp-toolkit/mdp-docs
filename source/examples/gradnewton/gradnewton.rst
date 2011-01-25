@@ -25,6 +25,7 @@ Example that uses the gradient descent and the Newton method for optimization.
 ...
 ...         The Newton method is used to calculate the next point.
 ...         """
+...         # can't use function decorator, since this is a coroutine
 ...         with mdp.extension("gradient"):
 ...             # get the y value for the output
 ...             msg = {self.node_id + "->method": "newton", "method": "gradient"}
