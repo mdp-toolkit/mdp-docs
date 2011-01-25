@@ -58,9 +58,8 @@ n_layers iterables plus one iterable for the DBNMasterBiNode
 ...                     "momentum": 0.0,
 ...                     "max_iter": 2, "min_error": -1.0}]])
 
-perform the training
+perform and visualize the training
 
->>> flow.train(data_iterables, msg_iterables)
 >>> bimdp.show_training(flow, data_iterables, msg_iterables, debug=True)
 >>> print "done."
 
