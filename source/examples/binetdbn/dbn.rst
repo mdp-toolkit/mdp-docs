@@ -23,7 +23,7 @@ Its current pupose is to experiment with different binet features.
 Run this demo to view an HTML inspection of the DBN training.
 This should help with understanding how the implementation works.
 
-:download:`dbn_nodes.py` -- This is the original non-bimdp DBN node
+:ref:`dbn_nodes` — This is the original non-bimdp DBN node
 from Pietro, which is the basis for the BiMDP DBN implementation and
 is required for this example to run.
 
@@ -60,8 +60,10 @@ n_layers iterables plus one iterable for the DBNMasterBiNode
 
 perform and visualize the training
 
->>> bimdp.show_training(flow, data_iterables, msg_iterables, debug=True)
+>>> bimdp.show_training(flow, data_iterables, msg_iterables, debug=True)   # doctest: +ELLIPSIS
+'/tmp/.../training_inspection.html'
 >>> print "done."
+done.
 
 Other files:
 
