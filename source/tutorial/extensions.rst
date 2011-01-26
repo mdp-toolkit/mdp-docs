@@ -105,14 +105,14 @@ The first way to do this is by using multiple inheritance to derive from
 the base class of this extension and your custom node class. For example
 the parallel extension of the SFA node is defined in a class
 
-    >>> class ParallelSFANode(mdp.parallel.ParallelExtensionNode, 
+    >>> class ParallelSFANode(mdp.parallel.ParallelExtensionNode, # doctest: +SKIP
     ...                       mdp.nodes.SFANode):
     ...     def _fork(self):
     ...         # implement the forking for SFANode
-    ...         pass
+    ...         return ...
     ...     def _join(self):
     ...         # implement the joining for SFANode
-    ...         pass
+    ...         return ...
 
 Here ``ParallelExtensionNode`` is the base class of the extension. Then 
 you define the required methods or attributes just like in a normal 
@@ -126,9 +126,9 @@ decorator. You define the extension method like a normal function, but add
 the function decorator on top. For example to define the ``_fork`` method
 for the ``SFANode`` we could have also used
 
-    >>> @mdp.extension_method("parallel", mdp.nodes.SFANode) 
+    >>> @mdp.extension_method("parallel", mdp.nodes.SFANode) # doctest: +SKIP
     ... def _fork(self):
-    ...     pass
+    ...     return ...
 
 The first decorator argument is the name of the extension, the second is the
 class you want to extend. You can also specify the method name as a third
@@ -142,7 +142,7 @@ To create a new node extension you just have to create a new extension base
 class. For example the HTML representation extension in ``mdp.hinet``
 is created with
 
-    >>> class  HTMLExtensionNode(mdp.ExtensionNode, mdp.Node):
+    >>> class  HTMLExtensionNode(mdp.ExtensionNode, mdp.Node): # doctest: +SKIP
     ...     """Extension node for HTML representations of individual nodes."""
     ...     extension_name = "html2"
     ...     def html_representation(self):
