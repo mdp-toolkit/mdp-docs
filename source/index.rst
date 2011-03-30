@@ -9,7 +9,11 @@
 
 .. admonition:: News
 
-  13.01.2010
+  30.03.2011
+     MDP 3.1 released! This is a bug-fix release.
+      Get the full list of `changes since last release <http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/mdp-toolkit;a=blob_plain;f=CHANGES;hb=HEAD>`_.
+     
+  13.01.2011
       MDP 3.0 released!
 
       - Python 3 support 
@@ -23,9 +27,7 @@
       - Several improvements and bug fixes 
       - New license: MDP goes BSD!
 
-      Get the full list of `changes since last release`__.
-
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/mdp-toolkit;a=blob_plain;f=CHANGES;hb=HEAD
+      Get the full list of `changes since last release <http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/mdp-toolkit;a=blob_plain;f=CHANGES;hb=HEAD>`_.
 
 .. middle-description-string::
 

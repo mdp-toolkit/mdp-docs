@@ -72,6 +72,7 @@ Strictly in alphabetical order:
 - `Michael Hull <http://www.inf.ed.ac.uk/people/students/Michael_Hull.html>`_
 - `Samuel John <http://www.samueljohn.de/>`_
 - Susanne Lezius
+- `Fabian Pedregosa <http://fseoane.net/blog/>`_
 - `José Quesada <http://www.josequesada.name/>`_
 - `Ariel Rokem <http://argentum.ucbso.berkeley.edu/ariel.html>`_
 - `Michael Schmuker <http://userpage.fu-berlin.de/~schmuker/>`_
