@@ -8,9 +8,9 @@ PAPER         = a4
 BUILDDIR      = build
 
 # mdp specific modifications
+MDPTOOLKIT    = ../mdp-toolkit
 PYTHONPATH   := $(PYTHONPATH):ext:$(MDPTOOLKIT):source/examples/binetdbn   # use hard assignment to avoid recursion
 EPYDOC        = PYTHONPATH=$(PYTHONPATH) epydoc
-MDPTOOLKIT    = ../mdp-toolkit
 APIBUILD      = build_api/api
 APICSS	      = source/_static/API.css
 CODEDIR       = source/code
