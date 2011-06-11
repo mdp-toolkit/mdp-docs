@@ -13,24 +13,25 @@ import mdp
 import bimdp
 
 
-class CustomTraceHTMLTranslator(bimdp.TraceHTMLTranslator):
+class CustomTraceHTMLConverter(bimdp.TraceHTMLConverter):
     """Custom TraceHTMLTranslator to visualize the SFA node output.
 
     This class also demonstrates how to use custom section_id values, and how
     to correctly reset internal variables via the reset method.
     """
 
-    def __init__(self, show_size=False):
+    def __init__(self, flow_html_converter=None):
+        super(CustomTraceHTMLConverter, self).__init__(
+                                    flow_html_converter=flow_html_converter)
         self._sect_counter = None
-        super(CustomTraceHTMLTranslator, self).__init__(show_size=show_size)
 
     def reset(self):
         """Reset the section counter."""
-        super(CustomTraceHTMLTranslator, self).reset()
+        super(CustomTraceHTMLConverter, self).reset()
         self._sect_counter = 0
 
-    def _write_right_side(self, path, html_file, flow, node, method_name,
-                          method_result, method_args, method_kwargs):
+    def _write_data_html(self, path, html_file, flow, node, method_name,
+                         method_result, method_args, method_kwargs):
         """Write the result part of the translation."""
         # check if we have reached the right node
         if isinstance(node, bimdp.BiNode) and (node.node_id == "sfa"):
@@ -52,7 +53,7 @@ class CustomTraceHTMLTranslator(bimdp.TraceHTMLTranslator):
             html_file.write('<img src="%s">' % image_filename)
         section_id = "%d" % self._sect_counter
         # now add the standard stuff
-        super(CustomTraceHTMLTranslator, self)._write_right_side(
+        super(CustomTraceHTMLConverter, self)._write_data_html(
                                path=path, html_file=html_file, flow=flow,
                                node=node, method_name=method_name,
                                method_result=method_result,
@@ -78,10 +79,10 @@ train_data = [numpy.cast['f'](numpy.random.random((3, 100*100)))
 flow.train(data_iterables=[None, train_data])
 
 ## This is where the inspection happens.
-trace_translator = CustomTraceHTMLTranslator()
+html_converter = CustomTraceHTMLConverter()
 # note that we could also specify a custom CSS file, via css_filename
-trace_inspector = bimdp.TraceHTMLInspector(trace_translator=trace_translator)
+tracer = bimdp.InspectionHTMLTracer(html_converter=html_converter)
 filename, out = bimdp.show_execution(flow, x=train_data[0],
-                                     trace_inspector=trace_inspector)
+                                     tracer=tracer)
 
 print "done."
