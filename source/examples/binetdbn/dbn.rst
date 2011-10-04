@@ -1,4 +1,5 @@
 .. _binetdbn:
+.. _dbn:
 
 ========================================
 Deep Belief Network (DBN) based on BiMDP
