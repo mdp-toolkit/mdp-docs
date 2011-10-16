@@ -25,7 +25,7 @@ for the full documentation and interface description.
      review about floating point arithmetic and its pitfalls see
      *What every computer scientist should know about floating-point
      arithmetic* by David Goldberg, ACM Computing Surveys, Vol 23, No
-     1, March 1991. 
+     1, March 1991.
 
 :api:`mdp.utils.DelayCovarianceMatrix`
      This class stores an empirical covariance matrix between the signal and
@@ -34,7 +34,7 @@ for the full documentation and interface description.
 :api:`mdp.utils.MultipleCovarianceMatrices`
      Container class for multiple covariance matrices to easily
      execute operations on all matrices at the same time.
-    
+
 :api:`mdp.utils.dig_node` (node)
     Crawl recursively an MDP ``Node`` looking for arrays.
     Return (dictionary, string), where the dictionary is:
@@ -46,7 +46,7 @@ for the full documentation and interface description.
     (The byte-size is related the memory needed by the node).
 
 :api:`mdp.utils.progressinfo` (sequence, length, style, custom)
-    A fully configurable text-mode progress info box tailored to the 
+    A fully configurable text-mode progress info box tailored to the
     command-line die-hards.
     To get a progress info box for your loops use it like this::
 
@@ -55,12 +55,12 @@ for the full documentation and interface description.
 
     You can also use it with generators, files or any other iterable object,
     but in this case you have to specify the total length of the sequence::
- 
+
         >>> for line in progressinfo(open_file, nlines):
         ...     do_something(line)
-          
-    A few examples of the available layouts:: 
- 
+
+    A few examples of the available layouts::
+
         [===================================73%==============>...................]
 
         Progress:  67%[======================================>                   ]
@@ -85,9 +85,9 @@ for the full documentation and interface description.
     when observation are stored on rows. Observations are rotated
     counterclockwise. This corresponds to the following matrix-multiplication
     for each data-point (unchanged elements omitted)::
- 
+
          [  cos(angle) -sin(angle)     [ x_i ]
-            sin(angle)  cos(angle) ] * [ x_j ] 
+            sin(angle)  cos(angle) ] * [ x_j ]
 
 :api:`mdp.utils.random_rot` (dim, dtype)
     Return a random rotation matrix, drawn from the Haar distribution
@@ -111,12 +111,12 @@ display animated results in a Webbrowser. This works by creating an
 HTML file with embedded JavaScript code, which dynamically loads
 image files (the images contain the content that you want to animate
 and can for example be created with matplotlib).
-MDP internally uses the open source Templete templating libray,
-written by David Bau.
+MDP internally uses the open source `Templete templating libray,
+written by David Bau <http://davidbau.com/downloads/templet.py>`_.
 
 The easiest way to create a slideshow it to use one of these two helper
 function:
-    
+
 :api:`mdp.utils.show_image_slideshow` (filenames, image_size, filename=None, title=None, \*\*kwargs)
     Write the slideshow into a HTML file, open it in the browser and
     return the file name. ``filenames`` is a list of the images files
@@ -124,16 +124,15 @@ function:
     2-tuple containing the width and height at which the images should
     be displayed. There are also a couple of additional arguments,
     which are documented in the docstring.
-    
+
 :api:`mdp.utils.image_slideshow` (filenames, image_size, title=None, \*\*kwargs)
     This function is similar to ``show_image_slideshow``, but it simply
     returns the slideshow HTML code (including the JavaScript code)
     which you can then embed into your own HTML file. Note that
     the default slideshow CSS code is not included, but it can be
     accessed in ``mdp.utils.IMAGE_SLIDESHOW_STYLE``.
-    
-Note that there are also two demos for slideshows in the ``mdp\demo``
-folder.
+
+Note that there are also two demos in the Examples section :ref:`slideshow`.
 
 Graph module
 ------------
@@ -143,7 +142,7 @@ MDP contains ``mdp.graph``, a lightweight package to handle directed graphs.
 :api:`mdp.graph.Graph`
     Represent a directed graph. This class contains several methods
     to create graph structures and manipulate them, among which
-    
+
     - ``add_tree``: Add a tree to the graph.
         The tree is specified with a nested list of tuple, in a LISP-like
         notation. The values specified in the list become the values of
@@ -151,7 +150,7 @@ MDP contains ``mdp.graph``, a lightweight package to handle directed graphs.
         Return an equivalent nested list with the nodes instead of the values.
 
         Example:::
- 
+
           >>> g = mdp.graph.Graph()
           >>> a = b = c = d = e = None
           >>> nodes = g.add_tree( (a, b, (c, d ,e)) )

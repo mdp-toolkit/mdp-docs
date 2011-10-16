@@ -66,7 +66,7 @@ The following examples use and illustrate BiMDP.
 * `bimdp_simple_coroutine.py`__ — Minimal example for coroutine decorator.
 * :ref:`gradnewton` — Use Newton's method for gradient descent
   with the gradient extension.
-* `backpropagation`__ — Implement backpropagation for a multi layer
+* `Backpropagation`__ — Implement backpropagation for a multi layer
   perceptron.
 * :ref:`binetdbn` — Proof of concept for a Deep Belief Network.
 
