@@ -80,6 +80,7 @@ Strictly in alphabetical order:
 - `Henning Sprekeler <http://lcn.epfl.ch/~sprekele>`_
 - `Jake VanderPlas <http://www.astro.washington.edu/vanderplas/>`_
 - `David Verstraeten <http://reslab.elis.ugent.be/david>`_
+- Ben Willmore
 - `Katharina Maria Zeiner <http://www.st-andrews.ac.uk/~www_sp/people/pg/kmz.shtml>`_
 
 .. _`Yaroslav Halchenko`: http://www.onerussian.com
