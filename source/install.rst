@@ -114,7 +114,7 @@ Installation from source
 
 Requirements
 ~~~~~~~~~~~~
-* `Python <http://www.python.org/>`_ 2.5/2.6/2.7/3.1/3.2
+* `Python <http://www.python.org/>`_ 2.5/2.6/2.7/3.1/3.2/3.3
 * `NumPy <http://numpy.scipy.org/>`_ |gE| 1.1
 
 Download the latest MDP release source archive `here <http://sourceforge.net/projects/mdp-toolkit>`_.
@@ -157,15 +157,15 @@ additional features in MDP:
 * `Parallel Python <http://www.parallelpython.com/>`_:  provide the
   parallel python scheduler ``PPScheduler`` in the ``parallel``
   module.
-* `Shogun <http://www.shogun-toolbox.org/>`_ |gE| 0.9: provide the
+* `Shogun <http://www.shogun-toolbox.org/>`_ |gE| 1.0: provide the
   ``ShogunSVMClassifier``  node.
 * `LibSVM <http://www.csie.ntu.edu.tw/~cjlin/libsvm/>`_ |gE| 2.91:
   provide the ``LibSVMClassifier`` node.
 * `joblib <http://packages.python.org/joblib/>`_ |gE| 0.4.3: provide the
   ``caching`` extension and the corresponding ``cache`` context
   manager.
-* `scikits.learn <http://scikit-learn.sourceforge.net/>`_: provide
-  wrapper nodes to several scikits.learn algorithms.
+* `sklearn <http://scikit-learn.org/>`_ |gE| 0.6: provide
+  wrapper nodes to several sklearn algorithms.
 
 
 Python 3
@@ -188,7 +188,5 @@ Python shell as follows::
 
 If some test fails, please report it to the `mailing list
 <https://lists.sourceforge.net/lists/listinfo/mdp-toolkit-users>`_.
-If you want to help in debugging, start by installing the `py.test
-<http://pytest.org/>`_ testing framework.
 
 .. include:: license.rst
