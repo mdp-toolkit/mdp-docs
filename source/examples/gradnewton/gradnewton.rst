@@ -95,7 +95,7 @@ Compare the error values:
 >>> y, _ = flow.execute(x)
 >>> print ("errors before optimization: %s" %
 ...        np.sum((y_start - goal_y)**2, axis=1))
-errors before optimization: [ 199.13991294  244.02575179]
+errors before optimization: [ 196.49202899  241.31524993]
 >>> print ("errors after optimization  : %s" %
 ...        np.sum((y - goal_y)**2, axis=1))
-errors after optimization  : [ 41.53261617  35.45082679]
+errors after optimization  : [ 39.01372025  34.84160123]

@@ -71,7 +71,7 @@ account for 80% of the input variance, we set
 
     >>> pcanode3 = mdp.nodes.PCANode(output_dim=0.8)
     >>> pcanode3.desired_variance
-    0.80000000000000004
+    0.8
 
 If ``dtype`` is set to ``float32`` (32-bit float), the input 
 data is cast to single precision when received and the internal 
