@@ -4,6 +4,8 @@
 Talks
 =====
 
+- `Python in Neuroscience 2011 <../_static/PythonInNeuroscienceSatelliteToEuroscipy2011.pdf>`_: *Interoperability among
+  Data Processing Frameworks - Reality or Wishful Thinking?*
 - `EuroScipy 2010 <../_static/EuroScipy2010MDPTalk.pdf>`_: *MDP: Modular 
   toolkit for Data Processing (and its new features)* 
 - `EuroScipy 2009 <../_static/EuroScipy2009Talk.pdf>`_: *Modular
