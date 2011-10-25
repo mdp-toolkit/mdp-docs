@@ -32,12 +32,10 @@ inclusion in future releases of the package. The package development
 can be followed online on the public git code `repositories`_ or
 cloned with::
 
-    git clone git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/mdp-toolkit
-    git clone git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/docs
-    git clone git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/examples
-    git clone git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/contrib
+    git clone git://github.com/mdp-toolkit/mdp-toolkit.git
+    git clone git://github.com/mdp-toolkit/mdp-docs.git
 
-.. _repositories: http://mdp-toolkit.git.sourceforge.net
+.. _repositories: http://github.com/mdp-toolkit
 
 For comments, patches, feature requests, support requests, and bug reports
 you can use the users’ `mailing list`_.
@@ -99,12 +97,10 @@ all developers.
   you access to our git repositories
 
 - Since our migration to git, the repository setup consists of
-  four separate repositories:
+  two separate repositories:
 
   * ``mdp-toolkit``
-  * ``docs``
-  * ``examples``
-  * ``contrib``
+  * ``mdp-docs``
 
 - Please only commit code in the ``contrib`` repository.
   If your code contributions should need modification somewhere else
@@ -262,7 +258,7 @@ version::
 
     # do some history cleaning
     git rebase -i $(git merge-base origin/master my_new_feature)
-    # nuke the branch on sf
+    # nuke the branch on github
     git push origin :my_new_feature
     # upload a new version of the branch
     git push origin my_new_feature
