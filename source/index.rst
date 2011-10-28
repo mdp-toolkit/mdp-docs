@@ -22,24 +22,24 @@
      - support for new numpy version
      - new NeuralGasNode (thanks to Michael Schmuker)
      - several bug fixes and improvements
-     
+
      Get the full list of `changes since last release <CHANGES>`_.
 
   30.03.2011
      MDP 3.1 released! This is a bug-fix release.
-     
+
   13.01.2011
       MDP 3.0 released!
 
-      - Python 3 support 
-      - New extensions: caching and gradient 
-      - Automatically generated wrappers for scikits.learn algorithms 
-      - Shogun and libsvm wrappers 
-      - New algorithms: convolution, several classifiers and 
-        several user-contributed nodes 
-      - Several new examples on the homepage 
-      - Improved and expanded tutorial 
-      - Several improvements and bug fixes 
+      - Python 3 support
+      - New extensions: caching and gradient
+      - Automatically generated wrappers for scikits.learn algorithms
+      - Shogun and libsvm wrappers
+      - New algorithms: convolution, several classifiers and
+        several user-contributed nodes
+      - Several new examples on the homepage
+      - Improved and expanded tutorial
+      - Several improvements and bug fixes
       - New license: MDP goes BSD!
 
       Get the full list of `changes since last release <CHANGES>`_.
@@ -51,5 +51,3 @@
 .. include:: tutorial/using_mdp_is_as_easy.rst
 
 To learn more about MDP, read through the :ref:`documentation`.
-
-
