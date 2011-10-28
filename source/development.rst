@@ -24,7 +24,7 @@ Current maintainers are:
 
 
 `Yaroslav Halchenko`_ maintains the python-mdp_ Debian package,
-`Maximilian Nickel <http://2manyvariables.inmachina.com>`_ maintains the py25-mdp-toolkit_ MacPorts package.
+`Maximilian Nickel <http://2manyvariables.inmachina.com>`_ maintains the py25-mdp-toolkit_ and py26-mdp-toolkit_ MacPorts packages.
 
 MDP is open to user contributions. Users have already contributed some
 of the nodes, and more contributions are currently being reviewed for
@@ -32,10 +32,10 @@ inclusion in future releases of the package. The package development
 can be followed online on the public git code `repositories`_ or
 cloned with::
 
-    git clone git://github.com/mdp-toolkit/mdp-toolkit
-    git clone git://github.com/mdp-toolkit/mdp-docs
+    git clone git://github.com/mdp-toolkit/mdp-toolkit.git
+    git clone git://github.com/mdp-toolkit/mdp-docs.git
 
-.. _repositories: https://github.com/mdp-toolkit
+.. _repositories: http://github.com/mdp-toolkit
 
 For comments, patches, feature requests, support requests, and bug reports
 you can use the users’ `mailing list`_.
@@ -45,6 +45,7 @@ hesitate to submit it!
 
 .. _python-mdp: http://packages.debian.org/python-mdp
 .. _py25-mdp-toolkit: http://trac.macports.org/browser/trunk/dports/python/py25-mdp-toolkit/Portfile
+.. _py26-mdp-toolkit: http://trac.macports.org/browser/trunk/dports/python/py26-mdp-toolkit/Portfile
 
 
 .. _`mailing list`: https://lists.sourceforge.net/lists/listinfo/mdp-toolkit-users
@@ -97,18 +98,14 @@ all developers.
   you access to our git repositories
 
 - Since our migration to git, the repository setup consists of
-  four separate repositories:
+  two separate repositories:
 
   * ``mdp-toolkit``
-  * ``docs``
-  * ``examples``
-  * ``contrib``
+  * ``mdp-docs``
 
-- Please only commit code in the ``contrib`` repository.
-  If your code contributions should need modification somewhere else
-  in the MDP code base, write to
-  mdp-toolkit-devel@lists.sourceforge.net
-  for assistance and instructions how to proceed.
+- If you want to commit code, it may be easiest to fork the MDP repository
+  on github and give us a note on the mailing list. We may then discuss
+  how to integrate your modifications.
   For simple fixes that don’t need much discussion, you can also send
   a mail patch to the list using ``git format-patch`` or similar.
 
@@ -164,6 +161,9 @@ The advantage is, that it keeps our master branch clean from all those
 ‘testing some really strange new stuff – please have a look’ commits,
 which are likely to be reverted again. When you feel good about your
 commit, you can cherry-pick or merge the good stuff to master.
+
+Alternatively, ‘please have a look’ commits may also be pushed to a
+separate repository (e.g. a github fork).
 
 
 Merging feature branches back into the ``master`` branch
@@ -230,7 +230,7 @@ branch. After the decision to merge has been made:
 #. Only when tests after the merge execute satisfactorily, changes
    should be pushed to sourceforge. The old branch can be deleted.::
 
-       git push origin master :my_new_feature
+       git push origin :my_new_feature
 
 Git commit messages
 -------------------
@@ -253,17 +253,12 @@ History rewriting
 -----------------
 
 The developer that created a feature branch is free to rewrite the
-history of the branch if she finds it reasonable. SF is currently
-configured to deny non-fast-forward pushes, but this can be
-cimcurvented by first deleting the branch, and then pushing a new
-version::
+history of the branch if she finds it reasonable::
 
     # do some history cleaning
     git rebase -i $(git merge-base origin/master my_new_feature)
-    # nuke the branch on sf
-    git push origin :my_new_feature
-    # upload a new version of the branch
-    git push origin my_new_feature
+    # upload a new version of the branch and override the old one
+    git push --force origin my_new_feature
 
 If multiple developers wants to cooperate on ``feature_branch``, they
 should agree between themselves on a history rewriting policy.
