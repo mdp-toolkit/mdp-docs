@@ -23,7 +23,7 @@
      - new NeuralGasNode (thanks to Michael Schmuker)
      - several bug fixes and improvements
      
-     Get the full list of `changes since last release <http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/mdp-toolkit;a=blob_plain;f=CHANGES;hb=HEAD>`_.
+     Get the full list of `changes since last release <CHANGES>`_.
 
   30.03.2011
      MDP 3.1 released! This is a bug-fix release.
@@ -42,7 +42,9 @@
       - Several improvements and bug fixes 
       - New license: MDP goes BSD!
 
-      Get the full list of `changes since last release <http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/mdp-toolkit;a=blob_plain;f=CHANGES;hb=HEAD>`_.
+      Get the full list of `changes since last release <CHANGES>`_.
+
+.. _CHANGES: https://raw.github.com/mdp-toolkit/mdp-toolkit/master/CHANGES
 
 .. middle-description-string::
 

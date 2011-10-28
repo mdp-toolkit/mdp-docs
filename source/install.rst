@@ -105,7 +105,7 @@ or
 If you use ``pip`` you can even install from the git repository
 directly with: ::
 
-    pip install -e git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/mdp-toolkit#egg=MDP
+    pip install -e git://github.com/mdp-toolkit/mdp-toolkit#egg=MDP
 
 .. _install_from_source:
 
@@ -120,13 +120,15 @@ Requirements
 Download the latest MDP release source archive `here <http://sourceforge.net/projects/mdp-toolkit>`_.
 
 If you want to live on the bleeding edge, check out the MDP git repositories.
-You can either `browse the repository
-<http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/mdp-toolkit;a=summary>`_ 
+You can either `browse the repository <mdp-toolkit-commits>`
 or clone the ``mdp-toolkit`` repository with::
 
-    git clone git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/mdp-toolkit
+    git clone git://github.com/mdp-toolkit/mdp-toolkit
 
 and then install as explained below.
+
+.. _mdp-toolkit-commits:
+    https://github.com/mdp-toolkit/mdp-toolkit/commits/master
 
 
 Installation

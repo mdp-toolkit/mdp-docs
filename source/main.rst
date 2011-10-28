@@ -1,6 +1,5 @@
 .. _MDP Sprint 2010: http://sourceforge.net/apps/mediawiki/mdp-
     toolkit/index.php?title=MDP_Sprint_2010
-.. _git: http://mdp-toolkit.git.sourceforge.net/
 .. _EuroScipy:
     http://www.euroscipy.org/presentations/abstracts/abstract_zito.html
 .. _presented: CNS2009Talk.pdf
@@ -32,6 +31,4 @@
 .. _Humboldt University: http://www.hu-berlin.de/
 .. _mailing list: https://lists.sourceforge.net/mailman/listinfo/mdp-
     toolkit-users
-.. _http://mdp-toolkit.sourceforge.net: http://mdp-
-    toolkit.sourceforge.net
 .. _here: http://dx.doi.org/10.3389/neuro.11.008.2008

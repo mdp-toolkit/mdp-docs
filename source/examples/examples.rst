@@ -49,11 +49,11 @@ applications:
 * `mnist`__ — Several more example for handwritten digit classification,
   this time with Fisher Discriminant Analysis and without scikits.learn.
 
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/docs;a=blob_plain;f=source/examples/hinet_html.py
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/docs;a=blob_plain;f=source/examples/benchmark_parallel.py
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/docs;a=blob_plain;f=source/examples/pp_remote_test.py
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/docs;a=tree;f=source/examples/hinetplaner
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/docs;a=tree;f=source/examples/mnist
+__ https://github.com/mdp-toolkit/mdp-docs/blob/master/source/examples/hinet_html.py
+__ https://github.com/mdp-toolkit/mdp-docs/blob/master/source/examples/benchmark_parallel.py
+__ https://github.com/mdp-toolkit/mdp-docs/blob/master/source/examples/pp_remote_test.py
+__ https://github.com/mdp-toolkit/mdp-docs/blob/master/source/examples/hinetplaner
+__ https://github.com/mdp-toolkit/mdp-docs/blob/master/source/examples/mnist
 
 The following examples use and illustrate BiMDP.
 
@@ -70,5 +70,5 @@ The following examples use and illustrate BiMDP.
   perceptron.
 * :ref:`binetdbn` — Proof of concept for a Deep Belief Network.
 
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/docs;a=blob_plain;f=source/examples/bimdp_examples/bimdp_simple_coroutine.py
-__ http://mdp-toolkit.git.sourceforge.net/git/gitweb.cgi?p=mdp-toolkit/docs;a=tree;f=source/examples/backpropagation
+__ https://github.com/mdp-toolkit/mdp-docs/blob/master/source/examples/bimdp_examples/bimdp_simple_coroutine.py
+__ https://github.com/mdp-toolkit/mdp-docs/blob/master/source/examples/backpropagation

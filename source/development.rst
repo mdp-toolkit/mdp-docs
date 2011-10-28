@@ -32,12 +32,10 @@ inclusion in future releases of the package. The package development
 can be followed online on the public git code `repositories`_ or
 cloned with::
 
-    git clone git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/mdp-toolkit
-    git clone git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/docs
-    git clone git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/examples
-    git clone git://mdp-toolkit.git.sourceforge.net/gitroot/mdp-toolkit/contrib
+    git clone git://github.com/mdp-toolkit/mdp-toolkit
+    git clone git://github.com/mdp-toolkit/mdp-docs
 
-.. _repositories: http://mdp-toolkit.git.sourceforge.net
+.. _repositories: https://github.com/mdp-toolkit
 
 For comments, patches, feature requests, support requests, and bug reports
 you can use the users’ `mailing list`_.
