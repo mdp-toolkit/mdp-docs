@@ -2,6 +2,7 @@
 
 Handwritten digits classification with MDP and scikits.learn
 ============================================================
+.. codesnippet::
 
 If you have the library `scikits.learn <http://scikit-learn.sourceforge.net>`_
 installed on your machine, MDP will automatically wrap the algorithms defined
