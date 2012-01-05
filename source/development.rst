@@ -16,7 +16,7 @@ of the `Humboldt University <http://www.hu-berlin.de/>`_, Berlin in 2003.
 
 Current maintainers are:
 
-*   `Pietro Berkes <http://people.brandeis.edu/~berkes>`_
+*   `Pietro Berkes <http://people.brandeis.edu/~berkes/>`_
 *   `Zbigniew Jędrzejewski-Szmek <http://dimer.fuw.edu.pl/Members/ZbyszekJSzmek>`_
 *   `Rike-Benjamin Schuppner <http://www.bccn-berlin.de/People/home/?contentId=686>`_
 *   `Niko Wilbert <http://itb.biologie.hu-berlin.de/~wilbert/>`_
@@ -60,7 +60,7 @@ Strictly in alphabetical order:
 - `Gabriel Beckers <http://www.gbeckers.nl/>`_
 - Sven Dähne
 - Alberto Escalante
-- `Farzad Farkhooi <http://www.biologie.fu-berlin.de/neuroinformatik/people/farkhooi/index.html>`_
+- `Farzad Farkhooi <http://www.biologie.fu-berlin.de/neuroinformatik/people/members/farkhooi/index.html>`_
 - Mathias Franzius
 - `Valentin Haenel <http://www.cognition.tu-berlin.de/menue/members/valentin_haenel/>`_
 - `Yaroslav Halchenko`_
@@ -76,8 +76,8 @@ Strictly in alphabetical order:
 - `Ariel Rokem <http://argentum.ucbso.berkeley.edu/ariel.html>`_
 - `Michael Schmuker <http://userpage.fu-berlin.de/~schmuker/>`_
 - `Benjamin Schrauwen <http://reslab.elis.ugent.be/benjamin>`_
-- `Henning Sprekeler <http://lcn.epfl.ch/~sprekele>`_
-- `Jake VanderPlas <http://www.astro.washington.edu/vanderplas/>`_
+- `Henning Sprekeler <http://itb.biologie.hu-berlin.de/~sprekeler/>`_
+- `Jake VanderPlas <http://www.astro.washington.edu/users/vanderplas/>`_
 - `David Verstraeten <http://reslab.elis.ugent.be/david>`_
 - Ben Willmore
 - `Katharina Maria Zeiner <http://www.st-andrews.ac.uk/~www_sp/people/pg/kmz.shtml>`_
@@ -281,7 +281,7 @@ General Style Guidelines
   ``_set_output_dim``, ``_set_dtype`` functions.  Several examples are
   available in ``mdp-toolkit/mdp/nodes/``
 
-- Your code should strictly follow the :pep:`8`
+- Your code should strictly follow the `PEP 8 <http://www.python.org/dev/peps/pep-0008/>`_
   coding conventions. Note that some older code
   sections in MDP do not follow PEP 8 100%, but when the opportunity arises
   (e.g., when we make changes in the code) we are improving this. So new code

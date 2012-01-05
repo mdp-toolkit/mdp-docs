@@ -32,7 +32,8 @@ either an iterable or an iterator.
 A convenient implementation of the iterator protocol is provided
 by generators:
 see `this article <http://linuxgazette.net/100/pramode.html>`__ for an
-introduction, and the official :pep:`255` for a complete description.
+introduction, and the official `PEP 255 <http://www.python.org/dev/peps/pep-0255/>`_
+for a complete description.
 
 Let us define two bogus node classes to be used as examples of nodes
 

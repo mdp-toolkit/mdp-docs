@@ -3,8 +3,6 @@
 ================================
 Interfacing with other libraries
 ================================
-.. codesnippet::
-
 
 MDP is, of course, not the only Python library to offer an
 implementation of signal processing and machine learning methods.

@@ -166,7 +166,7 @@ additional features in MDP:
 * `joblib <http://packages.python.org/joblib/>`_ |gE| 0.4.3: provide the
   ``caching`` extension and the corresponding ``cache`` context
   manager.
-* `sklearn <http://scikit-learn.org/>`_ |gE| 0.6: provide
+* `sklearn <http://scikit-learn.org/stable/>`_ |gE| 0.6: provide
   wrapper nodes to several sklearn algorithms.
 
 
