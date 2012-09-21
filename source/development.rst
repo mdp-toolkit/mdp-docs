@@ -59,6 +59,7 @@ Strictly in alphabetical order:
 
 - `Gabriel Beckers <http://www.gbeckers.nl/>`_
 - Sven Dähne
+- Philip DeBoer
 - Alberto Escalante
 - `Farzad Farkhooi <http://www.biologie.fu-berlin.de/neuroinformatik/people/members/farkhooi/index.html>`_
 - Mathias Franzius
