@@ -9,6 +9,16 @@
 
 .. admonition:: News
 
+  04.10.2012
+     MDP 3.3 released! This is a bug-fix release
+
+     - support sklearn versions up to 0.12 
+     - cleanly support reload
+     - fail gracefully if pp server does not start
+     - several bug-fixes and improvements
+     
+     Get the full list of `changes since last release <https://raw.github.com/mdp-toolkit/mdp-toolkit/master/CHANGES>`_.
+     
   24.10.2011
      MDP 3.2 released!
 
@@ -22,25 +32,6 @@
      - support for new numpy version
      - new NeuralGasNode (thanks to Michael Schmuker)
      - several bug fixes and improvements
-
-     Get the full list of `changes since last release <https://raw.github.com/mdp-toolkit/mdp-toolkit/master/CHANGES>`_.
-
-  30.03.2011
-     MDP 3.1 released! This is a bug-fix release.
-
-  13.01.2011
-      MDP 3.0 released!
-
-      - Python 3 support
-      - New extensions: caching and gradient
-      - Automatically generated wrappers for scikits.learn algorithms
-      - Shogun and libsvm wrappers
-      - New algorithms: convolution, several classifiers and
-        several user-contributed nodes
-      - Several new examples on the homepage
-      - Improved and expanded tutorial
-      - Several improvements and bug fixes
-      - New license: MDP goes BSD!
 
 
 .. middle-description-string::
