@@ -2,8 +2,8 @@ import mdp
 import numpy
 import pylab
 
-import scikits.learn as sl
-from scikits.learn import datasets
+import sklearn as sl
+from sklearn import datasets
 
 digits = datasets.load_digits()
 images = digits.images.astype('f')
@@ -37,7 +37,7 @@ flow = mdp.Flow([mdp.nodes.PCANode(output_dim=25, dtype='f'),
                  mdp.nodes.SVCScikitsLearnNode(kernel='rbf')], verbose=True)
 
 # set the execution behavior of the last node to return labels
-flow[-1].execute = flow[-1].label
+#flow[-1].execute = flow[-1].label
 
 # --- train MDP pipeline
 flow.train([train_data, None, train_data,

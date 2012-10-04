@@ -67,7 +67,7 @@ filtering performance with and without cache:
     >>>
     >>> # now activating the cache on the Convolution2DNode class:
     >>> with mdp.caching.cache(cache_classes=[mdp.nodes.Convolution2DNode]):
-    >>>     # second execution, uncached if it's the first time the script is run
+    >>>    # second execution, uncached if it's the first time the script is run
     >>>    print timer.repeat(1, 1), 'sec'
     >>>    # third execution, this time cached
     >>>    print timer.repeat(1, 1), 'sec'

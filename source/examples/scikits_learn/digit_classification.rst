@@ -18,8 +18,8 @@ several classical dataset. First of all, we will load the `digits` dataset:
     >>> import mdp
     >>> import numpy
     >>>
-    >>> import scikits.learn as sl
-    >>> from scikits.learn import datasets
+    >>> import sklearn as sl
+    >>> from sklearn import datasets
     >>>
     >>> digits = datasets.load_digits()
     >>> images = digits.images.astype('f')
