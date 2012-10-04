@@ -24,7 +24,6 @@ MDP is prepackaged for:
 * `Mandriva <http://www.mandriva.com/en/>`_ (package `python-mdp`)
 * `PCLinuxOS <http://www.pclinuxos.com>`_ (package `python-mdp`)
 
-
 __ http://packages.ubuntu.com/python-mdp
 
 .. _py25-mdp-toolkit:
@@ -55,6 +54,12 @@ Use your favourite package manager or, alternatively::
     layman -L
     layman -a science
     emerge sci-mathematics/mdp
+
+Binary Packages (NetBSD)
+========================
+Thanks to Kamel Ibn Aziz Derouiche, NetBSD users can install the 
+`py-mdp <http://pkgsrc.se/wip/py-mdp>`_ from `pkgsrc <http://pkgsrc.se>`_.
+
 
 Binary Packages (MacOSX)
 ========================
