@@ -125,15 +125,12 @@ Requirements
 Download the latest MDP release source archive `here <http://sourceforge.net/projects/mdp-toolkit>`_.
 
 If you want to live on the bleeding edge, check out the MDP git repositories.
-You can either `browse the repository <mdp-toolkit-commits>`
+You can either `browse the repository <https://github.com/mdp-toolkit/mdp-toolkit>`_
 or clone the ``mdp-toolkit`` repository with::
 
     git clone git://github.com/mdp-toolkit/mdp-toolkit
 
 and then install as explained below.
-
-.. _mdp-toolkit-commits:
-    https://github.com/mdp-toolkit/mdp-toolkit/commits/master
 
 
 Installation
