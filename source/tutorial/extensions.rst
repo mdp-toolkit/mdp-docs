@@ -138,8 +138,9 @@ rid of warnings about multiple functions with the same name).
 Creating Extensions
 -------------------
 
-To create a new node extension you just have to create a new extension base
-class. For example the HTML representation extension in ``mdp.hinet``
+To create a new node extension you have to create a new extension base
+class (unless you only use the extension decorators to define the extension
+methods). For example, the HTML representation extension in ``mdp.hinet``
 is created with
 
     >>> class  HTMLExtensionNode(mdp.ExtensionNode, mdp.Node): # doctest: +SKIP
@@ -191,4 +192,24 @@ easier to share behavior for different classes. Without this magic one
 would have to explicitly override ``_execute`` in ``ExtendedTestNode`` 
 (or derive the extension base-class from ``Node``, but that would give 
 this behavior to all node classes). Note that there is a ``verbose`` 
-argument in ``activate_extension`` which can help with debugging. 
+argument in ``activate_extension`` which can help with debugging.
+
+Extension Setup and Teardown Functions
+--------------------------------------
+
+If needed you can define a setup and/or teardown function for your extension.
+The setup function is called when the extension is activated (before the
+node classes are modified) and can be used for global modifications. The
+teardown function is called when the extension is deactivated (after all
+the node class modifications have been removed). In the following simple
+example we set a global variable when the extension is actived:
+
+	>>> is_extension_active = False
+	>>> @mdp.extension_setup("test")
+	...	def _test_extension_setup():
+	...		global is_extension_active
+	...		is_extension_active = True
+	>>> @mdp.extension_teardown("test")
+	...	def _test_extension_teardown():
+	...		global is_extension_active
+	...		is_extension_active = False
