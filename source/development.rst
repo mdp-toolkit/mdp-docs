@@ -341,25 +341,3 @@ General Style Guidelines
 - This list is far from being complete, please let us know your
   comments and remarks :-)
 
---------------------------------
-Development on Microsoft Windows
---------------------------------
-
-If you want to develop on a Windows system you might run into some issues
-with git. Here is what we use for git on Windows:
-
-* Install the msysgit git client.
-* If you don't like working on the command line there are several graphical
-  user interfaces available, the commercial SmartGit currently seems
-  to work best (there is a free version for non-commercial use).
-
-If you want to use the Eclipse IDE (with PyDev) here is what you can do:
-
-* You can install the EGit plugin for Eclipse, but this is not yet stable. So
-  you might want to use the command line or SmartGit for most actions.
-* Create a new PyDev project for each MDP git repo you want to work on. Clone
-  the git repository to some arbitrary location and then move all the content
-  (including the hidden .git folder) to the root of the corresponding project
-  (EGit currently will not work if the .git is in some subdirectory).
-* Right-click on the project and select Team -> share to connect the git
-  information to EGit.
