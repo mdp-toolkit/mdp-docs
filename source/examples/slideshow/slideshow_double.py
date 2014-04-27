@@ -52,8 +52,8 @@ filename = os.path.join(path, "animation.html")
 html_file = open(filename, 'w')
 html_file.write('<html>\n<head>\n<title>%s</title>\n' % "Two Animation Test")
 html_file.write('<style type="text/css" media="screen">')
-html_file.write(mdp.utils.BASIC_STYLE)
-html_file.write(mdp.utils.IMAGE_SLIDESHOW_STYLE)
+html_file.write(mdp.utils.basic_css())
+html_file.write(mdp.utils.image_slideshow_css())
 html_file.write('</style>\n</head>\n<body>\n')
 html_file.write(mdp.utils.image_slideshow(
                                 image_size=(400,300),
