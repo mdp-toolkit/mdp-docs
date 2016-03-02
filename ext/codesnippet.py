@@ -29,7 +29,7 @@ def write_if_changed(filename, text, logger):
     dirname = os.path.split(filename)[0]
     try:
         os.makedirs(dirname)
-    except OSError, e:
+    except OSError as e:
         if e.errno != errno.EEXIST:
             raise
     with codecs.open(filename, 'w', encoding='utf-8') as file:
@@ -54,7 +54,7 @@ SNIPTEXT = ("You can download all the code on this page from the"
 
 def condition(node):
     return (isinstance(node, (nodes.literal_block, nodes.comment))
-            and node.has_key('testnodetype')) or isinstance(node,
+            and 'testnodetype' in node) or isinstance(node,
                                                             nodes.doctest_block)
 def visit_codesnippet_node(self, node):
     self.visit_admonition(node)
@@ -150,10 +150,10 @@ class CodeSnippetBuilder(Builder):
     def gen_snippets(self, docname, doctree):
         code = []
         for node in doctree.traverse(condition):
-            source = node.has_key('test') and node['test'] or node.astext()
+            source = 'test' in node and node['test'] or node.astext()
             try:
                 example = doctest.script_from_examples(source)
-            except Exception, exc:
+            except Exception as exc:
                 # catch doctest errors
                 self.info('\nDocument: %s\n----------%s\n' %
                           (docname, '-'*len(docname)))
