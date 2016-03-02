@@ -13,11 +13,16 @@
     :copyright: Copyright 2007-2010 by the Sphinx team, see AUTHORS.
     :license: BSD, see LICENSE for details.
 """
+from future import standard_library
+standard_library.install_aliases()
+from builtins import map
+from builtins import str
 
 import re
 import socket
 from os import path
-from urllib2 import build_opener, HTTPError
+from urllib.request import build_opener
+from urllib.error import HTTPError
 
 from docutils import nodes
 
@@ -36,7 +41,7 @@ class CheckExternalLinksBuilder2(Builder):
     name = 'linkcheck2'
 
     def init(self):
-        self.to_ignore = map(re.compile, self.app.config.linkcheck2_ignore)
+        self.to_ignore = list(map(re.compile, self.app.config.linkcheck2_ignore))
         self.good = set()
         self.broken = {}
         self.redirected = {}
