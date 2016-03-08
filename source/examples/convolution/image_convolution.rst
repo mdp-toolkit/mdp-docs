@@ -8,12 +8,16 @@ Here is an example of how to convolve an image with oriented
 filters. 2D convolution is notoriously a slow operation; we'll show
 how to improve the filtering speed using the caching extension.
 
-For our example, we'll use the famous image of Lena:
+For our example, we'll use the famous image of Lena
 
     >>> import mdp
     >>> import numpy
+    >>> import os
+    >>> import matplotlib
+    >>> matplotlib.rcParams['examples.directory'] = os.path.join(os.path.dirname(matplotlib.rcParams['datapath']), 'sample_data')
     >>> import pylab
-    >>> im = pylab.imread('lena.png')
+    >>> from matplotlib.cbook import get_sample_data
+    >>> im = pylab.imread(get_sample_data("ada.png"))
     >>> # transform to grayscale
     >>> im = numpy.sqrt((im[:,:,:3]**2.).mean(2))
 
@@ -21,7 +25,7 @@ For our example, we'll use the famous image of Lena:
         :width: 400
         :alt: Lena's famous photograph
 
-First, we create a bank of Gabor filters at different orientations:
+First, we create a bank of Gabor filters at different orientations
 
     >>> # create Gabor filters bank
     >>> pi = numpy.pi
@@ -41,13 +45,13 @@ First, we create a bank of Gabor filters at different orientations:
         :width: 500
         :alt: The four Gabor filters
 
-To convolve the image, we use the ``Convolution2DNode`` as follows:
+To convolve the image, we use the ``Convolution2DNode`` as follows
 
     >>> node = mdp.nodes.Convolution2DNode(gabors, mode='valid', boundary='fill',
     ...                                    fillvalue=0, output_2d=False)
     >>> cim = node.execute(im[numpy.newaxis,:,:])
 
-obtaining these filtered images:
+obtaining these filtered images
 
 .. image:: filtered_lena.png
         :width: 600
@@ -55,22 +59,22 @@ obtaining these filtered images:
 
 To demonstrate how to use the caching extension, we'll pretend we have
 several images by copying Lena several times, and measure the 
-filtering performance with and without cache:
+filtering performance with and without cache
 
     >>> x = mdp.utils.lrep(im, 3)
     >>> # set up a Timer object to measure performance
-    >>> from timeit import Timer
-    >>> timer = Timer("node.execute(x)", "from __main__ import node, x")
+    >>> from timeit import Timer # doctest: +SKIP
+    >>> timer = Timer("node.execute(x)", "from __main__ import node, x") # doctest: +SKIP
     >>> # first uncached execution
-    >>> print timer.repeat(1, 1), 'sec'
+    >>> print timer.repeat(1, 1), 'sec' # doctest: +SKIP
     6.91 sec
     >>>
     >>> # now activating the cache on the Convolution2DNode class:
-    >>> with mdp.caching.cache(cache_classes=[mdp.nodes.Convolution2DNode]):
+    >>> with mdp.caching.cache(cache_classes=[mdp.nodes.Convolution2DNode]): # doctest: +SKIP
     >>>    # second execution, uncached if it's the first time the script is run
-    >>>    print timer.repeat(1, 1), 'sec'
+    >>>    print timer.repeat(1, 1), 'sec' # doctest: +SKIP
     >>>    # third execution, this time cached
-    >>>    print timer.repeat(1, 1), 'sec'
+    >>>    print timer.repeat(1, 1), 'sec' # doctest: +SKIP
     7.05 sec
     39.6 msec
 
