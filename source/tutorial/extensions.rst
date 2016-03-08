@@ -202,14 +202,14 @@ The setup function is called when the extension is activated (before the
 node classes are modified) and can be used for global modifications. The
 teardown function is called when the extension is deactivated (after all
 the node class modifications have been removed). In the following simple
-example we set a global variable when the extension is actived:
+example we set a global variable when the extension is actived
 
-	>>> is_extension_active = False
-	>>> @mdp.extension_setup("test")
-	...	def _test_extension_setup():
-	...		global is_extension_active
-	...		is_extension_active = True
-	>>> @mdp.extension_teardown("test")
-	...	def _test_extension_teardown():
-	...		global is_extension_active
-	...		is_extension_active = False
+    >>> is_extension_active = False
+    >>> @mdp.extension_setup("test")
+    ... def _test_extension_setup():
+    ...     global is_extension_active
+    ...     is_extension_active = True
+    >>> @mdp.extension_teardown("test")
+    ... def _test_extension_teardown():
+    ...     global is_extension_active
+    ...     is_extension_active = False
