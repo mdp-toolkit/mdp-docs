@@ -93,7 +93,7 @@ We're ready to train our algorithms on the training data set:
     Training finished
     Close the training phase of the last node
     >>> # print the final state of the nodes
-    >>> print repr(flow)
+    >>> print repr(flow) # doctest: +SKIP
     Flow([PCANode(input_dim=64, output_dim=25, dtype='float32'),
           PolynomialExpansionNode(input_dim=25, output_dim=3275, dtype='float32'),
 	  PCANode(input_dim=3275, output_dim=646, dtype='float32'),
