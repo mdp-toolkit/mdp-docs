@@ -149,9 +149,9 @@ latex_font_size = '10pt'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('pdf', 'MDP-tutorial.tex',
+  ('tutorial/tutorial', 'MDP-tutorial.tex',
    ur'''Modular toolkit for Data Processing\\\mbox{ }\\Tutorial''',
-   u'Authors: MDP Developers', 'manual'),
+   u'Authors: MDP Developers', 'manual', True),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
@@ -172,7 +172,7 @@ latex_logo = 'examples/logo/logo.png'
 #latex_preamble = ''
 
 # Documents to append as an appendix to all manuals.
-#latex_appendices = []
+latex_appendices = ['node_list', 'additional_utilities', 'license']
 
 # If false, no module index is generated.
 latex_domain_indices = False

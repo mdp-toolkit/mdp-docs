@@ -46,7 +46,7 @@
 {# modify the search bar in the sidebar #}
 {% block sidebarsearch %}
 <div class="navigation_title"><a href="{{pathto('index')}}">Home</a></div>
-{{ toctree() }}
+{{ toctree(includehidden=True) }}
 {% endblock %}
 {% block document %}
    {# add relbar only for tutorial within the body #}
