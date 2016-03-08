@@ -9,31 +9,19 @@
 
 .. admonition:: News
 
-  04.10.2012
-     MDP 3.3 released! This is a bug-fix release
+  09.03.2016
+     MDP 3.5 released! This is a bug-fix release
 
-     - support sklearn versions up to 0.12 
-     - cleanly support reload
-     - fail gracefully if pp server does not start
-     - several bug-fixes and improvements
+     Note that from this release MDP is in maintenance mode. 13 years after its first public release,
+     MDP has reached full maturity and no new features are planned in the future.
+
+     If you plan to do serious machine learning in Python, use `sklearn <http://scikit-learn.org>`_.
+     Note though that some algorithms, notably SFA and Growing Neural Gas, are only available in MDP.
+     We would be happy to support the porting of these algorithms to sklearn! 
+
+     MDP works equally well in Python 2 and Python 3. All code examples in the documentation are using
+     Python 2 though. 
      
-     Get the full list of `changes since last release <https://raw.github.com/mdp-toolkit/mdp-toolkit/master/CHANGES>`_.
-     
-  24.10.2011
-     MDP 3.2 released!
-
-     - improved sklearn wrappers
-     - update sklearn, shogun, and pp wrapeprs to new versions
-     - do not leave temporary files around after testing
-     - refactoring and cleaning up of HTML exporting features
-     - improve export of signature and docstring to public methods
-     - fixed and updated FastICANode to closely resemble the original
-       Matlab version (thanks to Ben Willmore)
-     - support for new numpy version
-     - new NeuralGasNode (thanks to Michael Schmuker)
-     - several bug fixes and improvements
-
-
 .. middle-description-string::
 
 .. include:: tutorial/using_mdp_is_as_easy.rst
