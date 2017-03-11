@@ -129,6 +129,6 @@ Python shell as follows::
 Note that you will need to install `pytest <http://pytest.org>`_ to run the tests.
 
 If some test fails, please report it to the `mailing list
-<https://lists.sourceforge.net/lists/listinfo/mdp-toolkit-users>`_.
+<https://mail.python.org/mm3/mailman3/lists/mdp-toolkit.python.org/>`_.
 
 .. include:: license.rst

@@ -48,7 +48,7 @@ hesitate to submit it!
 .. _py26-mdp-toolkit: http://trac.macports.org/browser/trunk/dports/python/py26-mdp-toolkit/Portfile
 
 
-.. _`mailing list`: https://lists.sourceforge.net/lists/listinfo/mdp-toolkit-users
+.. _`mailing list`: https://mail.python.org/mm3/mailman3/lists/mdp-toolkit.python.org/
 
 
 
@@ -115,7 +115,7 @@ all developers.
   dependencies, i.e. they should require only the numpy module to be
   installed. If your code requires some other module, e.g. scipy or
   C/C++ compilation, ask
-  mdp-toolkit-devel@lists.sourceforge.net
+  mdp-toolkit@python.org
   for assistance.
 
 -------------------
