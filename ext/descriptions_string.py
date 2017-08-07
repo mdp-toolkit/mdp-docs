@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from docutils import nodes, core
-from sphinx.util.compat import Directive
+from docutils.parsers.rst import Directive
 
 from mdp import __short_description__ as short_description
 from mdp import __doc__ as long_description

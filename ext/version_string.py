@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from docutils import nodes
-from sphinx.util.compat import Directive
+from docutils.parsers.rst import Directive
 
 from mdp import __version__, __authors__, __homepage__, __contact__
 
