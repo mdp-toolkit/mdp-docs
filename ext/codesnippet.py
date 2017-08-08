@@ -8,10 +8,10 @@ import re
 import doctest
 import errno
 from docutils import nodes, statemachine
+from docutils.parsers.rst import Directive
 
 from sphinx.builders import Builder
 from sphinx.util.console import bold
-from sphinx.util.compat import Directive, make_admonition
 
 def write_if_changed(filename, text, logger):
     """Write file to disk, only if contents would be different.
@@ -65,6 +65,23 @@ def depart_codesnippet_node(self, node):
 class CodeSnippet(nodes.Admonition, nodes.Element):
     pass
 
+
+# imported from sphinx/util/compat.py
+def _make_admonition(node_class, name, title_text, options, content, lineno,
+                     content_offset, block_text, state, state_machine):
+    text = '\n'.join(content)
+    admonition_node = node_class(text)
+    textnodes, messages = state.inline_text(title_text, lineno)
+    admonition_node += nodes.title(title_text, '', *textnodes)
+    admonition_node += messages
+    if 'class' in options:
+        classes = options['class']
+    else:
+        classes = ['admonition-' + nodes.make_id(title_text)]
+    admonition_node['classes'] += classes
+    state.nested_parse(content, content_offset, admonition_node)
+    return [admonition_node]
+
 class CodeSnippetDirective(Directive):
     has_content = True
 
@@ -74,11 +91,12 @@ class CodeSnippetDirective(Directive):
         self.content = statemachine.StringList([ SNIPTEXT % link ])
         targetid = "codesnippet-%d" % env.new_serialno('codesnippet')
         targetnode = nodes.target('', '', ids=[targetid])
-        ad = make_admonition(CodeSnippet, self.name, ['CodeSnippet'],
-                             self.options,
-                             self.content, self.lineno, self.content_offset,
-                             self.block_text, self.state, self.state_machine)
+        ad = _make_admonition(CodeSnippet, self.name, 'CodeSnippet',
+                              self.options,
+                              self.content, self.lineno, self.content_offset,
+                              self.block_text, self.state, self.state_machine)
         return [targetnode] + ad
+
 
 class CodeSnippetBuilder(Builder):
     name = 'codesnippet'
