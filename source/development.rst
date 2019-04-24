@@ -22,15 +22,15 @@ of the `Ruhr University Bochum <https://www.ruhr-uni-bochum.de/en>`_.
 Current maintainers are:
 
 *   `Pietro Berkes <http://people.brandeis.edu/~berkes/>`_
-*   `Zbigniew Jędrzejewski-Szmek <http://dimer.fuw.edu.pl/Members/ZbyszekJSzmek>`_
+*   `Zbigniew Jędrzejewski-Szmek <https://github.com/keszybz>`_
 *   `Stefan Richthofer <https://www.ini.rub.de/the_institute/people/stefan-richthofer/>`_
-*   `Rike-Benjamin Schuppner <http://www.bccn-berlin.de/People/home/?contentId=686>`_
-*   `Niko Wilbert <http://itb.biologie.hu-berlin.de/~wilbert/>`_
-*   `Tiziano Zito <http://www.cognition.tu-berlin.de/zito>`_
+*   `Rike-Benjamin Schuppner <https://github.com/Debilski>`_
+*   `Niko Wilbert <https://github.com/nwilbert>`_
+*   `Tiziano Zito <https://github.com/otizonaizit>`_
 
 
 `Yaroslav Halchenko`_ maintains the python-mdp_ Debian package,
-`Maximilian Nickel <http://2manyvariables.inmachina.com>`_ maintains the py25-mdp-toolkit_ and py26-mdp-toolkit_ MacPorts packages.
+`Maximilian Nickel <https://mnick.github.io/>`_ maintains the py25-mdp-toolkit_ and py26-mdp-toolkit_ MacPorts packages.
 
 MDP is open to user contributions. Users have already contributed some
 of the nodes, and more contributions are currently being reviewed for
@@ -67,10 +67,10 @@ Strictly in alphabetical order:
 - Sven Dähne
 - Philip DeBoer
 - Kamel Ibn Aziz Derouiche
-- Alberto Escalante
+- `Alberto Escalante <https://www.ini.rub.de/the_institute/people/alberto-escalante/>`_
 - `Farzad Farkhooi <http://www.biologie.fu-berlin.de/neuroinformatik/people/members/farkhooi/index.html>`_
 - Mathias Franzius
-- `Valentin Haenel <http://www.cognition.tu-berlin.de/menue/members/valentin_haenel/>`_
+- `Valentin Haenel <https://github.com/esc>`_
 - `Yaroslav Halchenko`_
 - `Michael Hanke <http://mih.voxindeserto.de/>`_
 - `Konrad Hinsen <http://dirac.cnrs-orleans.fr/~hinsen/>`_
@@ -88,13 +88,13 @@ Strictly in alphabetical order:
 - `Michael Schmuker <http://userpage.fu-berlin.de/~schmuker/>`_
 - `Benjamin Schrauwen <http://reslab.elis.ugent.be/benjamin>`_
 - `Fabian Schönfeld <https://www.ini.rub.de/the_institute/people/fabian-schonfeld/>`_
-- `Henning Sprekeler <http://itb.biologie.hu-berlin.de/~sprekeler/>`_
+- `Henning Sprekeler <https://www.cognition.tu-berlin.de/menue/members/henning_sprekeler/>`_
 - `Jake VanderPlas <http://www.astro.washington.edu/users/vanderplas/>`_
 - `David Verstraeten <http://reslab.elis.ugent.be/david>`_
 - Ben Willmore
 - `Katharina Maria Zeiner <http://www.st-andrews.ac.uk/~www_sp/people/pg/kmz.shtml>`_
 
-.. _`Yaroslav Halchenko`: http://www.onerussian.com
+.. _`Yaroslav Halchenko`: http://centerforopenneuroscience.org/whoweare#yaroslav_o_halchenko_
  
 ------------------------------
 Information for new developers
