@@ -14,10 +14,16 @@ MDP has been originally written by `Pietro Berkes`_ and `Tiziano Zito`_
 at the `Institute for Theoretical Biology <http://itb.biologie.hu-berlin.de/>`_
 of the `Humboldt University <http://www.hu-berlin.de/>`_, Berlin in 2003.
 
+Since 2017, MDP is primarily maintained by the reasearch group
+`Theory of Neural Systems <https://www.ini.rub.de/research/groups/theory_of_neural_systems/>`_
+at the `Institute for Neural Computation <https://www.ini.rub.de/>`_
+of the `Ruhr University Bochum <https://www.ruhr-uni-bochum.de/en>`_.
+
 Current maintainers are:
 
 *   `Pietro Berkes <http://people.brandeis.edu/~berkes/>`_
 *   `Zbigniew Jędrzejewski-Szmek <http://dimer.fuw.edu.pl/Members/ZbyszekJSzmek>`_
+*   `Stefan Richthofer <https://www.ini.rub.de/the_institute/people/stefan-richthofer/>`_
 *   `Rike-Benjamin Schuppner <http://www.bccn-berlin.de/People/home/?contentId=686>`_
 *   `Niko Wilbert <http://itb.biologie.hu-berlin.de/~wilbert/>`_
 *   `Tiziano Zito <http://www.cognition.tu-berlin.de/zito>`_
@@ -72,12 +78,16 @@ Strictly in alphabetical order:
 - `Sebastian Höfer <http://www.sebastianhoefer.de>`_
 - `Michael Hull <http://www.inf.ed.ac.uk/people/students/Michael_Hull.html>`_
 - `Samuel John <http://www.samueljohn.de/>`_
+- `Varun Kompella <https://varunrajk.gitlab.io/>`_
 - Susanne Lezius
+- `Nils Müller <https://www.ini.rub.de/the_institute/people/nils-mller/>`_
 - `Fabian Pedregosa <http://fseoane.net/blog/>`_
 - `José Quesada <http://www.josequesada.name/>`_
+- `Stefan Richthofer <https://www.ini.rub.de/the_institute/people/stefan-richthofer/>`_
 - `Ariel Rokem <http://argentum.ucbso.berkeley.edu/ariel.html>`_
 - `Michael Schmuker <http://userpage.fu-berlin.de/~schmuker/>`_
 - `Benjamin Schrauwen <http://reslab.elis.ugent.be/benjamin>`_
+- `Fabian Schönfeld <https://www.ini.rub.de/the_institute/people/fabian-schonfeld/>`_
 - `Henning Sprekeler <http://itb.biologie.hu-berlin.de/~sprekeler/>`_
 - `Jake VanderPlas <http://www.astro.washington.edu/users/vanderplas/>`_
 - `David Verstraeten <http://reslab.elis.ugent.be/david>`_
