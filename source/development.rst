@@ -68,31 +68,31 @@ Strictly in alphabetical order:
 - Philip DeBoer
 - Kamel Ibn Aziz Derouiche
 - `Alberto Escalante <https://www.ini.rub.de/the_institute/people/alberto-escalante/>`_
-- `Farzad Farkhooi <http://www.biologie.fu-berlin.de/neuroinformatik/people/members/farkhooi/index.html>`_
+- `Farzad Farkhooi <https://www.bcp.fu-berlin.de/en/biologie/arbeitsgruppen/neurobiologie/ag_nawrot/people/alumni/farkhooi/index.html>`_
 - Mathias Franzius
 - `Valentin Haenel <https://github.com/esc>`_
 - `Yaroslav Halchenko`_
-- `Michael Hanke <http://mih.voxindeserto.de/>`_
+- `Michael Hanke <https://github.com/mih>`_
 - `Konrad Hinsen <http://dirac.cnrs-orleans.fr/~hinsen/>`_
 - Christian Hinze
 - `Sebastian Höfer <http://www.sebastianhoefer.de>`_
-- `Michael Hull <http://www.inf.ed.ac.uk/people/students/Michael_Hull.html>`_
+- Michael Hull
 - `Samuel John <http://www.samueljohn.de/>`_
 - `Varun Kompella <https://varunrajk.gitlab.io/>`_
 - Susanne Lezius
 - `Nils Müller <https://www.ini.rub.de/the_institute/people/nils-mller/>`_
 - `Fabian Pedregosa <http://fseoane.net/blog/>`_
-- `José Quesada <http://www.josequesada.name/>`_
+- `José Quesada <https://github.com/quesada>`_
 - `Stefan Richthofer <https://www.ini.rub.de/the_institute/people/stefan-richthofer/>`_
 - `Ariel Rokem <http://argentum.ucbso.berkeley.edu/ariel.html>`_
-- `Michael Schmuker <http://userpage.fu-berlin.de/~schmuker/>`_
-- `Benjamin Schrauwen <http://reslab.elis.ugent.be/benjamin>`_
+- `Michael Schmuker <https://github.com/Huitzilo>`_
+- `Benjamin Schrauwen <https://about.me/benjamin_schrauwen>`_
 - `Fabian Schönfeld <https://www.ini.rub.de/the_institute/people/fabian-schonfeld/>`_
 - `Henning Sprekeler <https://www.cognition.tu-berlin.de/menue/members/henning_sprekeler/>`_
-- `Jake VanderPlas <http://www.astro.washington.edu/users/vanderplas/>`_
-- `David Verstraeten <http://reslab.elis.ugent.be/david>`_
+- `Jake VanderPlas <https://github.com/jakevdp>`_
+- `David Verstraeten <https://we.vub.ac.be/en/david-verstraeten>`_
 - Ben Willmore
-- `Katharina Maria Zeiner <http://www.st-andrews.ac.uk/~www_sp/people/pg/kmz.shtml>`_
+- `Katharina Maria Zeiner <http://dgppf.de/dr-katharina-m-zeiner/>`_
 
 .. _`Yaroslav Halchenko`: http://centerforopenneuroscience.org/whoweare#yaroslav_o_halchenko_
  
