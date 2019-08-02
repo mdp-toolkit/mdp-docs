@@ -24,7 +24,7 @@ This is the preferred method of installation if you are using Windows or MacOSX.
 .. _binary_packages:
 
 Binary packages (Linux/BSD)
-=======================
+===========================
 
 .. _python-mdp: http://packages.debian.org/python-mdp
 
