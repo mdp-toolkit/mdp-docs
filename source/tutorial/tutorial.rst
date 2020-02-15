@@ -43,7 +43,7 @@ is available.
 
 .. only:: html
 
-   You'll find all the code of this tutorial :ref:`here <code_snippets>`.
+   You'll find all the code of this tutorial.
 
 .. only:: latex
 

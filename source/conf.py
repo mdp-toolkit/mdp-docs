@@ -22,24 +22,31 @@ def get_mdp_version():
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #sys.path.append(os.path.abspath('.'))
 
+sys.path.insert(0, os.path.abspath('../ext'))
+sys.path.insert(0, os.path.abspath('../'))
+
 # -- General configuration -----------------------------------------------------
 
-# If your documentation needs a minimal Sphinx version, state it here.
-needs_sphinx = '1.0'
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
 extensions = ['sphinx.ext.autodoc',
+              'neatdoc',
+	      	  'sphinx.ext.napoleon',
+              'sphinx.ext.autosummary',
               'sphinx.ext.doctest',
               'sphinx.ext.autosummary',
+	          'sphinx.ext.viewcode',
               'sphinx.ext.extlinks',
-              'extapi',
+			  'sphinx.ext.mathjax',
+       #       'extapi',
               'codesnippet',
               'version_string',
               'linkcheck2',
               'descriptions_string',]
 #              'download_links']
 
+napoleon_google_docstring = True
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
@@ -71,13 +78,21 @@ pygments_style = 'sphinx'
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-html_theme = 'mdp'
+html_theme = 'sphinx_rtd_theme'
+html_theme_options = {
+    'collapse_navigation': True,
+    'display_version': False,
+    'navigation_depth': 5,
+    'logo_only': True
+}
 
 # Add any paths that contain custom themes here, relative to this directory.
 html_theme_path = ['_themes']
 
 html_title = "Modular toolkit for Data Processing (MDP)"
 
+# Logo of the docs
+html_logo = '_static/logo_animation.gif'
 
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
@@ -150,7 +165,7 @@ latex_font_size = '10pt'
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('tutorial/tutorial', 'MDP-tutorial.tex',
-   u'''Modular toolkit for Data Processing\\\\\\mbox{ }\\\\Tutorial''',
+   ur'''Modular toolkit for Data Processing\\\mbox{ }\\Tutorial''',
    u'Authors: MDP Developers', 'manual', True),
 ]
 
@@ -172,7 +187,8 @@ latex_logo = 'examples/logo/logo.png'
 #latex_preamble = ''
 
 # Documents to append as an appendix to all manuals.
-latex_appendices = ['node_list', 'additional_utilities', 'license']
+latex_appendices = [#'node_list', 
+'additional_utilities', 'license']
 
 # If false, no module index is generated.
 latex_domain_indices = False
@@ -205,30 +221,11 @@ extapi_link_prefix = '%s/api'%mdp.__homepage__
 #download_link = ('http://sourceforge.net/projects/mdp-toolkit/files/mdp-toolkit'
 #                 '/%s/MDP-%s.tar.gz/download'%(version, version))
 
-# overwrite default signature and members documentation
-# features of autodoc
+# neatdoc
+neatdoc_module_path_list  =[os.path.abspath('../mdp')]
+neatdoc_apidoc_options = '-e -P -d 7'
 
-def setup(app):
-    from sphinx.ext.autodoc import cut_lines
-    def autodoc_skip_member(app, what, name, obj, skip, options):
-        # only document public nodes, but none of their members! 
-        if name.startswith('_') or what != 'module':
-            return True
-        else:
-            return False
+neatdoc_create_class_toc = True
+autodoc_default_flags = ['members', 'undoc-members', 'private-members', 'special-members', 'inherited-members', 'show-inheritance']
 
-    def autodoc_process_signature(app, what, name, obj, options,
-                                  signature, return_annotation):
-        # remove signature altogether
-        return (None, None)
 
-    def autodoc_process_docstring(app, what, name, obj, options, lines):
-        # add link to api at the end of the docstring
-        shortname = name.split('.')[-1]
-        link = 'Full API documentation: :api:`%s <%s>`' % (name, shortname)
-        lines.extend(['', link])
-
-    # app.connect(event, callback)
-    app.connect('autodoc-process-signature', autodoc_process_signature)
-    app.connect('autodoc-skip-member', autodoc_skip_member)
-    app.connect('autodoc-process-docstring', autodoc_process_docstring)

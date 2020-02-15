@@ -7,7 +7,7 @@
    how_to_cite_mdp.rst
    contact.rst
 
-.. admonition:: News
+.. Note::
 
   09.03.2016
      MDP 3.5 released! This is a bug-fix release
