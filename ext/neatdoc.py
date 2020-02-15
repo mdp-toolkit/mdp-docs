@@ -41,11 +41,11 @@ class Docsummary(Autosummary):
         ret =[]
         for mname in members:
             try:
-		        ret.append((mname, safe_getattr(obj, mname[0])))
+            ret.append((mname, safe_getattr(obj, mname[0])))
             except:
                 pass
         return ret
-		
+
   
     def run(self):
         app = self.state.document.settings.env.app
