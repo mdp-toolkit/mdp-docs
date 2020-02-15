@@ -46,7 +46,7 @@ extensions = ['sphinx.ext.autodoc',
               'descriptions_string',]
 #              'download_links']
 
-napoleon_google_docstring = True
+napoleon_google_docstring = False
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
