@@ -1,9 +1,8 @@
 from sphinx.ext.autosummary import Autosummary
 from sphinx.ext.autosummary import get_documenter
 from sphinx import addnodes
-from docutils.parsers.rst import directives
+from docutils.parsers.rst import directives, Directive
 from docutils.nodes import Text
-from sphinx.util.compat import Directive
 from sphinx.util.inspect import safe_getattr,safe_getmembers
 import re
 import sphinx.ext.autodoc
