@@ -13,8 +13,8 @@ Documentation
    mdp/modules.rst
    additional_utilities.rst   
    development.rst
-   talks/talks.rst
    API documentation <http://mdp-toolkit.sourceforge.net/api/index.html>
+   source/talks/talks.rst
 
 - The comprehensive :ref:`MDP tutorial <tutorial>`, also available as `pdf <http://downloads.sourceforge.net/mdp-toolkit/MDP-tutorial.pdf?download>`_.
 - Usage :ref:`examples`.
