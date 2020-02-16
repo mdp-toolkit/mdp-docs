@@ -53,8 +53,8 @@ class Docsummary(Autosummary):
         if ('methods' in self.options) or ('attributes' in self.options):
             clazz = self.arguments[0]
             (module_name,class_name) = re.findall(re.compile("^(.*)\.([^.]*)$"),clazz)[0]
-            class_name = class_name.encode("utf-8")
-            module_name = module_name.encode("utf-8")
+            class_name = class_name#.encode("utf-8")
+            module_name = module_name#.encode("utf-8")
             try:
                 m = __import__(module_name, globals(), locals(), [class_name])
                 c = getattr(m, class_name)
