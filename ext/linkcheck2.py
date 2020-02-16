@@ -151,4 +151,4 @@ class CheckExternalLinksBuilder2(Builder):
 
 def setup(app):
     app.add_builder(CheckExternalLinksBuilder2)
-    app.add_config_value('linkcheck2_ignore', '', 'env')
+    app.add_config_value('linkcheck2_ignore', [], 'env')
