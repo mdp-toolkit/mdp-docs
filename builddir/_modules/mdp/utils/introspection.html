@@ -1,0 +1,413 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mdp.utils.introspection &mdash; Modular toolkit for Data Processing (MDP)</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="Modular toolkit for Data Processing (MDP)" href="../../../index.html"/>
+        <link rel="up" title="mdp.utils" href="../utils.html"/> 
+<meta name="viewport" content="width=740" />
+
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html">
+          
+
+          
+            
+            <img src="../../../_static/logo_animation.gif" class="logo" />
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_cite_mdp.html">How to cite MDP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MDP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../../mdp.html">mdp</a> &raquo;</li>
+        
+          <li><a href="../utils.html">mdp.utils</a> &raquo;</li>
+        
+      <li>mdp.utils.introspection</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mdp.utils.introspection</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">future</span> <span class="k">import</span> <span class="n">standard_library</span>
+<span class="n">standard_library</span><span class="o">.</span><span class="n">install_aliases</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">map</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">str</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">object</span>
+<span class="kn">import</span> <span class="nn">types</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">mdp</span>
+
+<div class="viewcode-block" id="_Walk"><a class="viewcode-back" href="../../../mdp/mdp.utils.introspection.html#mdp.utils.introspection._Walk">[docs]</a><span class="k">class</span> <span class="nc">_Walk</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Recursively crawl an object and search for attributes that</span>
+<span class="sd">    are reference to numpy arrays, return a dictionary:</span>
+<span class="sd">    {attribute_name: array_reference}.</span>
+
+<span class="sd">    Usage:</span>
+<span class="sd">        _Walk()(object)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="_Walk.__init__"><a class="viewcode-back" href="../../../mdp/mdp.utils.introspection.html#mdp.utils.introspection._Walk.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">arrays</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">allobjs</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+<div class="viewcode-block" id="_Walk.__call__"><a class="viewcode-back" href="../../../mdp/mdp.utils.introspection.html#mdp.utils.introspection._Walk.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">start</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+        <span class="n">arrays</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">arrays</span>
+        <span class="c1"># loop through the object dictionary</span>
+        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+            <span class="c1"># get the corresponding member</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">id</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">allobjs</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                <span class="c1"># if we already examined the member, skip to the next</span>
+                <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># add the id of this object to the list of know members</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">allobjs</span><span class="p">[</span><span class="nb">id</span><span class="p">(</span><span class="n">obj</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="k">if</span> <span class="n">start</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># initialize a string structure to keep track of array names</span>
+                <span class="n">struct</span> <span class="o">=</span> <span class="n">name</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># struct is x.y.z (where x and y are objects and z an array)</span>
+                <span class="n">struct</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">start</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">mdp</span><span class="o">.</span><span class="n">numx</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+                <span class="c1"># the present member is an array</span>
+                <span class="c1"># add it to the dictionary of all arrays</span>
+                <span class="k">if</span> <span class="n">start</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">arrays</span><span class="p">[</span><span class="n">struct</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">arrays</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span>
+            <span class="k">elif</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;__&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="ow">in</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span>
+                                                        <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">):</span>
+                <span class="c1"># the present member is a private member or a known</span>
+                <span class="c1"># type that does not support arrays as attributes</span>
+                <span class="c1"># Note: this is to avoid infinite</span>
+                <span class="c1"># recursion in python2.6. Just remove the &quot;or type in ...&quot;</span>
+                <span class="c1"># condition to see the error. There must be a better way.</span>
+                <span class="k">continue</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># we need to examine the present member in more detail</span>
+                <span class="n">arrays</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">start</span> <span class="o">=</span> <span class="n">struct</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start</span> <span class="o">=</span> <span class="n">start</span>
+        <span class="k">return</span> <span class="n">arrays</span></div></div>
+
+<div class="viewcode-block" id="_format_dig"><a class="viewcode-back" href="../../../mdp/mdp.utils.introspection.html#mdp.utils.introspection._format_dig">[docs]</a><span class="k">def</span> <span class="nf">_format_dig</span><span class="p">(</span><span class="n">dict_</span><span class="p">):</span>
+    <span class="n">longest_name</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">dict_</span><span class="o">.</span><span class="n">keys</span><span class="p">()))))</span>
+    <span class="n">longest_size</span> <span class="o">=</span> <span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1">&#39;</span><span class="o">%</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">dict_</span><span class="o">.</span><span class="n">values</span><span class="p">())])</span>
+    <span class="n">msgs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">total_size</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">dict_</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">dict_</span><span class="p">[</span><span class="n">name</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">total_size</span> <span class="o">+=</span> <span class="n">size</span>
+        <span class="n">pname</span> <span class="o">=</span> <span class="p">(</span><span class="n">name</span><span class="o">+</span><span class="s1">&#39;:&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">longest_name</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">psize</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">%d</span><span class="s1"> bytes&#39;</span> <span class="o">%</span> <span class="n">size</span><span class="p">)</span><span class="o">.</span><span class="n">rjust</span><span class="p">(</span><span class="n">longest_size</span><span class="o">+</span><span class="mi">6</span><span class="p">)</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">pname</span><span class="p">,</span> <span class="n">psize</span><span class="p">)</span>
+        <span class="n">msgs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+    <span class="n">final</span> <span class="o">=</span> <span class="s2">&quot;Total </span><span class="si">%d</span><span class="s2"> arrays (</span><span class="si">%d</span><span class="s2"> bytes)&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">dict_</span><span class="p">),</span> <span class="n">total_size</span><span class="p">)</span>
+    <span class="n">msgs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">final</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">msgs</span><span class="p">)</span></div>
+
+<span class="k">def</span> <span class="nf">dig_node</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Crawl recursively an MDP Node looking for arrays.</span>
+
+<span class="sd">    Return (dictionary, string), where the dictionary is:</span>
+<span class="sd">    { attribute_name: (size_in_bytes, array_reference)}</span>
+<span class="sd">    and string is a nice string representation of it.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">mdp</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s1">&#39;Cannot dig </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">))))</span>
+    <span class="n">arrays</span> <span class="o">=</span> <span class="n">_Walk</span><span class="p">()(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">arrays</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+        <span class="n">ar</span> <span class="o">=</span> <span class="n">arrays</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">ar</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">numx</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">ar</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+        <span class="nb">bytes</span> <span class="o">=</span> <span class="n">ar</span><span class="o">.</span><span class="n">itemsize</span><span class="o">*</span><span class="n">size</span>
+        <span class="n">arrays</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="nb">bytes</span><span class="p">,</span> <span class="n">ar</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">arrays</span><span class="p">,</span> <span class="n">_format_dig</span><span class="p">(</span><span class="n">arrays</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">get_node_size</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return node total byte-size using cPickle with protocol=2.</span>
+
+<span class="sd">    The byte-size is related to the memory needed by the node).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># TODO: add check for problematic node types, like NoiseNode?</span>
+    <span class="c1"># TODO: replace this with sys.getsizeof for Python &gt;= 2.6</span>
+    <span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">protocol</span> <span class="o">=</span> <span class="mi">2</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">size</span>
+
+<div class="viewcode-block" id="get_node_size_str"><a class="viewcode-back" href="../../../mdp/mdp.utils.introspection.html#mdp.utils.introspection.get_node_size_str">[docs]</a><span class="k">def</span> <span class="nf">get_node_size_str</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">si_units</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return node total byte-size as a well readable string.</span>
+
+<span class="sd">    si_units -- If True si-units like KB are used instead of KiB.</span>
+
+<span class="sd">    The get_node_size function is used to get the size.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_memory_size_str</span><span class="p">(</span><span class="n">get_node_size</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">si_units</span><span class="o">=</span><span class="n">si_units</span><span class="p">)</span></div>
+
+<span class="n">_SI_MEMORY_PREFIXES</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="s2">&quot;M&quot;</span><span class="p">,</span> <span class="s2">&quot;G&quot;</span><span class="p">,</span> <span class="s2">&quot;T&quot;</span><span class="p">,</span> <span class="s2">&quot;P&quot;</span><span class="p">,</span> <span class="s2">&quot;E&quot;</span><span class="p">)</span>
+<span class="n">_IEC_MEMORY_PREFIXES</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;Ki&quot;</span><span class="p">,</span> <span class="s2">&quot;Mi&quot;</span><span class="p">,</span> <span class="s2">&quot;Gi&quot;</span><span class="p">,</span> <span class="s2">&quot;Ti&quot;</span><span class="p">,</span> <span class="s2">&quot;Pi&quot;</span><span class="p">,</span> <span class="s2">&quot;Ei&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="_memory_size_str"><a class="viewcode-back" href="../../../mdp/mdp.utils.introspection.html#mdp.utils.introspection._memory_size_str">[docs]</a><span class="k">def</span> <span class="nf">_memory_size_str</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">si_units</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert the given memory size into a nicely formatted string.</span>
+
+<span class="sd">    si_units -- If True si-units like kB are used instead of kiB.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">si_units</span><span class="p">:</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="mi">3</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">base</span> <span class="o">=</span> <span class="mi">2</span><span class="o">**</span><span class="mi">10</span>
+    <span class="n">scale</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># 1024**scale is the actual scale</span>
+    <span class="k">while</span> <span class="n">size</span> <span class="o">&gt;</span> <span class="n">base</span><span class="o">**</span><span class="p">(</span><span class="n">scale</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">scale</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">unit</span> <span class="o">=</span> <span class="s2">&quot;B&quot;</span>
+    <span class="k">if</span> <span class="n">scale</span><span class="p">:</span>
+        <span class="n">size_str</span> <span class="o">=</span> <span class="n">size</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%.1f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">size</span> <span class="o">/</span> <span class="p">(</span><span class="n">base</span><span class="o">**</span><span class="n">scale</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">si_units</span><span class="p">:</span>
+            <span class="n">unit</span> <span class="o">=</span> <span class="n">_SI_MEMORY_PREFIXES</span><span class="p">[</span><span class="n">scale</span><span class="p">]</span> <span class="o">+</span> <span class="n">unit</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">unit</span> <span class="o">=</span> <span class="n">_IEC_MEMORY_PREFIXES</span><span class="p">[</span><span class="n">scale</span><span class="p">]</span> <span class="o">+</span> <span class="n">unit</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">size_str</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">size</span>
+    <span class="k">return</span> <span class="n">size_str</span> <span class="o">+</span> <span class="s2">&quot; &quot;</span> <span class="o">+</span> <span class="n">unit</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      Last updated on 2020-02-17 1:33:02 PM Coordinated Universal Time.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'3.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+<div class="footer">
+    <hr />
+    <table>
+      <tr>
+        <td class="footer-left">
+           <a href="http://sourceforge.net/projects/mdp-toolkit">
+ <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=116959&amp;type=12"
+      width="120" height="30" border="0" alt="MDP@SF.NET"/> </a>
+        </td>
+        <td class="footer-center">
+          Last updated on
+             2020-02-17 1:33:02 PM Coordinated Universal Time
+        </td>
+        <td class="footer-right">
+         <form class="search" action="../../../search.html" method="get">
+          <input type="submit" value="Search" />
+          <input type="text" name="q" size="18" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+         </form>
+        </td>
+    </table>  
+    <!-- Piwik -->
+    <script type="text/javascript">
+	var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/mdp-toolkit/" : "http://sourceforge.net/apps/piwik/mdp-toolkit/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+	piwik_action_name = '';
+	piwik_idsite = 1;
+	piwik_url = pkBaseURL + "piwik.php";
+	piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+    </script>
+    <object><noscript>
+	    <p>
+		<img src="http://sourceforge.net/apps/piwik/mdp-toolkit/piwik.php?idsite=1"
+		     alt="piwik" />
+	    </p>
+    </noscript></object>
+    <!-- End Piwik Tag -->
+</div>   
+
+
+</body>
+</html>

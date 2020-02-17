@@ -1,0 +1,715 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mdp.utils._symeig module &mdash; Modular toolkit for Data Processing (MDP)</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Modular toolkit for Data Processing (MDP)" href="../index.html"/>
+        <link rel="up" title="mdp.utils package" href="mdp.utils.html"/>
+        <link rel="next" title="mdp.utils.covariance module" href="mdp.utils.covariance.html"/>
+        <link rel="prev" title="mdp.utils._ordered_dict module" href="mdp.utils._ordered_dict.html"/> 
+<meta name="viewport" content="width=740" />
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/logo_animation.gif" class="logo" />
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../documentation.html">Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples.html">Examples</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html">mdp</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="mdp.html">mdp package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="mdp.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="mdp.caching.html">mdp.caching package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="mdp.graph.html">mdp.graph package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="mdp.hinet.html">mdp.hinet package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="mdp.nodes.html">mdp.nodes package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="mdp.parallel.html">mdp.parallel package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="mdp.test.html">mdp.test package</a></li>
+<li class="toctree-l5 current"><a class="reference internal" href="mdp.utils.html">mdp.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="mdp.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mdp.html#module-mdp">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../additional_utilities.html">Additional utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development.html">Development</a></li>
+<li class="toctree-l2"><a class="reference external" href="http://mdp-toolkit.sourceforge.net/api/index.html">API documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../how_to_cite_mdp.html">How to cite MDP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MDP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../documentation.html">Documentation</a> &raquo;</li>
+        
+          <li><a href="modules.html">mdp</a> &raquo;</li>
+        
+          <li><a href="mdp.html">mdp package</a> &raquo;</li>
+        
+          <li><a href="mdp.utils.html">mdp.utils package</a> &raquo;</li>
+        
+      <li>mdp.utils._symeig module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-mdp.utils._symeig">
+<span id="mdp-utils-symeig-module"></span><h1>mdp.utils._symeig module<a class="headerlink" href="#module-mdp.utils._symeig" title="Permalink to this headline">¶</a></h1>
+<p><strong>Module content:</strong></p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.CheckpointFlow</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.CheckpointFunction</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.CheckpointSaveFunction</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.ClassifierCumulator</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.ClassifierNode</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.CrashRecoveryException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.Cumulator</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.ExtensionException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.ExtensionNode</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.ExtensionNodeMetaclass</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.Flow</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.FlowException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.FlowExceptionCR</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.InconsistentDimException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.IsNotInvertibleException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.IsNotTrainableException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.MDPDeprecationWarning</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.MDPException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.MDPWarning</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.Node</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.NodeException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.NodeMetaclass</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.PreserveDimNode</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.TrainingException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.TrainingFinishedException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.VariadicCumulator</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">__loader__</span></code></td>
+<td>Concrete implementation of SourceLoader using the file system.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">__spec__</span></code></td>
+<td>The specification for a module, used for loading.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.activate_extension</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.activate_extensions</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.config</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.deactivate_extension</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.deactivate_extensions</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.extension</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.extension_method</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.extension_setup</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.extension_teardown</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.fastica</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.get_active_extensions</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.get_extensions</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.pca</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.test</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils._symeig.with_extension</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="exception">
+<dt id="mdp.utils._symeig.SymeigException">
+<em class="property">exception </em><code class="descclassname">mdp.utils._symeig.</code><code class="descname">SymeigException</code><a class="reference internal" href="../_modules/mdp/utils/_symeig.html#SymeigException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.utils._symeig.SymeigException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="mdp.html#mdp.MDPException" title="mdp.MDPException"><code class="xref py py-class docutils literal notranslate"><span class="pre">mdp.MDPException</span></code></a></p>
+<dl class="attribute">
+<dt id="mdp.utils._symeig.SymeigException.__cause__">
+<code class="descname">__cause__</code><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__cause__" title="Permalink to this definition">¶</a></dt>
+<dd><p>exception cause</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils._symeig.SymeigException.__class__">
+<code class="descname">__class__</code><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__class__" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">builtins.type</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils._symeig.SymeigException.__context__">
+<code class="descname">__context__</code><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__context__" title="Permalink to this definition">¶</a></dt>
+<dd><p>exception context</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils._symeig.SymeigException.__delattr__">
+<code class="descname">__delattr__</code><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__delattr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement delattr(self, name).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils._symeig.SymeigException.__dict__">
+<code class="descname">__dict__</code><em class="property"> = mappingproxy({'__module__': 'mdp.utils._symeig', '__doc__': None})</em><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__dict__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils._symeig.SymeigException.__dir__">
+<code class="descname">__dir__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__dir__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default dir() implementation.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils._symeig.SymeigException.__eq__">
+<code class="descname">__eq__</code><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self==value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils._symeig.SymeigException.__format__">
+<code class="descname">__format__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__format__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default object formatter.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils._symeig.SymeigException.__ge__">
+<code class="descname">__ge__</code><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__ge__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self&gt;=value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils._symeig.SymeigException.__getattribute__">
+<code class="descname">__getattribute__</code><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__getattribute__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return getattr(self, name).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils._symeig.SymeigException.__gt__">
+<code class="descname">__gt__</code><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__gt__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self&gt;value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils._symeig.SymeigException.__hash__">
+<code class="descname">__hash__</code><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__hash__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return hash(self).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils._symeig.SymeigException.__init__">
+<code class="descname">__init__</code><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils._symeig.SymeigException.__init_subclass__">
+<code class="descname">__init_subclass__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__init_subclass__" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called when a class is subclassed.</p>
+<p>The default implementation does nothing. It may be
+overridden to extend subclasses.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils._symeig.SymeigException.__le__">
+<code class="descname">__le__</code><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__le__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self&lt;=value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils._symeig.SymeigException.__lt__">
+<code class="descname">__lt__</code><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__lt__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self&lt;value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils._symeig.SymeigException.__module__">
+<code class="descname">__module__</code><em class="property"> = 'mdp.utils._symeig'</em><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__module__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils._symeig.SymeigException.__ne__">
+<code class="descname">__ne__</code><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__ne__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self!=value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils._symeig.SymeigException.__new__">
+<code class="descname">__new__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__new__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and return a new object.  See help(type) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils._symeig.SymeigException.__reduce__">
+<code class="descname">__reduce__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__reduce__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper for pickle.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils._symeig.SymeigException.__reduce_ex__">
+<code class="descname">__reduce_ex__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__reduce_ex__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper for pickle.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils._symeig.SymeigException.__repr__">
+<code class="descname">__repr__</code><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return repr(self).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils._symeig.SymeigException.__setattr__">
+<code class="descname">__setattr__</code><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__setattr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement setattr(self, name, value).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils._symeig.SymeigException.__setstate__">
+<code class="descname">__setstate__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__setstate__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils._symeig.SymeigException.__sizeof__">
+<code class="descname">__sizeof__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__sizeof__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Size of object in memory, in bytes.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils._symeig.SymeigException.__str__">
+<code class="descname">__str__</code><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return str(self).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils._symeig.SymeigException.__subclasshook__">
+<code class="descname">__subclasshook__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__subclasshook__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract classes can override this to customize issubclass().</p>
+<p>This is invoked early on by abc.ABCMeta.__subclasscheck__().
+It should return True, False or NotImplemented.  If it returns
+NotImplemented, the normal algorithm is used.  Otherwise, it
+overrides the normal algorithm (and the outcome is cached).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils._symeig.SymeigException.__suppress_context__">
+<code class="descname">__suppress_context__</code><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__suppress_context__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils._symeig.SymeigException.__traceback__">
+<code class="descname">__traceback__</code><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__traceback__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils._symeig.SymeigException.__weakref__">
+<code class="descname">__weakref__</code><a class="headerlink" href="#mdp.utils._symeig.SymeigException.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils._symeig.SymeigException.args">
+<code class="descname">args</code><a class="headerlink" href="#mdp.utils._symeig.SymeigException.args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils._symeig.SymeigException.with_traceback">
+<code class="descname">with_traceback</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.utils._symeig.SymeigException.with_traceback" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exception.with_traceback(tb) –
+set self.__traceback__ to tb and return self.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="mdp.utils._symeig._assert_eigenvalues_real_and_positive">
+<code class="descclassname">mdp.utils._symeig.</code><code class="descname">_assert_eigenvalues_real_and_positive</code><span class="sig-paren">(</span><em>w</em>, <em>dtype</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/utils/_symeig.html#_assert_eigenvalues_real_and_positive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.utils._symeig._assert_eigenvalues_real_and_positive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="mdp.utils._symeig._greatest_common_dtype">
+<code class="descclassname">mdp.utils._symeig.</code><code class="descname">_greatest_common_dtype</code><span class="sig-paren">(</span><em>alist</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/utils/_symeig.html#_greatest_common_dtype"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.utils._symeig._greatest_common_dtype" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply conversion rules to find the common conversion type
+dtype ‘d’ is default for ‘i’ or unknown types
+(known types: ‘f’,’d’,’F’,’D’).</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="mdp.utils._symeig._symeig_fake">
+<code class="descclassname">mdp.utils._symeig.</code><code class="descname">_symeig_fake</code><span class="sig-paren">(</span><em>A</em>, <em>B=None</em>, <em>eigenvectors=True</em>, <em>turbo='on'</em>, <em>range=None</em>, <em>type=1</em>, <em>overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/utils/_symeig.html#_symeig_fake"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.utils._symeig._symeig_fake" title="Permalink to this definition">¶</a></dt>
+<dd><p>Solve standard and generalized eigenvalue problem for symmetric
+(hermitian) definite positive matrices.
+This function is a wrapper of LinearAlgebra.eigenvectors or
+numarray.linear_algebra.eigenvectors with an interface compatible with symeig.</p>
+<blockquote>
+<div><p>Syntax:</p>
+<blockquote>
+<div>w,Z = symeig(A)
+w = symeig(A,eigenvectors=0)
+w,Z = symeig(A,range=(lo,hi))
+w,Z = symeig(A,B,range=(lo,hi))</div></blockquote>
+<p>Inputs:</p>
+<blockquote>
+<div><p>A     – An N x N matrix.
+B     – An N x N matrix.
+eigenvectors – if set return eigenvalues and eigenvectors, otherwise</p>
+<blockquote>
+<div>only eigenvalues</div></blockquote>
+<p>turbo – not implemented
+range – the tuple (lo,hi) represent the indexes of the smallest and</p>
+<blockquote>
+<div>largest (in ascending order) eigenvalues to be returned.
+1 &lt;= lo &lt; hi &lt;= N
+if range = None, returns all eigenvalues and eigenvectors.</div></blockquote>
+<p>type  – not implemented, always solve A*x = (lambda)*B*x
+overwrite – not implemented</p>
+</div></blockquote>
+<p>Outputs:</p>
+<blockquote>
+<div><p>w     – (selected) eigenvalues in ascending order.
+Z     – if range = None, Z contains the matrix of eigenvectors,</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>normalized as follows:</dt>
+<dd>Z^H * A * Z = lambda and Z^H * B * Z = I</dd>
+</dl>
+<p>where ^H means conjugate transpose.
+if range, an N x M matrix containing the orthonormal
+eigenvectors of the matrix A corresponding to the selected
+eigenvalues, with the i-th column of Z holding the eigenvector
+associated with w[i]. The eigenvectors are normalized as above.</p>
+</div></blockquote>
+</div></blockquote>
+</div></blockquote>
+</dd></dl>
+
+<dl class="function">
+<dt id="mdp.utils._symeig.wrap_eigh">
+<code class="descclassname">mdp.utils._symeig.</code><code class="descname">wrap_eigh</code><span class="sig-paren">(</span><em>A</em>, <em>B=None</em>, <em>eigenvectors=True</em>, <em>turbo='on'</em>, <em>range=None</em>, <em>type=1</em>, <em>overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/utils/_symeig.html#wrap_eigh"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.utils._symeig.wrap_eigh" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrapper for scipy.linalg.eigh for scipy version &gt; 0.7</p>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="mdp.utils.covariance.html" class="btn btn-neutral float-right" title="mdp.utils.covariance module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="mdp.utils._ordered_dict.html" class="btn btn-neutral" title="mdp.utils._ordered_dict module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      Last updated on 2020-02-17 1:32:12 PM Coordinated Universal Time.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+<div class="footer">
+    <hr />
+    <table>
+      <tr>
+        <td class="footer-left">
+           <a href="http://sourceforge.net/projects/mdp-toolkit">
+ <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=116959&amp;type=12"
+      width="120" height="30" border="0" alt="MDP@SF.NET"/> </a>
+        </td>
+        <td class="footer-center">
+          Last updated on
+             2020-02-17 1:32:12 PM Coordinated Universal Time
+        </td>
+        <td class="footer-right">
+         <form class="search" action="../search.html" method="get">
+          <input type="submit" value="Search" />
+          <input type="text" name="q" size="18" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+         </form>
+        </td>
+    </table>  
+    <!-- Piwik -->
+    <script type="text/javascript">
+	var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/mdp-toolkit/" : "http://sourceforge.net/apps/piwik/mdp-toolkit/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+	piwik_action_name = '';
+	piwik_idsite = 1;
+	piwik_url = pkBaseURL + "piwik.php";
+	piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+    </script>
+    <object><noscript>
+	    <p>
+		<img src="http://sourceforge.net/apps/piwik/mdp-toolkit/piwik.php?idsite=1"
+		     alt="piwik" />
+	    </p>
+    </noscript></object>
+    <!-- End Piwik Tag -->
+</div>   
+
+
+</body>
+</html>

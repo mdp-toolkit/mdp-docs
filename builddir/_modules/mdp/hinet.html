@@ -1,0 +1,334 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mdp.hinet &mdash; Modular toolkit for Data Processing (MDP)</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="Modular toolkit for Data Processing (MDP)" href="../../index.html"/>
+        <link rel="up" title="mdp" href="../mdp.html"/> 
+<meta name="viewport" content="width=740" />
+
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html">
+          
+
+          
+            
+            <img src="../../_static/logo_animation.gif" class="logo" />
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_cite_mdp.html">How to cite MDP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MDP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../mdp.html">mdp</a> &raquo;</li>
+        
+      <li>mdp.hinet</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mdp.hinet</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Hierarchical Networks Package.</span>
+
+<span class="sd">This package makes it possible to construct graph-like Node structures,</span>
+<span class="sd">especially hierarchical networks.</span>
+
+<span class="sd">The most important building block is the new Layer node, which works as an</span>
+<span class="sd">horizontal version of flow. It encapsulates a list of Nodes, which are trained</span>
+<span class="sd">and executed in parallel.</span>
+<span class="sd">For example we can take two Nodes with 100 dimensional input to</span>
+<span class="sd">construct a layer with a 200 dimensional input. The first half of the input</span>
+<span class="sd">data is automatically fed into the first Node, the second half into the second</span>
+<span class="sd">Node.</span>
+
+<span class="sd">Since one might also want to use Flows (i.e. vertical stacks of Nodes) in a</span>
+<span class="sd">Layer, a wrapper class for Nodes is provided.</span>
+<span class="sd">The FlowNode class wraps any Flow into a Node, which can then be used like any</span>
+<span class="sd">other Node. Together with the Layer this allows you to combine Nodes both</span>
+<span class="sd">horizontally and vertically. Thereby one can in principle realize</span>
+<span class="sd">any feed-forward network topology.</span>
+
+<span class="sd">For a hierarchical networks one might want to route the different parts of the</span>
+<span class="sd">data to different Nodes in a Layer in complicated ways. This is done by a</span>
+<span class="sd">Switchboard that handles all the routing.</span>
+<span class="sd">Defining the routing manually can be quite tedious, so one can derive subclasses</span>
+<span class="sd">for special routing situations. One such subclass for 2d image data is provided.</span>
+<span class="sd">It maps the data according to rectangular overlapping 2d input areas. One can</span>
+<span class="sd">then feed the output into a Layer and each Node will get the correct input.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">.flownode</span> <span class="k">import</span> <span class="n">FlowNode</span>
+<span class="kn">from</span> <span class="nn">.layer</span> <span class="k">import</span> <span class="n">Layer</span><span class="p">,</span> <span class="n">SameInputLayer</span><span class="p">,</span> <span class="n">CloneLayer</span>
+<span class="kn">from</span> <span class="nn">.switchboard</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">Switchboard</span><span class="p">,</span> <span class="n">SwitchboardException</span><span class="p">,</span> <span class="n">MeanInverseSwitchboard</span><span class="p">,</span>
+    <span class="n">ChannelSwitchboard</span><span class="p">,</span>
+    <span class="n">Rectangular2dSwitchboard</span><span class="p">,</span> <span class="n">Rectangular2dSwitchboardException</span><span class="p">,</span>
+    <span class="n">DoubleRect2dSwitchboard</span><span class="p">,</span> <span class="n">DoubleRect2dSwitchboardException</span><span class="p">,</span>
+    <span class="n">DoubleRhomb2dSwitchboard</span><span class="p">,</span> <span class="n">DoubleRhomb2dSwitchboardException</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.htmlvisitor</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">HiNetHTMLVisitor</span><span class="p">,</span> <span class="n">HiNetXHTMLVisitor</span><span class="p">,</span> <span class="n">NewlineWriteFile</span><span class="p">,</span> <span class="n">show_flow</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.switchboard_factory</span> <span class="k">import</span> <span class="p">(</span>
+    <span class="n">get_2d_image_switchboard</span><span class="p">,</span> <span class="n">FactoryExtensionChannelSwitchboard</span><span class="p">,</span>
+    <span class="n">FactoryRectangular2dSwitchboard</span><span class="p">,</span> <span class="n">FactoryDoubleRect2dSwitchboard</span><span class="p">,</span>
+    <span class="n">FactoryDoubleRhomb2dSwitchboard</span>
+<span class="p">)</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;FlowNode&#39;</span><span class="p">,</span> <span class="s1">&#39;Layer&#39;</span><span class="p">,</span> <span class="s1">&#39;SameInputLayer&#39;</span><span class="p">,</span> <span class="s1">&#39;CloneLayer&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;Switchboard&#39;</span><span class="p">,</span> <span class="s1">&#39;SwitchboardException&#39;</span><span class="p">,</span> <span class="s1">&#39;ChannelSwitchboard&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;Rectangular2dSwitchboard&#39;</span><span class="p">,</span> <span class="s1">&#39;Rectangular2dSwitchboardException&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;DoubleRect2dSwitchboard&#39;</span><span class="p">,</span> <span class="s1">&#39;DoubleRect2dSwitchboardException&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;DoubleRhomb2dSwitchboard&#39;</span><span class="p">,</span> <span class="s1">&#39;DoubleRhomb2dSwitchboardException&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;HiNetHTMLVisitor&#39;</span><span class="p">,</span> <span class="s1">&#39;HiNetXHTMLVisitor&#39;</span><span class="p">,</span> <span class="s1">&#39;NewlineWriteFile&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;show_flow&#39;</span><span class="p">,</span> <span class="s1">&#39;get_2d_image_switchboard&#39;</span>
+           <span class="p">]</span>
+
+<span class="kn">from</span> <span class="nn">mdp.utils</span> <span class="k">import</span> <span class="n">fixup_namespace</span>
+<span class="n">fixup_namespace</span><span class="p">(</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">__all__</span><span class="p">,</span>
+                <span class="p">(</span><span class="s1">&#39;flownode&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;layer&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;switchboard&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;hinet_Visitor&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;switchboard_factory&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;utils&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;fixup_namespace&#39;</span>
+                 <span class="p">))</span>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      Last updated on 2020-02-17 1:33:02 PM Coordinated Universal Time.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'3.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+<div class="footer">
+    <hr />
+    <table>
+      <tr>
+        <td class="footer-left">
+           <a href="http://sourceforge.net/projects/mdp-toolkit">
+ <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=116959&amp;type=12"
+      width="120" height="30" border="0" alt="MDP@SF.NET"/> </a>
+        </td>
+        <td class="footer-center">
+          Last updated on
+             2020-02-17 1:33:02 PM Coordinated Universal Time
+        </td>
+        <td class="footer-right">
+         <form class="search" action="../../search.html" method="get">
+          <input type="submit" value="Search" />
+          <input type="text" name="q" size="18" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+         </form>
+        </td>
+    </table>  
+    <!-- Piwik -->
+    <script type="text/javascript">
+	var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/mdp-toolkit/" : "http://sourceforge.net/apps/piwik/mdp-toolkit/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+	piwik_action_name = '';
+	piwik_idsite = 1;
+	piwik_url = pkBaseURL + "piwik.php";
+	piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+    </script>
+    <object><noscript>
+	    <p>
+		<img src="http://sourceforge.net/apps/piwik/mdp-toolkit/piwik.php?idsite=1"
+		     alt="piwik" />
+	    </p>
+    </noscript></object>
+    <!-- End Piwik Tag -->
+</div>   
+
+
+</body>
+</html>

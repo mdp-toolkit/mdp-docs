@@ -1,0 +1,494 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mdp.test.benchmark_mdp &mdash; Modular toolkit for Data Processing (MDP)</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="Modular toolkit for Data Processing (MDP)" href="../../../index.html"/>
+        <link rel="up" title="mdp.test" href="../test.html"/> 
+<meta name="viewport" content="width=740" />
+
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html">
+          
+
+          
+            
+            <img src="../../../_static/logo_animation.gif" class="logo" />
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_cite_mdp.html">How to cite MDP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MDP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../../mdp.html">mdp</a> &raquo;</li>
+        
+          <li><a href="../test.html">mdp.test</a> &raquo;</li>
+        
+      <li>mdp.test.benchmark_mdp</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mdp.test.benchmark_mdp</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;These are some benchmark functions for MDP.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">str</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">range</span>
+
+<span class="kn">import</span> <span class="nn">mdp</span>
+<span class="c1">#from mdp.utils import symeig</span>
+<span class="kn">from</span> <span class="nn">mdp.utils</span> <span class="k">import</span> <span class="n">matmult</span> <span class="k">as</span> <span class="n">mult</span>
+
+<span class="n">numx</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">numx</span>
+<span class="n">numx_rand</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">numx_rand</span>
+<span class="n">numx_fft</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">numx_fft</span>
+
+<span class="c1">####### benchmark function</span>
+
+<div class="viewcode-block" id="matmult_c_MDP_benchmark"><a class="viewcode-back" href="../../../mdp/mdp.test.benchmark_mdp.html#mdp.test.benchmark_mdp.matmult_c_MDP_benchmark">[docs]</a><span class="k">def</span> <span class="nf">matmult_c_MDP_benchmark</span><span class="p">(</span><span class="n">dim</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;    This benchmark multiplies two contiguous matrices using the</span>
+<span class="sd">    MDP internal matrix multiplication routine.</span>
+<span class="sd">    First argument matrix dimensionality&quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">dim</span><span class="p">,</span><span class="n">dim</span><span class="p">))</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">dim</span><span class="p">,</span><span class="n">dim</span><span class="p">))</span>
+    <span class="n">mult</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="matmult_c_scipy_benchmark"><a class="viewcode-back" href="../../../mdp/mdp.test.benchmark_mdp.html#mdp.test.benchmark_mdp.matmult_c_scipy_benchmark">[docs]</a><span class="k">def</span> <span class="nf">matmult_c_scipy_benchmark</span><span class="p">(</span><span class="n">dim</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;    This benchmark multiplies two contiguous matrices using the</span>
+<span class="sd">    scipy internal matrix multiplication routine.</span>
+<span class="sd">    First argument matrix dimensionality&quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">dim</span><span class="p">,</span><span class="n">dim</span><span class="p">))</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">dim</span><span class="p">,</span><span class="n">dim</span><span class="p">))</span>
+    <span class="n">numx</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="matmult_n_MDP_benchmark"><a class="viewcode-back" href="../../../mdp/mdp.test.benchmark_mdp.html#mdp.test.benchmark_mdp.matmult_n_MDP_benchmark">[docs]</a><span class="k">def</span> <span class="nf">matmult_n_MDP_benchmark</span><span class="p">(</span><span class="n">dim</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;    This benchmark multiplies two non-contiguous matrices using the</span>
+<span class="sd">    MDP internal matrix multiplication routine.</span>
+<span class="sd">    First argument matrix dimensionality&quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">dim</span><span class="p">,</span><span class="n">dim</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">dim</span><span class="p">,</span><span class="n">dim</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">mult</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="matmult_n_scipy_benchmark"><a class="viewcode-back" href="../../../mdp/mdp.test.benchmark_mdp.html#mdp.test.benchmark_mdp.matmult_n_scipy_benchmark">[docs]</a><span class="k">def</span> <span class="nf">matmult_n_scipy_benchmark</span><span class="p">(</span><span class="n">dim</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;    This benchmark multiplies two non-contiguous matrices using the</span>
+<span class="sd">    scipy internal matrix multiplication routine.</span>
+<span class="sd">    First argument matrix dimensionality&quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">dim</span><span class="p">,</span><span class="n">dim</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">dim</span><span class="p">,</span><span class="n">dim</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">numx</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="matmult_cn_MDP_benchmark"><a class="viewcode-back" href="../../../mdp/mdp.test.benchmark_mdp.html#mdp.test.benchmark_mdp.matmult_cn_MDP_benchmark">[docs]</a><span class="k">def</span> <span class="nf">matmult_cn_MDP_benchmark</span><span class="p">(</span><span class="n">dim</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;    This benchmark multiplies a contiguous matrix with a</span>
+<span class="sd">    non-contiguous matrix using the MDP internal matrix multiplication</span>
+<span class="sd">    routine.</span>
+<span class="sd">    First argument matrix dimensionality&quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">dim</span><span class="p">,</span><span class="n">dim</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">dim</span><span class="p">,</span><span class="n">dim</span><span class="p">))</span>
+    <span class="n">mult</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="matmult_cn_scipy_benchmark"><a class="viewcode-back" href="../../../mdp/mdp.test.benchmark_mdp.html#mdp.test.benchmark_mdp.matmult_cn_scipy_benchmark">[docs]</a><span class="k">def</span> <span class="nf">matmult_cn_scipy_benchmark</span><span class="p">(</span><span class="n">dim</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;    This benchmark multiplies a contiguous matrix with a</span>
+<span class="sd">    non-contiguous matrix using the scipy internal matrix multiplication</span>
+<span class="sd">    routine.</span>
+<span class="sd">    First argument matrix dimensionality&quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">dim</span><span class="p">,</span><span class="n">dim</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+    <span class="n">b</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="n">dim</span><span class="p">,</span><span class="n">dim</span><span class="p">))</span>
+    <span class="n">numx</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="quadratic_expansion_benchmark"><a class="viewcode-back" href="../../../mdp/mdp.test.benchmark_mdp.html#mdp.test.benchmark_mdp.quadratic_expansion_benchmark">[docs]</a><span class="k">def</span> <span class="nf">quadratic_expansion_benchmark</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="nb">len</span><span class="p">,</span> <span class="n">times</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;    This benchmark expands random data of shape (len, dim)</span>
+<span class="sd">    &#39;times&#39; times.</span>
+<span class="sd">    Arguments: (dim,len,times).&quot;&quot;&quot;</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="nb">len</span><span class="p">,</span><span class="n">dim</span><span class="p">))</span>
+    <span class="n">qnode</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">QuadraticExpansionNode</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">times</span><span class="p">):</span>
+        <span class="n">qnode</span><span class="p">(</span><span class="n">a</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="polynomial_expansion_benchmark"><a class="viewcode-back" href="../../../mdp/mdp.test.benchmark_mdp.html#mdp.test.benchmark_mdp.polynomial_expansion_benchmark">[docs]</a><span class="k">def</span> <span class="nf">polynomial_expansion_benchmark</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="nb">len</span><span class="p">,</span> <span class="n">degree</span><span class="p">,</span> <span class="n">times</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;    This benchmark expands random data of shape (len, dim)</span>
+<span class="sd">    &#39;times&#39; times in the space of polynomials of degree &#39;degree&#39;.</span>
+<span class="sd">    Arguments: (dim,len,degree,times).&quot;&quot;&quot;</span>
+    <span class="n">numx_rand</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">4253529</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="nb">len</span><span class="p">,</span><span class="n">dim</span><span class="p">))</span>
+    <span class="n">pnode</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PolynomialExpansionNode</span><span class="p">(</span><span class="n">degree</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">times</span><span class="p">):</span>
+        <span class="n">pnode</span><span class="p">(</span><span class="n">a</span><span class="p">)</span></div>
+
+<span class="c1"># ISFA benchmark</span>
+
+<div class="viewcode-block" id="_tobias_mix"><a class="viewcode-back" href="../../../mdp/mdp.test.benchmark_mdp.html#mdp.test.benchmark_mdp._tobias_mix">[docs]</a><span class="k">def</span> <span class="nf">_tobias_mix</span><span class="p">(</span><span class="n">src</span><span class="p">):</span>
+    <span class="n">mix</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">mix</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">src</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">src</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">6</span><span class="p">)</span><span class="o">*</span><span class="n">numx</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="mf">1.5</span><span class="o">*</span><span class="n">numx</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">src</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">mix</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">=</span><span class="p">(</span><span class="n">src</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">3</span><span class="o">*</span><span class="n">src</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">6</span><span class="p">)</span><span class="o">*</span><span class="n">numx</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mf">1.5</span><span class="o">*</span><span class="n">numx</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">src</span><span class="p">[:,</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">mix</span></div>
+
+<div class="viewcode-block" id="_get_random_slow_sources"><a class="viewcode-back" href="../../../mdp/mdp.test.benchmark_mdp.html#mdp.test.benchmark_mdp._get_random_slow_sources">[docs]</a><span class="k">def</span> <span class="nf">_get_random_slow_sources</span><span class="p">(</span><span class="n">nsrc</span><span class="p">,</span> <span class="n">distr_fun</span><span class="p">):</span>
+    <span class="c1"># nsrc: number of sources</span>
+    <span class="c1"># distr_fun: random numbers function</span>
+
+    <span class="n">src</span> <span class="o">=</span> <span class="n">distr_fun</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">50000</span><span class="p">,</span> <span class="n">nsrc</span><span class="p">))</span>
+    <span class="n">fsrc</span> <span class="o">=</span> <span class="n">numx_fft</span><span class="o">.</span><span class="n">rfft</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="c1"># enforce different time scales</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nsrc</span><span class="p">):</span>
+        <span class="n">fsrc</span><span class="p">[</span><span class="mi">5000</span><span class="o">+</span><span class="p">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">1000</span><span class="p">:,</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.</span>
+    <span class="n">src</span> <span class="o">=</span> <span class="n">numx_fft</span><span class="o">.</span><span class="n">irfft</span><span class="p">(</span><span class="n">fsrc</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">src</span></div>
+
+<div class="viewcode-block" id="isfa_spiral_benchmark"><a class="viewcode-back" href="../../../mdp/mdp.test.benchmark_mdp.html#mdp.test.benchmark_mdp.isfa_spiral_benchmark">[docs]</a><span class="k">def</span> <span class="nf">isfa_spiral_benchmark</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;    Apply ISFA to twisted data.&quot;&quot;&quot;</span>
+    <span class="n">numx_rand</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">116599099</span><span class="p">)</span>
+    <span class="c1"># create independent sources</span>
+    <span class="n">src</span> <span class="o">=</span> <span class="n">_get_random_slow_sources</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">laplace</span><span class="p">)</span>
+    <span class="c1"># subtract mean and rescale between -1 and 1</span>
+    <span class="n">src</span> <span class="o">-=</span> <span class="n">src</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">src</span> <span class="o">/=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">src</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="c1"># apply nonlinear &quot;twist&quot; transformation</span>
+    <span class="n">exp_src</span> <span class="o">=</span> <span class="n">_tobias_mix</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+    <span class="c1"># train</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PolynomialExpansionNode</span><span class="p">(</span><span class="mi">5</span><span class="p">),</span>
+                     <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(),</span>
+                     <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">ISFANode</span><span class="p">(</span><span class="n">lags</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">whitened</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                        <span class="n">sfa_ica_coeff</span><span class="o">=</span><span class="p">[</span><span class="mf">1.</span><span class="p">,</span><span class="mf">300.</span><span class="p">],</span>
+                                        <span class="n">eps_contrast</span><span class="o">=</span><span class="mf">1e-5</span><span class="p">,</span>
+                                        <span class="n">output_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">)])</span>
+    <span class="n">flow</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">exp_src</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="sfa_benchmark"><a class="viewcode-back" href="../../../mdp/mdp.test.benchmark_mdp.html#mdp.test.benchmark_mdp.sfa_benchmark">[docs]</a><span class="k">def</span> <span class="nf">sfa_benchmark</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;    Apply SFA to twisted data.&quot;&quot;&quot;</span>
+    <span class="n">numx_rand</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">424507</span><span class="p">)</span>
+    <span class="c1"># create independent sources</span>
+    <span class="n">nsrc</span> <span class="o">=</span> <span class="mi">15</span>
+    <span class="n">src</span> <span class="o">=</span> <span class="n">_get_random_slow_sources</span><span class="p">(</span><span class="n">nsrc</span><span class="p">,</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">normal</span><span class="p">)</span>
+    <span class="n">src</span> <span class="o">=</span> <span class="n">src</span><span class="p">[:</span><span class="mi">5000</span><span class="p">,:]</span>
+    <span class="n">src</span> <span class="o">=</span> <span class="n">mult</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">nsrc</span><span class="p">,</span> <span class="n">nsrc</span><span class="p">)))</span> \
+          <span class="o">+</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">nsrc</span><span class="p">)</span>
+    <span class="c1"># train</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PolynomialExpansionNode</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span>
+                     <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PCANode</span><span class="p">(</span><span class="n">output_dim</span> <span class="o">=</span> <span class="mi">100</span><span class="p">),</span>
+                     <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">output_dim</span> <span class="o">=</span> <span class="mi">30</span><span class="p">)])</span>
+    <span class="c1">#src = src.reshape(1000,5,nsrc)</span>
+    <span class="n">flow</span><span class="o">.</span><span class="n">train</span><span class="p">([</span><span class="kc">None</span><span class="p">,</span> <span class="p">[</span><span class="n">src</span><span class="p">],</span> <span class="p">[</span><span class="n">src</span><span class="p">]])</span></div>
+
+<span class="c1">#### benchmark tools</span>
+
+<span class="c1"># function used to measure time</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="n">TIMEFUNC</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span>
+
+<div class="viewcode-block" id="timeit"><a class="viewcode-back" href="../../../mdp/mdp.test.benchmark_mdp.html#mdp.test.benchmark_mdp.timeit">[docs]</a><span class="k">def</span> <span class="nf">timeit</span><span class="p">(</span><span class="n">func</span><span class="p">,</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return function execution time in 1/100ths of a second.&quot;&quot;&quot;</span>
+    <span class="n">tstart</span> <span class="o">=</span> <span class="n">TIMEFUNC</span><span class="p">()</span>
+    <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">TIMEFUNC</span><span class="p">()</span><span class="o">-</span><span class="n">tstart</span><span class="p">)</span><span class="o">*</span><span class="mf">100.</span></div>
+
+<div class="viewcode-block" id="_random_seed"><a class="viewcode-back" href="../../../mdp/mdp.test.benchmark_mdp.html#mdp.test.benchmark_mdp._random_seed">[docs]</a><span class="k">def</span> <span class="nf">_random_seed</span><span class="p">():</span>
+    <span class="kn">import</span> <span class="nn">sys</span>
+    <span class="n">seed</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">numx_rand</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">31</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">numx_rand</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Random Seed: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="run_benchmarks"><a class="viewcode-back" href="../../../mdp/mdp.test.benchmark_mdp.html#mdp.test.benchmark_mdp.run_benchmarks">[docs]</a><span class="k">def</span> <span class="nf">run_benchmarks</span><span class="p">(</span><span class="n">bench_funcs</span><span class="p">,</span> <span class="n">time_digits</span><span class="o">=</span><span class="mi">15</span><span class="p">):</span>
+
+    <span class="n">results_str</span> <span class="o">=</span> <span class="s1">&#39;| </span><span class="si">%%</span><span class="s1">s | </span><span class="si">%%%d</span><span class="s1">.2f |&#39;</span> <span class="o">%</span> <span class="n">time_digits</span>
+    <span class="n">label_str</span> <span class="o">=</span> <span class="s1">&#39;| </span><span class="si">%%</span><span class="s1">s | </span><span class="si">%s</span><span class="s1"> |&#39;</span> <span class="o">%</span> <span class="s1">&#39;Time (sec/100)&#39;</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="n">time_digits</span><span class="p">)</span>
+
+    <span class="n">tstart</span> <span class="o">=</span> <span class="n">TIMEFUNC</span><span class="p">()</span>
+
+    <span class="c1"># loop over all benchmarks functions</span>
+    <span class="k">for</span> <span class="n">func</span><span class="p">,</span> <span class="n">args_list</span> <span class="ow">in</span> <span class="n">bench_funcs</span><span class="p">:</span>
+        <span class="c1"># number of combinations of arguments(cases)</span>
+        <span class="n">ncases</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">args_list</span><span class="p">)</span>
+        <span class="n">funcname</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="p">[:</span><span class="o">-</span><span class="mi">10</span><span class="p">]</span>
+
+        <span class="c1"># loop over all cases</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ncases</span><span class="p">):</span>
+            <span class="n">args</span> <span class="o">=</span> <span class="n">args_list</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+            <span class="c1"># format description string</span>
+            <span class="n">descr</span> <span class="o">=</span> <span class="n">funcname</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">tuple</span><span class="p">(</span><span class="n">args</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">i</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                <span class="c1"># print summary table header</span>
+                <span class="n">descrlen</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">descr</span><span class="p">)</span><span class="o">+</span><span class="mi">6</span>
+                <span class="n">results_strlen</span> <span class="o">=</span> <span class="n">time_digits</span><span class="o">+</span><span class="n">descrlen</span><span class="o">+</span><span class="mi">7</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Timing results (</span><span class="si">%s</span><span class="s1">, </span><span class="si">%d</span><span class="s1"> cases):&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">funcname</span><span class="p">,</span> <span class="n">ncases</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="o">+</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="p">(</span><span class="n">results_strlen</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;+&#39;</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">label_str</span> <span class="o">%</span> <span class="s1">&#39;Description&#39;</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="n">descrlen</span><span class="p">))</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="o">+</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="p">(</span><span class="n">results_strlen</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;+&#39;</span><span class="p">)</span>
+
+            <span class="c1"># execute function</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">timeit</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
+
+            <span class="c1"># print summary table entry</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">results_str</span> <span class="o">%</span> <span class="p">(</span><span class="n">descr</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="n">descrlen</span><span class="p">),</span> <span class="n">t</span><span class="p">))</span>
+
+        <span class="c1"># print summary table tail</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="o">+</span><span class="s1">&#39;-&#39;</span><span class="o">*</span><span class="p">(</span><span class="n">results_strlen</span><span class="o">-</span><span class="mi">2</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;+&#39;</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">Total running time:&#39;</span><span class="p">,</span> <span class="p">(</span><span class="n">TIMEFUNC</span><span class="p">()</span><span class="o">-</span><span class="n">tstart</span><span class="p">)</span><span class="o">*</span><span class="mf">100.</span><span class="p">)</span></div>
+
+<span class="c1">####### /benchmark function</span>
+
+<span class="n">POLY_EXP_ARGS</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">2</span><span class="o">**</span><span class="n">i</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">5</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">)]</span>
+
+<span class="c1">#if mdp.numx_description in [&#39;symeig&#39;, &#39;scipy&#39;, &#39;numpy&#39;]:</span>
+<span class="c1">#    MUL_MTX_DIMS = [[2**i] for i in xrange(4,11)]</span>
+<span class="c1">#    # list of (benchmark function, list of arguments)</span>
+<span class="c1">#    BENCH_FUNCS = [(matmult_c_MDP_benchmark, MUL_MTX_DIMS),</span>
+<span class="c1">#                   (matmult_c_scipy_benchmark, MUL_MTX_DIMS),</span>
+<span class="c1">#                   (matmult_n_MDP_benchmark, MUL_MTX_DIMS),</span>
+<span class="c1">#                   (matmult_n_scipy_benchmark, MUL_MTX_DIMS),</span>
+<span class="c1">#                   (matmult_cn_MDP_benchmark, MUL_MTX_DIMS),</span>
+<span class="c1">#                   (matmult_cn_scipy_benchmark, MUL_MTX_DIMS),</span>
+<span class="c1">#                   (polynomial_expansion_benchmark, POLY_EXP_ARGS)]</span>
+<span class="c1">#else:</span>
+<span class="c1">#    BENCH_FUNCS = [(polynomial_expansion_benchmark, POLY_EXP_ARGS)]</span>
+<span class="n">BENCH_FUNCS</span> <span class="o">=</span> <span class="p">[(</span><span class="n">polynomial_expansion_benchmark</span><span class="p">,</span> <span class="n">POLY_EXP_ARGS</span><span class="p">),</span>
+               <span class="p">(</span><span class="n">isfa_spiral_benchmark</span><span class="p">,</span> <span class="p">[[]]),</span>
+               <span class="p">(</span><span class="n">sfa_benchmark</span><span class="p">,</span> <span class="p">[[]])]</span>
+
+<div class="viewcode-block" id="get_benchmarks"><a class="viewcode-back" href="../../../mdp/mdp.test.benchmark_mdp.html#mdp.test.benchmark_mdp.get_benchmarks">[docs]</a><span class="k">def</span> <span class="nf">get_benchmarks</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">BENCH_FUNCS</span></div>
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Running benchmarks: &quot;</span><span class="p">)</span>
+    <span class="n">run_benchmarks</span><span class="p">(</span><span class="n">get_benchmarks</span><span class="p">())</span>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      Last updated on 2020-02-17 1:33:02 PM Coordinated Universal Time.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'3.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+<div class="footer">
+    <hr />
+    <table>
+      <tr>
+        <td class="footer-left">
+           <a href="http://sourceforge.net/projects/mdp-toolkit">
+ <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=116959&amp;type=12"
+      width="120" height="30" border="0" alt="MDP@SF.NET"/> </a>
+        </td>
+        <td class="footer-center">
+          Last updated on
+             2020-02-17 1:33:02 PM Coordinated Universal Time
+        </td>
+        <td class="footer-right">
+         <form class="search" action="../../../search.html" method="get">
+          <input type="submit" value="Search" />
+          <input type="text" name="q" size="18" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+         </form>
+        </td>
+    </table>  
+    <!-- Piwik -->
+    <script type="text/javascript">
+	var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/mdp-toolkit/" : "http://sourceforge.net/apps/piwik/mdp-toolkit/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+	piwik_action_name = '';
+	piwik_idsite = 1;
+	piwik_url = pkBaseURL + "piwik.php";
+	piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+    </script>
+    <object><noscript>
+	    <p>
+		<img src="http://sourceforge.net/apps/piwik/mdp-toolkit/piwik.php?idsite=1"
+		     alt="piwik" />
+	    </p>
+    </noscript></object>
+    <!-- End Piwik Tag -->
+</div>   
+
+
+</body>
+</html>

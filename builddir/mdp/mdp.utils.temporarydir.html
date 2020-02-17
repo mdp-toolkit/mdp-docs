@@ -1,0 +1,735 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mdp.utils.temporarydir module &mdash; Modular toolkit for Data Processing (MDP)</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Modular toolkit for Data Processing (MDP)" href="../index.html"/>
+        <link rel="up" title="mdp.utils package" href="mdp.utils.html"/>
+        <link rel="next" title="mdp.classifier_node module" href="mdp.classifier_node.html"/>
+        <link rel="prev" title="mdp.utils.templet module" href="mdp.utils.templet.html"/> 
+<meta name="viewport" content="width=740" />
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/logo_animation.gif" class="logo" />
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../documentation.html">Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples.html">Examples</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html">mdp</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="mdp.html">mdp package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="mdp.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="mdp.caching.html">mdp.caching package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="mdp.graph.html">mdp.graph package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="mdp.hinet.html">mdp.hinet package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="mdp.nodes.html">mdp.nodes package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="mdp.parallel.html">mdp.parallel package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="mdp.test.html">mdp.test package</a></li>
+<li class="toctree-l5 current"><a class="reference internal" href="mdp.utils.html">mdp.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="mdp.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mdp.html#module-mdp">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../additional_utilities.html">Additional utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development.html">Development</a></li>
+<li class="toctree-l2"><a class="reference external" href="http://mdp-toolkit.sourceforge.net/api/index.html">API documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../how_to_cite_mdp.html">How to cite MDP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MDP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../documentation.html">Documentation</a> &raquo;</li>
+        
+          <li><a href="modules.html">mdp</a> &raquo;</li>
+        
+          <li><a href="mdp.html">mdp package</a> &raquo;</li>
+        
+          <li><a href="mdp.utils.html">mdp.utils package</a> &raquo;</li>
+        
+      <li>mdp.utils.temporarydir module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-mdp.utils.temporarydir">
+<span id="mdp-utils-temporarydir-module"></span><h1>mdp.utils.temporarydir module<a class="headerlink" href="#module-mdp.utils.temporarydir" title="Permalink to this headline">¶</a></h1>
+<p><strong>Module content:</strong></p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.CheckpointFlow</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.CheckpointFunction</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.CheckpointSaveFunction</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.ClassifierCumulator</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.ClassifierNode</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.CrashRecoveryException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.Cumulator</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.ExtensionException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.ExtensionNode</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.ExtensionNodeMetaclass</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.Flow</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.FlowException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.FlowExceptionCR</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.InconsistentDimException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.IsNotInvertibleException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.IsNotTrainableException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.MDPDeprecationWarning</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.MDPException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.MDPWarning</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.Node</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.NodeException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.NodeMetaclass</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.PreserveDimNode</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.TrainingException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.TrainingFinishedException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.VariadicCumulator</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">__loader__</span></code></td>
+<td>Concrete implementation of SourceLoader using the file system.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">__spec__</span></code></td>
+<td>The specification for a module, used for loading.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.activate_extension</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.activate_extensions</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.config</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.deactivate_extension</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.deactivate_extensions</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.extension</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.extension_method</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.extension_setup</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.extension_teardown</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.fastica</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.get_active_extensions</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.get_extensions</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.pca</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.test</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.utils.temporarydir.with_extension</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory">
+<em class="property">class </em><code class="descclassname">mdp.utils.temporarydir.</code><code class="descname">TemporaryDirectory</code><span class="sig-paren">(</span><em>suffix=''</em>, <em>prefix='tmp'</em>, <em>dir=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/utils/temporarydir.html#TemporaryDirectory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Create and return a temporary directory.  This has the same
+behavior as mkdtemp but can be used as a context manager.  For
+example:</p>
+<blockquote>
+<div><dl class="docutils">
+<dt>with TemporaryDirectory() as tmpdir:</dt>
+<dd>…</dd>
+</dl>
+</div></blockquote>
+<p>Upon exiting the context, the directory and everthing contained
+in it are removed.</p>
+<p><strong>Standart attributes:</strong></p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<p><em>Non-inherited</em></p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+<p><em>Inherited</em></p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__class__">
+<code class="descname">__class__</code><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__class__" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">builtins.type</span></code></p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__del__">
+<code class="descname">__del__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/utils/temporarydir.html#TemporaryDirectory.__del__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__del__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__delattr__">
+<code class="descname">__delattr__</code><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__delattr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement delattr(self, name).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__dict__">
+<code class="descname">__dict__</code><em class="property"> = mappingproxy({'__module__': 'mdp.utils.temporarydir', '__doc__': 'Create and return a temporary directory.  This has the same\n    behavior as mkdtemp but can be used as a context manager.  For\n    example:\n\n        with TemporaryDirectory() as tmpdir:\n            ...\n\n    Upon exiting the context, the directory and everthing contained\n    in it are removed.\n    ', '__init__': &lt;function TemporaryDirectory.__init__&gt;, '__repr__': &lt;function TemporaryDirectory.__repr__&gt;, '__enter__': &lt;function TemporaryDirectory.__enter__&gt;, 'cleanup': &lt;function TemporaryDirectory.cleanup&gt;, '__exit__': &lt;function TemporaryDirectory.__exit__&gt;, '__del__': &lt;function TemporaryDirectory.__del__&gt;, '_listdir': &lt;staticmethod object&gt;, '_path_join': &lt;staticmethod object&gt;, '_isdir': &lt;staticmethod object&gt;, '_remove': &lt;staticmethod object&gt;, '_rmdir': &lt;staticmethod object&gt;, '_os_error': &lt;class 'OSError'&gt;, '_rmtree': &lt;function TemporaryDirectory._rmtree&gt;, '__dict__': &lt;attribute '__dict__' of 'TemporaryDirectory' objects&gt;, '__weakref__': &lt;attribute '__weakref__' of 'TemporaryDirectory' objects&gt;})</em><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__dict__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__dir__">
+<code class="descname">__dir__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__dir__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default dir() implementation.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__enter__">
+<code class="descname">__enter__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/utils/temporarydir.html#TemporaryDirectory.__enter__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__enter__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__eq__">
+<code class="descname">__eq__</code><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self==value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__exit__">
+<code class="descname">__exit__</code><span class="sig-paren">(</span><em>exc</em>, <em>value</em>, <em>tb</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/utils/temporarydir.html#TemporaryDirectory.__exit__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__exit__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__format__">
+<code class="descname">__format__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__format__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default object formatter.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__ge__">
+<code class="descname">__ge__</code><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__ge__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self&gt;=value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__getattribute__">
+<code class="descname">__getattribute__</code><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__getattribute__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return getattr(self, name).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__gt__">
+<code class="descname">__gt__</code><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__gt__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self&gt;value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__hash__">
+<code class="descname">__hash__</code><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__hash__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return hash(self).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>suffix=''</em>, <em>prefix='tmp'</em>, <em>dir=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/utils/temporarydir.html#TemporaryDirectory.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize self.  See help(type(self)) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__init_subclass__">
+<code class="descname">__init_subclass__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__init_subclass__" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called when a class is subclassed.</p>
+<p>The default implementation does nothing. It may be
+overridden to extend subclasses.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__le__">
+<code class="descname">__le__</code><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__le__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self&lt;=value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__lt__">
+<code class="descname">__lt__</code><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__lt__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self&lt;value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__module__">
+<code class="descname">__module__</code><em class="property"> = 'mdp.utils.temporarydir'</em><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__module__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__ne__">
+<code class="descname">__ne__</code><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__ne__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self!=value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__new__">
+<code class="descname">__new__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__new__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and return a new object.  See help(type) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__reduce__">
+<code class="descname">__reduce__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__reduce__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper for pickle.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__reduce_ex__">
+<code class="descname">__reduce_ex__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__reduce_ex__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper for pickle.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__repr__">
+<code class="descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/utils/temporarydir.html#TemporaryDirectory.__repr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return repr(self).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__setattr__">
+<code class="descname">__setattr__</code><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__setattr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement setattr(self, name, value).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__sizeof__">
+<code class="descname">__sizeof__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__sizeof__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Size of object in memory, in bytes.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__str__">
+<code class="descname">__str__</code><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return str(self).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__subclasshook__">
+<code class="descname">__subclasshook__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__subclasshook__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract classes can override this to customize issubclass().</p>
+<p>This is invoked early on by abc.ABCMeta.__subclasscheck__().
+It should return True, False or NotImplemented.  If it returns
+NotImplemented, the normal algorithm is used.  Otherwise, it
+overrides the normal algorithm (and the outcome is cached).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.__weakref__">
+<code class="descname">__weakref__</code><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory._isdir">
+<em class="property">static </em><code class="descname">_isdir</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory._isdir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return true if the pathname refers to an existing directory.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory._listdir">
+<em class="property">static </em><code class="descname">_listdir</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory._listdir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list containing the names of the files in the directory.</p>
+<dl class="docutils">
+<dt>path can be specified as either str, bytes, or a path-like object.  If path is bytes,</dt>
+<dd>the filenames returned will also be bytes; in all other circumstances
+the filenames returned will be str.</dd>
+</dl>
+<p>If path is None, uses the path=’.’.
+On some platforms, path may also be specified as an open file descriptor;</p>
+<blockquote>
+<div>the file descriptor must refer to a directory.
+If this functionality is unavailable, using it raises NotImplementedError.</div></blockquote>
+<p>The list is in arbitrary order.  It does not include the special
+entries ‘.’ and ‘..’ even if they are present in the directory.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory._os_error">
+<code class="descname">_os_error</code><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory._os_error" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">builtins.OSError</span></code></p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory._path_join">
+<em class="property">static </em><code class="descname">_path_join</code><span class="sig-paren">(</span><em>a</em>, <em>*p</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory._path_join" title="Permalink to this definition">¶</a></dt>
+<dd><p>Join two or more pathname components, inserting ‘/’ as needed.
+If any component is an absolute path, all previous path components
+will be discarded.  An empty last part will result in a path that
+ends with a separator.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory._remove">
+<em class="property">static </em><code class="descname">_remove</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory._remove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a file (same as unlink()).</p>
+<dl class="docutils">
+<dt>If dir_fd is not None, it should be a file descriptor open to a directory,</dt>
+<dd>and path should be relative; path will then be relative to that directory.</dd>
+<dt>dir_fd may not be implemented on your platform.</dt>
+<dd>If it is unavailable, using it will raise a NotImplementedError.</dd>
+</dl>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory._rmdir">
+<em class="property">static </em><code class="descname">_rmdir</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory._rmdir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a directory.</p>
+<dl class="docutils">
+<dt>If dir_fd is not None, it should be a file descriptor open to a directory,</dt>
+<dd>and path should be relative; path will then be relative to that directory.</dd>
+<dt>dir_fd may not be implemented on your platform.</dt>
+<dd>If it is unavailable, using it will raise a NotImplementedError.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory._rmtree">
+<code class="descname">_rmtree</code><span class="sig-paren">(</span><em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/utils/temporarydir.html#TemporaryDirectory._rmtree"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory._rmtree" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.utils.temporarydir.TemporaryDirectory.cleanup">
+<code class="descname">cleanup</code><span class="sig-paren">(</span><em>_warn=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/utils/temporarydir.html#TemporaryDirectory.cleanup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.utils.temporarydir.TemporaryDirectory.cleanup" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="mdp.classifier_node.html" class="btn btn-neutral float-right" title="mdp.classifier_node module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="mdp.utils.templet.html" class="btn btn-neutral" title="mdp.utils.templet module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      Last updated on 2020-02-17 1:32:12 PM Coordinated Universal Time.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+<div class="footer">
+    <hr />
+    <table>
+      <tr>
+        <td class="footer-left">
+           <a href="http://sourceforge.net/projects/mdp-toolkit">
+ <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=116959&amp;type=12"
+      width="120" height="30" border="0" alt="MDP@SF.NET"/> </a>
+        </td>
+        <td class="footer-center">
+          Last updated on
+             2020-02-17 1:32:12 PM Coordinated Universal Time
+        </td>
+        <td class="footer-right">
+         <form class="search" action="../search.html" method="get">
+          <input type="submit" value="Search" />
+          <input type="text" name="q" size="18" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+         </form>
+        </td>
+    </table>  
+    <!-- Piwik -->
+    <script type="text/javascript">
+	var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/mdp-toolkit/" : "http://sourceforge.net/apps/piwik/mdp-toolkit/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+	piwik_action_name = '';
+	piwik_idsite = 1;
+	piwik_url = pkBaseURL + "piwik.php";
+	piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+    </script>
+    <object><noscript>
+	    <p>
+		<img src="http://sourceforge.net/apps/piwik/mdp-toolkit/piwik.php?idsite=1"
+		     alt="piwik" />
+	    </p>
+    </noscript></object>
+    <!-- End Piwik Tag -->
+</div>   
+
+
+</body>
+</html>

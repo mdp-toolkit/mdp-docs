@@ -1,0 +1,727 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mdp.nodes.neural_gas_nodes &mdash; Modular toolkit for Data Processing (MDP)</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="Modular toolkit for Data Processing (MDP)" href="../../../index.html"/>
+        <link rel="up" title="mdp.nodes" href="../nodes.html"/> 
+<meta name="viewport" content="width=740" />
+
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html">
+          
+
+          
+            
+            <img src="../../../_static/logo_animation.gif" class="logo" />
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_cite_mdp.html">How to cite MDP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MDP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../../mdp.html">mdp</a> &raquo;</li>
+        
+          <li><a href="../nodes.html">mdp.nodes</a> &raquo;</li>
+        
+      <li>mdp.nodes.neural_gas_nodes</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mdp.nodes.neural_gas_nodes</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">map</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">range</span>
+<span class="kn">from</span> <span class="nn">past.utils</span> <span class="k">import</span> <span class="n">old_div</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">object</span>
+<span class="n">__docformat__</span> <span class="o">=</span> <span class="s2">&quot;restructuredtext en&quot;</span>
+
+<span class="kn">from</span> <span class="nn">mdp</span> <span class="k">import</span> <span class="n">numx</span><span class="p">,</span> <span class="n">numx_rand</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">graph</span><span class="p">,</span> <span class="n">Node</span>
+
+<div class="viewcode-block" id="_NGNodeData"><a class="viewcode-back" href="../../../mdp/mdp.nodes.neural_gas_nodes.html#mdp.nodes._NGNodeData">[docs]</a><span class="k">class</span> <span class="nc">_NGNodeData</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Data associated to a node in a Growing Neural Gas graph.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="_NGNodeData.__init__"><a class="viewcode-back" href="../../../mdp/mdp.nodes.neural_gas_nodes.html#mdp.nodes._NGNodeData.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">error</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">hits</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="c1"># reference vector (spatial position)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="n">pos</span>
+        <span class="c1"># cumulative error</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cum_error</span> <span class="o">=</span> <span class="n">error</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hits</span> <span class="o">=</span> <span class="n">hits</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">label</span> <span class="o">=</span> <span class="n">label</span></div></div>
+
+<div class="viewcode-block" id="_NGEdgeData"><a class="viewcode-back" href="../../../mdp/mdp.nodes.neural_gas_nodes.html#mdp.nodes._NGEdgeData">[docs]</a><span class="k">class</span> <span class="nc">_NGEdgeData</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Data associated to an edge in a Growing Neural Gas graph.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="_NGEdgeData.__init__"><a class="viewcode-back" href="../../../mdp/mdp.nodes.neural_gas_nodes.html#mdp.nodes._NGEdgeData.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">age</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span></div>
+<div class="viewcode-block" id="_NGEdgeData.inc_age"><a class="viewcode-back" href="../../../mdp/mdp.nodes.neural_gas_nodes.html#mdp.nodes._NGEdgeData.inc_age">[docs]</a>    <span class="k">def</span> <span class="nf">inc_age</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">age</span> <span class="o">+=</span> <span class="mi">1</span></div></div>
+
+
+<span class="k">class</span> <span class="nc">GrowingNeuralGasNode</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Learn the topological structure of the input data by building a</span>
+<span class="sd">    corresponding graph approximation.</span>
+
+<span class="sd">    The algorithm expands on the original Neural Gas algorithm</span>
+<span class="sd">    (see mdp.nodes NeuralGasNode) in that the algorithm adds new nodes are</span>
+<span class="sd">    added to the graph as more data becomes available. Im this way,</span>
+<span class="sd">    if the growth rate is appropriate, one can avoid overfitting  or</span>
+<span class="sd">    underfitting the data.</span>
+
+<span class="sd">    More information about the Growing Neural Gas algorithm can be found in</span>
+<span class="sd">    B. Fritzke, A Growing Neural Gas Network Learns Topologies, in G. Tesauro,</span>
+<span class="sd">    D. S. Touretzky, and T. K. Leen (editors), Advances in Neural Information</span>
+<span class="sd">    Processing Systems 7, pages 625-632. MIT Press, Cambridge MA, 1995.</span>
+
+<span class="sd">    **Attributes and methods of interest**</span>
+
+<span class="sd">    - graph -- The corresponding `mdp.graph.Graph` object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">start_poss</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">eps_b</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">eps_n</span><span class="o">=</span><span class="mf">0.006</span><span class="p">,</span> <span class="n">max_age</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>
+                 <span class="n">lambda_</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mf">0.995</span><span class="p">,</span> <span class="n">max_nodes</span><span class="o">=</span><span class="mi">2147483647</span><span class="p">,</span>
+                 <span class="n">input_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Growing Neural Gas algorithm.</span>
+
+<span class="sd">        :Parameters:</span>
+
+<span class="sd">          start_poss</span>
+<span class="sd">            sequence of two arrays containing the position of the</span>
+<span class="sd">            first two nodes in the GNG graph. If unspecified, the</span>
+<span class="sd">            initial nodes are chosen with a random position generated</span>
+<span class="sd">            from a gaussian distribution with zero mean and unit</span>
+<span class="sd">            variance.</span>
+
+<span class="sd">          eps_b</span>
+<span class="sd">            coefficient of movement of the nearest node to a new data</span>
+<span class="sd">            point. Typical values are 0 &lt; eps_b &lt;&lt; 1 .</span>
+
+<span class="sd">            Default: 0.2</span>
+
+<span class="sd">          eps_n</span>
+<span class="sd">            coefficient of movement of the neighbours of the nearest</span>
+<span class="sd">            node to a new data point. Typical values are</span>
+<span class="sd">            0 &lt; eps_n &lt;&lt; eps_b .</span>
+
+<span class="sd">            Default: 0.006</span>
+
+<span class="sd">          max_age</span>
+<span class="sd">            remove an edge after `max_age` updates. Typical values are</span>
+<span class="sd">            10 &lt; max_age &lt; lambda.</span>
+
+<span class="sd">            Default: 50</span>
+
+<span class="sd">          `lambda_`</span>
+<span class="sd">            insert a new node after `lambda_` steps. Typical values are O(100).</span>
+
+<span class="sd">            Default: 100</span>
+
+<span class="sd">          alpha</span>
+<span class="sd">            when a new node is inserted, multiply the error of the</span>
+<span class="sd">            nodes from which it generated by 0&lt;alpha&lt;1. A typical value</span>
+<span class="sd">            is 0.5.</span>
+
+<span class="sd">            Default: 0.5</span>
+
+<span class="sd">          d</span>
+<span class="sd">            each step the error of the nodes are multiplied by 0&lt;d&lt;1.</span>
+<span class="sd">            Typical values are close to 1.</span>
+
+<span class="sd">            Default: 0.995</span>
+
+<span class="sd">          max_nodes</span>
+<span class="sd">            maximal number of nodes in the graph.</span>
+
+<span class="sd">            Default: 2^31 - 1</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tlen</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="c1">#copy parameters</span>
+        <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">eps_b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps_n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_age</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lambda_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span>
+         <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_nodes</span><span class="p">)</span> <span class="o">=</span> <span class="p">(</span><span class="n">eps_b</span><span class="p">,</span> <span class="n">eps_n</span><span class="p">,</span> <span class="n">max_age</span><span class="p">,</span> <span class="n">lambda_</span><span class="p">,</span> <span class="n">alpha</span><span class="p">,</span>
+                                    <span class="n">d</span><span class="p">,</span> <span class="n">max_nodes</span><span class="p">)</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">GrowingNeuralGasNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">start_poss</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">start_poss</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span>
+            <span class="n">node1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_node</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_refcast</span><span class="p">(</span><span class="n">start_poss</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+            <span class="n">node2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_node</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_refcast</span><span class="p">(</span><span class="n">start_poss</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_edge</span><span class="p">(</span><span class="n">node1</span><span class="p">,</span> <span class="n">node2</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GrowingNeuralGasNode._set_input_dim"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.GrowingNeuralGasNode._set_input_dim">[docs]</a>    <span class="k">def</span> <span class="nf">_set_input_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span> <span class="o">=</span> <span class="n">n</span></div>
+
+<div class="viewcode-block" id="GrowingNeuralGasNode._add_node"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.GrowingNeuralGasNode._add_node">[docs]</a>    <span class="k">def</span> <span class="nf">_add_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="p">):</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">add_node</span><span class="p">(</span><span class="n">_NGNodeData</span><span class="p">(</span><span class="n">pos</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">node</span></div>
+
+<div class="viewcode-block" id="GrowingNeuralGasNode._add_edge"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.GrowingNeuralGasNode._add_edge">[docs]</a>    <span class="k">def</span> <span class="nf">_add_edge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_</span><span class="p">,</span> <span class="n">to_</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">from_</span><span class="p">,</span> <span class="n">to_</span><span class="p">,</span> <span class="n">_NGEdgeData</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="GrowingNeuralGasNode._get_nearest_nodes"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.GrowingNeuralGasNode._get_nearest_nodes">[docs]</a>    <span class="k">def</span> <span class="nf">_get_nearest_nodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the two nodes in the graph that are nearest to x and their</span>
+<span class="sd">        squared distances. (Return ([node1, node2], [dist1, dist2])&quot;&quot;&quot;</span>
+        <span class="c1"># distance function</span>
+        <span class="k">def</span> <span class="nf">_distance_from_node</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+            <span class="c1">#return norm(node.data.pos-x)**2</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">pos</span> <span class="o">-</span> <span class="n">x</span>
+            <span class="k">return</span> <span class="n">utils</span><span class="o">.</span><span class="n">mult</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="n">tmp</span><span class="p">)</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span>
+        <span class="c1"># distances of all graph nodes from x</span>
+        <span class="n">distances</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">_distance_from_node</span><span class="p">,</span> <span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">)))</span>
+        <span class="n">ids</span> <span class="o">=</span> <span class="n">distances</span><span class="o">.</span><span class="n">argsort</span><span class="p">()[:</span><span class="mi">2</span><span class="p">]</span>
+        <span class="c1">#nearest = [g.nodes[idx] for idx in ids]</span>
+        <span class="c1">#return nearest, distances[ids]</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">ids</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">ids</span><span class="p">[</span><span class="mi">1</span><span class="p">]]),</span> <span class="n">distances</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GrowingNeuralGasNode._move_node"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.GrowingNeuralGasNode._move_node">[docs]</a>    <span class="k">def</span> <span class="nf">_move_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Move a node by eps in the direction x.&quot;&quot;&quot;</span>
+        <span class="c1"># ! make sure that eps already has the right dtype</span>
+        <span class="n">node</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">pos</span> <span class="o">+=</span> <span class="n">eps</span><span class="o">*</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">node</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GrowingNeuralGasNode._remove_old_edges"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.GrowingNeuralGasNode._remove_old_edges">[docs]</a>    <span class="k">def</span> <span class="nf">_remove_old_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edges</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Remove all edges older than the maximal age.&quot;&quot;&quot;</span>
+        <span class="n">g</span><span class="p">,</span> <span class="n">max_age</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_age</span>
+        <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">edge</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;</span> <span class="n">max_age</span><span class="p">:</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">remove_edge</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">edge</span><span class="o">.</span><span class="n">head</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">g</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span class="n">edge</span><span class="o">.</span><span class="n">head</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">edge</span><span class="o">.</span><span class="n">tail</span><span class="o">.</span><span class="n">degree</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">g</span><span class="o">.</span><span class="n">remove_node</span><span class="p">(</span><span class="n">edge</span><span class="o">.</span><span class="n">tail</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GrowingNeuralGasNode._insert_new_node"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.GrowingNeuralGasNode._insert_new_node">[docs]</a>    <span class="k">def</span> <span class="nf">_insert_new_node</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Insert a new node in the graph where it is more necessary (i.e.</span>
+<span class="sd">        where the error is the largest).&quot;&quot;&quot;</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span>
+        <span class="c1"># determine the node with the highest error</span>
+        <span class="n">errors</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cum_error</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">]</span>
+        <span class="n">qnode</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="n">numx</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">errors</span><span class="p">)]</span>
+        <span class="c1"># determine the neighbour with the highest error</span>
+        <span class="n">neighbors</span> <span class="o">=</span> <span class="n">qnode</span><span class="o">.</span><span class="n">neighbors</span><span class="p">()</span>
+        <span class="n">errors</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cum_error</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">]</span>
+        <span class="n">fnode</span> <span class="o">=</span> <span class="n">neighbors</span><span class="p">[</span><span class="n">numx</span><span class="o">.</span><span class="n">argmax</span><span class="p">(</span><span class="n">errors</span><span class="p">)]</span>
+        <span class="c1"># new node, halfway between the worst node and the worst of</span>
+        <span class="c1"># its neighbors</span>
+        <span class="n">new_pos</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">qnode</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">pos</span> <span class="o">+</span> <span class="n">fnode</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
+        <span class="n">new_node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_add_node</span><span class="p">(</span><span class="n">new_pos</span><span class="p">)</span>
+        <span class="c1"># update edges</span>
+        <span class="n">edges</span> <span class="o">=</span> <span class="n">qnode</span><span class="o">.</span><span class="n">get_edges</span><span class="p">(</span><span class="n">neighbor</span><span class="o">=</span><span class="n">fnode</span><span class="p">)</span>
+        <span class="n">g</span><span class="o">.</span><span class="n">remove_edge</span><span class="p">(</span><span class="n">edges</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_edge</span><span class="p">(</span><span class="n">qnode</span><span class="p">,</span> <span class="n">new_node</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_add_edge</span><span class="p">(</span><span class="n">fnode</span><span class="p">,</span> <span class="n">new_node</span><span class="p">)</span>
+        <span class="c1"># update errors</span>
+        <span class="n">qnode</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cum_error</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span>
+        <span class="n">fnode</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cum_error</span> <span class="o">*=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span>
+        <span class="n">new_node</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cum_error</span> <span class="o">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="p">(</span><span class="n">qnode</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cum_error</span><span class="o">+</span>
+                                       <span class="n">fnode</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cum_error</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">get_nodes_position</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">n</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">pos</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">nodes</span><span class="p">],</span>
+                          <span class="n">dtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GrowingNeuralGasNode._train"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.GrowingNeuralGasNode._train">[docs]</a>    <span class="k">def</span> <span class="nf">_train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># if missing, generate two initial nodes at random</span>
+            <span class="c1"># assuming that the input data has zero mean and unit variance,</span>
+            <span class="c1"># choose the random position according to a gaussian distribution</span>
+            <span class="c1"># with zero mean and unit variance</span>
+            <span class="n">normal</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">normal</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_node</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_refcast</span><span class="p">(</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span><span class="p">)))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_add_node</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_refcast</span><span class="p">(</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span><span class="p">)))</span>
+
+        <span class="c1"># loop on single data points</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tlen</span> <span class="o">+=</span> <span class="mi">1</span>
+
+            <span class="c1"># step 2 - find the nearest nodes</span>
+            <span class="c1"># dists are the squared distances of x from n0, n1</span>
+            <span class="p">(</span><span class="n">n0</span><span class="p">,</span> <span class="n">n1</span><span class="p">),</span> <span class="n">dists</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_nearest_nodes</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+            <span class="c1"># step 3 - increase age of the emanating edges</span>
+            <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">n0</span><span class="o">.</span><span class="n">get_edges</span><span class="p">():</span>
+                <span class="n">e</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">inc_age</span><span class="p">()</span>
+
+            <span class="c1"># step 4 - update error</span>
+            <span class="n">n0</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cum_error</span> <span class="o">+=</span> <span class="n">numx</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">dists</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+            <span class="c1"># step 5 - move nearest node and neighbours</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_move_node</span><span class="p">(</span><span class="n">n0</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps_b</span><span class="p">)</span>
+            <span class="c1"># neighbors undirected</span>
+            <span class="n">neighbors</span> <span class="o">=</span> <span class="n">n0</span><span class="o">.</span><span class="n">neighbors</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_move_node</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps_n</span><span class="p">)</span>
+
+            <span class="c1"># step 6 - update n0&lt;-&gt;n1 edge</span>
+            <span class="k">if</span> <span class="n">n1</span> <span class="ow">in</span> <span class="n">neighbors</span><span class="p">:</span>
+                <span class="c1"># should be one edge only</span>
+                <span class="n">edges</span> <span class="o">=</span> <span class="n">n0</span><span class="o">.</span><span class="n">get_edges</span><span class="p">(</span><span class="n">neighbor</span><span class="o">=</span><span class="n">n1</span><span class="p">)</span>
+                <span class="n">edges</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_add_edge</span><span class="p">(</span><span class="n">n0</span><span class="p">,</span> <span class="n">n1</span><span class="p">)</span>
+
+            <span class="c1"># step 7 - remove old edges</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_remove_old_edges</span><span class="p">(</span><span class="n">n0</span><span class="o">.</span><span class="n">get_edges</span><span class="p">())</span>
+
+            <span class="c1"># step 8 - add a new node each lambda steps</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">tlen</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">lambda_</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_nodes</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_insert_new_node</span><span class="p">()</span>
+
+            <span class="c1"># step 9 - decrease errors</span>
+            <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">cum_error</span> <span class="o">*=</span> <span class="n">d</span></div>
+
+    <span class="k">def</span> <span class="nf">nearest_neighbor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Assign each point in the input data to the nearest node in</span>
+<span class="sd">        the graph. Return the list of the nearest node instances, and</span>
+<span class="sd">        the list of distances.</span>
+<span class="sd">        Executing this function will close the training phase if</span>
+<span class="sd">        necessary.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">GrowingNeuralGasNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+
+        <span class="n">nodes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">dists</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">input</span><span class="p">:</span>
+            <span class="p">(</span><span class="n">n0</span><span class="p">,</span> <span class="n">_</span><span class="p">),</span> <span class="n">dist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_nearest_nodes</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">n0</span><span class="p">)</span>
+            <span class="n">dists</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">numx</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">dist</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="n">nodes</span><span class="p">,</span> <span class="n">dists</span>
+
+<span class="k">class</span> <span class="nc">NeuralGasNode</span><span class="p">(</span><span class="n">GrowingNeuralGasNode</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Learn the topological structure of the input data by building a</span>
+<span class="sd">    corresponding graph approximation (original Neural Gas algorithm).</span>
+
+<span class="sd">    The Neural Gas algorithm was originally published in Martinetz, T. and</span>
+<span class="sd">    Schulten, K.: A &quot;Neural-Gas&quot; Network Learns Topologies. In Kohonen, T.,</span>
+<span class="sd">    Maekisara, K., Simula, O., and Kangas, J. (eds.), Artificial Neural</span>
+<span class="sd">    Networks. Elsevier, North-Holland., 1991.</span>
+
+<span class="sd">    **Attributes and methods of interest**</span>
+
+<span class="sd">    - graph -- The corresponding `mdp.graph.Graph` object</span>
+<span class="sd">    - max_epochs - maximum number of epochs until which to train.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_nodes</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+                       <span class="n">start_poss</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">epsilon_i</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>               <span class="c1"># initial epsilon</span>
+                       <span class="n">epsilon_f</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>              <span class="c1"># final epsilon</span>
+                       <span class="n">lambda_i</span><span class="o">=</span><span class="mf">30.</span><span class="p">,</span>                <span class="c1"># initial lambda</span>
+                       <span class="n">lambda_f</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span>               <span class="c1"># final lambda</span>
+                       <span class="n">max_age_i</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>                <span class="c1"># initial edge lifetime</span>
+                       <span class="n">max_age_f</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>               <span class="c1"># final edge lifetime</span>
+                       <span class="n">max_epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                       <span class="n">n_epochs_to_train</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">input_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Neural Gas algorithm.</span>
+
+<span class="sd">        Default parameters taken from the original publication.</span>
+
+<span class="sd">        :Parameters:</span>
+
+<span class="sd">          start_poss</span>
+<span class="sd">            sequence of two arrays containing the position of the</span>
+<span class="sd">            first two nodes in the GNG graph. In unspecified, the</span>
+<span class="sd">            initial nodes are chosen with a random position generated</span>
+<span class="sd">            from a gaussian distribution with zero mean and unit</span>
+<span class="sd">            variance.</span>
+
+<span class="sd">          num_nodes</span>
+<span class="sd">            number of nodes to use. Ignored if start_poss is given.</span>
+
+<span class="sd">          epsilon_i, epsilon_f</span>
+<span class="sd">            initial and final values of epsilon. Fraction of the distance</span>
+<span class="sd">            between the closest node and the presented data point by which the</span>
+<span class="sd">            node moves towards the data point in an adaptation step. Epsilon</span>
+<span class="sd">            decays during training by e(t) = e_i(e_f/e_i)^(t/t_max) with t</span>
+<span class="sd">            being the epoch.</span>
+
+<span class="sd">          lambda_i, lambda_f</span>
+<span class="sd">            initial and final values of lambda. Lambda influences how the</span>
+<span class="sd">            weight change of nodes in the ranking decreases with lower rank. It </span>
+<span class="sd">            is sometimes called the &quot;neighborhood factor&quot;. Lambda decays during</span>
+<span class="sd">            training in the same manner as epsilon does.</span>
+
+<span class="sd">          max_age_i, max_age_f</span>
+<span class="sd">            Initial and final lifetime, after which an edge will be removed.</span>
+<span class="sd">            Lifetime is measured in terms of adaptation steps, i.e.,</span>
+<span class="sd">            presentations of data points. It decays during training like</span>
+<span class="sd">            epsilon does.</span>
+
+<span class="sd">          max_epochs</span>
+<span class="sd">            number of epochs to train. One epoch has passed when all data points</span>
+<span class="sd">            from the input have been presented once. The default in the original </span>
+<span class="sd">            publication was 40000, but since this has proven to be impractically</span>
+<span class="sd">            high too high for many real-world data sets, we adopted a default</span>
+<span class="sd">            value of 100.</span>
+
+<span class="sd">          n_epochs_to_train</span>
+<span class="sd">            number of epochs to train on each call. Useful for batch learning</span>
+<span class="sd">            and for visualization of the training process. Default is to</span>
+<span class="sd">            train once until max_epochs is reached.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">graph</span> <span class="o">=</span> <span class="n">graph</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">n_epochs_to_train</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">n_epochs_to_train</span> <span class="o">=</span> <span class="n">max_epochs</span>
+
+        <span class="c1">#copy parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span> <span class="o">=</span> <span class="n">num_nodes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_poss</span> <span class="o">=</span> <span class="n">start_poss</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epsilon_i</span> <span class="o">=</span> <span class="n">epsilon_i</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epsilon_f</span> <span class="o">=</span> <span class="n">epsilon_f</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lambda_i</span> <span class="o">=</span> <span class="n">lambda_i</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lambda_f</span> <span class="o">=</span> <span class="n">lambda_f</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_age_i</span> <span class="o">=</span> <span class="n">max_age_i</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_age_f</span> <span class="o">=</span> <span class="n">max_age_f</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_epochs</span> <span class="o">=</span> <span class="n">max_epochs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_epochs_to_train</span> <span class="o">=</span> <span class="n">n_epochs_to_train</span>
+
+        <span class="nb">super</span><span class="p">(</span><span class="n">GrowingNeuralGasNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">start_poss</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">start_poss</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">start_poss</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">start_poss</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">dtype</span>
+            <span class="k">for</span> <span class="n">node_ind</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_add_node</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_refcast</span><span class="p">(</span><span class="n">start_poss</span><span class="p">[</span><span class="n">node_ind</span><span class="p">]))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epoch</span> <span class="o">=</span> <span class="mi">0</span>
+
+
+<div class="viewcode-block" id="NeuralGasNode._train"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.NeuralGasNode._train">[docs]</a>    <span class="k">def</span> <span class="nf">_train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">):</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># if missing, generate num_nodes initial nodes at random</span>
+            <span class="c1"># assuming that the input data has zero mean and unit variance,</span>
+            <span class="c1"># choose the random position according to a gaussian distribution</span>
+            <span class="c1"># with zero mean and unit variance</span>
+            <span class="n">normal</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">normal</span>
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_nodes</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_add_node</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_refcast</span><span class="p">(</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span><span class="p">)))</span>
+
+        <span class="n">epoch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">epoch</span>
+        <span class="n">e_i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon_i</span>
+        <span class="n">e_f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">epsilon_f</span>
+        <span class="n">l_i</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lambda_i</span>
+        <span class="n">l_f</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lambda_f</span>
+        <span class="n">T_i</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_age_i</span><span class="p">)</span>
+        <span class="n">T_f</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_age_f</span><span class="p">)</span>
+        <span class="n">max_epochs</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_epochs</span><span class="p">)</span>
+        <span class="n">remaining_epochs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_epochs_to_train</span>
+        <span class="k">while</span> <span class="n">remaining_epochs</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># reset permutation of data points</span>
+            <span class="n">di</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">permutation</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">epoch</span> <span class="o">&lt;</span> <span class="n">max_epochs</span><span class="p">:</span>
+                <span class="n">denom</span> <span class="o">=</span> <span class="n">old_div</span><span class="p">(</span><span class="n">epoch</span><span class="p">,</span><span class="n">max_epochs</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">denom</span> <span class="o">=</span> <span class="mf">1.</span>
+            <span class="n">epsilon</span> <span class="o">=</span> <span class="n">e_i</span> <span class="o">*</span> <span class="p">((</span><span class="n">old_div</span><span class="p">(</span><span class="n">e_f</span><span class="p">,</span><span class="n">e_i</span><span class="p">))</span><span class="o">**</span><span class="n">denom</span><span class="p">)</span>
+            <span class="n">lmbda</span> <span class="o">=</span> <span class="n">l_i</span> <span class="o">*</span> <span class="p">((</span><span class="n">old_div</span><span class="p">(</span><span class="n">l_f</span><span class="p">,</span><span class="n">l_i</span><span class="p">))</span><span class="o">**</span><span class="n">denom</span><span class="p">)</span>
+            <span class="n">T</span> <span class="o">=</span> <span class="n">T_i</span> <span class="o">*</span> <span class="p">((</span><span class="n">old_div</span><span class="p">(</span><span class="n">T_f</span><span class="p">,</span><span class="n">T_i</span><span class="p">))</span><span class="o">**</span><span class="n">denom</span><span class="p">)</span>
+            <span class="n">epoch</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">di</span><span class="p">:</span>
+                <span class="c1"># Step 1 rank nodes according to their distance to random point</span>
+                <span class="n">ranked_nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rank_nodes_by_distance</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+                <span class="c1"># Step 2 move nodes</span>
+                <span class="k">for</span> <span class="n">rank</span><span class="p">,</span><span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ranked_nodes</span><span class="p">):</span>
+                    <span class="c1">#TODO: cut off at some rank when using many nodes</span>
+                    <span class="c1">#TODO: check speedup by vectorizing</span>
+                    <span class="n">delta_w</span> <span class="o">=</span> <span class="n">epsilon</span> <span class="o">*</span> <span class="n">numx</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="n">old_div</span><span class="p">(</span><span class="o">-</span><span class="n">rank</span><span class="p">,</span> <span class="n">lmbda</span><span class="p">))</span> <span class="o">*</span> \
+                                    <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">node</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">pos</span><span class="p">)</span>
+                    <span class="n">node</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">pos</span> <span class="o">+=</span> <span class="n">delta_w</span>
+
+                <span class="c1"># Step 3 update edge weight</span>
+                <span class="k">for</span> <span class="n">e</span> <span class="ow">in</span> <span class="n">g</span><span class="o">.</span><span class="n">edges</span><span class="p">:</span>
+                    <span class="n">e</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">inc_age</span><span class="p">()</span>
+
+                <span class="c1"># Step 4 set age of edge between first two nodes to zero</span>
+                <span class="c1">#  or create it if it doesn&#39;t exist.</span>
+                <span class="n">n0</span> <span class="o">=</span> <span class="n">ranked_nodes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">n1</span> <span class="o">=</span> <span class="n">ranked_nodes</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">nn</span> <span class="o">=</span> <span class="n">n0</span><span class="o">.</span><span class="n">neighbors</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">n1</span> <span class="ow">in</span> <span class="n">nn</span><span class="p">:</span>
+                    <span class="n">edges</span> <span class="o">=</span> <span class="n">n0</span><span class="o">.</span><span class="n">get_edges</span><span class="p">(</span><span class="n">neighbor</span><span class="o">=</span><span class="n">n1</span><span class="p">)</span>
+                    <span class="n">edges</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">age</span> <span class="o">=</span> <span class="mi">0</span>  <span class="c1"># should only be one edge</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_add_edge</span><span class="p">(</span><span class="n">n0</span><span class="p">,</span> <span class="n">n1</span><span class="p">)</span>
+
+                <span class="c1"># step 5 delete edges with age &gt; max_age</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_remove_old_edges</span><span class="p">(</span><span class="n">max_age</span><span class="o">=</span><span class="n">T</span><span class="p">)</span>
+            <span class="n">remaining_epochs</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">epoch</span> <span class="o">=</span> <span class="n">epoch</span></div>
+
+
+<div class="viewcode-block" id="NeuralGasNode._rank_nodes_by_distance"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.NeuralGasNode._rank_nodes_by_distance">[docs]</a>    <span class="k">def</span> <span class="nf">_rank_nodes_by_distance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the nodes in the graph in a list ranked by their squared</span>
+<span class="sd">        distance to x. &quot;&quot;&quot;</span>
+
+        <span class="c1">#TODO: Refactor together with GNGNode._get_nearest_nodes</span>
+
+        <span class="c1"># distance function</span>
+        <span class="k">def</span> <span class="nf">_distance_from_node</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+            <span class="n">tmp</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">pos</span> <span class="o">-</span> <span class="n">x</span>
+            <span class="k">return</span> <span class="n">utils</span><span class="o">.</span><span class="n">mult</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="n">tmp</span><span class="p">)</span> <span class="c1"># maps to mdp.numx.dot</span>
+
+        <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span>
+
+        <span class="c1"># distances of all graph nodes from x</span>
+        <span class="n">distances</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">_distance_from_node</span><span class="p">,</span> <span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">)))</span>
+        <span class="n">ids</span> <span class="o">=</span> <span class="n">distances</span><span class="o">.</span><span class="n">argsort</span><span class="p">()</span>
+        <span class="n">ranked_nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">g</span><span class="o">.</span><span class="n">nodes</span><span class="p">[</span><span class="nb">id</span><span class="p">]</span> <span class="k">for</span> <span class="nb">id</span> <span class="ow">in</span> <span class="n">ids</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">ranked_nodes</span></div>
+
+
+<div class="viewcode-block" id="NeuralGasNode._remove_old_edges"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.NeuralGasNode._remove_old_edges">[docs]</a>    <span class="k">def</span> <span class="nf">_remove_old_edges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_age</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Remove edges with age &gt; max_age.&quot;&quot;&quot;</span>
+        <span class="n">g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span>
+        <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">edges</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">edge</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">age</span> <span class="o">&gt;</span> <span class="n">max_age</span><span class="p">:</span>
+                <span class="n">g</span><span class="o">.</span><span class="n">remove_edge</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      Last updated on 2020-02-17 1:33:02 PM Coordinated Universal Time.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'3.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+<div class="footer">
+    <hr />
+    <table>
+      <tr>
+        <td class="footer-left">
+           <a href="http://sourceforge.net/projects/mdp-toolkit">
+ <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=116959&amp;type=12"
+      width="120" height="30" border="0" alt="MDP@SF.NET"/> </a>
+        </td>
+        <td class="footer-center">
+          Last updated on
+             2020-02-17 1:33:02 PM Coordinated Universal Time
+        </td>
+        <td class="footer-right">
+         <form class="search" action="../../../search.html" method="get">
+          <input type="submit" value="Search" />
+          <input type="text" name="q" size="18" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+         </form>
+        </td>
+    </table>  
+    <!-- Piwik -->
+    <script type="text/javascript">
+	var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/mdp-toolkit/" : "http://sourceforge.net/apps/piwik/mdp-toolkit/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+	piwik_action_name = '';
+	piwik_idsite = 1;
+	piwik_url = pkBaseURL + "piwik.php";
+	piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+    </script>
+    <object><noscript>
+	    <p>
+		<img src="http://sourceforge.net/apps/piwik/mdp-toolkit/piwik.php?idsite=1"
+		     alt="piwik" />
+	    </p>
+    </noscript></object>
+    <!-- End Piwik Tag -->
+</div>   
+
+
+</body>
+</html>

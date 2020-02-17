@@ -1,0 +1,1087 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mdp.nodes.misc_nodes &mdash; Modular toolkit for Data Processing (MDP)</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="Modular toolkit for Data Processing (MDP)" href="../../../index.html"/>
+        <link rel="up" title="mdp.nodes" href="../nodes.html"/> 
+<meta name="viewport" content="width=740" />
+
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html">
+          
+
+          
+            
+            <img src="../../../_static/logo_animation.gif" class="logo" />
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_cite_mdp.html">How to cite MDP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MDP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../../mdp.html">mdp</a> &raquo;</li>
+        
+          <li><a href="../nodes.html">mdp.nodes</a> &raquo;</li>
+        
+      <li>mdp.nodes.misc_nodes</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mdp.nodes.misc_nodes</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">future</span> <span class="k">import</span> <span class="n">standard_library</span>
+<span class="n">standard_library</span><span class="o">.</span><span class="n">install_aliases</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">str</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">range</span>
+<span class="kn">from</span> <span class="nn">past.utils</span> <span class="k">import</span> <span class="n">old_div</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">object</span>
+
+<span class="n">__docformat__</span> <span class="o">=</span> <span class="s2">&quot;restructuredtext en&quot;</span>
+
+<span class="kn">import</span> <span class="nn">mdp</span>
+<span class="kn">from</span> <span class="nn">mdp</span> <span class="k">import</span> <span class="n">numx</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">Node</span><span class="p">,</span> <span class="n">NodeException</span><span class="p">,</span> <span class="n">PreserveDimNode</span>
+
+<span class="kn">import</span> <span class="nn">pickle</span> <span class="k">as</span> <span class="nn">pickle</span>
+<span class="kn">import</span> <span class="nn">pickle</span> <span class="k">as</span> <span class="nn">real_pickle</span>
+
+<span class="k">class</span> <span class="nc">IdentityNode</span><span class="p">(</span><span class="n">PreserveDimNode</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Execute returns the input data and the node is not trainable.</span>
+
+<span class="sd">    This node can be instantiated and is for example useful in</span>
+<span class="sd">    complex network layouts.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="IdentityNode._get_supported_dtypes"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.IdentityNode._get_supported_dtypes">[docs]</a>    <span class="k">def</span> <span class="nf">_get_supported_dtypes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the list of dtypes supported by this node.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_dtypes</span><span class="p">(</span><span class="s1">&#39;AllFloat&#39;</span><span class="p">)</span> <span class="o">+</span>
+                <span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_dtypes</span><span class="p">(</span><span class="s1">&#39;AllInteger&#39;</span><span class="p">)</span> <span class="o">+</span>
+                <span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_dtypes</span><span class="p">(</span><span class="s1">&#39;Character&#39;</span><span class="p">))</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">is_trainable</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+<span class="k">class</span> <span class="nc">OneDimensionalHitParade</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Class to produce hit-parades (i.e., a list of the largest</span>
+<span class="sd">    and smallest values) out of a one-dimensional time-series.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="p">,</span> <span class="n">real_dtype</span><span class="o">=</span><span class="s2">&quot;d&quot;</span><span class="p">,</span> <span class="n">integer_dtype</span><span class="o">=</span><span class="s2">&quot;l&quot;</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Input arguments:</span>
+<span class="sd">        n -- Number of maxima and minima to remember</span>
+<span class="sd">        d -- Minimum gap between two hits</span>
+
+<span class="sd">        real_dtype -- dtype of sequence items</span>
+<span class="sd">        integer_dtype -- dtype of sequence indices</span>
+<span class="sd">        Note: be careful with dtypes!</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iM</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">integer_dtype</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">im</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">integer_dtype</span><span class="p">)</span>
+        
+        <span class="n">real_dtype</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">real_dtype</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">real_dtype</span> <span class="ow">in</span> <span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_dtypes</span><span class="p">(</span><span class="s1">&#39;AllInteger&#39;</span><span class="p">):</span>
+            <span class="n">max_num</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">iinfo</span><span class="p">(</span><span class="n">real_dtype</span><span class="p">)</span><span class="o">.</span><span class="n">max</span>
+            <span class="n">min_num</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">iinfo</span><span class="p">(</span><span class="n">real_dtype</span><span class="p">)</span><span class="o">.</span><span class="n">min</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">max_num</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">real_dtype</span><span class="p">)</span><span class="o">.</span><span class="n">max</span>
+            <span class="n">min_num</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">real_dtype</span><span class="p">)</span><span class="o">.</span><span class="n">min</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">min_num</span><span class="p">]</span><span class="o">*</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">real_dtype</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">max_num</span><span class="p">]</span><span class="o">*</span><span class="n">n</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">real_dtype</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">lM</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lm</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">inp</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Input arguments:</span>
+<span class="sd">        inp -- tuple (time-series, time-indices)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">ix</span><span class="p">)</span> <span class="o">=</span> <span class="n">inp</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span>
+        <span class="n">iM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iM</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">im</span>
+        <span class="n">lM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lM</span>
+        <span class="n">lm</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lm</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span><span class="p">):</span>
+            <span class="n">k1</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">argmin</span><span class="p">()</span>
+            <span class="n">k2</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">argmax</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">M</span><span class="p">[</span><span class="n">k1</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">ix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">iM</span><span class="p">[</span><span class="n">lM</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">d</span> <span class="ow">and</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">M</span><span class="p">[</span><span class="n">lM</span><span class="p">]:</span>
+                    <span class="n">M</span><span class="p">[</span><span class="n">lM</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="n">iM</span><span class="p">[</span><span class="n">lM</span><span class="p">]</span> <span class="o">=</span> <span class="n">ix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">ix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">iM</span><span class="p">[</span><span class="n">lM</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">d</span><span class="p">:</span>
+                    <span class="n">M</span><span class="p">[</span><span class="n">k1</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="n">iM</span><span class="p">[</span><span class="n">k1</span><span class="p">]</span> <span class="o">=</span> <span class="n">ix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="n">lM</span> <span class="o">=</span> <span class="n">k1</span>
+            <span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">[</span><span class="n">k2</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">ix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">im</span><span class="p">[</span><span class="n">lm</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="n">d</span> <span class="ow">and</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">m</span><span class="p">[</span><span class="n">lm</span><span class="p">]:</span>
+                    <span class="n">m</span><span class="p">[</span><span class="n">lm</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="n">im</span><span class="p">[</span><span class="n">lm</span><span class="p">]</span> <span class="o">=</span> <span class="n">ix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="n">ix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="n">im</span><span class="p">[</span><span class="n">lm</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">d</span><span class="p">:</span>
+                    <span class="n">m</span><span class="p">[</span><span class="n">k2</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="n">im</span><span class="p">[</span><span class="n">k2</span><span class="p">]</span> <span class="o">=</span> <span class="n">ix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="n">lm</span> <span class="o">=</span> <span class="n">k2</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">M</span> <span class="o">=</span> <span class="n">M</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="n">m</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">iM</span> <span class="o">=</span> <span class="n">iM</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">im</span> <span class="o">=</span> <span class="n">im</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lM</span> <span class="o">=</span> <span class="n">lM</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lm</span> <span class="o">=</span> <span class="n">lm</span>
+
+    <span class="k">def</span> <span class="nf">get_maxima</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the tuple (maxima, time-indices).</span>
+<span class="sd">        Maxima are sorted in descending order.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">iM</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">iM</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">M</span>
+        <span class="n">sort</span> <span class="o">=</span> <span class="n">M</span><span class="o">.</span><span class="n">argsort</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">M</span><span class="p">[</span><span class="n">sort</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]],</span> <span class="n">iM</span><span class="p">[</span><span class="n">sort</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>
+
+    <span class="k">def</span> <span class="nf">get_minima</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the tuple (minima, time-indices).</span>
+<span class="sd">        Minima are sorted in ascending order.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">im</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span>
+        <span class="n">sort</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">argsort</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">m</span><span class="p">[</span><span class="n">sort</span><span class="p">],</span> <span class="n">im</span><span class="p">[</span><span class="n">sort</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">HitParadeNode</span><span class="p">(</span><span class="n">PreserveDimNode</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Collect the first ``n`` local maxima and minima of the training signal</span>
+<span class="sd">    which are separated by a minimum gap ``d``.</span>
+
+<span class="sd">    This is an analysis node, i.e. the data is analyzed during training</span>
+<span class="sd">    and the results are stored internally. Use the</span>
+<span class="sd">    ``get_maxima`` and ``get_minima`` methods to access them.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">d</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Input arguments:</span>
+<span class="sd">        n -- Number of maxima and minima to store</span>
+<span class="sd">        d -- Minimum gap between two maxima or two minima</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HitParadeNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">input_dim</span><span class="p">,</span>
+                                            <span class="n">output_dim</span><span class="o">=</span><span class="n">output_dim</span><span class="p">,</span>
+                                            <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">d</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">itype</span> <span class="o">=</span> <span class="s1">&#39;int64&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hit</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tlen</span> <span class="o">=</span> <span class="mi">0</span>
+
+<div class="viewcode-block" id="HitParadeNode._set_input_dim"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.HitParadeNode._set_input_dim">[docs]</a>    <span class="k">def</span> <span class="nf">_set_input_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span> <span class="o">=</span> <span class="n">n</span></div>
+
+<div class="viewcode-block" id="HitParadeNode._get_supported_dtypes"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.HitParadeNode._get_supported_dtypes">[docs]</a>    <span class="k">def</span> <span class="nf">_get_supported_dtypes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the list of dtypes supported by this node.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_dtypes</span><span class="p">(</span><span class="s1">&#39;Float&#39;</span><span class="p">)</span> <span class="o">+</span>
+                <span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_dtypes</span><span class="p">(</span><span class="s1">&#39;AllInteger&#39;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="HitParadeNode._train"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.HitParadeNode._train">[docs]</a>    <span class="k">def</span> <span class="nf">_train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">hit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit</span>
+        <span class="n">old_tlen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tlen</span>
+        <span class="k">if</span> <span class="n">hit</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">hit</span> <span class="o">=</span> <span class="p">[</span><span class="n">OneDimensionalHitParade</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">d</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+                                           <span class="bp">self</span><span class="o">.</span><span class="n">itype</span><span class="p">)</span>
+                   <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span><span class="p">)]</span>
+        <span class="n">tlen</span> <span class="o">=</span> <span class="n">old_tlen</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">old_tlen</span><span class="p">,</span> <span class="n">tlen</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span><span class="p">):</span>
+            <span class="n">hit</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">((</span><span class="n">x</span><span class="p">[:,</span> <span class="n">c</span><span class="p">],</span> <span class="n">indices</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hit</span> <span class="o">=</span> <span class="n">hit</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tlen</span> <span class="o">=</span> <span class="n">tlen</span></div>
+
+    <span class="k">def</span> <span class="nf">get_maxima</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the tuple (maxima, indices).</span>
+<span class="sd">        Maxima are sorted in descending order.</span>
+
+<span class="sd">        If the training phase has not been completed yet, call</span>
+<span class="sd">        stop_training.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_if_training_stop_training</span><span class="p">()</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span>
+        <span class="n">hit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit</span>
+        <span class="n">iM</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">cols</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">itype</span><span class="p">)</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">cols</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cols</span><span class="p">):</span>
+            <span class="n">M</span><span class="p">[:,</span> <span class="n">c</span><span class="p">],</span> <span class="n">iM</span><span class="p">[:,</span> <span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">hit</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">get_maxima</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">M</span><span class="p">,</span> <span class="n">iM</span>
+
+    <span class="k">def</span> <span class="nf">get_minima</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Return the tuple (minima, indices).</span>
+<span class="sd">        Minima are sorted in ascending order.</span>
+
+<span class="sd">        If the training phase has not been completed yet, call</span>
+<span class="sd">        stop_training.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_if_training_stop_training</span><span class="p">()</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span>
+        <span class="n">hit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hit</span>
+        <span class="n">im</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">cols</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">itype</span><span class="p">)</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">n</span><span class="p">,</span> <span class="n">cols</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cols</span><span class="p">):</span>
+            <span class="n">m</span><span class="p">[:,</span> <span class="n">c</span><span class="p">],</span> <span class="n">im</span><span class="p">[:,</span> <span class="n">c</span><span class="p">]</span> <span class="o">=</span> <span class="n">hit</span><span class="p">[</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">get_minima</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">m</span><span class="p">,</span> <span class="n">im</span>
+
+<span class="k">class</span> <span class="nc">TimeFramesNode</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Copy delayed version of the input signal on the space dimensions.</span>
+
+<span class="sd">    For example, for ``time_frames=3`` and ``gap=2``::</span>
+
+<span class="sd">      [ X(1) Y(1)        [ X(1) Y(1) X(3) Y(3) X(5) Y(5)</span>
+<span class="sd">        X(2) Y(2)          X(2) Y(2) X(4) Y(4) X(6) Y(6)</span>
+<span class="sd">        X(3) Y(3)   --&gt;    X(3) Y(3) X(5) Y(5) X(7) Y(7)</span>
+<span class="sd">        X(4) Y(4)          X(4) Y(4) X(6) Y(6) X(8) Y(8)</span>
+<span class="sd">        X(5) Y(5)          ...  ...  ...  ...  ...  ... ]</span>
+<span class="sd">        X(6) Y(6)</span>
+<span class="sd">        X(7) Y(7)</span>
+<span class="sd">        X(8) Y(8)</span>
+<span class="sd">        ...  ...  ]</span>
+
+<span class="sd">    It is not always possible to invert this transformation (the</span>
+<span class="sd">    transformation is not surjective. However, the ``pseudo_inverse``</span>
+<span class="sd">    method does the correct thing when it is indeed possible.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_frames</span><span class="p">,</span> <span class="n">gap</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                 <span class="n">input_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Input arguments:</span>
+<span class="sd">        time_frames -- Number of delayed copies</span>
+<span class="sd">        gap -- Time delay between the copies</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_frames</span> <span class="o">=</span> <span class="n">time_frames</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TimeFramesNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">input_dim</span><span class="p">,</span>
+                                             <span class="n">output_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                             <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gap</span> <span class="o">=</span> <span class="n">gap</span>
+
+<div class="viewcode-block" id="TimeFramesNode._get_supported_dtypes"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.TimeFramesNode._get_supported_dtypes">[docs]</a>    <span class="k">def</span> <span class="nf">_get_supported_dtypes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the list of dtypes supported by this node.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_dtypes</span><span class="p">(</span><span class="s1">&#39;AllFloat&#39;</span><span class="p">)</span> <span class="o">+</span>
+                <span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_dtypes</span><span class="p">(</span><span class="s1">&#39;AllInteger&#39;</span><span class="p">)</span> <span class="o">+</span>
+                <span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_dtypes</span><span class="p">(</span><span class="s1">&#39;Character&#39;</span><span class="p">))</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">is_trainable</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">is_invertible</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="TimeFramesNode._set_input_dim"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.TimeFramesNode._set_input_dim">[docs]</a>    <span class="k">def</span> <span class="nf">_set_input_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_output_dim</span> <span class="o">=</span> <span class="n">n</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">time_frames</span></div>
+
+<div class="viewcode-block" id="TimeFramesNode._set_output_dim"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.TimeFramesNode._set_output_dim">[docs]</a>    <span class="k">def</span> <span class="nf">_set_output_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s1">&#39;Output dim can not be explicitly set!&#39;</span>
+        <span class="k">raise</span> <span class="n">NodeException</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TimeFramesNode._execute"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.TimeFramesNode._execute">[docs]</a>    <span class="k">def</span> <span class="nf">_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">gap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gap</span>
+        <span class="n">tf</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_frames</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">gap</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">tf</span><span class="p">,</span> <span class="n">cols</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_frames</span><span class="p">):</span>
+            <span class="n">y</span><span class="p">[:,</span> <span class="n">frame</span><span class="o">*</span><span class="n">rows</span><span class="p">:(</span><span class="n">frame</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">rows</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">gap</span><span class="o">*</span><span class="n">frame</span><span class="p">:</span><span class="n">gap</span><span class="o">*</span><span class="n">frame</span><span class="o">+</span><span class="n">tf</span><span class="p">,</span> <span class="p">:]</span>
+        <span class="k">return</span> <span class="n">y</span></div>
+
+    <span class="k">def</span> <span class="nf">pseudo_inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This function returns a pseudo-inverse of the execute frame.</span>
+<span class="sd">        y == execute(x) only if y belongs to the domain of execute and</span>
+<span class="sd">        has been computed with a sufficently large x.</span>
+<span class="sd">        If gap &gt; 1 some of the last rows will be filled with zeros.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_if_training_stop_training</span><span class="p">()</span>
+
+        <span class="c1"># set the output dimension if necessary</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span><span class="p">:</span>
+            <span class="c1"># if the input_dim is not defined, raise an exception</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span><span class="p">:</span>
+                <span class="n">errstr</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Number of input dimensions undefined. Inversion&quot;</span>
+                          <span class="s2">&quot;not possible.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">NodeException</span><span class="p">(</span><span class="n">errstr</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">outputdim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span>
+
+        <span class="c1"># control the dimension of y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_output</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="c1"># cast</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_refcast</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+        <span class="n">gap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gap</span>
+        <span class="n">exp_length</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span>
+        <span class="n">rest</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_frames</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">gap</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="n">exp_length</span> <span class="o">+</span> <span class="n">rest</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">[:</span><span class="n">exp_length</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:,</span> <span class="p">:</span><span class="n">cols</span><span class="p">]</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="c1"># Note that if gap &gt; 1 some of the last rows will be filled with zeros!</span>
+        <span class="n">block_sz</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">gap</span><span class="p">,</span> <span class="n">exp_length</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">exp_length</span><span class="p">,</span> <span class="n">gap</span><span class="p">),</span> <span class="n">rows</span><span class="p">,</span> <span class="n">gap</span><span class="p">):</span>
+            <span class="n">x</span><span class="p">[</span><span class="n">row</span><span class="p">:</span><span class="n">row</span><span class="o">+</span><span class="n">block_sz</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="o">-</span><span class="n">block_sz</span><span class="p">:,</span> <span class="n">count</span><span class="o">*</span><span class="n">cols</span><span class="p">:(</span><span class="n">count</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">cols</span><span class="p">]</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+<span class="k">class</span> <span class="nc">TimeDelayNode</span><span class="p">(</span><span class="n">TimeFramesNode</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Copy delayed version of the input signal on the space dimensions.</span>
+
+<span class="sd">    For example, for ``time_frames=3`` and ``gap=2``::</span>
+
+<span class="sd">      [ X(1) Y(1)        [ X(1) Y(1)   0    0    0    0</span>
+<span class="sd">        X(2) Y(2)          X(2) Y(2)   0    0    0    0</span>
+<span class="sd">        X(3) Y(3)   --&gt;    X(3) Y(3) X(1) Y(1)   0    0</span>
+<span class="sd">        X(4) Y(4)          X(4) Y(4) X(2) Y(2)   0    0</span>
+<span class="sd">        X(5) Y(5)          X(5) Y(5) X(3) Y(3) X(1) Y(1)</span>
+<span class="sd">        X(6) Y(6)          ...  ...  ...  ...  ...  ... ]</span>
+<span class="sd">        X(7) Y(7)</span>
+<span class="sd">        X(8) Y(8)</span>
+<span class="sd">        ...  ...  ]</span>
+
+<span class="sd">    This node provides similar functionality as the ``TimeFramesNode``, only</span>
+<span class="sd">    that it performs a time embedding into the past rather than into the future.</span>
+
+<span class="sd">    See ``TimeDelaySlidingWindowNode`` for a sliding window delay node for</span>
+<span class="sd">    application in a non-batch manner.</span>
+
+<span class="sd">    Original code contributed by Sebastian Hoefer.</span>
+<span class="sd">    Dec 31, 2010</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_frames</span><span class="p">,</span> <span class="n">gap</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Input arguments:</span>
+<span class="sd">        time_frames -- Number of delayed copies</span>
+<span class="sd">        gap -- Time delay between the copies</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TimeDelayNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">time_frames</span><span class="p">,</span> <span class="n">gap</span><span class="p">,</span>
+                                            <span class="n">input_dim</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+
+<div class="viewcode-block" id="TimeDelayNode._execute"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.TimeDelayNode._execute">[docs]</a>    <span class="k">def</span> <span class="nf">_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">gap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gap</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span>
+
+        <span class="n">y</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">frame</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">time_frames</span><span class="p">):</span>
+            <span class="n">y</span><span class="p">[</span><span class="n">gap</span><span class="o">*</span><span class="n">frame</span><span class="p">:,</span> <span class="n">frame</span><span class="o">*</span><span class="n">n</span><span class="p">:(</span><span class="n">frame</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:</span><span class="n">rows</span><span class="o">-</span><span class="n">gap</span><span class="o">*</span><span class="n">frame</span><span class="p">,</span> <span class="p">:]</span>
+
+        <span class="k">return</span> <span class="n">y</span></div>
+
+    <span class="k">def</span> <span class="nf">pseudo_inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+<span class="k">class</span> <span class="nc">TimeDelaySlidingWindowNode</span><span class="p">(</span><span class="n">TimeDelayNode</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    ``TimeDelaySlidingWindowNode`` is an alternative to ``TimeDelayNode``</span>
+<span class="sd">    which should be used for online learning/execution. Whereas the</span>
+<span class="sd">    ``TimeDelayNode`` works in a batch manner, for online application</span>
+<span class="sd">    a sliding window is necessary which yields only one row per call.</span>
+
+<span class="sd">    Applied to the same data the collection of all returned rows of the</span>
+<span class="sd">    ``TimeDelaySlidingWindowNode`` is equivalent to the result of the</span>
+<span class="sd">    ``TimeDelayNode``.</span>
+
+<span class="sd">    Original code contributed by Sebastian Hoefer.</span>
+<span class="sd">    Dec 31, 2010</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_frames</span><span class="p">,</span> <span class="n">gap</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Input arguments:</span>
+<span class="sd">        time_frames -- Number of delayed copies</span>
+<span class="sd">        gap -- Time delay between the copies</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">time_frames</span> <span class="o">=</span> <span class="n">time_frames</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gap</span> <span class="o">=</span> <span class="n">gap</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">TimeDelaySlidingWindowNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">time_frames</span><span class="p">,</span> <span class="n">gap</span><span class="p">,</span>
+                                                         <span class="n">input_dim</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sliding_wnd</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cur_idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">slide</span> <span class="o">=</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="TimeDelaySlidingWindowNode._init_sliding_window"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.TimeDelaySlidingWindowNode._init_sliding_window">[docs]</a>    <span class="k">def</span> <span class="nf">_init_sliding_window</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gap</span><span class="o">+</span><span class="mi">1</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">time_frames</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sliding_wnd</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TimeDelaySlidingWindowNode._execute"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.TimeDelaySlidingWindowNode._execute">[docs]</a>    <span class="k">def</span> <span class="nf">_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">sliding_wnd</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_init_sliding_window</span><span class="p">()</span>
+
+        <span class="n">gap</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gap</span>
+        <span class="n">rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sliding_wnd</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span>
+
+        <span class="n">new_row</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">cols</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">new_row</span><span class="p">[:</span><span class="n">n</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span>
+
+        <span class="c1"># Slide</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">slide</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sliding_wnd</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sliding_wnd</span><span class="p">[</span><span class="mi">1</span><span class="p">:,</span> <span class="p">:]</span>
+
+        <span class="c1"># Delay</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cur_idx</span><span class="o">-</span><span class="n">gap</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">new_row</span><span class="p">[</span><span class="n">n</span><span class="p">:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sliding_wnd</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cur_idx</span><span class="o">-</span><span class="n">gap</span><span class="p">,</span> <span class="p">:</span><span class="o">-</span><span class="n">n</span><span class="p">]</span>
+
+        <span class="c1"># Add new row to matrix</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sliding_wnd</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">cur_idx</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">new_row</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cur_idx</span> <span class="o">&lt;</span> <span class="n">rows</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cur_idx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">cur_idx</span><span class="o">+</span><span class="mi">1</span> 
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">slide</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="k">return</span> <span class="n">new_row</span><span class="p">[</span><span class="n">numx</span><span class="o">.</span><span class="n">newaxis</span><span class="p">,:]</span></div>
+
+<span class="k">class</span> <span class="nc">EtaComputerNode</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute the eta values of the normalized training data.</span>
+
+<span class="sd">    The delta value of a signal is a measure of its temporal</span>
+<span class="sd">    variation, and is defined as the mean of the derivative squared,</span>
+<span class="sd">    i.e. ``delta(x) = mean(dx/dt(t)^2)``.  ``delta(x)`` is zero if</span>
+<span class="sd">    ``x`` is a constant signal, and increases if the temporal variation</span>
+<span class="sd">    of the signal is bigger.</span>
+
+<span class="sd">    The eta value is a more intuitive measure of temporal variation,</span>
+<span class="sd">    defined as::</span>
+<span class="sd">    </span>
+<span class="sd">       eta(x) = T/(2*pi) * sqrt(delta(x))</span>
+
+<span class="sd">    If ``x`` is a signal of length ``T`` which consists of a sine function</span>
+<span class="sd">    that accomplishes exactly ``N`` oscillations, then ``eta(x)=N``.</span>
+
+<span class="sd">    ``EtaComputerNode`` normalizes the training data to have unit</span>
+<span class="sd">    variance, such that it is possible to compare the temporal</span>
+<span class="sd">    variation of two signals independently from their scaling.</span>
+
+<span class="sd">    Reference: Wiskott, L. and Sejnowski, T.J. (2002).</span>
+<span class="sd">    Slow Feature Analysis: Unsupervised Learning of Invariances,</span>
+<span class="sd">    Neural Computation, 14(4):715-770.</span>
+
+<span class="sd">    Important: if a data chunk is tlen data points long, this node is</span>
+<span class="sd">    going to consider only the first tlen-1 points together with their</span>
+<span class="sd">    derivatives. This means in particular that the variance of the</span>
+<span class="sd">    signal is not computed on all data points. This behavior is</span>
+<span class="sd">    compatible with that of ``SFANode``.</span>
+
+<span class="sd">    This is an analysis node, i.e. the data is analyzed during training</span>
+<span class="sd">    and the results are stored internally.  Use the method</span>
+<span class="sd">    ``get_eta`` to access them.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">EtaComputerNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span> <span class="o">=</span> <span class="mi">0</span>
+
+<div class="viewcode-block" id="EtaComputerNode._set_input_dim"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.EtaComputerNode._set_input_dim">[docs]</a>    <span class="k">def</span> <span class="nf">_set_input_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span> <span class="o">=</span> <span class="n">n</span></div>
+
+<div class="viewcode-block" id="EtaComputerNode._init_internals"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.EtaComputerNode._init_internals">[docs]</a>    <span class="k">def</span> <span class="nf">_init_internals</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">input_dim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mean</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">input_dim</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_var</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">input_dim</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tlen</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_diff2</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">input_dim</span><span class="p">,),</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;d&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span> <span class="o">=</span> <span class="mi">1</span></div>
+
+<div class="viewcode-block" id="EtaComputerNode._train"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.EtaComputerNode._train">[docs]</a>    <span class="k">def</span> <span class="nf">_train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+        <span class="c1"># here SignalNode.train makes an automatic refcast</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_initialized</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_init_internals</span><span class="p">()</span>
+
+        <span class="n">rdata</span> <span class="o">=</span> <span class="n">data</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mean</span> <span class="o">+=</span> <span class="n">rdata</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_var</span> <span class="o">+=</span> <span class="p">(</span><span class="n">rdata</span><span class="o">*</span><span class="n">rdata</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_tlen</span> <span class="o">+=</span> <span class="n">rdata</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">td_data</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">timediff</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_diff2</span> <span class="o">+=</span> <span class="p">(</span><span class="n">td_data</span><span class="o">*</span><span class="n">td_data</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="EtaComputerNode._stop_training"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.EtaComputerNode._stop_training">[docs]</a>    <span class="k">def</span> <span class="nf">_stop_training</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">var_tlen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tlen</span><span class="o">-</span><span class="mi">1</span>
+        <span class="c1"># unbiased</span>
+        <span class="n">var</span> <span class="o">=</span> <span class="n">old_div</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">_var</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mean</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">_mean</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">_tlen</span><span class="p">),</span><span class="n">var_tlen</span><span class="p">)</span>
+
+        <span class="c1"># biased</span>
+        <span class="c1">#var = (self._var - self._mean*self._mean/self._tlen)/self._tlen</span>
+
+        <span class="c1"># old formula: wrong! is neither biased nor unbiased</span>
+        <span class="c1">#var = (self._var/var_tlen) - (self._mean/self._tlen)**2</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_var</span> <span class="o">=</span> <span class="n">var</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">old_div</span><span class="p">((</span><span class="n">old_div</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_diff2</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">_tlen</span><span class="p">)),</span><span class="n">var</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_delta</span> <span class="o">=</span> <span class="n">delta</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_eta</span> <span class="o">=</span> <span class="n">old_div</span><span class="p">(</span><span class="n">numx</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">delta</span><span class="p">),(</span><span class="mi">2</span><span class="o">*</span><span class="n">numx</span><span class="o">.</span><span class="n">pi</span><span class="p">))</span></div>
+
+    <span class="k">def</span> <span class="nf">get_eta</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the eta values of the data received during the training</span>
+<span class="sd">        phase. If the training phase has not been completed yet, call</span>
+<span class="sd">        stop_training.</span>
+
+<span class="sd">        :Arguments:</span>
+<span class="sd">           t</span>
+<span class="sd">             Sampling frequency in Hz.</span>
+
+<span class="sd">             The original definition in (Wiskott and Sejnowski, 2002)</span>
+<span class="sd">             is obtained for ``t=self._tlen``, while for ``t=1`` (default),</span>
+<span class="sd">             this corresponds to the beta-value defined in</span>
+<span class="sd">             (Berkes and Wiskott, 2005).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_if_training_stop_training</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_refcast</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_eta</span><span class="o">*</span><span class="n">t</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">NoiseNode</span><span class="p">(</span><span class="n">PreserveDimNode</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Inject multiplicative or additive noise into the input data.</span>
+
+<span class="sd">    Original code contributed by Mathias Franzius.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">noise_func</span><span class="o">=</span><span class="n">mdp</span><span class="o">.</span><span class="n">numx_rand</span><span class="o">.</span><span class="n">normal</span><span class="p">,</span> <span class="n">noise_args</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                 <span class="n">noise_type</span><span class="o">=</span><span class="s1">&#39;additive&#39;</span><span class="p">,</span>
+                 <span class="n">input_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Add noise to input signals.</span>
+
+<span class="sd">        :Arguments:</span>
+<span class="sd">          noise_func</span>
+<span class="sd">            A function that generates noise. It must</span>
+<span class="sd">            take a ``size`` keyword argument and return</span>
+<span class="sd">            a random array of that size. Default is normal noise.</span>
+
+<span class="sd">          noise_args</span>
+<span class="sd">            Tuple of additional arguments passed to `noise_func`.</span>
+<span class="sd">            Default is (0,1) for (mean, standard deviation)</span>
+<span class="sd">            of the normal distribution.</span>
+
+<span class="sd">          noise_type</span>
+<span class="sd">            Either ``&#39;additive&#39;`` or ``&#39;multiplicative&#39;``.</span>
+
+<span class="sd">            &#39;additive&#39;</span>
+<span class="sd">               returns ``x + noise``.</span>
+<span class="sd">            &#39;multiplicative&#39;</span>
+<span class="sd">               returns ``x * (1 + noise)``</span>
+
+<span class="sd">            Default is ``&#39;additive&#39;``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NoiseNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">input_dim</span><span class="p">,</span>
+                                        <span class="n">output_dim</span><span class="o">=</span><span class="n">output_dim</span><span class="p">,</span>
+                                        <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">noise_func</span> <span class="o">=</span> <span class="n">noise_func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">noise_args</span> <span class="o">=</span> <span class="n">noise_args</span>
+        <span class="n">valid_noise_types</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;additive&#39;</span><span class="p">,</span> <span class="s1">&#39;multiplicative&#39;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">noise_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_noise_types</span><span class="p">:</span>
+            <span class="n">err_str</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> is not a valid noise type&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">noise_type</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">NodeException</span><span class="p">(</span><span class="n">err_str</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">noise_type</span> <span class="o">=</span> <span class="n">noise_type</span>
+
+<div class="viewcode-block" id="NoiseNode._get_supported_dtypes"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.NoiseNode._get_supported_dtypes">[docs]</a>    <span class="k">def</span> <span class="nf">_get_supported_dtypes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the list of dtypes supported by this node.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_dtypes</span><span class="p">(</span><span class="s1">&#39;Float&#39;</span><span class="p">)</span> <span class="o">+</span>
+                <span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_dtypes</span><span class="p">(</span><span class="s1">&#39;AllInteger&#39;</span><span class="p">))</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">is_trainable</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">is_invertible</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="NoiseNode._execute"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.NoiseNode._execute">[docs]</a>    <span class="k">def</span> <span class="nf">_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">noise_mat</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_refcast</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">noise_func</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">noise_args</span><span class="p">,</span>
+                                                  <span class="o">**</span><span class="p">{</span><span class="s1">&#39;size&#39;</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">}))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_type</span> <span class="o">==</span> <span class="s1">&#39;additive&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">x</span><span class="o">+</span><span class="n">noise_mat</span>
+        <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_type</span> <span class="o">==</span> <span class="s1">&#39;multiplicative&#39;</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">x</span><span class="o">*</span><span class="p">(</span><span class="mf">1.</span><span class="o">+</span><span class="n">noise_mat</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">protocol</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Save a pickled serialization of the node to &#39;filename&#39;.</span>
+<span class="sd">        If &#39;filename&#39; is None, return a string.</span>
+
+<span class="sd">        Note: the pickled Node is not guaranteed to be upward or</span>
+<span class="sd">        backward compatible.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># cPickle seems to create an error, probably due to the</span>
+            <span class="c1"># self.noise_func attribute.</span>
+            <span class="k">return</span> <span class="n">real_pickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># if protocol != 0 open the file in binary mode</span>
+            <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;w&#39;</span> <span class="k">if</span> <span class="n">protocol</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;wb&#39;</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">flh</span><span class="p">:</span>
+                <span class="n">real_pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flh</span><span class="p">,</span> <span class="n">protocol</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">NormalNoiseNode</span><span class="p">(</span><span class="n">PreserveDimNode</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Special version of ``NoiseNode`` for Gaussian additive noise.</span>
+
+<span class="sd">    Unlike ``NoiseNode`` it does not store a noise function reference but simply</span>
+<span class="sd">    uses ``numx_rand.normal``.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">noise_args</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+                 <span class="n">input_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set the noise parameters.</span>
+
+<span class="sd">        noise_args -- Tuple of (mean, standard deviation) for the normal</span>
+<span class="sd">            distribution, default is (0,1).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NormalNoiseNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">input_dim</span><span class="p">,</span>
+                                              <span class="n">output_dim</span><span class="o">=</span><span class="n">output_dim</span><span class="p">,</span>
+                                              <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">noise_args</span> <span class="o">=</span> <span class="n">noise_args</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">is_trainable</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">is_invertible</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="NormalNoiseNode._execute"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.NormalNoiseNode._execute">[docs]</a>    <span class="k">def</span> <span class="nf">_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">noise</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_refcast</span><span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">numx_rand</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">*</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">noise_args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                              <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">noise_args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">noise</span></div>
+
+
+<span class="k">class</span> <span class="nc">CutoffNode</span><span class="p">(</span><span class="n">PreserveDimNode</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Node to cut off values at specified bounds.</span>
+
+<span class="sd">    Works similar to ``numpy.clip``, but also works when only a lower or upper</span>
+<span class="sd">    bound is specified.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lower_bound</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">upper_bound</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">input_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize node.</span>
+
+<span class="sd">        :Parameters:</span>
+<span class="sd">          lower_bound</span>
+<span class="sd">            Data values below this are cut to the ``lower_bound`` value.</span>
+<span class="sd">            If ``lower_bound`` is ``None`` no cutoff is performed.</span>
+<span class="sd">          upper_bound</span>
+<span class="sd">            Works like ``lower_bound``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">CutoffNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">input_dim</span><span class="p">,</span>
+                                         <span class="n">output_dim</span><span class="o">=</span><span class="n">output_dim</span><span class="p">,</span>
+                                         <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lower_bound</span> <span class="o">=</span> <span class="n">lower_bound</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">upper_bound</span> <span class="o">=</span> <span class="n">upper_bound</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">is_trainable</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">is_invertible</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="CutoffNode._get_supported_dtypes"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.CutoffNode._get_supported_dtypes">[docs]</a>    <span class="k">def</span> <span class="nf">_get_supported_dtypes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_dtypes</span><span class="p">(</span><span class="s1">&#39;Float&#39;</span><span class="p">)</span> <span class="o">+</span>
+                <span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_dtypes</span><span class="p">(</span><span class="s1">&#39;AllInteger&#39;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="CutoffNode._execute"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.CutoffNode._execute">[docs]</a>    <span class="k">def</span> <span class="nf">_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the clipped data.&quot;&quot;&quot;</span>
+        <span class="c1"># n.clip() does not work, since it does not accept None for one bound</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_bound</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_bound</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_bound</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper_bound</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper_bound</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper_bound</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span></div>
+
+
+<span class="k">class</span> <span class="nc">HistogramNode</span><span class="p">(</span><span class="n">PreserveDimNode</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Node which stores a history of the data during its training phase.</span>
+
+<span class="sd">    The data history is stored in ``self.data_hist`` and can also be deleted to</span>
+<span class="sd">    free memory. Alternatively it can be automatically pickled to disk.</span>
+
+<span class="sd">    Note that data is only stored during training.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hist_fraction</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">hist_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">input_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the node.</span>
+
+<span class="sd">        hist_fraction -- Defines the fraction of the data that is stored</span>
+<span class="sd">            randomly.</span>
+<span class="sd">        hist_filename -- Filename for the file to which the data history will</span>
+<span class="sd">            be pickled after training. The data is pickled when stop_training</span>
+<span class="sd">            is called and data_hist is then cleared (to free memory).</span>
+<span class="sd">            If filename is None (default value) then data_hist is not cleared</span>
+<span class="sd">            and can be directly used after training.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HistogramNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">input_dim</span><span class="p">,</span>
+                                            <span class="n">output_dim</span><span class="o">=</span><span class="n">output_dim</span><span class="p">,</span>
+                                            <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_hist_filename</span> <span class="o">=</span> <span class="n">hist_filename</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hist_fraction</span> <span class="o">=</span> <span class="n">hist_fraction</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data_hist</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># stores the data history</span>
+
+<div class="viewcode-block" id="HistogramNode._get_supported_dtypes"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.HistogramNode._get_supported_dtypes">[docs]</a>    <span class="k">def</span> <span class="nf">_get_supported_dtypes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_dtypes</span><span class="p">(</span><span class="s1">&#39;AllFloat&#39;</span><span class="p">)</span> <span class="o">+</span>
+                <span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_dtypes</span><span class="p">(</span><span class="s1">&#39;AllInteger&#39;</span><span class="p">)</span> <span class="o">+</span>
+                <span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_dtypes</span><span class="p">(</span><span class="s1">&#39;Character&#39;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="HistogramNode._train"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.HistogramNode._train">[docs]</a>    <span class="k">def</span> <span class="nf">_train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Store the history data.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hist_fraction</span> <span class="o">&lt;</span> <span class="mf">1.0</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">numx</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">hist_fraction</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_hist</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_hist</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">data_hist</span><span class="p">,</span> <span class="n">x</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_hist</span> <span class="o">=</span> <span class="n">x</span></div>
+
+<div class="viewcode-block" id="HistogramNode._stop_training"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.HistogramNode._stop_training">[docs]</a>    <span class="k">def</span> <span class="nf">_stop_training</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Pickle the histogram data to file and clear it if required.&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">HistogramNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_stop_training</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_hist_filename</span><span class="p">:</span>
+            <span class="n">pickle_file</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_hist_filename</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">pickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data_hist</span><span class="p">,</span> <span class="n">pickle_file</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="n">pickle_file</span><span class="o">.</span><span class="n">close</span><span class="p">(</span> <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">data_hist</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+<span class="k">class</span> <span class="nc">AdaptiveCutoffNode</span><span class="p">(</span><span class="n">HistogramNode</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Node which uses the data history during training to learn cutoff values.</span>
+
+<span class="sd">    As opposed to the simple ``CutoffNode``, a different cutoff value is learned</span>
+<span class="sd">    for each data coordinate. For example if an upper cutoff fraction of</span>
+<span class="sd">    0.05 is specified, then the upper cutoff bound is set so that the upper</span>
+<span class="sd">    5% of the training data would have been clipped (in each dimension).</span>
+<span class="sd">    The cutoff bounds are then applied during execution.</span>
+<span class="sd">    This node also works as a ``HistogramNode``, so the histogram data is stored.</span>
+
+<span class="sd">    When ``stop_training`` is called the cutoff values for each coordinate are</span>
+<span class="sd">    calculated based on the collected histogram data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lower_cutoff_fraction</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">upper_cutoff_fraction</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">hist_fraction</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">hist_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">input_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the node.</span>
+
+<span class="sd">        :Parameters:</span>
+<span class="sd">          lower_cutoff_fraction</span>
+<span class="sd">            Fraction of data that will be cut off after</span>
+<span class="sd">            the training phase (assuming the data distribution does not</span>
+<span class="sd">            change). If set to ``None`` (default value) no cutoff is performed.</span>
+<span class="sd">          upper_cutoff_fraction</span>
+<span class="sd">            Works like `lower_cutoff_fraction`.</span>
+<span class="sd">          hist_fraction</span>
+<span class="sd">            Defines the fraction of the data that is stored for the</span>
+<span class="sd">            histogram.</span>
+<span class="sd">          hist_filename</span>
+<span class="sd">            Filename for the file to which the data history will be</span>
+<span class="sd">            pickled after training. The data is pickled when</span>
+<span class="sd">            `stop_training` is called and ``data_hist`` is then</span>
+<span class="sd">            cleared (to free memory).  If filename is ``None``</span>
+<span class="sd">            (default value) then ``data_hist`` is not cleared and can</span>
+<span class="sd">            be directly used after training.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AdaptiveCutoffNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">hist_fraction</span><span class="o">=</span><span class="n">hist_fraction</span><span class="p">,</span>
+                                                 <span class="n">hist_filename</span><span class="o">=</span><span class="n">hist_filename</span><span class="p">,</span>
+                                                 <span class="n">input_dim</span><span class="o">=</span><span class="n">input_dim</span><span class="p">,</span>
+                                                 <span class="n">output_dim</span><span class="o">=</span><span class="n">output_dim</span><span class="p">,</span>
+                                                 <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lower_cutoff_fraction</span> <span class="o">=</span> <span class="n">lower_cutoff_fraction</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">upper_cutoff_fraction</span> <span class="o">=</span> <span class="n">upper_cutoff_fraction</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lower_bounds</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">upper_bounds</span> <span class="o">=</span> <span class="kc">None</span>
+        
+<div class="viewcode-block" id="AdaptiveCutoffNode._get_supported_dtypes"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.AdaptiveCutoffNode._get_supported_dtypes">[docs]</a>    <span class="k">def</span> <span class="nf">_get_supported_dtypes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_dtypes</span><span class="p">(</span><span class="s1">&#39;Float&#39;</span><span class="p">)</span> <span class="o">+</span>
+                <span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_dtypes</span><span class="p">(</span><span class="s1">&#39;AllInteger&#39;</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="AdaptiveCutoffNode._stop_training"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.AdaptiveCutoffNode._stop_training">[docs]</a>    <span class="k">def</span> <span class="nf">_stop_training</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calculate the cutoff bounds based on collected histogram data.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_cutoff_fraction</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper_cutoff_fraction</span><span class="p">:</span>
+            <span class="n">sorted_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data_hist</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">sorted_data</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_cutoff_fraction</span><span class="p">:</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_cutoff_fraction</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">sorted_data</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">lower_bounds</span> <span class="o">=</span> <span class="n">sorted_data</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">index</span><span class="p">)]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper_cutoff_fraction</span><span class="p">:</span>
+                <span class="n">index</span> <span class="o">=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">sorted_data</span><span class="p">)</span> <span class="o">-</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">upper_cutoff_fraction</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">sorted_data</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">upper_bounds</span> <span class="o">=</span> <span class="n">sorted_data</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">index</span><span class="p">)]</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">AdaptiveCutoffNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_stop_training</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="AdaptiveCutoffNode._execute"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.AdaptiveCutoffNode._execute">[docs]</a>    <span class="k">def</span> <span class="nf">_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the clipped data.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_bounds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_bounds</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower_bounds</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper_bounds</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">x</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper_bounds</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper_bounds</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      Last updated on 2020-02-17 1:33:02 PM Coordinated Universal Time.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'3.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+<div class="footer">
+    <hr />
+    <table>
+      <tr>
+        <td class="footer-left">
+           <a href="http://sourceforge.net/projects/mdp-toolkit">
+ <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=116959&amp;type=12"
+      width="120" height="30" border="0" alt="MDP@SF.NET"/> </a>
+        </td>
+        <td class="footer-center">
+          Last updated on
+             2020-02-17 1:33:02 PM Coordinated Universal Time
+        </td>
+        <td class="footer-right">
+         <form class="search" action="../../../search.html" method="get">
+          <input type="submit" value="Search" />
+          <input type="text" name="q" size="18" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+         </form>
+        </td>
+    </table>  
+    <!-- Piwik -->
+    <script type="text/javascript">
+	var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/mdp-toolkit/" : "http://sourceforge.net/apps/piwik/mdp-toolkit/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+	piwik_action_name = '';
+	piwik_idsite = 1;
+	piwik_url = pkBaseURL + "piwik.php";
+	piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+    </script>
+    <object><noscript>
+	    <p>
+		<img src="http://sourceforge.net/apps/piwik/mdp-toolkit/piwik.php?idsite=1"
+		     alt="piwik" />
+	    </p>
+    </noscript></object>
+    <!-- End Piwik Tag -->
+</div>   
+
+
+</body>
+</html>

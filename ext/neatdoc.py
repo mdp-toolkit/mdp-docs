@@ -27,7 +27,10 @@ class Docsummary(Autosummary):
         for name in dir(obj):
             try:
                 member = safe_getattr(obj, name)
-                documenter = get_documenter(obj, member)
+                if type(member) is str or type(member) is list:
+                    documenter = None
+                else:
+                    documenter = get_documenter(member, obj)
             except AttributeError:
                 continue
             if documenter.objtype == typ:
@@ -111,7 +114,7 @@ def run_apidoc(app):
        
     for module_path in module_path_list:
         foldername = (re.search(r'.+/([^/]+)',module_path)).group(1)
-        main([apidoc_options, '-o', module_path_rst_target+'/'+foldername, module_path, '--force'])
+        main(apidoc_options+[ '-o', module_path_rst_target+'/'+foldername, module_path, '--force'])
 
 
 
@@ -139,6 +142,6 @@ def setup(app):
 
     app.add_config_value('neatdoc_module_path_list', None, 'env')
     app.add_config_value('neatdoc_module_path_rst_target', app.srcdir, 'env')
-    app.add_config_value('neatdoc_apidoc_options', '-e -P -d 5', 'env')
+    app.add_config_value('neatdoc_apidoc_options', ['-e', '-P', '-d 5'], 'env')
     app.add_config_value('neatdoc_create_class_toc', True, 'env')
     app.add_config_value('neatdoc_create_module_toc', True, 'env')

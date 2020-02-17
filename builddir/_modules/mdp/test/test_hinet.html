@@ -1,0 +1,783 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mdp.test.test_hinet &mdash; Modular toolkit for Data Processing (MDP)</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="Modular toolkit for Data Processing (MDP)" href="../../../index.html"/>
+        <link rel="up" title="mdp.test" href="../test.html"/> 
+<meta name="viewport" content="width=740" />
+
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html">
+          
+
+          
+            
+            <img src="../../../_static/logo_animation.gif" class="logo" />
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_cite_mdp.html">How to cite MDP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MDP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../../mdp.html">mdp</a> &raquo;</li>
+        
+          <li><a href="../test.html">mdp.test</a> &raquo;</li>
+        
+      <li>mdp.test.test_hinet</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mdp.test.test_hinet</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">future</span> <span class="k">import</span> <span class="n">standard_library</span>
+<span class="n">standard_library</span><span class="o">.</span><span class="n">install_aliases</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">zip</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">range</span>
+<span class="sd">&quot;&quot;&quot;These are test functions for hinet.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">py.test</span>
+<span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">mdp.hinet</span> <span class="k">as</span> <span class="nn">mh</span>
+<span class="kn">from</span> <span class="nn">._tools</span> <span class="k">import</span> <span class="o">*</span>
+
+
+<span class="n">_get_new_flow</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span>
+        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">NoiseNode</span><span class="p">(),</span>
+        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">()])</span>
+
+<span class="n">_get_new_nodes</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="p">[</span>
+        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">CuBICANode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">whitened</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">CuBICANode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">whitened</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">CuBICANode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">whitened</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+        <span class="p">]</span>
+
+<span class="n">_get_sigle_node</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">CuBICANode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">whitened</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">NODES</span> <span class="o">=</span> <span class="p">[(</span><span class="n">mh</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">,</span> <span class="p">[</span><span class="n">_get_new_flow</span><span class="p">],</span> <span class="kc">None</span><span class="p">),</span>
+         <span class="p">(</span><span class="n">mh</span><span class="o">.</span><span class="n">Layer</span><span class="p">,</span> <span class="p">[</span><span class="n">_get_new_nodes</span><span class="p">],</span> <span class="kc">None</span><span class="p">),</span>
+         <span class="p">(</span><span class="n">mh</span><span class="o">.</span><span class="n">CloneLayer</span><span class="p">,</span> <span class="p">[</span><span class="n">_get_sigle_node</span><span class="p">,</span> <span class="mi">2</span><span class="p">],</span> <span class="kc">None</span><span class="p">),</span>
+         <span class="p">]</span>
+
+<div class="viewcode-block" id="test_FlowNode_training"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_FlowNode_training">[docs]</a><span class="k">def</span> <span class="nf">test_FlowNode_training</span><span class="p">():</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PolynomialExpansionNode</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+                     <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PCANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">reduce</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                     <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PolynomialExpansionNode</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+                     <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PCANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">reduce</span><span class="o">=</span><span class="kc">True</span><span class="p">)])</span>
+    <span class="n">flownode</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">([</span><span class="mi">300</span><span class="p">,</span><span class="mi">20</span><span class="p">])</span>
+    <span class="k">while</span> <span class="n">flownode</span><span class="o">.</span><span class="n">get_remaining_train_phase</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">flownode</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">flownode</span><span class="o">.</span><span class="n">stop_training</span><span class="p">()</span>
+    <span class="n">flownode</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_FlowNode_trainability"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_FlowNode_trainability">[docs]</a><span class="k">def</span> <span class="nf">test_FlowNode_trainability</span><span class="p">():</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PolynomialExpansionNode</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)])</span>
+    <span class="n">flownode</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">flownode</span><span class="o">.</span><span class="n">is_trainable</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">False</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PolynomialExpansionNode</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+                     <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PCANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">15</span><span class="p">),</span>
+                     <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PolynomialExpansionNode</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+                     <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PCANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)])</span>
+    <span class="n">flownode</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">flownode</span><span class="o">.</span><span class="n">is_trainable</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="test_FlowNode_invertibility"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_FlowNode_invertibility">[docs]</a><span class="k">def</span> <span class="nf">test_FlowNode_invertibility</span><span class="p">():</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PolynomialExpansionNode</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">)])</span>
+    <span class="n">flownode</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">flownode</span><span class="o">.</span><span class="n">is_invertible</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">False</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PCANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">15</span><span class="p">),</span>
+                     <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(),</span>
+                     <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PCANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)])</span>
+    <span class="n">flownode</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">flownode</span><span class="o">.</span><span class="n">is_invertible</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">True</span></div>
+
+<div class="viewcode-block" id="test_FlowNode_pretrained_node"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_FlowNode_pretrained_node">[docs]</a><span class="k">def</span> <span class="nf">test_FlowNode_pretrained_node</span><span class="p">():</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+    <span class="n">pretrained_node</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PCANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">pretrained_node</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">pretrained_node</span><span class="o">.</span><span class="n">stop_training</span><span class="p">()</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">pretrained_node</span><span class="p">,</span>
+                     <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PolynomialExpansionNode</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+                     <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PCANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)])</span>
+    <span class="n">flownode</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">flownode</span><span class="o">.</span><span class="n">get_remaining_train_phase</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">flownode</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">flownode</span><span class="o">.</span><span class="n">stop_training</span><span class="p">()</span>
+    <span class="n">flownode</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_FlowNode_fix_nodes_dimensions1"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_FlowNode_fix_nodes_dimensions1">[docs]</a><span class="k">def</span> <span class="nf">test_FlowNode_fix_nodes_dimensions1</span><span class="p">():</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+    <span class="n">last_node</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">IdentityNode</span><span class="p">()</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PCANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+                     <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">IdentityNode</span><span class="p">(),</span>
+                     <span class="n">last_node</span><span class="p">])</span>
+    <span class="n">flownode</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span>
+    <span class="n">flownode</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">flownode</span><span class="o">.</span><span class="n">stop_training</span><span class="p">()</span>
+    <span class="c1"># check that the dimensions of NoiseNode and FlowNode where all set</span>
+    <span class="c1"># by calling _fix_nodes_dimensions</span>
+    <span class="k">assert</span> <span class="n">flownode</span><span class="o">.</span><span class="n">output_dim</span> <span class="o">==</span> <span class="mi">3</span>
+    <span class="k">assert</span> <span class="n">last_node</span><span class="o">.</span><span class="n">input_dim</span> <span class="o">==</span> <span class="mi">3</span>
+    <span class="k">assert</span> <span class="n">last_node</span><span class="o">.</span><span class="n">output_dim</span> <span class="o">==</span> <span class="mi">3</span></div>
+
+<div class="viewcode-block" id="test_FlowNode_fix_nodes_dimensions2"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_FlowNode_fix_nodes_dimensions2">[docs]</a><span class="k">def</span> <span class="nf">test_FlowNode_fix_nodes_dimensions2</span><span class="p">():</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">IdentityNode</span><span class="p">(),</span>
+                     <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">IdentityNode</span><span class="p">()])</span>
+    <span class="n">flownode</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span>
+    <span class="c1"># this should fail, since the internal nodes don&#39;t have fixed dims</span>
+    <span class="n">py</span><span class="o">.</span><span class="n">test</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">InconsistentDimException</span><span class="p">,</span>
+                   <span class="k">lambda</span><span class="p">:</span> <span class="n">flownode</span><span class="o">.</span><span class="n">set_output_dim</span><span class="p">(</span><span class="mi">10</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+    <span class="n">flownode</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">flownode</span><span class="o">.</span><span class="n">output_dim</span> <span class="o">==</span> <span class="mi">10</span></div>
+
+<div class="viewcode-block" id="test_FlowNode_fix_nodes_dimensions3"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_FlowNode_fix_nodes_dimensions3">[docs]</a><span class="k">def</span> <span class="nf">test_FlowNode_fix_nodes_dimensions3</span><span class="p">():</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">IdentityNode</span><span class="p">()])</span>
+    <span class="n">flownode</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span>
+    <span class="c1"># for a single node this should not raise an Exception</span>
+    <span class="n">flownode</span><span class="o">.</span><span class="n">set_output_dim</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+    <span class="n">flownode</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_FlowNode_pretrained_flow"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_FlowNode_pretrained_flow">[docs]</a><span class="k">def</span> <span class="nf">test_FlowNode_pretrained_flow</span><span class="p">():</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PolynomialExpansionNode</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+                     <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PCANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">reduce</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
+                     <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PolynomialExpansionNode</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+                     <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PCANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">reduce</span><span class="o">=</span><span class="kc">True</span><span class="p">)])</span>
+    <span class="n">flownode</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">([</span><span class="mi">300</span><span class="p">,</span><span class="mi">20</span><span class="p">])</span>
+    <span class="k">while</span> <span class="n">flownode</span><span class="o">.</span><span class="n">get_remaining_train_phase</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">flownode</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">flownode</span><span class="o">.</span><span class="n">stop_training</span><span class="p">()</span>
+    <span class="c1"># build new flownode with the trained nodes</span>
+    <span class="n">flownode</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="ow">not</span> <span class="n">flownode</span><span class="o">.</span><span class="n">is_training</span><span class="p">()</span>
+    <span class="n">flownode</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_FlowNode_copy1"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_FlowNode_copy1">[docs]</a><span class="k">def</span> <span class="nf">test_FlowNode_copy1</span><span class="p">():</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PCANode</span><span class="p">(),</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">()])</span>
+    <span class="n">flownode</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span>
+    <span class="n">flownode</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="test_FlowNode_copy2"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_FlowNode_copy2">[docs]</a><span class="k">def</span> <span class="nf">test_FlowNode_copy2</span><span class="p">():</span>
+    <span class="c1"># Test that the FlowNode copy method delegates to internal nodes.</span>
+    <span class="k">class</span> <span class="nc">CopyFailException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">class</span> <span class="nc">CopyFailNode</span><span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">CopyFailException</span><span class="p">()</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">mdp</span><span class="o">.</span><span class="n">Node</span><span class="p">(),</span> <span class="n">CopyFailNode</span><span class="p">()])</span>
+    <span class="n">flownode</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span>
+    <span class="n">py</span><span class="o">.</span><span class="n">test</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">CopyFailException</span><span class="p">,</span> <span class="n">flownode</span><span class="o">.</span><span class="n">copy</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="_pca_nodes"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet._pca_nodes">[docs]</a><span class="k">def</span> <span class="nf">_pca_nodes</span><span class="p">(</span><span class="n">input_dims</span><span class="p">,</span> <span class="n">output_dims</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PCANode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">ind</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="n">outd</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">ind</span><span class="p">,</span> <span class="n">outd</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">input_dims</span><span class="p">,</span> <span class="n">output_dims</span><span class="p">)]</span></div>
+
+<div class="viewcode-block" id="test_Layer"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_Layer">[docs]</a><span class="k">def</span> <span class="nf">test_Layer</span><span class="p">():</span>
+    <span class="n">layer</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">Layer</span><span class="p">(</span><span class="n">_pca_nodes</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span><span class="mi">30</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">)</span>
+    <span class="n">layer</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">layer</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">numx</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">y</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">layer</span><span class="o">.</span><span class="n">dtype</span></div>
+
+<div class="viewcode-block" id="test_Layer_invertibility"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_Layer_invertibility">[docs]</a><span class="k">def</span> <span class="nf">test_Layer_invertibility</span><span class="p">():</span>
+    <span class="n">layer</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">Layer</span><span class="p">(</span><span class="n">_pca_nodes</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span><span class="mi">30</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">)</span>
+    <span class="n">layer</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">x_inverse</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">numx</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">numx</span><span class="o">.</span><span class="n">absolute</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">x_inverse</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">0.001</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_Layer_invertibility2"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_Layer_invertibility2">[docs]</a><span class="k">def</span> <span class="nf">test_Layer_invertibility2</span><span class="p">():</span>
+    <span class="c1"># reduce the dimensions, so input_dim != output_dim</span>
+    <span class="n">layer</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">Layer</span><span class="p">(</span><span class="n">_pca_nodes</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">3</span><span class="p">]))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span><span class="mi">30</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">)</span>
+    <span class="n">layer</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">layer</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="n">y</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_SameInputLayer"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_SameInputLayer">[docs]</a><span class="k">def</span> <span class="nf">test_SameInputLayer</span><span class="p">():</span>
+    <span class="n">layer</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">SameInputLayer</span><span class="p">(</span><span class="n">_pca_nodes</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">]))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">)</span>
+    <span class="n">layer</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">layer</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">numx</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">y</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">layer</span><span class="o">.</span><span class="n">dtype</span></div>
+
+<div class="viewcode-block" id="test_CloneLayer"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_CloneLayer">[docs]</a><span class="k">def</span> <span class="nf">test_CloneLayer</span><span class="p">():</span>
+    <span class="n">node</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PCANode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span><span class="mi">70</span><span class="p">])</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">)</span>
+    <span class="n">layer</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">CloneLayer</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+    <span class="n">layer</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">layer</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">numx</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">y</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">layer</span><span class="o">.</span><span class="n">dtype</span></div>
+
+<div class="viewcode-block" id="test_SwitchboardInverse1"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_SwitchboardInverse1">[docs]</a><span class="k">def</span> <span class="nf">test_SwitchboardInverse1</span><span class="p">():</span>
+    <span class="n">sboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">Switchboard</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                            <span class="n">connections</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">assert</span> <span class="n">sboard</span><span class="o">.</span><span class="n">is_invertible</span><span class="p">()</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">],[</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">]])</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">sboard</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">numx</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">],[</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">5</span><span class="p">]]))</span></div>
+
+<div class="viewcode-block" id="testSwitchboardInverse2"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.testSwitchboardInverse2">[docs]</a><span class="k">def</span> <span class="nf">testSwitchboardInverse2</span><span class="p">():</span>
+    <span class="n">sboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">Switchboard</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                            <span class="n">connections</span><span class="o">=</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">assert</span> <span class="ow">not</span> <span class="n">sboard</span><span class="o">.</span><span class="n">is_invertible</span><span class="p">()</span></div>
+
+<span class="c1">## Tests for MeanInverseSwitchboard ##</span>
+
+<div class="viewcode-block" id="test_MeanInverseSwitchboard1"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_MeanInverseSwitchboard1">[docs]</a><span class="k">def</span> <span class="nf">test_MeanInverseSwitchboard1</span><span class="p">():</span>
+    <span class="n">sboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">MeanInverseSwitchboard</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                                       <span class="n">connections</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+    <span class="k">assert</span> <span class="n">sboard</span><span class="o">.</span><span class="n">is_invertible</span><span class="p">()</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">7</span><span class="p">]])</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">sboard</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">numx</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">3</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">7</span><span class="p">]]))</span></div>
+
+<div class="viewcode-block" id="test_MeanInverseSwitchboard2"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_MeanInverseSwitchboard2">[docs]</a><span class="k">def</span> <span class="nf">test_MeanInverseSwitchboard2</span><span class="p">():</span>
+    <span class="n">sboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">MeanInverseSwitchboard</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                                       <span class="n">connections</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
+    <span class="k">assert</span> <span class="n">sboard</span><span class="o">.</span><span class="n">is_invertible</span><span class="p">()</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">]])</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">sboard</span><span class="o">.</span><span class="n">inverse</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">numx</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">x</span> <span class="o">==</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">]]))</span></div>
+
+<span class="c1">## Tests for ChannelSwitchboard ##</span>
+
+<div class="viewcode-block" id="testOutChannelInput"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.testOutChannelInput">[docs]</a><span class="k">def</span> <span class="nf">testOutChannelInput</span><span class="p">():</span>
+    <span class="n">sboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">ChannelSwitchboard</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                                   <span class="n">connections</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span>
+                                                <span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
+                                   <span class="n">out_channel_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                   <span class="n">in_channel_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">numx</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">sboard</span><span class="o">.</span><span class="n">get_out_channel_input</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span>
+                    <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">]))</span>
+    <span class="k">assert</span> <span class="n">numx</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">sboard</span><span class="o">.</span><span class="n">get_out_channel_input</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span>
+                    <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">]))</span></div>
+
+<div class="viewcode-block" id="testOutChannelsInputChannels"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.testOutChannelsInputChannels">[docs]</a><span class="k">def</span> <span class="nf">testOutChannelsInputChannels</span><span class="p">():</span>
+    <span class="n">sboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">ChannelSwitchboard</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+                                   <span class="n">connections</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span> <span class="c1"># out chan 1</span>
+                                                <span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="c1"># out chan 2</span>
+                                   <span class="n">out_channel_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                   <span class="n">in_channel_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="c1"># note that there are 3 input channels</span>
+    <span class="k">assert</span> <span class="n">numx</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">sboard</span><span class="o">.</span><span class="n">get_out_channels_input_channels</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span> <span class="o">==</span>
+                    <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">]))</span>
+    <span class="k">assert</span> <span class="n">numx</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">sboard</span><span class="o">.</span><span class="n">get_out_channels_input_channels</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span>
+                    <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">]))</span>
+    <span class="k">assert</span> <span class="n">numx</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">sboard</span><span class="o">.</span><span class="n">get_out_channels_input_channels</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span> <span class="o">==</span>
+                    <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">]))</span></div>
+
+<span class="c1">## Tests for Rectangular2dSwitchboard ##</span>
+
+<div class="viewcode-block" id="testRect2dRouting1"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.testRect2dRouting1">[docs]</a><span class="k">def</span> <span class="nf">testRect2dRouting1</span><span class="p">():</span>
+    <span class="n">sboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">Rectangular2dSwitchboard</span><span class="p">(</span><span class="n">in_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span>
+                                         <span class="n">in_channel_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                         <span class="n">field_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">),</span>
+                                         <span class="n">field_spacing_xy</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">numx</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">sboard</span><span class="o">.</span><span class="n">connections</span> <span class="o">==</span>
+                           <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span>
+                                       <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">]))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">)),</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">101</span><span class="o">+</span><span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">))])</span>
+    <span class="n">sboard</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="c1"># test generated switchboard</span>
+    <span class="n">channel_sboard</span> <span class="o">=</span> <span class="n">sboard</span><span class="o">.</span><span class="n">get_out_channel_node</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">channel_sboard</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="testRect2dRouting2"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.testRect2dRouting2">[docs]</a><span class="k">def</span> <span class="nf">testRect2dRouting2</span><span class="p">():</span>
+    <span class="n">sboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">Rectangular2dSwitchboard</span><span class="p">(</span><span class="n">in_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span>
+                                         <span class="n">in_channel_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                         <span class="n">field_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span>
+                                         <span class="n">field_spacing_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="n">numx</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">sboard</span><span class="o">.</span><span class="n">connections</span> <span class="o">==</span>
+                    <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">7</span><span class="p">]))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">)),</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">101</span><span class="o">+</span><span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">))])</span>
+    <span class="n">sboard</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="c1"># test generated switchboard</span>
+    <span class="n">channel_sboard</span> <span class="o">=</span> <span class="n">sboard</span><span class="o">.</span><span class="n">get_out_channel_node</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">channel_sboard</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="testRect2dRouting3"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.testRect2dRouting3">[docs]</a><span class="k">def</span> <span class="nf">testRect2dRouting3</span><span class="p">():</span>
+    <span class="n">sboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">Rectangular2dSwitchboard</span><span class="p">(</span><span class="n">in_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span>
+                                         <span class="n">in_channel_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                         <span class="n">field_channels_xy</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                         <span class="n">field_spacing_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="p">(</span><span class="n">sboard</span><span class="o">.</span><span class="n">connections</span> <span class="o">==</span>
+            <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">]))</span><span class="o">.</span><span class="n">all</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="testRect2dRouting4"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.testRect2dRouting4">[docs]</a><span class="k">def</span> <span class="nf">testRect2dRouting4</span><span class="p">():</span>
+    <span class="n">sboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">Rectangular2dSwitchboard</span><span class="p">(</span><span class="n">in_channels_xy</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                                         <span class="n">in_channel_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                                         <span class="n">field_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span>
+                                         <span class="n">field_spacing_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+    <span class="k">assert</span> <span class="p">(</span><span class="n">sboard</span><span class="o">.</span><span class="n">connections</span> <span class="o">==</span>
+            <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span>
+                        <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span>
+                        <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span>
+                        <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">]))</span><span class="o">.</span><span class="n">all</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="testRect2d_get_out_channel_node"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.testRect2d_get_out_channel_node">[docs]</a><span class="k">def</span> <span class="nf">testRect2d_get_out_channel_node</span><span class="p">():</span>
+    <span class="n">sboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">Rectangular2dSwitchboard</span><span class="p">(</span><span class="n">in_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span>
+                                         <span class="n">in_channel_dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                         <span class="n">field_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span>
+                                         <span class="n">field_spacing_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">)),</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">101</span><span class="o">+</span><span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">))])</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">sboard</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="c1"># routing layer</span>
+    <span class="n">nodes</span> <span class="o">=</span> <span class="p">[</span><span class="n">sboard</span><span class="o">.</span><span class="n">get_out_channel_node</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+             <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">sboard</span><span class="o">.</span><span class="n">output_channels</span><span class="p">)]</span>
+    <span class="n">layer</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">SameInputLayer</span><span class="p">(</span><span class="n">nodes</span><span class="p">)</span>
+    <span class="n">layer_y</span> <span class="o">=</span> <span class="n">layer</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="n">layer_y</span><span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="test_Rect2d_exception_1"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_Rect2d_exception_1">[docs]</a><span class="k">def</span> <span class="nf">test_Rect2d_exception_1</span><span class="p">():</span>
+    <span class="n">bad_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">in_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span>
+                    <span class="c1"># 3 is the problematic value:</span>
+                    <span class="n">field_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span>
+                    <span class="n">field_spacing_xy</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">in_channel_dim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                    <span class="n">ignore_cover</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">py</span><span class="o">.</span><span class="n">test</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">mh</span><span class="o">.</span><span class="n">Rectangular2dSwitchboardException</span><span class="p">):</span>
+        <span class="n">mh</span><span class="o">.</span><span class="n">Rectangular2dSwitchboard</span><span class="p">(</span><span class="o">**</span><span class="n">bad_args</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_Rect2d_exception_2"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_Rect2d_exception_2">[docs]</a><span class="k">def</span> <span class="nf">test_Rect2d_exception_2</span><span class="p">():</span>
+    <span class="n">bad_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">in_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span>
+                    <span class="c1"># 9 is the problematic value:</span>
+                    <span class="n">field_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">9</span><span class="p">),</span>
+                    <span class="n">field_spacing_xy</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">in_channel_dim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                    <span class="n">ignore_cover</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">py</span><span class="o">.</span><span class="n">test</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">mh</span><span class="o">.</span><span class="n">Rectangular2dSwitchboardException</span><span class="p">):</span>
+        <span class="n">mh</span><span class="o">.</span><span class="n">Rectangular2dSwitchboard</span><span class="p">(</span><span class="o">**</span><span class="n">bad_args</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_Rect2d_exception_3"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_Rect2d_exception_3">[docs]</a><span class="k">def</span> <span class="nf">test_Rect2d_exception_3</span><span class="p">():</span>
+    <span class="n">bad_args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">in_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span>
+                    <span class="c1"># 9 is the problematic value:</span>
+                    <span class="n">field_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">9</span><span class="p">),</span>
+                    <span class="n">field_spacing_xy</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                    <span class="n">in_channel_dim</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+                    <span class="n">ignore_cover</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">py</span><span class="o">.</span><span class="n">test</span><span class="o">.</span><span class="n">raises</span><span class="p">(</span><span class="n">mh</span><span class="o">.</span><span class="n">Rectangular2dSwitchboardException</span><span class="p">):</span>
+        <span class="n">mh</span><span class="o">.</span><span class="n">Rectangular2dSwitchboard</span><span class="p">(</span><span class="o">**</span><span class="n">bad_args</span><span class="p">)</span></div>
+
+<span class="c1">## Tests for DoubleRect2dSwitchboard ##</span>
+
+<div class="viewcode-block" id="test_Rect_double_routing_1"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_Rect_double_routing_1">[docs]</a><span class="k">def</span> <span class="nf">test_Rect_double_routing_1</span><span class="p">():</span>
+    <span class="n">sboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">DoubleRect2dSwitchboard</span><span class="p">(</span><span class="n">in_channels_xy</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                                        <span class="n">field_channels_xy</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                        <span class="n">in_channel_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="p">(</span><span class="n">sboard</span><span class="o">.</span><span class="n">connections</span> <span class="o">==</span>
+            <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span>
+                        <span class="c1"># uneven fields</span>
+                        <span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">]))</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">)),</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">101</span><span class="o">+</span><span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">))])</span>
+    <span class="n">sboard</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_Rect_double_routing_2"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_Rect_double_routing_2">[docs]</a><span class="k">def</span> <span class="nf">test_Rect_double_routing_2</span><span class="p">():</span>
+    <span class="n">sboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">DoubleRect2dSwitchboard</span><span class="p">(</span><span class="n">in_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span>
+                                        <span class="n">field_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span>
+                                        <span class="n">in_channel_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="p">(</span><span class="n">sboard</span><span class="o">.</span><span class="n">connections</span> <span class="o">==</span>
+            <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span>
+                        <span class="mi">14</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span>
+                        <span class="c1"># uneven fields</span>
+                        <span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span><span class="mi">16</span><span class="p">]))</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">)),</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">101</span><span class="o">+</span><span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">))])</span>
+    <span class="n">sboard</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_Rect_double_routing_3"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_Rect_double_routing_3">[docs]</a><span class="k">def</span> <span class="nf">test_Rect_double_routing_3</span><span class="p">():</span>
+    <span class="n">sboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">DoubleRect2dSwitchboard</span><span class="p">(</span><span class="n">in_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span>
+                                        <span class="n">field_channels_xy</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                        <span class="n">in_channel_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="p">(</span><span class="n">sboard</span><span class="o">.</span><span class="n">connections</span> <span class="o">==</span>
+            <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">15</span><span class="p">,</span>
+                        <span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span>
+                        <span class="c1"># uneven fields</span>
+                        <span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span><span class="mi">14</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">18</span><span class="p">]))</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">)),</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">101</span><span class="o">+</span><span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">))])</span>
+    <span class="n">sboard</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<span class="c1">## Tests for DoubleRhomb2dSwitchboard ##</span>
+
+<div class="viewcode-block" id="test_DoubleRhomb_routing_1"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_DoubleRhomb_routing_1">[docs]</a><span class="k">def</span> <span class="nf">test_DoubleRhomb_routing_1</span><span class="p">():</span>
+    <span class="n">sboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">DoubleRhomb2dSwitchboard</span><span class="p">(</span><span class="n">long_in_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span>
+                                         <span class="n">diag_field_channels</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                         <span class="n">in_channel_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="p">(</span><span class="n">sboard</span><span class="o">.</span><span class="n">connections</span> <span class="o">==</span>
+            <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">]))</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">)),</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">101</span><span class="o">+</span><span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">))])</span>
+    <span class="n">sboard</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_DoubleRhomd_routing_2"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_DoubleRhomd_routing_2">[docs]</a><span class="k">def</span> <span class="nf">test_DoubleRhomd_routing_2</span><span class="p">():</span>
+    <span class="n">sboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">DoubleRhomb2dSwitchboard</span><span class="p">(</span><span class="n">long_in_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span>
+                                         <span class="n">diag_field_channels</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                         <span class="n">in_channel_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="p">(</span><span class="n">sboard</span><span class="o">.</span><span class="n">connections</span> <span class="o">==</span>
+            <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">6</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">]))</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">)),</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">101</span><span class="o">+</span><span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">))])</span>
+    <span class="n">sboard</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_DoubleRhomd_routing_3"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_DoubleRhomd_routing_3">[docs]</a><span class="k">def</span> <span class="nf">test_DoubleRhomd_routing_3</span><span class="p">():</span>
+    <span class="n">sboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">DoubleRhomb2dSwitchboard</span><span class="p">(</span><span class="n">long_in_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span>
+                                         <span class="n">diag_field_channels</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                         <span class="n">in_channel_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="p">(</span><span class="n">sboard</span><span class="o">.</span><span class="n">connections</span> <span class="o">==</span>
+            <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">]))</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">)),</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">101</span><span class="o">+</span><span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">))])</span>
+    <span class="n">sboard</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_DoubleRhomd_routing_4"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_DoubleRhomd_routing_4">[docs]</a><span class="k">def</span> <span class="nf">test_DoubleRhomd_routing_4</span><span class="p">():</span>
+    <span class="n">sboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">DoubleRhomb2dSwitchboard</span><span class="p">(</span><span class="n">long_in_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span>
+                                         <span class="n">diag_field_channels</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                         <span class="n">in_channel_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="p">(</span><span class="n">sboard</span><span class="o">.</span><span class="n">connections</span> <span class="o">==</span>
+            <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">8</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">]))</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">)),</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">101</span><span class="o">+</span><span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">))])</span>
+    <span class="n">sboard</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_DoubleRhomd_routing_5"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_DoubleRhomd_routing_5">[docs]</a><span class="k">def</span> <span class="nf">test_DoubleRhomd_routing_5</span><span class="p">():</span>
+    <span class="n">sboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">DoubleRhomb2dSwitchboard</span><span class="p">(</span><span class="n">long_in_channels_xy</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                                         <span class="n">diag_field_channels</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                         <span class="n">in_channel_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="p">(</span><span class="n">sboard</span><span class="o">.</span><span class="n">connections</span> <span class="o">==</span>
+            <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">16</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span>
+                        <span class="mi">2</span><span class="p">,</span><span class="mi">17</span><span class="p">,</span><span class="mi">18</span><span class="p">,</span><span class="mi">6</span><span class="p">,</span>
+                        <span class="mi">5</span><span class="p">,</span><span class="mi">19</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">9</span><span class="p">,</span>
+                        <span class="mi">6</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">21</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span>
+                        <span class="mi">9</span><span class="p">,</span><span class="mi">22</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">13</span><span class="p">,</span>
+                        <span class="mi">10</span><span class="p">,</span><span class="mi">23</span><span class="p">,</span><span class="mi">24</span><span class="p">,</span><span class="mi">14</span><span class="p">]))</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">)),</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">101</span><span class="o">+</span><span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">))])</span>
+    <span class="n">sboard</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_DoubleRhomd_routing_6"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_DoubleRhomd_routing_6">[docs]</a><span class="k">def</span> <span class="nf">test_DoubleRhomd_routing_6</span><span class="p">():</span>
+    <span class="n">sboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">DoubleRhomb2dSwitchboard</span><span class="p">(</span><span class="n">long_in_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span><span class="mi">4</span><span class="p">),</span>
+                                         <span class="n">diag_field_channels</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                                         <span class="n">in_channel_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">)),</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">101</span><span class="o">+</span><span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">))])</span>
+    <span class="n">sboard</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_DoubleRhomd_routing_7"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_DoubleRhomd_routing_7">[docs]</a><span class="k">def</span> <span class="nf">test_DoubleRhomd_routing_7</span><span class="p">():</span>
+    <span class="n">sboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">DoubleRhomb2dSwitchboard</span><span class="p">(</span><span class="n">long_in_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span><span class="mi">7</span><span class="p">),</span>
+                                         <span class="n">diag_field_channels</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                                         <span class="n">in_channel_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">)),</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">101</span><span class="o">+</span><span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">))])</span>
+    <span class="n">sboard</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_DoubleRhomd_routing_8"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_DoubleRhomd_routing_8">[docs]</a><span class="k">def</span> <span class="nf">test_DoubleRhomd_routing_8</span><span class="p">():</span>
+    <span class="n">sboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">DoubleRhomb2dSwitchboard</span><span class="p">(</span><span class="n">long_in_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">7</span><span class="p">),</span>
+                                         <span class="n">diag_field_channels</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                                         <span class="n">in_channel_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">)),</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">101</span><span class="p">,</span> <span class="mi">101</span><span class="o">+</span><span class="n">sboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">))])</span>
+    <span class="n">sboard</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_hinet_simple_net"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_hinet_simple_net">[docs]</a><span class="k">def</span> <span class="nf">test_hinet_simple_net</span><span class="p">():</span>
+    <span class="n">switchboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">Rectangular2dSwitchboard</span><span class="p">(</span><span class="n">in_channels_xy</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span><span class="mi">8</span><span class="p">),</span>
+                                              <span class="n">field_channels_xy</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                                              <span class="n">field_spacing_xy</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+                                              <span class="n">in_channel_dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+    <span class="n">node</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PCANode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">4</span><span class="o">*</span><span class="mi">4</span><span class="o">*</span><span class="mi">3</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">flownode</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">node</span><span class="p">,]))</span>
+    <span class="n">layer</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">CloneLayer</span><span class="p">(</span><span class="n">flownode</span><span class="p">,</span> <span class="n">switchboard</span><span class="o">.</span><span class="n">output_channels</span><span class="p">)</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">switchboard</span><span class="p">,</span> <span class="n">layer</span><span class="p">])</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">([</span><span class="mi">5</span><span class="p">,</span> <span class="n">switchboard</span><span class="o">.</span><span class="n">input_dim</span><span class="p">])</span>
+    <span class="n">flow</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="pytest_funcarg__noisenode"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.pytest_funcarg__noisenode">[docs]</a><span class="k">def</span> <span class="nf">pytest_funcarg__noisenode</span><span class="p">(</span><span class="n">request</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">NoiseNode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">20</span><span class="o">*</span><span class="mi">20</span><span class="p">,</span>
+                               <span class="n">noise_args</span><span class="o">=</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.0001</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="test_SFA_net"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.test_SFA_net">[docs]</a><span class="k">def</span> <span class="nf">test_SFA_net</span><span class="p">(</span><span class="n">noisenode</span><span class="p">):</span>
+    <span class="n">sfa_node</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">20</span><span class="o">*</span><span class="mi">20</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s1">&#39;f&#39;</span><span class="p">)</span>
+    <span class="n">switchboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">Rectangular2dSwitchboard</span><span class="p">(</span><span class="n">in_channels_xy</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                                              <span class="n">field_channels_xy</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                                              <span class="n">field_spacing_xy</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">flownode</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">noisenode</span><span class="p">,</span> <span class="n">sfa_node</span><span class="p">]))</span>
+    <span class="n">sfa_layer</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">CloneLayer</span><span class="p">(</span><span class="n">flownode</span><span class="p">,</span> <span class="n">switchboard</span><span class="o">.</span><span class="n">output_channels</span><span class="p">)</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">switchboard</span><span class="p">,</span> <span class="n">sfa_layer</span><span class="p">])</span>
+    <span class="n">train_gen</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">cast</span><span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">](</span><span class="n">numx_rand</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="o">*</span><span class="mi">100</span><span class="p">)))</span>
+    <span class="n">flow</span><span class="o">.</span><span class="n">train</span><span class="p">([</span><span class="kc">None</span><span class="p">,</span> <span class="n">train_gen</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="testHiNetHTML"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.testHiNetHTML">[docs]</a><span class="k">def</span> <span class="nf">testHiNetHTML</span><span class="p">(</span><span class="n">noisenode</span><span class="p">):</span>
+    <span class="c1"># create some flow for testing</span>
+    <span class="n">sfa_node</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">20</span><span class="o">*</span><span class="mi">20</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">switchboard</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">Rectangular2dSwitchboard</span><span class="p">(</span><span class="n">in_channels_xy</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                                              <span class="n">field_channels_xy</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+                                              <span class="n">field_spacing_xy</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">flownode</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">noisenode</span><span class="p">,</span> <span class="n">sfa_node</span><span class="p">]))</span>
+    <span class="n">sfa_layer</span> <span class="o">=</span> <span class="n">mh</span><span class="o">.</span><span class="n">CloneLayer</span><span class="p">(</span><span class="n">flownode</span><span class="p">,</span> <span class="n">switchboard</span><span class="o">.</span><span class="n">output_channels</span><span class="p">)</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">switchboard</span><span class="p">,</span> <span class="n">sfa_layer</span><span class="p">])</span>
+    <span class="c1"># create dummy file to write the HTML representation</span>
+    <span class="n">html_file</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
+    <span class="n">hinet_html</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">hinet</span><span class="o">.</span><span class="n">HiNetHTMLVisitor</span><span class="p">(</span><span class="n">html_file</span><span class="p">)</span>
+    <span class="n">hinet_html</span><span class="o">.</span><span class="n">convert_flow</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span>
+    <span class="n">html_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="testHiNetXHTML"><a class="viewcode-back" href="../../../mdp/mdp.test.test_hinet.html#mdp.test.test_hinet.testHiNetXHTML">[docs]</a><span class="k">def</span> <span class="nf">testHiNetXHTML</span><span class="p">():</span>
+    <span class="c1"># create some flow for testing</span>
+    <span class="n">sfa_node</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">20</span><span class="o">*</span><span class="mi">20</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">sfa_node</span><span class="p">])</span>
+    <span class="c1"># create dummy file to write the HTML representation</span>
+    <span class="n">html_file</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">StringIO</span><span class="p">()</span>
+    <span class="n">hinet_html</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">hinet</span><span class="o">.</span><span class="n">HiNetXHTMLVisitor</span><span class="p">(</span><span class="n">html_file</span><span class="p">)</span>
+    <span class="n">hinet_html</span><span class="o">.</span><span class="n">convert_flow</span><span class="p">(</span><span class="n">flow</span><span class="p">)</span>
+    <span class="n">html_file</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      Last updated on 2020-02-17 1:33:02 PM Coordinated Universal Time.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'3.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+<div class="footer">
+    <hr />
+    <table>
+      <tr>
+        <td class="footer-left">
+           <a href="http://sourceforge.net/projects/mdp-toolkit">
+ <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=116959&amp;type=12"
+      width="120" height="30" border="0" alt="MDP@SF.NET"/> </a>
+        </td>
+        <td class="footer-center">
+          Last updated on
+             2020-02-17 1:33:02 PM Coordinated Universal Time
+        </td>
+        <td class="footer-right">
+         <form class="search" action="../../../search.html" method="get">
+          <input type="submit" value="Search" />
+          <input type="text" name="q" size="18" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+         </form>
+        </td>
+    </table>  
+    <!-- Piwik -->
+    <script type="text/javascript">
+	var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/mdp-toolkit/" : "http://sourceforge.net/apps/piwik/mdp-toolkit/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+	piwik_action_name = '';
+	piwik_idsite = 1;
+	piwik_url = pkBaseURL + "piwik.php";
+	piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+    </script>
+    <object><noscript>
+	    <p>
+		<img src="http://sourceforge.net/apps/piwik/mdp-toolkit/piwik.php?idsite=1"
+		     alt="piwik" />
+	    </p>
+    </noscript></object>
+    <!-- End Piwik Tag -->
+</div>   
+
+
+</body>
+</html>

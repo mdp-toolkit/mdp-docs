@@ -1,0 +1,1763 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mdp.hinet.htmlvisitor module &mdash; Modular toolkit for Data Processing (MDP)</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Modular toolkit for Data Processing (MDP)" href="../index.html"/>
+        <link rel="up" title="mdp.hinet package" href="mdp.hinet.html"/>
+        <link rel="next" title="mdp.hinet.layer module" href="mdp.hinet.layer.html"/>
+        <link rel="prev" title="mdp.hinet.flownode_online module" href="mdp.hinet.flownode_online.html"/> 
+<meta name="viewport" content="width=740" />
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/logo_animation.gif" class="logo" />
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../documentation.html">Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples.html">Examples</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html">mdp</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="mdp.html">mdp package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="mdp.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="mdp.caching.html">mdp.caching package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="mdp.graph.html">mdp.graph package</a></li>
+<li class="toctree-l5 current"><a class="reference internal" href="mdp.hinet.html">mdp.hinet package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="mdp.nodes.html">mdp.nodes package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="mdp.parallel.html">mdp.parallel package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="mdp.test.html">mdp.test package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="mdp.utils.html">mdp.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="mdp.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mdp.html#module-mdp">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../additional_utilities.html">Additional utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development.html">Development</a></li>
+<li class="toctree-l2"><a class="reference external" href="http://mdp-toolkit.sourceforge.net/api/index.html">API documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../how_to_cite_mdp.html">How to cite MDP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MDP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../documentation.html">Documentation</a> &raquo;</li>
+        
+          <li><a href="modules.html">mdp</a> &raquo;</li>
+        
+          <li><a href="mdp.html">mdp package</a> &raquo;</li>
+        
+          <li><a href="mdp.hinet.html">mdp.hinet package</a> &raquo;</li>
+        
+      <li>mdp.hinet.htmlvisitor module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-mdp.hinet.htmlvisitor">
+<span id="mdp-hinet-htmlvisitor-module"></span><h1>mdp.hinet.htmlvisitor module<a class="headerlink" href="#module-mdp.hinet.htmlvisitor" title="Permalink to this headline">¶</a></h1>
+<p>Module to convert a flow into an HTML representation.</p>
+<p>This is especially useful for hinet structures.
+The code uses the visitor pattern to reach and convert all the nodes in a flow.</p>
+<p><strong>Module content:</strong></p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.CheckpointFlow</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.CheckpointFunction</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.CheckpointSaveFunction</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.ClassifierCumulator</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.ClassifierNode</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.CrashRecoveryException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.Cumulator</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.ExtensionException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.ExtensionNode</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.ExtensionNodeMetaclass</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.Flow</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.FlowException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.FlowExceptionCR</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.InconsistentDimException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.IsNotInvertibleException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.IsNotTrainableException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.MDPDeprecationWarning</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.MDPException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.MDPWarning</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.Node</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.NodeException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.NodeMetaclass</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.PreserveDimNode</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.TrainingException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.TrainingFinishedException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.VariadicCumulator</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">__loader__</span></code></td>
+<td>Concrete implementation of SourceLoader using the file system.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">__spec__</span></code></td>
+<td>The specification for a module, used for loading.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.activate_extension</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.activate_extensions</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.config</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.deactivate_extension</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.deactivate_extensions</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.extension</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.extension_method</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.extension_setup</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.extension_teardown</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.fastica</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.get_active_extensions</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.get_extensions</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.pca</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.test</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.with_extension</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="class">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode">
+<em class="property">class </em><code class="descclassname">mdp.hinet.htmlvisitor.</code><code class="descname">HTMLExtensionNode</code><span class="sig-paren">(</span><em>input_dim=None</em>, <em>output_dim=None</em>, <em>dtype=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#HTMLExtensionNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="mdp.html#mdp.ExtensionNode" title="mdp.ExtensionNode"><code class="xref py py-class docutils literal notranslate"><span class="pre">mdp.ExtensionNode</span></code></a>, <a class="reference internal" href="mdp.html#mdp.Node" title="mdp.Node"><code class="xref py py-class docutils literal notranslate"><span class="pre">mdp.Node</span></code></a></p>
+<p>Extension node for custom HTML representations of individual nodes.</p>
+<p>This extension works together with the HiNetHTMLVisitor to allow the
+polymorphic generation of representations for node classes.</p>
+<p><strong>Standart attributes:</strong></p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<p><em>Non-inherited</em></p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+<p><em>Inherited</em></p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__add__">
+<code class="descname">__add__</code><span class="sig-paren">(</span><em>other</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__add__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>x</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calling an instance of <cite>Node</cite> is equivalent to calling
+its <cite>execute</cite> method.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__class__">
+<code class="descname">__class__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__class__" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <a class="reference internal" href="mdp.html#mdp.ExtensionNodeMetaclass" title="mdp.ExtensionNodeMetaclass"><code class="xref py py-class docutils literal notranslate"><span class="pre">mdp.ExtensionNodeMetaclass</span></code></a></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__delattr__">
+<code class="descname">__delattr__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__delattr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement delattr(self, name).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__dict__">
+<code class="descname">__dict__</code><em class="property"> = mappingproxy({'__module__': 'mdp.hinet.htmlvisitor', '__doc__': 'Extension node for custom HTML representations of individual nodes.\n\n    This extension works together with the HiNetHTMLVisitor to allow the\n    polymorphic generation of representations for node classes.\n    ', 'extension_name': 'html', 'html_representation': &lt;function HTMLExtensionNode.html_representation&gt;, '_html_representation': &lt;function HTMLExtensionNode._html_representation&gt;})</em><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__dict__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__dir__">
+<code class="descname">__dir__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__dir__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default dir() implementation.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__eq__">
+<code class="descname">__eq__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self==value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__format__">
+<code class="descname">__format__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__format__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default object formatter.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__ge__">
+<code class="descname">__ge__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__ge__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self&gt;=value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__getattribute__">
+<code class="descname">__getattribute__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__getattribute__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return getattr(self, name).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__gt__">
+<code class="descname">__gt__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__gt__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self&gt;value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__hash__">
+<code class="descname">__hash__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__hash__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return hash(self).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>input_dim=None</em>, <em>output_dim=None</em>, <em>dtype=None</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>If the input dimension and the output dimension are
+unspecified, they will be set when the <cite>train</cite> or <cite>execute</cite>
+method is called for the first time.
+If dtype is unspecified, it will be inherited from the data
+it receives at the first call of <cite>train</cite> or <cite>execute</cite>.</p>
+<p>Every subclass must take care of up- or down-casting the internal
+structures to match this argument (use <cite>_refcast</cite> private
+method when possible).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__init_subclass__">
+<code class="descname">__init_subclass__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__init_subclass__" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called when a class is subclassed.</p>
+<p>The default implementation does nothing. It may be
+overridden to extend subclasses.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__le__">
+<code class="descname">__le__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__le__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self&lt;=value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__lt__">
+<code class="descname">__lt__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__lt__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self&lt;value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__module__">
+<code class="descname">__module__</code><em class="property"> = 'mdp.hinet.htmlvisitor'</em><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__module__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__ne__">
+<code class="descname">__ne__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__ne__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self!=value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__new__">
+<code class="descname">__new__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__new__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and return a new object.  See help(type) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__reduce__">
+<code class="descname">__reduce__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__reduce__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper for pickle.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__reduce_ex__">
+<code class="descname">__reduce_ex__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__reduce_ex__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper for pickle.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__repr__">
+<code class="descname">__repr__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return repr(self).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__setattr__">
+<code class="descname">__setattr__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__setattr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement setattr(self, name, value).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__sizeof__">
+<code class="descname">__sizeof__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__sizeof__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Size of object in memory, in bytes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__str__">
+<code class="descname">__str__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return str(self).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__subclasshook__">
+<code class="descname">__subclasshook__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__subclasshook__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract classes can override this to customize issubclass().</p>
+<p>This is invoked early on by abc.ABCMeta.__subclasscheck__().
+It should return True, False or NotImplemented.  If it returns
+NotImplemented, the normal algorithm is used.  Otherwise, it
+overrides the normal algorithm (and the outcome is cached).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.__weakref__">
+<code class="descname">__weakref__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode._check_input">
+<code class="descname">_check_input</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode._check_input" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode._check_output">
+<code class="descname">_check_output</code><span class="sig-paren">(</span><em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode._check_output" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode._check_train_args">
+<code class="descname">_check_train_args</code><span class="sig-paren">(</span><em>x</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode._check_train_args" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode._execute">
+<code class="descname">_execute</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode._execute" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode._get_supported_dtypes">
+<code class="descname">_get_supported_dtypes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode._get_supported_dtypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the list of dtypes supported by this node.</p>
+<p>The types can be specified in any format allowed by <a href="#id1"><span class="problematic" id="id2">:numpy:`dtype`</span></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode._get_train_seq">
+<code class="descname">_get_train_seq</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode._get_train_seq" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode._html_representation">
+<code class="descname">_html_representation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#HTMLExtensionNode._html_representation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode._html_representation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return either the final HTML code or a list of HTML lines.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode._if_training_stop_training">
+<code class="descname">_if_training_stop_training</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode._if_training_stop_training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode._inverse">
+<code class="descname">_inverse</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode._inverse" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode._pre_execution_checks">
+<code class="descname">_pre_execution_checks</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode._pre_execution_checks" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method contains all pre-execution checks.</p>
+<p>It can be used when a subclass defines multiple execution methods.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode._pre_inversion_checks">
+<code class="descname">_pre_inversion_checks</code><span class="sig-paren">(</span><em>y</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode._pre_inversion_checks" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method contains all pre-inversion checks.</p>
+<p>It can be used when a subclass defines multiple inversion methods.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode._refcast">
+<code class="descname">_refcast</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode._refcast" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function to cast arrays to the internal dtype.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode._set_dtype">
+<code class="descname">_set_dtype</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode._set_dtype" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode._set_input_dim">
+<code class="descname">_set_input_dim</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode._set_input_dim" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode._set_output_dim">
+<code class="descname">_set_output_dim</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode._set_output_dim" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode._stop_training">
+<code class="descname">_stop_training</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode._stop_training" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode._train">
+<code class="descname">_train</code><span class="sig-paren">(</span><em>x</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode._train" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode._train_seq">
+<code class="descname">_train_seq</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode._train_seq" title="Permalink to this definition">¶</a></dt>
+<dd><p>List of tuples:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[(</span><span class="n">training</span><span class="o">-</span><span class="n">phase1</span><span class="p">,</span> <span class="n">stop</span><span class="o">-</span><span class="n">training</span><span class="o">-</span><span class="n">phase1</span><span class="p">),</span>
+ <span class="p">(</span><span class="n">training</span><span class="o">-</span><span class="n">phase2</span><span class="p">,</span> <span class="n">stop_training</span><span class="o">-</span><span class="n">phase2</span><span class="p">),</span>
+ <span class="o">...</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>By default:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">_train_seq</span> <span class="o">=</span> <span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">_train</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stop_training</span><span class="p">)]</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.copy">
+<code class="descname">copy</code><span class="sig-paren">(</span><em>protocol=None</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a deep copy of the node.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>protocol</strong> – the pickle protocol (deprecated).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.dtype">
+<code class="descname">dtype</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.dtype" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.execute">
+<code class="descname">execute</code><span class="sig-paren">(</span><em>x</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.execute" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process the data contained in <cite>x</cite>.</p>
+<p>If the object is still in the training phase, the function
+<cite>stop_training</cite> will be called.
+<cite>x</cite> is a matrix having different variables on different columns
+and observations on the rows.</p>
+<p>By default, subclasses should overwrite <cite>_execute</cite> to implement
+their execution phase. The docstring of the <cite>_execute</cite> method
+overwrites this docstring.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.extension_name">
+<code class="descname">extension_name</code><em class="property"> = 'html'</em><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.extension_name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.get_current_train_phase">
+<code class="descname">get_current_train_phase</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.get_current_train_phase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the index of the current training phase.</p>
+<p>The training phases are defined in the list <cite>self._train_seq</cite>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.get_dtype">
+<code class="descname">get_dtype</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.get_dtype" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return dtype.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.get_input_dim">
+<code class="descname">get_input_dim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.get_input_dim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return input dimensions.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.get_output_dim">
+<code class="descname">get_output_dim</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.get_output_dim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return output dimensions.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.get_remaining_train_phase">
+<code class="descname">get_remaining_train_phase</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.get_remaining_train_phase" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the number of training phases still to accomplish.</p>
+<p>If the node is not trainable then return 0.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.get_supported_dtypes">
+<code class="descname">get_supported_dtypes</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.get_supported_dtypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return dtypes supported by the node as a list of <a href="#id3"><span class="problematic" id="id4">:numpy:`dtype`</span></a>
+objects.</p>
+<p>Note that subclasses should overwrite <cite>self._get_supported_dtypes</cite>
+when needed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.has_multiple_training_phases">
+<code class="descname">has_multiple_training_phases</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.has_multiple_training_phases" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the node has multiple training phases.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.html_representation">
+<code class="descname">html_representation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#HTMLExtensionNode.html_representation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.html_representation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return an HTML representation of the node.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.input_dim">
+<code class="descname">input_dim</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.input_dim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Input dimensions</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.inverse">
+<code class="descname">inverse</code><span class="sig-paren">(</span><em>y</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.inverse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invert <cite>y</cite>.</p>
+<p>If the node is invertible, compute the input <code class="docutils literal notranslate"><span class="pre">x</span></code> such that
+<code class="docutils literal notranslate"><span class="pre">y</span> <span class="pre">=</span> <span class="pre">execute(x)</span></code>.</p>
+<p>By default, subclasses should overwrite <cite>_inverse</cite> to implement
+their <cite>inverse</cite> function. The docstring of the <cite>inverse</cite> method
+overwrites this docstring.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.is_invertible">
+<em class="property">static </em><code class="descname">is_invertible</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.is_invertible" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the node can be inverted, False otherwise.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.is_trainable">
+<em class="property">static </em><code class="descname">is_trainable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.is_trainable" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the node can be trained, False otherwise.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.is_training">
+<code class="descname">is_training</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.is_training" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return True if the node is in the training phase,
+False otherwise.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.output_dim">
+<code class="descname">output_dim</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.output_dim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Output dimensions</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>filename</em>, <em>protocol=-1</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save a pickled serialization of the node to <cite>filename</cite>.
+If <cite>filename</cite> is None, return a string.</p>
+<p>Note: the pickled <cite>Node</cite> is not guaranteed to be forwards or
+backwards compatible.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.set_dtype">
+<code class="descname">set_dtype</code><span class="sig-paren">(</span><em>t</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.set_dtype" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set internal structures’ dtype.</p>
+<p>Perform sanity checks and then calls <code class="docutils literal notranslate"><span class="pre">self._set_dtype(n)</span></code>, which
+is responsible for setting the internal attribute <code class="docutils literal notranslate"><span class="pre">self._dtype</span></code>.
+Note that subclasses should overwrite <cite>self._set_dtype</cite>
+when needed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.set_input_dim">
+<code class="descname">set_input_dim</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.set_input_dim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set input dimensions.</p>
+<p>Perform sanity checks and then calls <code class="docutils literal notranslate"><span class="pre">self._set_input_dim(n)</span></code>, which
+is responsible for setting the internal attribute <code class="docutils literal notranslate"><span class="pre">self._input_dim</span></code>.
+Note that subclasses should overwrite <cite>self._set_input_dim</cite>
+when needed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.set_output_dim">
+<code class="descname">set_output_dim</code><span class="sig-paren">(</span><em>n</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.set_output_dim" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set output dimensions.</p>
+<p>Perform sanity checks and then calls <code class="docutils literal notranslate"><span class="pre">self._set_output_dim(n)</span></code>, which
+is responsible for setting the internal attribute <code class="docutils literal notranslate"><span class="pre">self._output_dim</span></code>.
+Note that subclasses should overwrite <cite>self._set_output_dim</cite>
+when needed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.stop_training">
+<code class="descname">stop_training</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.stop_training" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop the training phase.</p>
+<p>By default, subclasses should overwrite <cite>_stop_training</cite> to implement
+this functionality. The docstring of the <cite>_stop_training</cite> method
+overwrites this docstring.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.supported_dtypes">
+<code class="descname">supported_dtypes</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.supported_dtypes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Supported dtypes</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HTMLExtensionNode.train">
+<code class="descname">train</code><span class="sig-paren">(</span><em>x</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HTMLExtensionNode.train" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update the internal structures according to the input data <cite>x</cite>.</p>
+<p><cite>x</cite> is a matrix having different variables on different columns
+and observations on the rows.</p>
+<p>By default, subclasses should overwrite <cite>_train</cite> to implement their
+training phase. The docstring of the <cite>_train</cite> method overwrites this
+docstring.</p>
+<p>Note: a subclass supporting multiple training phases should implement
+the <em>same</em> signature for all the training phases and document the
+meaning of the arguments in the <cite>_train</cite> method doc-string. Having
+consistent signatures is a requirement to use the node in a flow.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor">
+<em class="property">class </em><code class="descclassname">mdp.hinet.htmlvisitor.</code><code class="descname">HiNetHTMLVisitor</code><span class="sig-paren">(</span><em>html_file</em>, <em>show_size=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#HiNetHTMLVisitor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class to convert a hinet flow to HTML.</p>
+<p>This class implements the visitor pattern. It relies on the ‘html’
+extension to get custom representations for normal node classes.</p>
+<p><strong>Standart attributes:</strong></p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<p><em>Non-inherited</em></p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+<p><em>Inherited</em></p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor._CSS_FILENAME">
+<code class="descname">_CSS_FILENAME</code><em class="property"> = 'hinet.css'</em><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor._CSS_FILENAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__class__">
+<code class="descname">__class__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__class__" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">builtins.type</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__delattr__">
+<code class="descname">__delattr__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__delattr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement delattr(self, name).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__dict__">
+<code class="descname">__dict__</code><em class="property"> = mappingproxy({'__module__': 'mdp.hinet.htmlvisitor', '__doc__': &quot;Class to convert a hinet flow to HTML.\n\n    This class implements the visitor pattern. It relies on the 'html'\n    extension to get custom representations for normal node classes.\n    &quot;, '__init__': &lt;function HiNetHTMLVisitor.__init__&gt;, 'convert_flow': &lt;function &lt;lambda&gt;&gt;, '_CSS_FILENAME': 'hinet.css', 'hinet_css': &lt;classmethod object&gt;, '_visit_node': &lt;function HiNetHTMLVisitor._visit_node&gt;, '_visit_flownode': &lt;function HiNetHTMLVisitor._visit_flownode&gt;, '_visit_layer': &lt;function HiNetHTMLVisitor._visit_layer&gt;, '_visit_clonelayer': &lt;function HiNetHTMLVisitor._visit_clonelayer&gt;, '_visit_sameinputlayer': &lt;function HiNetHTMLVisitor._visit_sameinputlayer&gt;, '_visit_standard_node': &lt;function HiNetHTMLVisitor._visit_standard_node&gt;, '_open_node_env': &lt;function HiNetHTMLVisitor._open_node_env&gt;, '_write_node_header': &lt;function HiNetHTMLVisitor._write_node_header&gt;, '_close_node_env': &lt;function HiNetHTMLVisitor._close_node_env&gt;, '__dict__': &lt;attribute '__dict__' of 'HiNetHTMLVisitor' objects&gt;, '__weakref__': &lt;attribute '__weakref__' of 'HiNetHTMLVisitor' objects&gt;})</em><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__dict__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__dir__">
+<code class="descname">__dir__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__dir__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default dir() implementation.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__eq__">
+<code class="descname">__eq__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self==value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__format__">
+<code class="descname">__format__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__format__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default object formatter.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__ge__">
+<code class="descname">__ge__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__ge__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self&gt;=value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__getattribute__">
+<code class="descname">__getattribute__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__getattribute__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return getattr(self, name).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__gt__">
+<code class="descname">__gt__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__gt__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self&gt;value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__hash__">
+<code class="descname">__hash__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__hash__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return hash(self).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>html_file</em>, <em>show_size=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#HiNetHTMLVisitor.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the HMTL converter.</p>
+<dl class="docutils">
+<dt>html_file – File object into which the representation is written</dt>
+<dd>(only the write method is used).</dd>
+</dl>
+<p>show_size – Show the approximate memory footprint of all nodes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__init_subclass__">
+<code class="descname">__init_subclass__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__init_subclass__" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called when a class is subclassed.</p>
+<p>The default implementation does nothing. It may be
+overridden to extend subclasses.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__le__">
+<code class="descname">__le__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__le__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self&lt;=value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__lt__">
+<code class="descname">__lt__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__lt__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self&lt;value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__module__">
+<code class="descname">__module__</code><em class="property"> = 'mdp.hinet.htmlvisitor'</em><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__module__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__ne__">
+<code class="descname">__ne__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__ne__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self!=value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__new__">
+<code class="descname">__new__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__new__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and return a new object.  See help(type) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__reduce__">
+<code class="descname">__reduce__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__reduce__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper for pickle.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__reduce_ex__">
+<code class="descname">__reduce_ex__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__reduce_ex__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper for pickle.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__repr__">
+<code class="descname">__repr__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return repr(self).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__setattr__">
+<code class="descname">__setattr__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__setattr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement setattr(self, name, value).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__sizeof__">
+<code class="descname">__sizeof__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__sizeof__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Size of object in memory, in bytes.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__str__">
+<code class="descname">__str__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return str(self).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__subclasshook__">
+<code class="descname">__subclasshook__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__subclasshook__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract classes can override this to customize issubclass().</p>
+<p>This is invoked early on by abc.ABCMeta.__subclasscheck__().
+It should return True, False or NotImplemented.  If it returns
+NotImplemented, the normal algorithm is used.  Otherwise, it
+overrides the normal algorithm (and the outcome is cached).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__weakref__">
+<code class="descname">__weakref__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor._close_node_env">
+<code class="descname">_close_node_env</code><span class="sig-paren">(</span><em>node</em>, <em>type_id='node'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#HiNetHTMLVisitor._close_node_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor._close_node_env" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the HTML environment for the node internals.</p>
+<p>node – The node itself.
+type_id – The id string as used in the CSS.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor._open_node_env">
+<code class="descname">_open_node_env</code><span class="sig-paren">(</span><em>node</em>, <em>type_id='node'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#HiNetHTMLVisitor._open_node_env"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor._open_node_env" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open the HTML environment for the node internals.</p>
+<p>node – The node itself.
+type_id – The id string as used in the CSS.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor._visit_clonelayer">
+<code class="descname">_visit_clonelayer</code><span class="sig-paren">(</span><em>layer</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#HiNetHTMLVisitor._visit_clonelayer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor._visit_clonelayer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor._visit_flownode">
+<code class="descname">_visit_flownode</code><span class="sig-paren">(</span><em>flownode</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#HiNetHTMLVisitor._visit_flownode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor._visit_flownode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor._visit_layer">
+<code class="descname">_visit_layer</code><span class="sig-paren">(</span><em>layer</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#HiNetHTMLVisitor._visit_layer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor._visit_layer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor._visit_node">
+<code class="descname">_visit_node</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#HiNetHTMLVisitor._visit_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor._visit_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translate a node and return the translation.</p>
+<p>Depending on the type of the node this can be delegated to more
+specific methods.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor._visit_sameinputlayer">
+<code class="descname">_visit_sameinputlayer</code><span class="sig-paren">(</span><em>layer</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#HiNetHTMLVisitor._visit_sameinputlayer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor._visit_sameinputlayer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor._visit_standard_node">
+<code class="descname">_visit_standard_node</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#HiNetHTMLVisitor._visit_standard_node"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor._visit_standard_node" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor._write_node_header">
+<code class="descname">_write_node_header</code><span class="sig-paren">(</span><em>node</em>, <em>type_id='node'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#HiNetHTMLVisitor._write_node_header"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor._write_node_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the header content for the node into the HTML file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.convert_flow">
+<code class="descname">convert_flow</code><span class="sig-paren">(</span><em>flow</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#HiNetHTMLVisitor.convert_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.convert_flow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the flow into HTML and write it into the internal file.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="mdp.hinet.htmlvisitor.HiNetHTMLVisitor.hinet_css">
+<em class="property">classmethod </em><code class="descname">hinet_css</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#HiNetHTMLVisitor.hinet_css"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor.hinet_css" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the standard CSS string.</p>
+<p>The CSS should be embedded in the final HTML file.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor">
+<em class="property">class </em><code class="descclassname">mdp.hinet.htmlvisitor.</code><code class="descname">HiNetXHTMLVisitor</code><span class="sig-paren">(</span><em>html_file</em>, <em>show_size=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#HiNetXHTMLVisitor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#mdp.hinet.htmlvisitor.HiNetHTMLVisitor" title="mdp.hinet.htmlvisitor.HiNetHTMLVisitor"><code class="xref py py-class docutils literal notranslate"><span class="pre">mdp.hinet.htmlvisitor.HiNetHTMLVisitor</span></code></a></p>
+<p>Modified converter to create valid XHTML.</p>
+<p><strong>Standart attributes:</strong></p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<p><em>Non-inherited</em></p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+<p><em>Inherited</em></p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor._CSS_FILENAME">
+<code class="descname">_CSS_FILENAME</code><em class="property"> = 'hinet.css'</em><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor._CSS_FILENAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__class__">
+<code class="descname">__class__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__class__" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">builtins.type</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__delattr__">
+<code class="descname">__delattr__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__delattr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement delattr(self, name).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__dict__">
+<code class="descname">__dict__</code><em class="property"> = mappingproxy({'__module__': 'mdp.hinet.htmlvisitor', '__doc__': 'Modified converter to create valid XHTML.', 'convert_flow': &lt;function HiNetXHTMLVisitor.convert_flow&gt;})</em><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__dict__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__dir__">
+<code class="descname">__dir__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__dir__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default dir() implementation.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__eq__">
+<code class="descname">__eq__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self==value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__format__">
+<code class="descname">__format__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__format__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default object formatter.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__ge__">
+<code class="descname">__ge__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__ge__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self&gt;=value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__getattribute__">
+<code class="descname">__getattribute__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__getattribute__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return getattr(self, name).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__gt__">
+<code class="descname">__gt__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__gt__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self&gt;value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__hash__">
+<code class="descname">__hash__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__hash__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return hash(self).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>html_file</em>, <em>show_size=False</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the HMTL converter.</p>
+<dl class="docutils">
+<dt>html_file – File object into which the representation is written</dt>
+<dd>(only the write method is used).</dd>
+</dl>
+<p>show_size – Show the approximate memory footprint of all nodes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__init_subclass__">
+<code class="descname">__init_subclass__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__init_subclass__" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called when a class is subclassed.</p>
+<p>The default implementation does nothing. It may be
+overridden to extend subclasses.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__le__">
+<code class="descname">__le__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__le__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self&lt;=value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__lt__">
+<code class="descname">__lt__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__lt__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self&lt;value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__module__">
+<code class="descname">__module__</code><em class="property"> = 'mdp.hinet.htmlvisitor'</em><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__module__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__ne__">
+<code class="descname">__ne__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__ne__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self!=value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__new__">
+<code class="descname">__new__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__new__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and return a new object.  See help(type) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__reduce__">
+<code class="descname">__reduce__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__reduce__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper for pickle.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__reduce_ex__">
+<code class="descname">__reduce_ex__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__reduce_ex__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper for pickle.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__repr__">
+<code class="descname">__repr__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return repr(self).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__setattr__">
+<code class="descname">__setattr__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__setattr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement setattr(self, name, value).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__sizeof__">
+<code class="descname">__sizeof__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__sizeof__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Size of object in memory, in bytes.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__str__">
+<code class="descname">__str__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return str(self).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__subclasshook__">
+<code class="descname">__subclasshook__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__subclasshook__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract classes can override this to customize issubclass().</p>
+<p>This is invoked early on by abc.ABCMeta.__subclasscheck__().
+It should return True, False or NotImplemented.  If it returns
+NotImplemented, the normal algorithm is used.  Otherwise, it
+overrides the normal algorithm (and the outcome is cached).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__weakref__">
+<code class="descname">__weakref__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor._close_node_env">
+<code class="descname">_close_node_env</code><span class="sig-paren">(</span><em>node</em>, <em>type_id='node'</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor._close_node_env" title="Permalink to this definition">¶</a></dt>
+<dd><p>Close the HTML environment for the node internals.</p>
+<p>node – The node itself.
+type_id – The id string as used in the CSS.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor._open_node_env">
+<code class="descname">_open_node_env</code><span class="sig-paren">(</span><em>node</em>, <em>type_id='node'</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor._open_node_env" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open the HTML environment for the node internals.</p>
+<p>node – The node itself.
+type_id – The id string as used in the CSS.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor._visit_clonelayer">
+<code class="descname">_visit_clonelayer</code><span class="sig-paren">(</span><em>layer</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor._visit_clonelayer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor._visit_flownode">
+<code class="descname">_visit_flownode</code><span class="sig-paren">(</span><em>flownode</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor._visit_flownode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor._visit_layer">
+<code class="descname">_visit_layer</code><span class="sig-paren">(</span><em>layer</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor._visit_layer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor._visit_node">
+<code class="descname">_visit_node</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor._visit_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Translate a node and return the translation.</p>
+<p>Depending on the type of the node this can be delegated to more
+specific methods.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor._visit_sameinputlayer">
+<code class="descname">_visit_sameinputlayer</code><span class="sig-paren">(</span><em>layer</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor._visit_sameinputlayer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor._visit_standard_node">
+<code class="descname">_visit_standard_node</code><span class="sig-paren">(</span><em>node</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor._visit_standard_node" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor._write_node_header">
+<code class="descname">_write_node_header</code><span class="sig-paren">(</span><em>node</em>, <em>type_id='node'</em><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor._write_node_header" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the header content for the node into the HTML file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.convert_flow">
+<code class="descname">convert_flow</code><span class="sig-paren">(</span><em>flow</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#HiNetXHTMLVisitor.convert_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.convert_flow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert the flow into XHTML and write it into the internal file.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.hinet_css">
+<em class="property">classmethod </em><code class="descname">hinet_css</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.HiNetXHTMLVisitor.hinet_css" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the standard CSS string.</p>
+<p>The CSS should be embedded in the final HTML file.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile">
+<em class="property">class </em><code class="descclassname">mdp.hinet.htmlvisitor.</code><code class="descname">NewlineWriteFile</code><span class="sig-paren">(</span><em>file_obj</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#NewlineWriteFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Decorator for file-like object.</p>
+<p>Adds a newline character to each line written with write().</p>
+<p><strong>Standart attributes:</strong></p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+<p><strong>Methods:</strong></p>
+<p><em>Non-inherited</em></p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+<p><em>Inherited</em></p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+</tbody>
+</table>
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__class__">
+<code class="descname">__class__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__class__" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">builtins.type</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__delattr__">
+<code class="descname">__delattr__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__delattr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement delattr(self, name).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__dict__">
+<code class="descname">__dict__</code><em class="property"> = mappingproxy({'__module__': 'mdp.hinet.htmlvisitor', '__doc__': 'Decorator for file-like object.\n\n    Adds a newline character to each line written with write().\n    ', '__init__': &lt;function NewlineWriteFile.__init__&gt;, 'write': &lt;function NewlineWriteFile.write&gt;, '__getattr__': &lt;function NewlineWriteFile.__getattr__&gt;, '__dict__': &lt;attribute '__dict__' of 'NewlineWriteFile' objects&gt;, '__weakref__': &lt;attribute '__weakref__' of 'NewlineWriteFile' objects&gt;})</em><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__dict__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__dir__">
+<code class="descname">__dir__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__dir__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default dir() implementation.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__eq__">
+<code class="descname">__eq__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__eq__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self==value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__format__">
+<code class="descname">__format__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__format__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default object formatter.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__ge__">
+<code class="descname">__ge__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__ge__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self&gt;=value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__getattr__">
+<code class="descname">__getattr__</code><span class="sig-paren">(</span><em>attr</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#NewlineWriteFile.__getattr__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__getattr__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__getattribute__">
+<code class="descname">__getattribute__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__getattribute__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return getattr(self, name).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__gt__">
+<code class="descname">__gt__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__gt__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self&gt;value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__hash__">
+<code class="descname">__hash__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__hash__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return hash(self).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>file_obj</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#NewlineWriteFile.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wrap the given file-like object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__init_subclass__">
+<code class="descname">__init_subclass__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__init_subclass__" title="Permalink to this definition">¶</a></dt>
+<dd><p>This method is called when a class is subclassed.</p>
+<p>The default implementation does nothing. It may be
+overridden to extend subclasses.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__le__">
+<code class="descname">__le__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__le__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self&lt;=value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__lt__">
+<code class="descname">__lt__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__lt__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self&lt;value.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__module__">
+<code class="descname">__module__</code><em class="property"> = 'mdp.hinet.htmlvisitor'</em><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__module__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__ne__">
+<code class="descname">__ne__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__ne__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return self!=value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__new__">
+<code class="descname">__new__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__new__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and return a new object.  See help(type) for accurate signature.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__reduce__">
+<code class="descname">__reduce__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__reduce__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper for pickle.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__reduce_ex__">
+<code class="descname">__reduce_ex__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__reduce_ex__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper for pickle.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__repr__">
+<code class="descname">__repr__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__repr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return repr(self).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__setattr__">
+<code class="descname">__setattr__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__setattr__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implement setattr(self, name, value).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__sizeof__">
+<code class="descname">__sizeof__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__sizeof__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Size of object in memory, in bytes.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__str__">
+<code class="descname">__str__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__str__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return str(self).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__subclasshook__">
+<code class="descname">__subclasshook__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__subclasshook__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Abstract classes can override this to customize issubclass().</p>
+<p>This is invoked early on by abc.ABCMeta.__subclasscheck__().
+It should return True, False or NotImplemented.  If it returns
+NotImplemented, the normal algorithm is used.  Otherwise, it
+overrides the normal algorithm (and the outcome is cached).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.__weakref__">
+<code class="descname">__weakref__</code><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="mdp.hinet.htmlvisitor.NewlineWriteFile.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>str_obj</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#NewlineWriteFile.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor.NewlineWriteFile.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a string to the file object and append a newline character.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="mdp.hinet.htmlvisitor._adap_html">
+<code class="descclassname">mdp.hinet.htmlvisitor.</code><code class="descname">_adap_html</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#_adap_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor._adap_html" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="mdp.hinet.htmlvisitor._cutoff_html">
+<code class="descclassname">mdp.hinet.htmlvisitor.</code><code class="descname">_cutoff_html</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#_cutoff_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor._cutoff_html" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="mdp.hinet.htmlvisitor._double_rect2d_switchoard_html">
+<code class="descclassname">mdp.hinet.htmlvisitor.</code><code class="descname">_double_rect2d_switchoard_html</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#_double_rect2d_switchoard_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor._double_rect2d_switchoard_html" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="mdp.hinet.htmlvisitor._double_rhomb2d_switchoard_html">
+<code class="descclassname">mdp.hinet.htmlvisitor.</code><code class="descname">_double_rhomb2d_switchoard_html</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#_double_rhomb2d_switchoard_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor._double_rhomb2d_switchoard_html" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="mdp.hinet.htmlvisitor._hist_html">
+<code class="descclassname">mdp.hinet.htmlvisitor.</code><code class="descname">_hist_html</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#_hist_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor._hist_html" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="mdp.hinet.htmlvisitor._noise_html">
+<code class="descclassname">mdp.hinet.htmlvisitor.</code><code class="descname">_noise_html</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#_noise_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor._noise_html" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="mdp.hinet.htmlvisitor._rect2d_switchoard_html">
+<code class="descclassname">mdp.hinet.htmlvisitor.</code><code class="descname">_rect2d_switchoard_html</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#_rect2d_switchoard_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor._rect2d_switchoard_html" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="mdp.hinet.htmlvisitor._sfa_html">
+<code class="descclassname">mdp.hinet.htmlvisitor.</code><code class="descname">_sfa_html</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#_sfa_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor._sfa_html" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="mdp.hinet.htmlvisitor.show_flow">
+<code class="descclassname">mdp.hinet.htmlvisitor.</code><code class="descname">show_flow</code><span class="sig-paren">(</span><em>flow</em>, <em>filename=None</em>, <em>title='MDP flow display'</em>, <em>show_size=False</em>, <em>browser_open=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/hinet/htmlvisitor.html#show_flow"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.hinet.htmlvisitor.show_flow" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write a flow into a HTML file, open it in the browser and
+return the file name.</p>
+<p>flow – The flow to be shown.
+filename – Filename for the HTML file to be created. If None</p>
+<blockquote>
+<div>a temporary file is created.</div></blockquote>
+<p>title – Title for the HTML file.
+show_size – Show the approximate memory footprint of all nodes.
+browser_open – If True (default value) then the slideshow file is</p>
+<blockquote>
+<div>automatically opened in a webbrowser.</div></blockquote>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="mdp.hinet.layer.html" class="btn btn-neutral float-right" title="mdp.hinet.layer module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="mdp.hinet.flownode_online.html" class="btn btn-neutral" title="mdp.hinet.flownode_online module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      Last updated on 2020-02-17 1:32:12 PM Coordinated Universal Time.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+<div class="footer">
+    <hr />
+    <table>
+      <tr>
+        <td class="footer-left">
+           <a href="http://sourceforge.net/projects/mdp-toolkit">
+ <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=116959&amp;type=12"
+      width="120" height="30" border="0" alt="MDP@SF.NET"/> </a>
+        </td>
+        <td class="footer-center">
+          Last updated on
+             2020-02-17 1:32:12 PM Coordinated Universal Time
+        </td>
+        <td class="footer-right">
+         <form class="search" action="../search.html" method="get">
+          <input type="submit" value="Search" />
+          <input type="text" name="q" size="18" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+         </form>
+        </td>
+    </table>  
+    <!-- Piwik -->
+    <script type="text/javascript">
+	var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/mdp-toolkit/" : "http://sourceforge.net/apps/piwik/mdp-toolkit/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+	piwik_action_name = '';
+	piwik_idsite = 1;
+	piwik_url = pkBaseURL + "piwik.php";
+	piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+    </script>
+    <object><noscript>
+	    <p>
+		<img src="http://sourceforge.net/apps/piwik/mdp-toolkit/piwik.php?idsite=1"
+		     alt="piwik" />
+	    </p>
+    </noscript></object>
+    <!-- End Piwik Tag -->
+</div>   
+
+
+</body>
+</html>

@@ -1,0 +1,540 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mdp.test.test_parallelflows &mdash; Modular toolkit for Data Processing (MDP)</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="Modular toolkit for Data Processing (MDP)" href="../../../index.html"/>
+        <link rel="up" title="mdp.test" href="../test.html"/> 
+<meta name="viewport" content="width=740" />
+
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html">
+          
+
+          
+            
+            <img src="../../../_static/logo_animation.gif" class="logo" />
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_cite_mdp.html">How to cite MDP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MDP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../../mdp.html">mdp</a> &raquo;</li>
+        
+          <li><a href="../test.html">mdp.test</a> &raquo;</li>
+        
+      <li>mdp.test.test_parallelflows</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mdp.test.test_parallelflows</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">range</span>
+<span class="kn">from</span> <span class="nn">._tools</span> <span class="k">import</span> <span class="o">*</span>
+
+<span class="kn">import</span> <span class="nn">mdp.parallel</span> <span class="k">as</span> <span class="nn">parallel</span>
+<span class="n">n</span> <span class="o">=</span> <span class="n">numx</span>
+
+<div class="viewcode-block" id="test_tasks"><a class="viewcode-back" href="../../../mdp/mdp.test.test_parallelflows.html#mdp.test.test_parallelflows.test_tasks">[docs]</a><span class="k">def</span> <span class="nf">test_tasks</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Test parallel training and execution by running the tasks.&quot;&quot;&quot;</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">parallel</span><span class="o">.</span><span class="n">ParallelFlow</span><span class="p">([</span>
+                        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
+                        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PolynomialExpansionNode</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+                        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">20</span><span class="p">)])</span>
+    <span class="n">data_iterables</span> <span class="o">=</span> <span class="p">[[</span><span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span><span class="o">*</span><span class="n">n</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+                       <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)],</span>
+                      <span class="kc">None</span><span class="p">,</span>
+                      <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span><span class="o">*</span><span class="n">n</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+                       <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]]</span>
+    <span class="n">scheduler</span> <span class="o">=</span> <span class="n">parallel</span><span class="o">.</span><span class="n">Scheduler</span><span class="p">()</span>
+    <span class="n">flow</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">data_iterables</span><span class="p">,</span> <span class="n">scheduler</span><span class="o">=</span><span class="n">scheduler</span><span class="p">)</span>
+    <span class="c1"># parallel execution</span>
+    <span class="n">iterable</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]</span>
+    <span class="n">flow</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">scheduler</span><span class="o">=</span><span class="n">scheduler</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_non_iterator"><a class="viewcode-back" href="../../../mdp/mdp.test.test_parallelflows.html#mdp.test.test_parallelflows.test_non_iterator">[docs]</a><span class="k">def</span> <span class="nf">test_non_iterator</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Test parallel training and execution with a single array.&quot;&quot;&quot;</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">parallel</span><span class="o">.</span><span class="n">ParallelFlow</span><span class="p">([</span>
+                        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
+                        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PolynomialExpansionNode</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+                        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">20</span><span class="p">)])</span>
+    <span class="n">data_iterables</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">200</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span><span class="o">*</span><span class="n">n</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+    <span class="n">scheduler</span> <span class="o">=</span> <span class="n">parallel</span><span class="o">.</span><span class="n">Scheduler</span><span class="p">()</span>
+    <span class="n">flow</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">data_iterables</span><span class="p">,</span> <span class="n">scheduler</span><span class="o">=</span><span class="n">scheduler</span><span class="p">)</span>
+    <span class="c1"># test execution</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">100</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+    <span class="n">flow</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_multiple_schedulers"><a class="viewcode-back" href="../../../mdp/mdp.test.test_parallelflows.html#mdp.test.test_parallelflows.test_multiple_schedulers">[docs]</a><span class="k">def</span> <span class="nf">test_multiple_schedulers</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Test parallel flow training with multiple schedulers.&quot;&quot;&quot;</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">parallel</span><span class="o">.</span><span class="n">ParallelFlow</span><span class="p">([</span>
+                        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
+                        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PolynomialExpansionNode</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+                        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">20</span><span class="p">)])</span>
+    <span class="n">data_iterables</span> <span class="o">=</span> <span class="p">[[</span><span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span><span class="o">*</span><span class="n">n</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+                       <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)],</span>
+                      <span class="kc">None</span><span class="p">,</span>
+                      <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span><span class="o">*</span><span class="n">n</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+                       <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]]</span>
+    <span class="n">schedulers</span> <span class="o">=</span> <span class="p">[</span><span class="n">parallel</span><span class="o">.</span><span class="n">Scheduler</span><span class="p">(),</span> <span class="kc">None</span><span class="p">,</span> <span class="n">parallel</span><span class="o">.</span><span class="n">Scheduler</span><span class="p">()]</span>
+    <span class="n">flow</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">data_iterables</span><span class="p">,</span> <span class="n">scheduler</span><span class="o">=</span><span class="n">schedulers</span><span class="p">)</span>
+    <span class="c1"># parallel execution</span>
+    <span class="n">iterable</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]</span>
+    <span class="n">flow</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">scheduler</span><span class="o">=</span><span class="n">parallel</span><span class="o">.</span><span class="n">Scheduler</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="test_multiple_schedulers2"><a class="viewcode-back" href="../../../mdp/mdp.test.test_parallelflows.html#mdp.test.test_parallelflows.test_multiple_schedulers2">[docs]</a><span class="k">def</span> <span class="nf">test_multiple_schedulers2</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Test parallel flow training with multiple schedulers (part 2).&quot;&quot;&quot;</span>
+    <span class="c1"># now the first node is untrainable as well</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">parallel</span><span class="o">.</span><span class="n">ParallelFlow</span><span class="p">([</span>
+                        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PolynomialExpansionNode</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+                        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
+                        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PolynomialExpansionNode</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span>
+                        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">20</span><span class="p">)])</span>
+    <span class="n">data_iterables</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span>
+                      <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span><span class="o">*</span><span class="n">n</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+                       <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)],</span>
+                      <span class="kc">None</span><span class="p">,</span>
+                      <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span><span class="o">*</span><span class="n">n</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+                       <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]]</span>
+    <span class="n">schedulers</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="n">parallel</span><span class="o">.</span><span class="n">Scheduler</span><span class="p">(),</span> <span class="kc">None</span><span class="p">,</span> <span class="n">parallel</span><span class="o">.</span><span class="n">Scheduler</span><span class="p">()]</span>
+    <span class="n">flow</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">data_iterables</span><span class="p">,</span> <span class="n">scheduler</span><span class="o">=</span><span class="n">schedulers</span><span class="p">)</span>
+    <span class="c1"># parallel execution</span>
+    <span class="n">iterable</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]</span>
+    <span class="n">flow</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">scheduler</span><span class="o">=</span><span class="n">parallel</span><span class="o">.</span><span class="n">Scheduler</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="test_multiphase"><a class="viewcode-back" href="../../../mdp/mdp.test.test_parallelflows.html#mdp.test.test_parallelflows.test_multiphase">[docs]</a><span class="k">def</span> <span class="nf">test_multiphase</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Test parallel training and execution for nodes with multiple</span>
+<span class="sd">    training phases.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">sfa_node</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">sfa2_node</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFA2Node</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">flownode</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">hinet</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">sfa_node</span><span class="p">,</span> <span class="n">sfa2_node</span><span class="p">]))</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">parallel</span><span class="o">.</span><span class="n">ParallelFlow</span><span class="p">([</span>
+                        <span class="n">flownode</span><span class="p">,</span>
+                        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PolynomialExpansionNode</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+                        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">5</span><span class="p">)])</span>
+    <span class="n">data_iterables</span> <span class="o">=</span> <span class="p">[[</span><span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span><span class="o">*</span><span class="n">n</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+                       <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)],</span>
+                      <span class="kc">None</span><span class="p">,</span>
+                      <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span><span class="o">*</span><span class="n">n</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+                       <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]]</span>
+    <span class="n">scheduler</span> <span class="o">=</span> <span class="n">parallel</span><span class="o">.</span><span class="n">Scheduler</span><span class="p">()</span>
+    <span class="n">flow</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">data_iterables</span><span class="p">,</span> <span class="n">scheduler</span><span class="o">=</span><span class="n">scheduler</span><span class="p">)</span>
+    <span class="c1"># test normal execution</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+    <span class="n">flow</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="c1"># parallel execution</span>
+    <span class="n">iterable</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]</span>
+    <span class="n">flow</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">iterable</span><span class="p">,</span> <span class="n">scheduler</span><span class="o">=</span><span class="n">scheduler</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_firstnode"><a class="viewcode-back" href="../../../mdp/mdp.test.test_parallelflows.html#mdp.test.test_parallelflows.test_firstnode">[docs]</a><span class="k">def</span> <span class="nf">test_firstnode</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Test special case in which the first node is untrainable.</span>
+
+<span class="sd">    This tests the proper initialization of the internal variables.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">parallel</span><span class="o">.</span><span class="n">ParallelFlow</span><span class="p">([</span>
+                        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PolynomialExpansionNode</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+                        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">20</span><span class="p">)])</span>
+    <span class="n">data_iterables</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">6</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">10</span><span class="p">))]</span>
+    <span class="n">scheduler</span> <span class="o">=</span> <span class="n">parallel</span><span class="o">.</span><span class="n">Scheduler</span><span class="p">()</span>
+    <span class="n">flow</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">data_iterables</span><span class="p">,</span> <span class="n">scheduler</span><span class="o">=</span><span class="n">scheduler</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_multiphase_checkpoints"><a class="viewcode-back" href="../../../mdp/mdp.test.test_parallelflows.html#mdp.test.test_parallelflows.test_multiphase_checkpoints">[docs]</a><span class="k">def</span> <span class="nf">test_multiphase_checkpoints</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Test parallel checkpoint flow.&quot;&quot;&quot;</span>
+    <span class="n">sfa_node</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">sfa2_node</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFA2Node</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">flownode</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">hinet</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">sfa_node</span><span class="p">,</span> <span class="n">sfa2_node</span><span class="p">]))</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">parallel</span><span class="o">.</span><span class="n">ParallelCheckpointFlow</span><span class="p">([</span>
+                        <span class="n">flownode</span><span class="p">,</span>
+                        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PolynomialExpansionNode</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+                        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">5</span><span class="p">)])</span>
+    <span class="n">data_iterables</span> <span class="o">=</span> <span class="p">[[</span><span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)],</span>
+                      <span class="kc">None</span><span class="p">,</span>
+                      <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]]</span>
+    <span class="n">checkpoint</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">CheckpointFunction</span><span class="p">()</span>
+    <span class="n">scheduler</span> <span class="o">=</span> <span class="n">parallel</span><span class="o">.</span><span class="n">Scheduler</span><span class="p">()</span>
+    <span class="n">flow</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">data_iterables</span><span class="p">,</span> <span class="n">scheduler</span><span class="o">=</span><span class="n">scheduler</span><span class="p">,</span> <span class="n">checkpoints</span><span class="o">=</span><span class="n">checkpoint</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_nonparallel1"><a class="viewcode-back" href="../../../mdp/mdp.test.test_parallelflows.html#mdp.test.test_parallelflows.test_nonparallel1">[docs]</a><span class="k">def</span> <span class="nf">test_nonparallel1</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Test training for mixture of parallel and non-parallel nodes.&quot;&quot;&quot;</span>
+    <span class="n">sfa_node</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="c1"># TODO: use a node with no parallel here</span>
+    <span class="n">sfa2_node</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">CuBICANode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">flownode</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">hinet</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">sfa_node</span><span class="p">,</span> <span class="n">sfa2_node</span><span class="p">]))</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">parallel</span><span class="o">.</span><span class="n">ParallelFlow</span><span class="p">([</span>
+                        <span class="n">flownode</span><span class="p">,</span>
+                        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PolynomialExpansionNode</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+                        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">5</span><span class="p">)])</span>
+    <span class="n">data_iterables</span> <span class="o">=</span> <span class="p">[[</span><span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span><span class="o">*</span><span class="n">n</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+                       <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)],</span>
+                      <span class="kc">None</span><span class="p">,</span>
+                      <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span><span class="o">*</span><span class="n">n</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+                       <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]]</span>
+    <span class="n">scheduler</span> <span class="o">=</span> <span class="n">parallel</span><span class="o">.</span><span class="n">Scheduler</span><span class="p">()</span>
+    <span class="n">flow</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">data_iterables</span><span class="p">,</span> <span class="n">scheduler</span><span class="o">=</span><span class="n">scheduler</span><span class="p">)</span>
+    <span class="c1"># test execution</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+    <span class="n">flow</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_nonparallel2"><a class="viewcode-back" href="../../../mdp/mdp.test.test_parallelflows.html#mdp.test.test_parallelflows.test_nonparallel2">[docs]</a><span class="k">def</span> <span class="nf">test_nonparallel2</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Test training for mixture of parallel and non-parallel nodes.&quot;&quot;&quot;</span>
+    <span class="c1"># TODO: use a node with no parallel here</span>
+    <span class="n">sfa_node</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">sfa2_node</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFA2Node</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">flownode</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">hinet</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">sfa_node</span><span class="p">,</span> <span class="n">sfa2_node</span><span class="p">]))</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">parallel</span><span class="o">.</span><span class="n">ParallelFlow</span><span class="p">([</span>
+                        <span class="n">flownode</span><span class="p">,</span>
+                        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PolynomialExpansionNode</span><span class="p">(</span><span class="n">degree</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span>
+                        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">5</span><span class="p">)])</span>
+    <span class="n">data_iterables</span> <span class="o">=</span> <span class="p">[[</span><span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span><span class="o">*</span><span class="n">n</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+                       <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)],</span>
+                      <span class="kc">None</span><span class="p">,</span>
+                      <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span><span class="o">*</span><span class="n">n</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+                       <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]]</span>
+    <span class="n">scheduler</span> <span class="o">=</span> <span class="n">parallel</span><span class="o">.</span><span class="n">Scheduler</span><span class="p">()</span>
+    <span class="n">flow</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">data_iterables</span><span class="p">,</span> <span class="n">scheduler</span><span class="o">=</span><span class="n">scheduler</span><span class="p">)</span>
+    <span class="c1"># test execution</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+    <span class="n">flow</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="test_nonparallel3"><a class="viewcode-back" href="../../../mdp/mdp.test.test_parallelflows.html#mdp.test.test_parallelflows.test_nonparallel3">[docs]</a><span class="k">def</span> <span class="nf">test_nonparallel3</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Test training for non-parallel nodes.&quot;&quot;&quot;</span>
+    <span class="c1"># TODO: use a node with no parallel here</span>
+    <span class="n">sfa_node</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="c1"># TODO: use a node with no parallel here</span>
+    <span class="n">sfa2_node</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFA2Node</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">flow</span> <span class="o">=</span> <span class="n">parallel</span><span class="o">.</span><span class="n">ParallelFlow</span><span class="p">([</span><span class="n">sfa_node</span><span class="p">,</span> <span class="n">sfa2_node</span><span class="p">])</span>
+    <span class="n">data_iterables</span> <span class="o">=</span> <span class="p">[[</span><span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span><span class="o">*</span><span class="n">n</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+                       <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)],</span>
+                      <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span><span class="o">*</span><span class="n">n</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">11</span><span class="p">)</span>
+                       <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">)]]</span>
+    <span class="n">scheduler</span> <span class="o">=</span> <span class="n">parallel</span><span class="o">.</span><span class="n">Scheduler</span><span class="p">()</span>
+    <span class="n">flow</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">data_iterables</span><span class="p">,</span> <span class="n">scheduler</span><span class="o">=</span><span class="n">scheduler</span><span class="p">)</span>
+    <span class="k">while</span> <span class="n">flow</span><span class="o">.</span><span class="n">is_parallel_training</span><span class="p">:</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="n">flow</span><span class="o">.</span><span class="n">task_available</span><span class="p">():</span>
+            <span class="n">task</span> <span class="o">=</span> <span class="n">flow</span><span class="o">.</span><span class="n">get_task</span><span class="p">()</span>
+            <span class="n">results</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">task</span><span class="p">())</span>
+        <span class="n">flow</span><span class="o">.</span><span class="n">use_results</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+    <span class="c1"># test execution</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">([</span><span class="mi">100</span><span class="p">,</span><span class="mi">10</span><span class="p">])</span>
+    <span class="n">flow</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+    
+<div class="viewcode-block" id="test_train_purge_nodes"><a class="viewcode-back" href="../../../mdp/mdp.test.test_parallelflows.html#mdp.test.test_parallelflows.test_train_purge_nodes">[docs]</a><span class="k">def</span> <span class="nf">test_train_purge_nodes</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Test that FlowTrainCallable correctly purges nodes.&quot;&quot;&quot;</span>
+    <span class="n">sfa_node</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+    <span class="n">sfa2_node</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFA2Node</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">flownode</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">hinet</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="n">sfa_node</span><span class="p">,</span>
+                                            <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">IdentityNode</span><span class="p">(),</span>
+                                            <span class="n">sfa2_node</span><span class="p">]))</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+    <span class="n">mdp</span><span class="o">.</span><span class="n">activate_extension</span><span class="p">(</span><span class="s2">&quot;parallel&quot;</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">clbl</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">parallel</span><span class="o">.</span><span class="n">FlowTrainCallable</span><span class="p">(</span><span class="n">flownode</span><span class="p">)</span>
+        <span class="n">flownode</span> <span class="o">=</span> <span class="n">clbl</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="n">mdp</span><span class="o">.</span><span class="n">deactivate_extension</span><span class="p">(</span><span class="s2">&quot;parallel&quot;</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">flownode</span><span class="o">.</span><span class="n">_flow</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;_DummyNode&quot;</span></div>
+    
+<div class="viewcode-block" id="test_execute_fork"><a class="viewcode-back" href="../../../mdp/mdp.test.test_parallelflows.html#mdp.test.test_parallelflows.test_execute_fork">[docs]</a><span class="k">def</span> <span class="nf">test_execute_fork</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Test the forking of a node based on use_execute_fork.&quot;&quot;&quot;</span>
+    
+    <span class="k">class</span> <span class="nc">_test_ExecuteForkNode</span><span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">IdentityNode</span><span class="p">):</span>
+        
+        <span class="c1"># Note: The explicit signature is important to preserve the dim</span>
+        <span class="c1">#    information during the fork.</span>
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_forks</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_joins</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">_test_ExecuteForkNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">input_dim</span><span class="p">,</span>
+                                                        <span class="n">output_dim</span><span class="o">=</span><span class="n">output_dim</span><span class="p">,</span>
+                                                        <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+    
+    <span class="k">class</span> <span class="nc">Parallel_test_ExecuteForkNode</span><span class="p">(</span><span class="n">parallel</span><span class="o">.</span><span class="n">ParallelExtensionNode</span><span class="p">,</span>
+                                        <span class="n">_test_ExecuteForkNode</span><span class="p">):</span>
+       
+        <span class="k">def</span> <span class="nf">_fork</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_forks</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_default_fork</span><span class="p">()</span>
+        
+        <span class="k">def</span> <span class="nf">_join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">forked_node</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_joins</span> <span class="o">+=</span> <span class="n">forked_node</span><span class="o">.</span><span class="n">n_joins</span> <span class="o">+</span> <span class="mi">1</span>
+            
+        <span class="k">def</span> <span class="nf">use_execute_fork</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">n_chunks</span> <span class="o">=</span> <span class="mi">6</span>
+        
+        <span class="c1">## Part 1: test execute fork during flow training</span>
+        <span class="n">data_iterables</span> <span class="o">=</span> <span class="p">[[</span><span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_chunks</span><span class="p">)],</span>
+                          <span class="kc">None</span><span class="p">,</span>
+                          <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_chunks</span><span class="p">)],</span>
+                          <span class="kc">None</span><span class="p">]</span>
+        <span class="n">flow</span> <span class="o">=</span> <span class="n">parallel</span><span class="o">.</span><span class="n">ParallelFlow</span><span class="p">([</span><span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PCANode</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span>
+                                      <span class="n">_test_ExecuteForkNode</span><span class="p">(),</span>
+                                      <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(),</span>
+                                      <span class="n">_test_ExecuteForkNode</span><span class="p">()])</span>
+        <span class="n">scheduler</span> <span class="o">=</span> <span class="n">parallel</span><span class="o">.</span><span class="n">Scheduler</span><span class="p">()</span>
+        <span class="n">flow</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">data_iterables</span><span class="p">,</span> <span class="n">scheduler</span><span class="o">=</span><span class="n">scheduler</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">flow</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">_test_ExecuteForkNode</span><span class="p">):</span>
+                <span class="k">assert</span> <span class="n">node</span><span class="o">.</span><span class="n">n_forks</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n_chunks</span> <span class="o">+</span> <span class="mi">2</span>
+                <span class="k">assert</span> <span class="n">node</span><span class="o">.</span><span class="n">n_joins</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">n_chunks</span>
+                <span class="c1"># reset the counters to prepare the execute test</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">n_forks</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">node</span><span class="o">.</span><span class="n">n_joins</span> <span class="o">=</span> <span class="mi">0</span>
+                
+        <span class="c1">## Part 2: test execute fork during flow execute</span>
+        <span class="n">data_iterable</span> <span class="o">=</span> <span class="p">[</span><span class="n">n</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">random</span><span class="p">((</span><span class="mi">30</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_chunks</span><span class="p">)]</span>
+        <span class="n">flow</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">data_iterable</span><span class="p">,</span> <span class="n">scheduler</span><span class="o">=</span><span class="n">scheduler</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">flow</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">_test_ExecuteForkNode</span><span class="p">):</span>
+                <span class="k">assert</span> <span class="n">node</span><span class="o">.</span><span class="n">n_forks</span> <span class="o">==</span> <span class="n">n_chunks</span>
+                <span class="k">assert</span> <span class="n">node</span><span class="o">.</span><span class="n">n_joins</span> <span class="o">==</span> <span class="n">n_chunks</span>
+    <span class="k">finally</span><span class="p">:</span>
+        <span class="c1"># unregister the testing class</span>
+        <span class="k">del</span> <span class="n">mdp</span><span class="o">.</span><span class="n">get_extensions</span><span class="p">()[</span><span class="s2">&quot;parallel&quot;</span><span class="p">][</span><span class="n">_test_ExecuteForkNode</span><span class="p">]</span>
+        <span class="n">scheduler</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span></div>
+  
+
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      Last updated on 2020-02-17 1:33:02 PM Coordinated Universal Time.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'3.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+<div class="footer">
+    <hr />
+    <table>
+      <tr>
+        <td class="footer-left">
+           <a href="http://sourceforge.net/projects/mdp-toolkit">
+ <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=116959&amp;type=12"
+      width="120" height="30" border="0" alt="MDP@SF.NET"/> </a>
+        </td>
+        <td class="footer-center">
+          Last updated on
+             2020-02-17 1:33:02 PM Coordinated Universal Time
+        </td>
+        <td class="footer-right">
+         <form class="search" action="../../../search.html" method="get">
+          <input type="submit" value="Search" />
+          <input type="text" name="q" size="18" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+         </form>
+        </td>
+    </table>  
+    <!-- Piwik -->
+    <script type="text/javascript">
+	var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/mdp-toolkit/" : "http://sourceforge.net/apps/piwik/mdp-toolkit/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+	piwik_action_name = '';
+	piwik_idsite = 1;
+	piwik_url = pkBaseURL + "piwik.php";
+	piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+    </script>
+    <object><noscript>
+	    <p>
+		<img src="http://sourceforge.net/apps/piwik/mdp-toolkit/piwik.php?idsite=1"
+		     alt="piwik" />
+	    </p>
+    </noscript></object>
+    <!-- End Piwik Tag -->
+</div>   
+
+
+</body>
+</html>

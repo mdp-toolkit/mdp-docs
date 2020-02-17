@@ -1,0 +1,596 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mdp.nodes.xsfa_nodes &mdash; Modular toolkit for Data Processing (MDP)</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="Modular toolkit for Data Processing (MDP)" href="../../../index.html"/>
+        <link rel="up" title="mdp.nodes" href="../nodes.html"/> 
+<meta name="viewport" content="width=740" />
+
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html">
+          
+
+          
+            
+            <img src="../../../_static/logo_animation.gif" class="logo" />
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_cite_mdp.html">How to cite MDP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MDP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../../mdp.html">mdp</a> &raquo;</li>
+        
+          <li><a href="../nodes.html">mdp.nodes</a> &raquo;</li>
+        
+      <li>mdp.nodes.xsfa_nodes</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mdp.nodes.xsfa_nodes</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">range</span>
+<span class="kn">from</span> <span class="nn">past.utils</span> <span class="k">import</span> <span class="n">old_div</span>
+<span class="n">__docformat__</span> <span class="o">=</span> <span class="s2">&quot;restructuredtext en&quot;</span>
+
+<span class="kn">import</span> <span class="nn">mdp</span>
+
+<span class="k">class</span> <span class="nc">XSFANode</span><span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Perform Non-linear Blind Source Separation using Slow Feature Analysis.</span>
+
+<span class="sd">    This node is designed to iteratively extract statistically</span>
+<span class="sd">    independent sources from (in principle) arbitrary invertible</span>
+<span class="sd">    nonlinear mixtures. The method relies on temporal correlations in</span>
+<span class="sd">    the sources and consists of a combination of nonlinear SFA and a</span>
+<span class="sd">    projection algorithm. More details can be found in the reference</span>
+<span class="sd">    given below (once it&#39;s published).</span>
+
+<span class="sd">    The node has multiple training phases. The number of training</span>
+<span class="sd">    phases depends on the number of sources that must be</span>
+<span class="sd">    extracted. The recommended way of training this node is through a</span>
+<span class="sd">    container flow::</span>
+
+<span class="sd">       &gt;&gt;&gt; flow = mdp.Flow([XSFANode()])</span>
+<span class="sd">       &gt;&gt;&gt; flow.train(x)</span>
+
+<span class="sd">    doing so will automatically train all training phases. The argument</span>
+<span class="sd">    ``x`` to the ``Flow.train`` method can be an array or a list of iterables</span>
+<span class="sd">    (see the section about Iterators in the MDP tutorial for more info).</span>
+
+<span class="sd">    If the number of training samples is large, you may run into</span>
+<span class="sd">    memory problems: use data iterators and chunk training to reduce</span>
+<span class="sd">    memory usage.</span>
+
+<span class="sd">    If you need to debug training and/or execution of this node, the</span>
+<span class="sd">    suggested approach is to use the capabilities of BiMDP. For example::</span>
+
+<span class="sd">       &gt;&gt;&gt; flow = mdp.Flow([XSFANode()])</span>
+<span class="sd">       &gt;&gt;&gt; tr_filename = bimdp.show_training(flow=flow, data_iterators=x)</span>
+<span class="sd">       &gt;&gt;&gt; ex_filename, out = bimdp.show_execution(flow, x=x)</span>
+
+<span class="sd">    this will run training and execution with bimdp inspection. Snapshots</span>
+<span class="sd">    of the internal flow state for each training phase and execution step</span>
+<span class="sd">    will be opened in a web brower and presented as a slideshow.</span>
+
+<span class="sd">    References:</span>
+<span class="sd">    Sprekeler, H., Zito, T., and Wiskott, L. (2009).</span>
+<span class="sd">    An Extension of Slow Feature Analysis for Nonlinear Blind Source Separation.</span>
+<span class="sd">    Journal of Machine Learning Research. </span>
+<span class="sd">    http://cogprints.org/7056/1/SprekelerZitoWiskott-Cogprints-2010.pdf</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">basic_exp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">intern_exp</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">svd</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">input_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :Keywords:</span>
+<span class="sd">           basic_exp</span>
+<span class="sd">             a tuple ``(node, args, kwargs)`` defining the node used for</span>
+<span class="sd">             the basic nonlinear expansion.  It is assumed that the</span>
+<span class="sd">             mixture is linearly invertible after this expansion. The</span>
+<span class="sd">             higher the complexity of the nonlinearity, the higher are</span>
+<span class="sd">             the chances of inverting the unknown mixture. On the</span>
+<span class="sd">             other hand, high complexity of the nonlinear expansion</span>
+<span class="sd">             increases the danger of numeric instabilities, which can</span>
+<span class="sd">             cause singularities in the simulation or errors in the</span>
+<span class="sd">             source estimation. The trade-off has to be evaluated</span>
+<span class="sd">             carefully.</span>
+
+<span class="sd">             Default: ``(mdp.nodes.PolynomialExpansionNode, (2, ), {})``</span>
+
+<span class="sd">           intern_exp</span>
+<span class="sd">             a tuple ``(node, args, kwargs)`` defining the node used</span>
+<span class="sd">             for the internal nonlinear expansion of the estimated</span>
+<span class="sd">             sources to be removed from the input space.  The same</span>
+<span class="sd">             trade-off as for basic_exp is valid here.</span>
+
+<span class="sd">             Default: ``(mdp.nodes.PolynomialExpansionNode, (10, ), {})``</span>
+
+<span class="sd">           svd</span>
+<span class="sd">             enable Singular Value Decomposition for normalization</span>
+<span class="sd">             and regularization. Use it if the node complains about</span>
+<span class="sd">             singular covariance matrices.</span>
+
+<span class="sd">           verbose</span>
+<span class="sd">             show some progress during training.</span>
+
+<span class="sd">             Default: False</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="c1"># set up basic expansion</span>
+        <span class="k">if</span> <span class="n">basic_exp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">basic_exp</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PolynomialExpansionNode</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">basic_exp_args</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">basic_exp_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">basic_exp</span> <span class="o">=</span> <span class="n">basic_exp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">basic_exp_args</span> <span class="o">=</span> <span class="n">basic_exp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">basic_exp_kwargs</span> <span class="o">=</span> <span class="n">basic_exp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+        <span class="c1"># set up internal expansion</span>
+        <span class="k">if</span> <span class="n">intern_exp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">exp</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">PolynomialExpansionNode</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">exp_args</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">exp_kwargs</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">exp</span> <span class="o">=</span> <span class="n">intern_exp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">exp_args</span> <span class="o">=</span> <span class="n">intern_exp</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">exp_kwargs</span> <span class="o">=</span> <span class="n">intern_exp</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+        <span class="c1"># number of sources already extracted</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">n_extracted_src</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># internal network</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_flow</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">svd</span> <span class="o">=</span> <span class="n">svd</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">XSFANode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">input_dim</span><span class="p">,</span>
+                                       <span class="n">output_dim</span><span class="o">=</span><span class="n">output_dim</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">flow</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Read-only internal flow property.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flow</span>
+
+<div class="viewcode-block" id="XSFANode._get_train_seq"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.XSFANode._get_train_seq">[docs]</a>    <span class="k">def</span> <span class="nf">_get_train_seq</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1">#XXX: this is a  hack</span>
+        <span class="c1"># In order to enable the output_dim to be set automatically</span>
+        <span class="c1"># after input_dim is known, instead of forcing the user to specify</span>
+        <span class="c1"># it by hand, we need to initialize the internal flow just before</span>
+        <span class="c1"># starting the first training (input_dim are known at that moment).</span>
+        <span class="c1"># Problem is that when XSFANode is trained through a container flow,</span>
+        <span class="c1"># which is the standard way of training this kind of nodes,</span>
+        <span class="c1"># the flow checks that the data_iterators are *not* generators</span>
+        <span class="c1"># for multiple phases nodes. To assess if a node has multiple phases</span>
+        <span class="c1"># it checks that len(self._train_seq) &gt; 1. But we still</span>
+        <span class="c1"># don&#39;t know the number of training_phases at this point, because we</span>
+        <span class="c1"># first need to know input_dim, which we will know after we receive the</span>
+        <span class="c1"># first chunk of data. To avoid the flow to complain we just return</span>
+        <span class="c1"># a bogus list of training phases: it should break anything else.</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flow</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># we still don&#39;t know the number of training_phases yet,</span>
+            <span class="c1"># but we can assure that we will have more than 1:</span>
+            <span class="k">return</span> <span class="p">[(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">([(</span><span class="bp">self</span><span class="o">.</span><span class="n">_train</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stop_training</span><span class="p">)]</span> <span class="o">*</span>
+                    <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_training_phases</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="XSFANode._set_input_dim"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.XSFANode._set_input_dim">[docs]</a>    <span class="k">def</span> <span class="nf">_set_input_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="c1"># set output_dim if thery are still not set</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span> <span class="o">=</span> <span class="n">n</span></div>
+
+<div class="viewcode-block" id="XSFANode._check_train_args"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.XSFANode._check_train_args">[docs]</a>    <span class="k">def</span> <span class="nf">_check_train_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># this method will be called before starting training.</span>
+        <span class="c1"># it is the right moment to initialize the internal flow</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flow</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_initialize_internal_flow</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Extracting source 1...&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="XSFANode._initialize_internal_flow"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.XSFANode._initialize_internal_flow">[docs]</a>    <span class="k">def</span> <span class="nf">_initialize_internal_flow</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># create the initial flow if it&#39;s not there already</span>
+        <span class="c1"># set input_dim is needed to correctly create the first</span>
+        <span class="c1"># network layer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">basic_exp_kwargs</span><span class="p">[</span><span class="s1">&#39;input_dim&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span>
+        <span class="n">exp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">basic_exp</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">basic_exp_args</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">basic_exp_kwargs</span><span class="p">)</span>
+        <span class="c1"># first element of the flow is the basic expansion node</span>
+        <span class="c1"># after that the first source extractor module is appended</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_flow</span> <span class="o">=</span> <span class="p">(</span><span class="n">exp</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_source_extractor</span><span class="p">(</span><span class="n">exp</span><span class="o">.</span><span class="n">output_dim</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+        <span class="c1"># set the training phases</span>
+        <span class="c1"># set the total number of training phases</span>
+        <span class="n">training_phases</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">S</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span><span class="p">):</span>
+            <span class="c1"># get the number of training phases of every single</span>
+            <span class="c1"># source extractor module</span>
+            <span class="n">mod</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_source_extractor</span><span class="p">(</span><span class="n">S</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">S</span><span class="p">)</span>
+            <span class="n">training_phases</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">_train_seq</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_training_phases</span> <span class="o">=</span> <span class="n">training_phases</span>
+
+        <span class="c1"># this is a list of the training phases the correspond to</span>
+        <span class="c1"># completed training of a source extractor module</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_training_phases_mods</span> <span class="o">=</span> <span class="p">[</span><span class="nb">sum</span><span class="p">(</span><span class="n">training_phases</span><span class="p">[:</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span>
+                                      <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">training_phases</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))]</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">is_invertible</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+<div class="viewcode-block" id="XSFANode._train"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.XSFANode._train">[docs]</a>    <span class="k">def</span> <span class="nf">_train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># train the last source extractor module in the flow</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_flow</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_flow</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">](</span><span class="n">x</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="XSFANode._stop_training"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.XSFANode._stop_training">[docs]</a>    <span class="k">def</span> <span class="nf">_stop_training</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># stop the current training phase</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_flow</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">stop_training</span><span class="p">()</span>
+        <span class="c1"># update the current training phase</span>
+        <span class="n">cur_tr_ph</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_train_phase</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="c1"># if we finished to train the current source extractor module</span>
+        <span class="c1"># and we still have to extract some sources</span>
+        <span class="c1"># append a new source extractor module</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">cur_tr_ph</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_training_phases_mods</span> <span class="ow">and</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_extracted_src</span> <span class="o">!=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)):</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">n_extracted_src</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">mod</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_source_extractor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_flow</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">output_dim</span><span class="p">,</span>
+                                             <span class="bp">self</span><span class="o">.</span><span class="n">n_extracted_src</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_flow</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">mod</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Extracting source </span><span class="si">%d</span><span class="s2">...&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n_extracted_src</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="XSFANode._execute"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.XSFANode._execute">[docs]</a>    <span class="k">def</span> <span class="nf">_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_flow</span><span class="p">(</span><span class="n">x</span><span class="p">)[:,:</span><span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="XSFANode._get_source_extractor"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.XSFANode._get_source_extractor">[docs]</a>    <span class="k">def</span> <span class="nf">_get_source_extractor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">nsources</span><span class="p">):</span>
+        <span class="c1"># returns a module to extract the next source and remove its</span>
+        <span class="c1"># projections in the data space</span>
+        <span class="n">S</span> <span class="o">=</span> <span class="n">nsources</span>
+        <span class="n">L</span> <span class="o">=</span> <span class="n">dim</span><span class="o">-</span><span class="n">S</span>
+
+        <span class="c1"># sfa - extracts the next source</span>
+        <span class="n">sfa</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">L</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="n">L</span><span class="p">)</span>
+
+        <span class="c1"># identity - copies the new sources</span>
+        <span class="n">idn_new1</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">IdentityNode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">S</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># source expansion</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exp_kwargs</span><span class="p">[</span><span class="s1">&#39;input_dim&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">S</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="c1"># N2</span>
+        <span class="n">src_exp</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">hinet</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">exp_args</span><span class="p">,</span>
+                                              <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">exp_kwargs</span><span class="p">)</span> <span class="o">+</span>
+                                     <span class="n">NormalizeNode</span><span class="p">()</span> <span class="o">+</span>
+                                     <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">WhiteningNode</span><span class="p">(</span><span class="n">svd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">svd</span><span class="p">,</span>
+                                                             <span class="n">reduce</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+        <span class="n">N2Layer</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">hinet</span><span class="o">.</span><span class="n">SameInputLayer</span><span class="p">((</span><span class="n">src_exp</span><span class="p">,</span> <span class="n">idn_new1</span><span class="p">))</span>
+        <span class="n">N2ContLayer</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">hinet</span><span class="o">.</span><span class="n">Layer</span><span class="p">((</span><span class="n">N2Layer</span><span class="p">,</span>
+                                       <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">IdentityNode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">)))</span>
+
+        <span class="k">if</span> <span class="n">S</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># don&#39;t need to copy the current sources (there are none)</span>
+            <span class="n">N1</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">hinet</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="n">sfa</span> <span class="o">+</span> <span class="n">N2ContLayer</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">S</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># the last source does not need to be removed</span>
+            <span class="c1"># take care of passing the sources down along the flow</span>
+            <span class="n">idn_old</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">IdentityNode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">S</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">mdp</span><span class="o">.</span><span class="n">hinet</span><span class="o">.</span><span class="n">Layer</span><span class="p">((</span><span class="n">idn_old</span><span class="p">,</span>
+                                    <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">SFANode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">L</span><span class="p">,</span>
+                                                      <span class="n">output_dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># take care of passing the sources down along the flow</span>
+            <span class="n">idn_old</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">IdentityNode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">S</span><span class="p">)</span>
+            <span class="n">N1</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">hinet</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">hinet</span><span class="o">.</span><span class="n">Layer</span><span class="p">((</span><span class="n">idn_old</span><span class="p">,</span> <span class="n">sfa</span><span class="p">))</span> <span class="o">+</span>
+                                    <span class="n">N2ContLayer</span><span class="p">)</span>
+
+        <span class="c1"># expanded sources projection</span>
+        <span class="n">proj</span> <span class="o">=</span> <span class="n">ProjectionNode</span><span class="p">(</span><span class="n">S</span><span class="p">,</span> <span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># use another identity node to copy the sources</span>
+        <span class="c1"># we could in principle reuse the idn_new1 but using a new</span>
+        <span class="c1"># node will make debugging much easier</span>
+        <span class="n">idn_new2</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">IdentityNode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">S</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># regularization after projection + new source copying</span>
+        <span class="n">reg_and_copy</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">hinet</span><span class="o">.</span><span class="n">Layer</span><span class="p">((</span><span class="n">idn_new2</span><span class="p">,</span>
+                                        <span class="n">mdp</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">WhiteningNode</span><span class="p">(</span><span class="n">input_dim</span><span class="o">=</span><span class="n">L</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+                                                                <span class="n">svd</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">svd</span><span class="p">,</span>
+                                                                <span class="n">reduce</span><span class="o">=</span><span class="kc">True</span><span class="p">)))</span>
+        <span class="c1"># actual source removal flow</span>
+        <span class="n">src_rem</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">hinet</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span> <span class="n">proj</span> <span class="o">+</span> <span class="n">reg_and_copy</span> <span class="p">)</span>
+        <span class="c1"># return the actual source extraction module</span>
+        <span class="k">return</span> <span class="n">mdp</span><span class="o">.</span><span class="n">hinet</span><span class="o">.</span><span class="n">FlowNode</span><span class="p">(</span><span class="n">N1</span> <span class="o">+</span> <span class="n">src_rem</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ProjectionNode"><a class="viewcode-back" href="../../../mdp/mdp.nodes.xsfa_nodes.html#mdp.nodes.ProjectionNode">[docs]</a><span class="k">class</span> <span class="nc">ProjectionNode</span><span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get expanded sources and input signals, and return</span>
+<span class="sd">    the sources and the input signals projected into the space</span>
+<span class="sd">    orthogonal to the expanded sources and their products.&quot;&quot;&quot;</span>
+<div class="viewcode-block" id="ProjectionNode.__init__"><a class="viewcode-back" href="../../../mdp/mdp.nodes.xsfa_nodes.html#mdp.nodes.ProjectionNode.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">S</span><span class="p">,</span> <span class="n">L</span><span class="p">):</span>
+        <span class="c1">#!! IMPORTANT!!</span>
+        <span class="c1"># this node *must* return the sources together with the</span>
+        <span class="c1"># projected input signals</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">proj_mtx</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">L</span> <span class="o">=</span> <span class="n">L</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">ProjectionNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">output_dim</span><span class="o">=</span><span class="n">S</span><span class="o">+</span><span class="mi">1</span><span class="o">+</span><span class="n">L</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cov_mtx</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">CrossCovarianceMatrix</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ProjectionNode._train"><a class="viewcode-back" href="../../../mdp/mdp.nodes.xsfa_nodes.html#mdp.nodes.ProjectionNode._train">[docs]</a>    <span class="k">def</span> <span class="nf">_train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># compute covariance between expanded sources</span>
+        <span class="c1"># and input signals</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cov_mtx</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">x</span><span class="p">[:,:</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span><span class="p">],</span> <span class="n">x</span><span class="p">[:,</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">:])</span></div>
+
+<div class="viewcode-block" id="ProjectionNode._stop_training"><a class="viewcode-back" href="../../../mdp/mdp.nodes.xsfa_nodes.html#mdp.nodes.ProjectionNode._stop_training">[docs]</a>    <span class="k">def</span> <span class="nf">_stop_training</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">proj_mtx</span><span class="p">,</span> <span class="n">avgx</span><span class="p">,</span> <span class="n">avgy</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tlen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cov_mtx</span><span class="o">.</span><span class="n">fix</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="ProjectionNode._execute"><a class="viewcode-back" href="../../../mdp/mdp.nodes.xsfa_nodes.html#mdp.nodes.ProjectionNode._execute">[docs]</a>    <span class="k">def</span> <span class="nf">_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">src</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span><span class="p">:</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">]</span>
+        <span class="n">exp</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span><span class="p">]</span>
+        <span class="n">inp</span> <span class="o">=</span> <span class="n">x</span><span class="p">[:,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">:]</span>
+        <span class="c1"># result container</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">numx</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span><span class="p">))</span>
+        <span class="c1"># project input on the plane orthogonal to the expanded sources</span>
+        <span class="n">result</span><span class="p">[:,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">:]</span> <span class="o">=</span> <span class="n">inp</span> <span class="o">-</span> <span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">mult</span><span class="p">(</span><span class="n">exp</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj_mtx</span><span class="p">)</span>
+        <span class="c1"># copy the sources</span>
+        <span class="n">result</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">L</span><span class="p">]</span> <span class="o">=</span> <span class="n">src</span>
+        <span class="k">return</span> <span class="n">result</span></div></div>
+
+<span class="k">class</span> <span class="nc">NormalizeNode</span><span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">PreserveDimNode</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Make input signal meanfree and unit variance&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cov_mtx</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">CovarianceMatrix</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NormalizeNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="n">output_dim</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">is_trainable</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+<div class="viewcode-block" id="NormalizeNode._train"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.NormalizeNode._train">[docs]</a>    <span class="k">def</span> <span class="nf">_train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cov_mtx</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NormalizeNode._stop_training"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.NormalizeNode._stop_training">[docs]</a>    <span class="k">def</span> <span class="nf">_stop_training</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">cov_mtx</span><span class="p">,</span> <span class="n">avg</span><span class="p">,</span> <span class="n">tlen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cov_mtx</span><span class="o">.</span><span class="n">fix</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="n">avg</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">s</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">numx</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">numx</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">cov_mtx</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="NormalizeNode._execute"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.NormalizeNode._execute">[docs]</a>    <span class="k">def</span> <span class="nf">_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">old_div</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">),</span><span class="bp">self</span><span class="o">.</span><span class="n">s</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NormalizeNode._inverse"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.NormalizeNode._inverse">[docs]</a>    <span class="k">def</span> <span class="nf">_inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">y</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">s</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      Last updated on 2020-02-17 1:33:02 PM Coordinated Universal Time.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'3.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+<div class="footer">
+    <hr />
+    <table>
+      <tr>
+        <td class="footer-left">
+           <a href="http://sourceforge.net/projects/mdp-toolkit">
+ <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=116959&amp;type=12"
+      width="120" height="30" border="0" alt="MDP@SF.NET"/> </a>
+        </td>
+        <td class="footer-center">
+          Last updated on
+             2020-02-17 1:33:02 PM Coordinated Universal Time
+        </td>
+        <td class="footer-right">
+         <form class="search" action="../../../search.html" method="get">
+          <input type="submit" value="Search" />
+          <input type="text" name="q" size="18" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+         </form>
+        </td>
+    </table>  
+    <!-- Piwik -->
+    <script type="text/javascript">
+	var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/mdp-toolkit/" : "http://sourceforge.net/apps/piwik/mdp-toolkit/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+	piwik_action_name = '';
+	piwik_idsite = 1;
+	piwik_url = pkBaseURL + "piwik.php";
+	piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+    </script>
+    <object><noscript>
+	    <p>
+		<img src="http://sourceforge.net/apps/piwik/mdp-toolkit/piwik.php?idsite=1"
+		     alt="piwik" />
+	    </p>
+    </noscript></object>
+    <!-- End Piwik Tag -->
+</div>   
+
+
+</body>
+</html>

@@ -1,0 +1,496 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mdp.nodes.em_nodes &mdash; Modular toolkit for Data Processing (MDP)</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="Modular toolkit for Data Processing (MDP)" href="../../../index.html"/>
+        <link rel="up" title="mdp.nodes" href="../nodes.html"/> 
+<meta name="viewport" content="width=740" />
+
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html">
+          
+
+          
+            
+            <img src="../../../_static/logo_animation.gif" class="logo" />
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_cite_mdp.html">How to cite MDP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MDP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../../mdp.html">mdp</a> &raquo;</li>
+        
+          <li><a href="../nodes.html">mdp.nodes</a> &raquo;</li>
+        
+      <li>mdp.nodes.em_nodes</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mdp.nodes.em_nodes</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">range</span>
+<span class="kn">from</span> <span class="nn">past.utils</span> <span class="k">import</span> <span class="n">old_div</span>
+<span class="n">__docformat__</span> <span class="o">=</span> <span class="s2">&quot;restructuredtext en&quot;</span>
+
+<span class="kn">import</span> <span class="nn">mdp</span>
+<span class="kn">from</span> <span class="nn">mdp</span> <span class="k">import</span> <span class="n">numx</span><span class="p">,</span> <span class="n">numx_linalg</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">NodeException</span>
+<span class="kn">from</span> <span class="nn">mdp.utils</span> <span class="k">import</span> <span class="n">mult</span><span class="p">,</span> <span class="n">CovarianceMatrix</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+
+<span class="n">sqrt</span><span class="p">,</span> <span class="n">inv</span><span class="p">,</span> <span class="n">det</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">sqrt</span><span class="p">,</span> <span class="n">utils</span><span class="o">.</span><span class="n">inv</span><span class="p">,</span> <span class="n">numx_linalg</span><span class="o">.</span><span class="n">det</span>
+<span class="n">normal</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">numx_rand</span><span class="o">.</span><span class="n">normal</span>
+
+<span class="c1"># decreasing likelihood message</span>
+<span class="n">_LHOOD_WARNING</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Likelihood decreased in FANode. This is probably due &#39;</span>
+                  <span class="s1">&#39;to some numerical errors.&#39;</span><span class="p">)</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s1">&#39;always&#39;</span><span class="p">,</span> <span class="n">_LHOOD_WARNING</span><span class="p">,</span> <span class="n">mdp</span><span class="o">.</span><span class="n">MDPWarning</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">FANode</span><span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">Node</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Perform Factor Analysis.</span>
+
+<span class="sd">    The current implementation should be most efficient for long</span>
+<span class="sd">    data sets: the sufficient statistics are collected in the</span>
+<span class="sd">    training phase, and all EM-cycles are performed at</span>
+<span class="sd">    its end.</span>
+
+<span class="sd">    The ``execute`` method returns the Maximum A Posteriori estimate</span>
+<span class="sd">    of the latent variables. The ``generate_input`` method generates</span>
+<span class="sd">    observations from the prior distribution.</span>
+
+<span class="sd">    **Internal variables of interest**</span>
+
+<span class="sd">      ``self.mu``</span>
+<span class="sd">          Mean of the input data (available after training)</span>
+
+<span class="sd">      ``self.A``</span>
+<span class="sd">          Generating weights (available after training)</span>
+
+<span class="sd">      ``self.E_y_mtx``</span>
+<span class="sd">          Weights for Maximum A Posteriori inference</span>
+
+<span class="sd">      ``self.sigma``</span>
+<span class="sd">          Vector of estimated variance of the noise</span>
+<span class="sd">          for all input components</span>
+
+<span class="sd">    More information about Factor Analysis can be found in</span>
+<span class="sd">    Max Welling&#39;s classnotes:</span>
+<span class="sd">    http://www.ics.uci.edu/~welling/classnotes/classnotes.html ,</span>
+<span class="sd">    in the chapter &#39;Linear Models&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">1e-4</span><span class="p">,</span> <span class="n">max_cycles</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">input_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :Parameters:</span>
+<span class="sd">          tol</span>
+<span class="sd">            tolerance (minimum change in log-likelihood before exiting</span>
+<span class="sd">            the EM algorithm)</span>
+<span class="sd">          max_cycles</span>
+<span class="sd">            maximum number of EM cycles</span>
+<span class="sd">          verbose</span>
+<span class="sd">            if true, print log-likelihood during the EM-cycles</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Notation as in Max Welling&#39;s notes</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">FANode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="n">output_dim</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tol</span> <span class="o">=</span> <span class="n">tol</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_cycles</span> <span class="o">=</span> <span class="n">max_cycles</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">verbose</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cov_mtx</span> <span class="o">=</span> <span class="n">CovarianceMatrix</span><span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">bias</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<div class="viewcode-block" id="FANode._train"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.FANode._train">[docs]</a>    <span class="k">def</span> <span class="nf">_train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># update the covariance matrix</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cov_mtx</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="FANode._stop_training"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.FANode._stop_training">[docs]</a>    <span class="k">def</span> <span class="nf">_stop_training</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1">#### some definitions</span>
+        <span class="n">verbose</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span>
+        <span class="n">typ</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span>
+        <span class="n">tol</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tol</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span>
+        <span class="c1"># if the number of latent variables is not specified,</span>
+        <span class="c1"># set it equal to the number of input components</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span> <span class="o">=</span> <span class="n">d</span>
+        <span class="n">k</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span>
+        <span class="c1"># indices of the diagonal elements of a dxd or kxk matrix</span>
+        <span class="n">idx_diag_d</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="p">(</span><span class="n">d</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">d</span><span class="p">)]</span>
+        <span class="n">idx_diag_k</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">*</span><span class="p">(</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">k</span><span class="p">)]</span>
+        <span class="c1"># constant term in front of the log-likelihood</span>
+        <span class="n">const</span> <span class="o">=</span> <span class="o">-</span><span class="n">d</span><span class="o">/</span><span class="mf">2.</span> <span class="o">*</span> <span class="n">numx</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="mf">2.</span><span class="o">*</span><span class="n">numx</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span>
+
+        <span class="c1">##### request the covariance matrix and clean up</span>
+        <span class="n">cov_mtx</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">tlen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cov_mtx</span><span class="o">.</span><span class="n">fix</span><span class="p">()</span>
+        <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cov_mtx</span>
+        <span class="n">cov_diag</span> <span class="o">=</span> <span class="n">cov_mtx</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()</span>
+
+        <span class="c1">##### initialize the parameters</span>
+        <span class="c1"># noise variances</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="n">cov_diag</span>
+        <span class="c1"># loading factors</span>
+        <span class="c1"># Zoubin uses the determinant of cov_mtx^1/d as scale but it&#39;s</span>
+        <span class="c1"># too slow for large matrices. Is the product of the diagonal a good</span>
+        <span class="c1"># approximation?</span>
+        <span class="k">if</span> <span class="n">d</span><span class="o">&lt;=</span><span class="mi">300</span><span class="p">:</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="n">det</span><span class="p">(</span><span class="n">cov_mtx</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="n">old_div</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span><span class="n">d</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">scale</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">sigma</span><span class="p">)</span><span class="o">**</span><span class="p">(</span><span class="n">old_div</span><span class="p">(</span><span class="mf">1.</span><span class="p">,</span><span class="n">d</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">scale</span> <span class="o">&lt;=</span> <span class="mf">0.</span><span class="p">:</span>
+            <span class="n">err</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;The covariance matrix of the data is singular. &quot;</span>
+                   <span class="s2">&quot;Redundant dimensions need to be removed.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">NodeException</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+
+        <span class="n">A</span> <span class="o">=</span> <span class="n">normal</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">old_div</span><span class="p">(</span><span class="n">scale</span><span class="p">,</span><span class="n">k</span><span class="p">)),</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">k</span><span class="p">))</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">typ</span><span class="p">)</span>
+
+        <span class="c1">##### EM-cycle</span>
+        <span class="n">lhood_curve</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">base_lhood</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="n">old_lhood</span> <span class="o">=</span> <span class="o">-</span><span class="n">numx</span><span class="o">.</span><span class="n">inf</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_cycles</span><span class="p">):</span>
+            <span class="c1">## compute B = (A A^T + Sigma)^-1</span>
+            <span class="n">B</span> <span class="o">=</span> <span class="n">mult</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+            <span class="c1"># B += diag(sigma), avoid computing diag(sigma) which is dxd</span>
+            <span class="n">B</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">idx_diag_d</span><span class="p">,</span> <span class="n">B</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">idx_diag_d</span><span class="p">)</span><span class="o">+</span><span class="n">sigma</span><span class="p">)</span>
+            <span class="c1"># this quantity is used later for the log-likelihood</span>
+            <span class="c1"># abs is there to avoid numerical errors when det &lt; 0</span>
+            <span class="n">log_det_B</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">det</span><span class="p">(</span><span class="n">B</span><span class="p">)))</span>
+            <span class="c1"># end the computation of B</span>
+            <span class="n">B</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+
+            <span class="c1">## other useful quantities</span>
+            <span class="n">trA_B</span> <span class="o">=</span> <span class="n">mult</span><span class="p">(</span><span class="n">A</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">B</span><span class="p">)</span>
+            <span class="n">trA_B_cov_mtx</span> <span class="o">=</span> <span class="n">mult</span><span class="p">(</span><span class="n">trA_B</span><span class="p">,</span> <span class="n">cov_mtx</span><span class="p">)</span>
+
+            <span class="c1">##### E-step</span>
+            <span class="c1">## E_yyT = E(y_n y_n^T | x_n)</span>
+            <span class="n">E_yyT</span> <span class="o">=</span> <span class="o">-</span> <span class="n">mult</span><span class="p">(</span><span class="n">trA_B</span><span class="p">,</span> <span class="n">A</span><span class="p">)</span> <span class="o">+</span> <span class="n">mult</span><span class="p">(</span><span class="n">trA_B_cov_mtx</span><span class="p">,</span> <span class="n">trA_B</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+            <span class="c1"># E_yyT += numx.eye(k)</span>
+            <span class="n">E_yyT</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">idx_diag_k</span><span class="p">,</span> <span class="n">E_yyT</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">idx_diag_k</span><span class="p">)</span><span class="o">+</span><span class="mf">1.</span><span class="p">)</span>
+
+            <span class="c1">##### M-step</span>
+            <span class="n">A</span> <span class="o">=</span> <span class="n">mult</span><span class="p">(</span><span class="n">trA_B_cov_mtx</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">inv</span><span class="p">(</span><span class="n">E_yyT</span><span class="p">))</span>
+            <span class="n">sigma</span> <span class="o">=</span> <span class="n">cov_diag</span> <span class="o">-</span> <span class="p">(</span><span class="n">mult</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">trA_B_cov_mtx</span><span class="p">))</span><span class="o">.</span><span class="n">diagonal</span><span class="p">()</span>
+
+            <span class="c1">##### log-likelihood</span>
+            <span class="n">trace_B_cov</span> <span class="o">=</span> <span class="p">(</span><span class="n">B</span><span class="o">*</span><span class="n">cov_mtx</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+            <span class="c1"># this is actually likelihood/tlen.</span>
+            <span class="n">lhood</span> <span class="o">=</span> <span class="n">const</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">log_det_B</span> <span class="o">-</span> <span class="mf">0.5</span><span class="o">*</span><span class="n">trace_B_cov</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;cycle&#39;</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="s1">&#39;log-lhood:&#39;</span><span class="p">,</span> <span class="n">lhood</span><span class="p">)</span>
+
+            <span class="c1">##### convergence criterion</span>
+            <span class="k">if</span> <span class="n">base_lhood</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">base_lhood</span> <span class="o">=</span> <span class="n">lhood</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># convergence criterion</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">lhood</span><span class="o">-</span><span class="n">base_lhood</span><span class="p">)</span><span class="o">&lt;</span><span class="p">(</span><span class="mf">1.</span><span class="o">+</span><span class="n">tol</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">old_lhood</span><span class="o">-</span><span class="n">base_lhood</span><span class="p">):</span>
+                    <span class="k">break</span>
+                <span class="k">if</span> <span class="n">lhood</span> <span class="o">&lt;</span> <span class="n">old_lhood</span><span class="p">:</span>
+                    <span class="c1"># this should never happen</span>
+                    <span class="c1"># it sometimes does, e.g. if the noise is extremely low,</span>
+                    <span class="c1"># because of numerical rounding effects</span>
+                    <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">_LHOOD_WARNING</span><span class="p">,</span> <span class="n">mdp</span><span class="o">.</span><span class="n">MDPWarning</span><span class="p">)</span>
+            <span class="n">old_lhood</span> <span class="o">=</span> <span class="n">lhood</span>
+            <span class="n">lhood_curve</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lhood</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">tlen</span> <span class="o">=</span> <span class="n">tlen</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">A</span> <span class="o">=</span> <span class="n">A</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mu</span> <span class="o">=</span> <span class="n">mu</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sigma</span> <span class="o">=</span> <span class="n">sigma</span>
+
+        <span class="c1">## MAP matrix</span>
+        <span class="c1"># compute B = (A A^T + Sigma)^-1</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="n">mult</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">A</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">B</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span><span class="o">.</span><span class="n">put</span><span class="p">(</span><span class="n">idx_diag_d</span><span class="p">,</span> <span class="n">B</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">idx_diag_d</span><span class="p">)</span><span class="o">+</span><span class="n">sigma</span><span class="p">)</span>
+        <span class="n">B</span> <span class="o">=</span> <span class="n">inv</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">E_y_mtx</span> <span class="o">=</span> <span class="n">mult</span><span class="p">(</span><span class="n">B</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">A</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">lhood</span> <span class="o">=</span> <span class="n">lhood_curve</span></div>
+
+<div class="viewcode-block" id="FANode._execute"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.FANode._execute">[docs]</a>    <span class="k">def</span> <span class="nf">_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">mult</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">E_y_mtx</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">is_invertible</span><span class="p">():</span>
+        <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">generate_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">len_or_y</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Generate data from the prior distribution.</span>
+
+<span class="sd">        If the training phase has not been completed yet, call stop_training.</span>
+
+<span class="sd">        :Arguments:</span>
+<span class="sd">          len_or_y</span>
+<span class="sd">                    If integer, it specified the number of observation</span>
+<span class="sd">                    to generate. If array, it is used as a set of samples</span>
+<span class="sd">                    of the latent variables</span>
+<span class="sd">          noise</span>
+<span class="sd">                    if true, generation includes the estimated noise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_if_training_stop_training</span><span class="p">()</span>
+
+        <span class="c1"># set the output dimension if necessary</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># if the input_dim is not defined, raise an exception</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">errstr</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Number of input dimensions undefined. Inversion &quot;</span>
+                          <span class="s2">&quot;not possible.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">NodeException</span><span class="p">(</span><span class="n">errstr</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">len_or_y</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">len_or_y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span><span class="p">)</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_refcast</span><span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">numx_rand</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_refcast</span><span class="p">(</span><span class="n">len_or_y</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_check_output</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+
+        <span class="n">res</span> <span class="o">=</span> <span class="n">mult</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">A</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">mu</span>
+        <span class="k">if</span> <span class="n">noise</span><span class="p">:</span>
+            <span class="n">ns</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">numx_rand</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span><span class="p">))</span>
+            <span class="n">ns</span> <span class="o">*=</span> <span class="n">numx</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">sigma</span><span class="p">)</span>
+            <span class="n">res</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_refcast</span><span class="p">(</span><span class="n">ns</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">res</span>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      Last updated on 2020-02-17 1:33:02 PM Coordinated Universal Time.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'3.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+<div class="footer">
+    <hr />
+    <table>
+      <tr>
+        <td class="footer-left">
+           <a href="http://sourceforge.net/projects/mdp-toolkit">
+ <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=116959&amp;type=12"
+      width="120" height="30" border="0" alt="MDP@SF.NET"/> </a>
+        </td>
+        <td class="footer-center">
+          Last updated on
+             2020-02-17 1:33:02 PM Coordinated Universal Time
+        </td>
+        <td class="footer-right">
+         <form class="search" action="../../../search.html" method="get">
+          <input type="submit" value="Search" />
+          <input type="text" name="q" size="18" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+         </form>
+        </td>
+    </table>  
+    <!-- Piwik -->
+    <script type="text/javascript">
+	var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/mdp-toolkit/" : "http://sourceforge.net/apps/piwik/mdp-toolkit/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+	piwik_action_name = '';
+	piwik_idsite = 1;
+	piwik_url = pkBaseURL + "piwik.php";
+	piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+    </script>
+    <object><noscript>
+	    <p>
+		<img src="http://sourceforge.net/apps/piwik/mdp-toolkit/piwik.php?idsite=1"
+		     alt="piwik" />
+	    </p>
+    </noscript></object>
+    <!-- End Piwik Tag -->
+</div>   
+
+
+</body>
+</html>

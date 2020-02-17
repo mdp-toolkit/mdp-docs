@@ -1,0 +1,1052 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mdp.signal_node &mdash; Modular toolkit for Data Processing (MDP)</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="Modular toolkit for Data Processing (MDP)" href="../../index.html"/>
+        <link rel="up" title="mdp" href="../mdp.html"/> 
+<meta name="viewport" content="width=740" />
+
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html">
+          
+
+          
+            
+            <img src="../../_static/logo_animation.gif" class="logo" />
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_cite_mdp.html">How to cite MDP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MDP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../mdp.html">mdp</a> &raquo;</li>
+        
+      <li>mdp.signal_node</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mdp.signal_node</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">future</span> <span class="k">import</span> <span class="n">standard_library</span>
+<span class="n">standard_library</span><span class="o">.</span><span class="n">install_aliases</span><span class="p">()</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">zip</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">str</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">object</span>
+<span class="kn">from</span> <span class="nn">future.utils</span> <span class="k">import</span> <span class="n">with_metaclass</span>
+
+<span class="n">__docformat__</span> <span class="o">=</span> <span class="s2">&quot;restructuredtext en&quot;</span>
+
+<span class="kn">import</span> <span class="nn">pickle</span> <span class="k">as</span> <span class="nn">_cPickle</span>
+<span class="kn">import</span> <span class="nn">warnings</span> <span class="k">as</span> <span class="nn">_warnings</span>
+<span class="kn">import</span> <span class="nn">copy</span> <span class="k">as</span> <span class="nn">_copy</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+
+<span class="kn">import</span> <span class="nn">mdp</span>
+<span class="kn">from</span> <span class="nn">mdp</span> <span class="k">import</span> <span class="n">numx</span>
+
+<span class="k">class</span> <span class="nc">NodeException</span><span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">MDPException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for exceptions in `Node` subclasses.&quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+<div class="viewcode-block" id="InconsistentDimException"><a class="viewcode-back" href="../../mdp/mdp.signal_node.html#mdp.InconsistentDimException">[docs]</a><span class="k">class</span> <span class="nc">InconsistentDimException</span><span class="p">(</span><span class="n">NodeException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Raised when there is a conflict setting the dimensionalities.</span>
+
+<span class="sd">    Note that incoming data with conflicting dimensionality raises a normal</span>
+<span class="sd">    `NodeException`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+<span class="k">class</span> <span class="nc">TrainingException</span><span class="p">(</span><span class="n">NodeException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for exceptions in the training phase.&quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">TrainingFinishedException</span><span class="p">(</span><span class="n">TrainingException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Raised when the `Node.train` method is called although the</span>
+<span class="sd">    training phase is closed.&quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">IsNotTrainableException</span><span class="p">(</span><span class="n">TrainingException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Raised when the `Node.train` method is called although the</span>
+<span class="sd">    node is not trainable.&quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+<span class="k">class</span> <span class="nc">IsNotInvertibleException</span><span class="p">(</span><span class="n">NodeException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Raised when the `Node.inverse` method is called although the</span>
+<span class="sd">    node is not invertible.&quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+
+
+<span class="k">class</span> <span class="nc">NodeMetaclass</span><span class="p">(</span><span class="nb">type</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A metaclass which copies docstrings from private to public methods.</span>
+
+<span class="sd">    This metaclass is meant to overwrite doc-strings of methods like</span>
+<span class="sd">    `Node.execute`, `Node.stop_training`, `Node.inverse` with the ones</span>
+<span class="sd">    defined in the corresponding private methods `Node._execute`,</span>
+<span class="sd">    `Node._stop_training`, `Node._inverse`, etc.</span>
+
+<span class="sd">    This makes it possible for subclasses of `Node` to document the usage</span>
+<span class="sd">    of public methods, without the need to overwrite the ancestor&#39;s methods.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># methods that can overwrite docs:</span>
+    <span class="n">DOC_METHODS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;_train&#39;</span><span class="p">,</span> <span class="s1">&#39;_stop_training&#39;</span><span class="p">,</span> <span class="s1">&#39;_execute&#39;</span><span class="p">,</span> <span class="s1">&#39;_inverse&#39;</span><span class="p">,</span>
+                   <span class="s1">&#39;_label&#39;</span><span class="p">,</span> <span class="s1">&#39;_prob&#39;</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">classname</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">members</span><span class="p">):</span>
+        <span class="n">new_cls</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">NodeMetaclass</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">classname</span><span class="p">,</span>
+                                                    <span class="n">bases</span><span class="p">,</span> <span class="n">members</span><span class="p">)</span>
+
+        <span class="n">priv_infos</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_select_private_methods_to_wrap</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">members</span><span class="p">)</span>
+
+        <span class="c1"># now add the wrappers</span>
+        <span class="k">for</span> <span class="n">wrapper_name</span><span class="p">,</span> <span class="n">priv_info</span> <span class="ow">in</span> <span class="n">priv_infos</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="c1"># Note: super works because we never wrap in the defining class</span>
+            <span class="n">orig_pubmethod</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="nb">super</span><span class="p">(</span><span class="n">new_cls</span><span class="p">,</span> <span class="n">new_cls</span><span class="p">),</span> <span class="n">wrapper_name</span><span class="p">)</span>
+
+            <span class="n">priv_info</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wrapper_name</span>
+            <span class="c1"># preserve the last non-empty docstring</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">priv_info</span><span class="p">[</span><span class="s1">&#39;doc&#39;</span><span class="p">]:</span>
+                <span class="n">priv_info</span><span class="p">[</span><span class="s1">&#39;doc&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">orig_pubmethod</span><span class="o">.</span><span class="vm">__doc__</span>
+
+            <span class="n">recursed</span> <span class="o">=</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">orig_pubmethod</span><span class="p">,</span> <span class="s1">&#39;_undecorated_&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">recursed</span><span class="p">:</span>
+                <span class="n">undec_pubmethod</span> <span class="o">=</span> <span class="n">orig_pubmethod</span><span class="o">.</span><span class="n">_undecorated_</span>
+                <span class="n">priv_info</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">NodeMetaclass</span><span class="o">.</span><span class="n">_get_infos</span><span class="p">(</span><span class="n">undec_pubmethod</span><span class="p">))</span>
+                <span class="n">wrapper_method</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_wrap_function</span><span class="p">(</span><span class="n">undec_pubmethod</span><span class="p">,</span>
+                                                    <span class="n">priv_info</span><span class="p">)</span>
+                <span class="n">wrapper_method</span><span class="o">.</span><span class="n">_undecorated_</span> <span class="o">=</span> <span class="n">undec_pubmethod</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">priv_info</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">NodeMetaclass</span><span class="o">.</span><span class="n">_get_infos</span><span class="p">(</span><span class="n">orig_pubmethod</span><span class="p">))</span>
+                <span class="n">wrapper_method</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_wrap_method</span><span class="p">(</span><span class="n">priv_info</span><span class="p">,</span> <span class="n">new_cls</span><span class="p">)</span>
+                <span class="n">wrapper_method</span><span class="o">.</span><span class="n">_undecorated_</span> <span class="o">=</span> <span class="n">orig_pubmethod</span>
+
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">new_cls</span><span class="p">,</span> <span class="n">wrapper_name</span><span class="p">,</span> <span class="n">wrapper_method</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">new_cls</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_get_infos</span><span class="p">(</span><span class="n">pubmethod</span><span class="p">):</span>
+        <span class="n">infos</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">wrapped_info</span> <span class="o">=</span> <span class="n">NodeMetaclass</span><span class="o">.</span><span class="n">_function_infodict</span><span class="p">(</span><span class="n">pubmethod</span><span class="p">)</span>
+        <span class="c1"># Preserve the signature if it still does not end with kwargs</span>
+        <span class="c1"># (this is important for binodes).</span>
+        <span class="k">if</span> <span class="n">wrapped_info</span><span class="p">[</span><span class="s1">&#39;kwargs_name&#39;</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">infos</span><span class="p">[</span><span class="s1">&#39;signature&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wrapped_info</span><span class="p">[</span><span class="s1">&#39;signature&#39;</span><span class="p">]</span>
+            <span class="n">infos</span><span class="p">[</span><span class="s1">&#39;argnames&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wrapped_info</span><span class="p">[</span><span class="s1">&#39;argnames&#39;</span><span class="p">]</span>
+            <span class="n">infos</span><span class="p">[</span><span class="s1">&#39;defaults&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">wrapped_info</span><span class="p">[</span><span class="s1">&#39;defaults&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">infos</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_select_private_methods_to_wrap</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">members</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Select private methods that can overwrite the public docstring.</span>
+
+<span class="sd">        Return a dictionary priv_infos[pubname], where the keys are the</span>
+<span class="sd">        public name of the private method to be wrapped,</span>
+<span class="sd">        and the values are dictionaries with the signature, doc,</span>
+<span class="sd">        ... informations of the private methods (see `_function_infodict`).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">priv_infos</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">privname</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">DOC_METHODS</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">privname</span> <span class="ow">in</span> <span class="n">members</span><span class="p">:</span>
+                <span class="c1"># get the name of the corresponding public method</span>
+                <span class="n">pubname</span> <span class="o">=</span> <span class="n">privname</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+                <span class="c1"># If the public method has been overwritten in this</span>
+                <span class="c1"># subclass, then keep it.</span>
+                <span class="c1"># This is also important because we use super in the wrapper</span>
+                <span class="c1"># (so the public method in this class would be missed).</span>
+                <span class="k">if</span> <span class="n">pubname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">members</span><span class="p">:</span>
+                    <span class="n">priv_infos</span><span class="p">[</span><span class="n">pubname</span><span class="p">]</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_function_infodict</span><span class="p">(</span><span class="n">members</span><span class="p">[</span><span class="n">privname</span><span class="p">])</span>
+        <span class="k">return</span> <span class="n">priv_infos</span>
+
+    <span class="c1"># The next two functions (originally called get_info, wrapper)</span>
+    <span class="c1"># are adapted versions of functions in the</span>
+    <span class="c1"># decorator module by Michele Simionato</span>
+    <span class="c1"># Version: 2.3.1 (25 July 2008)</span>
+    <span class="c1"># Download page: http://pypi.python.org/pypi/decorator</span>
+    <span class="c1"># Note: Moving these functions to utils would cause circular import.</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_function_infodict</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Returns an info dictionary containing:</span>
+
+<span class="sd">        - name (the name of the function : str)</span>
+<span class="sd">        - argnames (the names of the arguments : list)</span>
+<span class="sd">        - defaults (the values of the default arguments : tuple)</span>
+<span class="sd">        - signature (the signature without the defaults : str)</span>
+<span class="sd">        - doc (the docstring : str)</span>
+<span class="sd">        - module (the module name : str)</span>
+<span class="sd">        - dict (the function __dict__ : str)</span>
+<span class="sd">        - kwargs_name (the name of the kwargs argument, if present, else None)</span>
+
+<span class="sd">        &gt;&gt;&gt; def f(self, x=1, y=2, *args, **kw): pass</span>
+<span class="sd">        &gt;&gt;&gt; info = getinfo(f)</span>
+<span class="sd">        &gt;&gt;&gt; info[&quot;name&quot;]</span>
+<span class="sd">        &#39;f&#39;</span>
+<span class="sd">        &gt;&gt;&gt; info[&quot;argnames&quot;]</span>
+<span class="sd">        [&#39;self&#39;, &#39;x&#39;, &#39;y&#39;, &#39;args&#39;, &#39;kw&#39;]</span>
+<span class="sd">        &gt;&gt;&gt; info[&quot;defaults&quot;]</span>
+<span class="sd">        (1, 2)</span>
+<span class="sd">        &gt;&gt;&gt; info[&quot;signature&quot;]</span>
+<span class="sd">        &#39;self, x, y, *args, **kw&#39;</span>
+<span class="sd">        &gt;&gt;&gt; info[&quot;kwargs_name&quot;]</span>
+<span class="sd">        kw</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">regargs</span><span class="p">,</span> <span class="n">varargs</span><span class="p">,</span> <span class="n">varkwargs</span><span class="p">,</span> <span class="n">defaults</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getargspec</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="n">argnames</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">regargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">varargs</span><span class="p">:</span>
+            <span class="n">argnames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">varargs</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">varkwargs</span><span class="p">:</span>
+            <span class="n">argnames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">varkwargs</span><span class="p">)</span>
+        <span class="n">signature</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">formatargspec</span><span class="p">(</span><span class="n">regargs</span><span class="p">,</span>
+                                          <span class="n">varargs</span><span class="p">,</span>
+                                          <span class="n">varkwargs</span><span class="p">,</span>
+                                          <span class="n">defaults</span><span class="p">,</span>
+                                          <span class="n">formatvalue</span><span class="o">=</span><span class="k">lambda</span> <span class="n">value</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                    <span class="n">signature</span><span class="o">=</span><span class="n">signature</span><span class="p">,</span>
+                    <span class="n">argnames</span><span class="o">=</span><span class="n">argnames</span><span class="p">,</span>
+                    <span class="n">kwargs_name</span><span class="o">=</span><span class="n">varkwargs</span><span class="p">,</span>
+                    <span class="n">defaults</span><span class="o">=</span><span class="n">func</span><span class="o">.</span><span class="vm">__defaults__</span><span class="p">,</span>
+                    <span class="n">doc</span><span class="o">=</span><span class="n">func</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">,</span>
+                    <span class="n">module</span><span class="o">=</span><span class="n">func</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span>
+                    <span class="nb">dict</span><span class="o">=</span><span class="n">func</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">,</span>
+                    <span class="nb">globals</span><span class="o">=</span><span class="n">func</span><span class="o">.</span><span class="vm">__globals__</span><span class="p">,</span>
+                    <span class="n">closure</span><span class="o">=</span><span class="n">func</span><span class="o">.</span><span class="vm">__closure__</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_wrap_function</span><span class="p">(</span><span class="n">original_func</span><span class="p">,</span> <span class="n">wrapper_infodict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a wrapped version of func.</span>
+
+<span class="sd">        :param original_func: The function to be wrapped.</span>
+<span class="sd">        :param wrapper_infodict: The infodict to use for constructing the</span>
+<span class="sd">            wrapper.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">src</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;lambda </span><span class="si">%(signature)s</span><span class="s2">: _original_func_(</span><span class="si">%(signature)s</span><span class="s2">)&quot;</span> <span class="o">%</span>
+               <span class="n">wrapper_infodict</span><span class="p">)</span>
+        <span class="n">wrapped_func</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">_original_func_</span><span class="o">=</span><span class="n">original_func</span><span class="p">))</span>
+        <span class="n">wrapped_func</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">wrapper_infodict</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+        <span class="n">wrapped_func</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">wrapper_infodict</span><span class="p">[</span><span class="s1">&#39;doc&#39;</span><span class="p">]</span>
+        <span class="n">wrapped_func</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">=</span> <span class="n">wrapper_infodict</span><span class="p">[</span><span class="s1">&#39;module&#39;</span><span class="p">]</span>
+        <span class="n">wrapped_func</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">wrapper_infodict</span><span class="p">[</span><span class="s1">&#39;dict&#39;</span><span class="p">])</span>
+        <span class="n">wrapped_func</span><span class="o">.</span><span class="vm">__defaults__</span> <span class="o">=</span> <span class="n">wrapper_infodict</span><span class="p">[</span><span class="s1">&#39;defaults&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">wrapped_func</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_wrap_method</span><span class="p">(</span><span class="n">wrapper_infodict</span><span class="p">,</span> <span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a wrapped version of func.</span>
+
+<span class="sd">        :param wrapper_infodict: The infodict to be used for constructing the</span>
+<span class="sd">            wrapper.</span>
+<span class="sd">        :param cls: Class to which the wrapper method will be added, this is</span>
+<span class="sd">            used for the super call.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">src</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;lambda </span><span class="si">%(signature)s</span><span class="s2">: super(_wrapper_class_, _wrapper_class_).&quot;</span>
+               <span class="s2">&quot;</span><span class="si">%(name)s</span><span class="s2">(</span><span class="si">%(signature)s</span><span class="s2">)&quot;</span> <span class="o">%</span> <span class="n">wrapper_infodict</span><span class="p">)</span>
+        <span class="n">wrapped_func</span> <span class="o">=</span> <span class="nb">eval</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;_wrapper_class_&quot;</span><span class="p">:</span> <span class="bp">cls</span><span class="p">})</span>
+        <span class="n">wrapped_func</span><span class="o">.</span><span class="vm">__name__</span> <span class="o">=</span> <span class="n">wrapper_infodict</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
+        <span class="n">wrapped_func</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="n">wrapper_infodict</span><span class="p">[</span><span class="s1">&#39;doc&#39;</span><span class="p">]</span>
+        <span class="n">wrapped_func</span><span class="o">.</span><span class="vm">__module__</span> <span class="o">=</span> <span class="n">wrapper_infodict</span><span class="p">[</span><span class="s1">&#39;module&#39;</span><span class="p">]</span>
+        <span class="n">wrapped_func</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">wrapper_infodict</span><span class="p">[</span><span class="s1">&#39;dict&#39;</span><span class="p">])</span>
+        <span class="n">wrapped_func</span><span class="o">.</span><span class="vm">__defaults__</span> <span class="o">=</span> <span class="n">wrapper_infodict</span><span class="p">[</span><span class="s1">&#39;defaults&#39;</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">wrapped_func</span>
+
+
+<span class="k">class</span> <span class="nc">Node</span><span class="p">(</span><span class="n">with_metaclass</span><span class="p">(</span><span class="n">NodeMetaclass</span><span class="p">,</span> <span class="nb">object</span><span class="p">)):</span>
+    <span class="sd">&quot;&quot;&quot;A `Node` is the basic building block of an MDP application.</span>
+
+<span class="sd">    It represents a data processing element, like for example a learning</span>
+<span class="sd">    algorithm, a data filter, or a visualization step.</span>
+<span class="sd">    Each node can have one or more training phases, during which the</span>
+<span class="sd">    internal structures are learned from training data (e.g. the weights</span>
+<span class="sd">    of a neural network are adapted or the covariance matrix is estimated)</span>
+<span class="sd">    and an execution phase, where new data can be processed forwards (by</span>
+<span class="sd">    processing the data through the node) or backwards (by applying the</span>
+<span class="sd">    inverse of the transformation computed by the node if defined).</span>
+
+<span class="sd">    Nodes have been designed to be applied to arbitrarily long sets of data:</span>
+<span class="sd">    if the underlying algorithms supports it, the internal structures can</span>
+<span class="sd">    be updated incrementally by sending multiple batches of data (this is</span>
+<span class="sd">    equivalent to online learning if the chunks consists of single</span>
+<span class="sd">    observations, or to batch learning if the whole data is sent in a</span>
+<span class="sd">    single chunk). It is thus possible to perform computations on amounts</span>
+<span class="sd">    of data that would not fit into memory or to generate data on-the-fly.</span>
+
+<span class="sd">    A `Node` also defines some utility methods, like for example</span>
+<span class="sd">    `copy` and `save`, that return an exact copy of a node and save it</span>
+<span class="sd">    in a file, respectively. Additional methods may be present, depending</span>
+<span class="sd">    on the algorithm.</span>
+
+<span class="sd">    `Node` subclasses should take care of overwriting (if necessary)</span>
+<span class="sd">    the functions `is_trainable`, `_train`, `_stop_training`, `_execute`,</span>
+<span class="sd">    `is_invertible`, `_inverse`, `_get_train_seq`, and `_get_supported_dtypes`.</span>
+<span class="sd">    If you need to overwrite the getters and setters of the</span>
+<span class="sd">    node&#39;s properties refer to the docstring of `get_input_dim`/`set_input_dim`,</span>
+<span class="sd">    `get_output_dim`/`set_output_dim`, and `get_dtype`/`set_dtype`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;If the input dimension and the output dimension are</span>
+<span class="sd">        unspecified, they will be set when the `train` or `execute`</span>
+<span class="sd">        method is called for the first time.</span>
+<span class="sd">        If dtype is unspecified, it will be inherited from the data</span>
+<span class="sd">        it receives at the first call of `train` or `execute`.</span>
+
+<span class="sd">        Every subclass must take care of up- or down-casting the internal</span>
+<span class="sd">        structures to match this argument (use `_refcast` private</span>
+<span class="sd">        method when possible).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># initialize basic attributes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_output_dim</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># call set functions for properties</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_input_dim</span><span class="p">(</span><span class="n">input_dim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_output_dim</span><span class="p">(</span><span class="n">output_dim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_dtype</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
+
+        <span class="c1"># skip the training phase if the node is not trainable</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_trainable</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_training</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_train_phase</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_train_phase_started</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># this var stores at which point in the training sequence we are</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_train_phase</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="c1"># this var is False if the training of the current phase hasn&#39;t</span>
+            <span class="c1">#  started yet, True otherwise</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_train_phase_started</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="c1"># this var is False if the complete training is finished</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_training</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="c1">### properties</span>
+
+    <span class="k">def</span> <span class="nf">get_input_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return input dimensions.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span>
+
+    <span class="k">def</span> <span class="nf">set_input_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set input dimensions.</span>
+
+<span class="sd">        Perform sanity checks and then calls ``self._set_input_dim(n)``, which</span>
+<span class="sd">        is responsible for setting the internal attribute ``self._input_dim``.</span>
+<span class="sd">        Note that subclasses should overwrite `self._set_input_dim`</span>
+<span class="sd">        when needed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span> <span class="o">!=</span> <span class="n">n</span><span class="p">):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Input dim are set already (</span><span class="si">%d</span><span class="s2">) &quot;</span>
+                   <span class="s2">&quot;(</span><span class="si">%d</span><span class="s2"> given)!&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">InconsistentDimException</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_input_dim</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Node._set_input_dim"><a class="viewcode-back" href="../../mdp/mdp.html#mdp.Node._set_input_dim">[docs]</a>    <span class="k">def</span> <span class="nf">_set_input_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span> <span class="o">=</span> <span class="n">n</span></div>
+
+    <span class="n">input_dim</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">get_input_dim</span><span class="p">,</span>
+                         <span class="n">set_input_dim</span><span class="p">,</span>
+                         <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Input dimensions&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_output_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return output dimensions.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_output_dim</span>
+
+    <span class="k">def</span> <span class="nf">set_output_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set output dimensions.</span>
+
+<span class="sd">        Perform sanity checks and then calls ``self._set_output_dim(n)``, which</span>
+<span class="sd">        is responsible for setting the internal attribute ``self._output_dim``.</span>
+<span class="sd">        Note that subclasses should overwrite `self._set_output_dim`</span>
+<span class="sd">        when needed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">pass</span>
+        <span class="k">elif</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_output_dim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_output_dim</span> <span class="o">!=</span> <span class="n">n</span><span class="p">):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Output dim are set already (</span><span class="si">%d</span><span class="s2">) &quot;</span>
+                   <span class="s2">&quot;(</span><span class="si">%d</span><span class="s2"> given)!&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">InconsistentDimException</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_output_dim</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Node._set_output_dim"><a class="viewcode-back" href="../../mdp/mdp.html#mdp.Node._set_output_dim">[docs]</a>    <span class="k">def</span> <span class="nf">_set_output_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_output_dim</span> <span class="o">=</span> <span class="n">n</span></div>
+
+    <span class="n">output_dim</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">get_output_dim</span><span class="p">,</span>
+                          <span class="n">set_output_dim</span><span class="p">,</span>
+                          <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Output dimensions&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return dtype.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span>
+
+    <span class="k">def</span> <span class="nf">set_dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set internal structures&#39; dtype.</span>
+
+<span class="sd">        Perform sanity checks and then calls ``self._set_dtype(n)``, which</span>
+<span class="sd">        is responsible for setting the internal attribute ``self._dtype``.</span>
+<span class="sd">        Note that subclasses should overwrite `self._set_dtype`</span>
+<span class="sd">        when needed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">t</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span> <span class="o">!=</span> <span class="n">t</span><span class="p">):</span>
+            <span class="n">errstr</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;dtype is already set to &#39;</span><span class="si">%s</span><span class="s2">&#39; &quot;</span>
+                      <span class="s2">&quot;(&#39;</span><span class="si">%s</span><span class="s2">&#39; given)!&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="n">NodeException</span><span class="p">(</span><span class="n">errstr</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">t</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_supported_dtypes</span><span class="p">():</span>
+            <span class="n">errstr</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">dtype &#39;</span><span class="si">%s</span><span class="s2">&#39; is not supported.</span><span class="se">\n</span><span class="s2">&quot;</span>
+                      <span class="s2">&quot;Supported dtypes: </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                                                 <span class="p">[</span><span class="n">numx</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span>
+                                                  <span class="bp">self</span><span class="o">.</span><span class="n">get_supported_dtypes</span><span class="p">()]))</span>
+            <span class="k">raise</span> <span class="n">NodeException</span><span class="p">(</span><span class="n">errstr</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_set_dtype</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Node._set_dtype"><a class="viewcode-back" href="../../mdp/mdp.html#mdp.Node._set_dtype">[docs]</a>    <span class="k">def</span> <span class="nf">_set_dtype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+        <span class="n">t</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">t</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_supported_dtypes</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="n">NodeException</span><span class="p">(</span><span class="s1">&#39;dtype </span><span class="si">%s</span><span class="s1"> not among supported dtypes (</span><span class="si">%s</span><span class="s1">)&#39;</span>
+                                <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">t</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_supported_dtypes</span><span class="p">()))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_dtype</span> <span class="o">=</span> <span class="n">t</span></div>
+
+    <span class="n">dtype</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">get_dtype</span><span class="p">,</span>
+                     <span class="n">set_dtype</span><span class="p">,</span>
+                     <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;dtype&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Node._get_supported_dtypes"><a class="viewcode-back" href="../../mdp/mdp.html#mdp.Node._get_supported_dtypes">[docs]</a>    <span class="k">def</span> <span class="nf">_get_supported_dtypes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the list of dtypes supported by this node.</span>
+
+<span class="sd">        The types can be specified in any format allowed by :numpy:`dtype`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO: http://epydoc.sourceforge.net/manual-othermarkup.html#external-api-links for numpy</span>
+        <span class="k">return</span> <span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">get_dtypes</span><span class="p">(</span><span class="s1">&#39;Float&#39;</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">get_supported_dtypes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return dtypes supported by the node as a list of :numpy:`dtype`</span>
+<span class="sd">        objects.</span>
+
+<span class="sd">        Note that subclasses should overwrite `self._get_supported_dtypes`</span>
+<span class="sd">        when needed.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">numx</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_supported_dtypes</span><span class="p">()]</span>
+
+    <span class="n">supported_dtypes</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="n">get_supported_dtypes</span><span class="p">,</span>
+                                <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;Supported dtypes&quot;</span><span class="p">)</span>
+
+    <span class="n">_train_seq</span> <span class="o">=</span> <span class="nb">property</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">self</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_train_seq</span><span class="p">(),</span>
+                          <span class="n">doc</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">        List of tuples::</span>
+
+<span class="s2">          [(training-phase1, stop-training-phase1),</span>
+<span class="s2">           (training-phase2, stop_training-phase2),</span>
+<span class="s2">           ...]</span>
+
+<span class="s2">        By default::</span>
+
+<span class="s2">          _train_seq = [(self._train, self._stop_training)]</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Node._get_train_seq"><a class="viewcode-back" href="../../mdp/mdp.html#mdp.Node._get_train_seq">[docs]</a>    <span class="k">def</span> <span class="nf">_get_train_seq</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">_train</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_stop_training</span><span class="p">)]</span></div>
+
+    <span class="k">def</span> <span class="nf">has_multiple_training_phases</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return True if the node has multiple training phases.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_train_seq</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span>
+
+    <span class="c1">### Node states</span>
+    <span class="k">def</span> <span class="nf">is_training</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return True if the node is in the training phase,</span>
+<span class="sd">        False otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_training</span>
+
+    <span class="k">def</span> <span class="nf">get_current_train_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the index of the current training phase.</span>
+
+<span class="sd">        The training phases are defined in the list `self._train_seq`.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_train_phase</span>
+
+    <span class="k">def</span> <span class="nf">get_remaining_train_phase</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return the number of training phases still to accomplish.</span>
+
+<span class="sd">        If the node is not trainable then return 0.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_trainable</span><span class="p">():</span>
+            <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_train_seq</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">_train_phase</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+
+    <span class="c1">### Node capabilities</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">is_trainable</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;Return True if the node can be trained, False otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">is_invertible</span><span class="p">():</span>
+        <span class="sd">&quot;&quot;&quot;Return True if the node can be inverted, False otherwise.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="c1">### check functions</span>
+<div class="viewcode-block" id="Node._check_input"><a class="viewcode-back" href="../../mdp/mdp.html#mdp.Node._check_input">[docs]</a>    <span class="k">def</span> <span class="nf">_check_input</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="c1"># check input rank</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">error_str</span> <span class="o">=</span> <span class="s2">&quot;x has rank </span><span class="si">%d</span><span class="s2">, should be 2&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">ndim</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">NodeException</span><span class="p">(</span><span class="n">error_str</span><span class="p">)</span>
+
+        <span class="c1"># set the input dimension if necessary</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># set the dtype if necessary</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span>
+
+        <span class="c1"># check the input dimension</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span><span class="p">:</span>
+            <span class="n">error_str</span> <span class="o">=</span> <span class="s2">&quot;x has dimension </span><span class="si">%d</span><span class="s2">, should be </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                                              <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">NodeException</span><span class="p">(</span><span class="n">error_str</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">error_str</span> <span class="o">=</span> <span class="s2">&quot;x must have at least one observation (zero given)&quot;</span>
+            <span class="k">raise</span> <span class="n">NodeException</span><span class="p">(</span><span class="n">error_str</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Node._check_output"><a class="viewcode-back" href="../../mdp/mdp.html#mdp.Node._check_output">[docs]</a>    <span class="k">def</span> <span class="nf">_check_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="c1"># check output rank</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">y</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">error_str</span> <span class="o">=</span> <span class="s2">&quot;y has rank </span><span class="si">%d</span><span class="s2">, should be 2&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">ndim</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">NodeException</span><span class="p">(</span><span class="n">error_str</span><span class="p">)</span>
+
+        <span class="c1"># check the output dimension</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span><span class="p">:</span>
+            <span class="n">error_str</span> <span class="o">=</span> <span class="s2">&quot;y has dimension </span><span class="si">%d</span><span class="s2">, should be </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+                                                              <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">NodeException</span><span class="p">(</span><span class="n">error_str</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Node._if_training_stop_training"><a class="viewcode-back" href="../../mdp/mdp.html#mdp.Node._if_training_stop_training">[docs]</a>    <span class="k">def</span> <span class="nf">_if_training_stop_training</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_training</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stop_training</span><span class="p">()</span>
+            <span class="c1"># if there is some training phases left we shouldn&#39;t be here!</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_remaining_train_phase</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">error_str</span> <span class="o">=</span> <span class="s2">&quot;The training phases are not completed yet.&quot;</span>
+                <span class="k">raise</span> <span class="n">TrainingException</span><span class="p">(</span><span class="n">error_str</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Node._pre_execution_checks"><a class="viewcode-back" href="../../mdp/mdp.html#mdp.Node._pre_execution_checks">[docs]</a>    <span class="k">def</span> <span class="nf">_pre_execution_checks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method contains all pre-execution checks.</span>
+
+<span class="sd">        It can be used when a subclass defines multiple execution methods.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># if training has not started yet, assume we want to train the node</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_current_train_phase</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span>
+            <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_train_phase_started</span><span class="p">):</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_remaining_train_phase</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">stop_training</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">break</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_if_training_stop_training</span><span class="p">()</span>
+
+        <span class="c1"># control the dimension x</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_input</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="c1"># set the output dimension if necessary</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span></div>
+
+<div class="viewcode-block" id="Node._pre_inversion_checks"><a class="viewcode-back" href="../../mdp/mdp.html#mdp.Node._pre_inversion_checks">[docs]</a>    <span class="k">def</span> <span class="nf">_pre_inversion_checks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;This method contains all pre-inversion checks.</span>
+
+<span class="sd">        It can be used when a subclass defines multiple inversion methods.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_invertible</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="n">IsNotInvertibleException</span><span class="p">(</span><span class="s2">&quot;This node is not invertible.&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_if_training_stop_training</span><span class="p">()</span>
+
+        <span class="c1"># set the output dimension if necessary</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># if the input_dim is not defined, raise an exception</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">errstr</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Number of input dimensions undefined. Inversion&quot;</span>
+                          <span class="s2">&quot;not possible.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">NodeException</span><span class="p">(</span><span class="n">errstr</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span>
+
+        <span class="c1"># control the dimension of y</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_output</span><span class="p">(</span><span class="n">y</span><span class="p">)</span></div>
+
+    <span class="c1">### casting helper functions</span>
+
+<div class="viewcode-block" id="Node._refcast"><a class="viewcode-back" href="../../mdp/mdp.html#mdp.Node._refcast">[docs]</a>    <span class="k">def</span> <span class="nf">_refcast</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Helper function to cast arrays to the internal dtype.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">refcast</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span></div>
+
+    <span class="c1">### Methods to be implemented by the user</span>
+
+    <span class="c1"># this are the methods the user has to overwrite</span>
+    <span class="c1"># they receive the data already casted to the correct type</span>
+
+<div class="viewcode-block" id="Node._train"><a class="viewcode-back" href="../../mdp/mdp.html#mdp.Node._train">[docs]</a>    <span class="k">def</span> <span class="nf">_train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_trainable</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="Node._stop_training"><a class="viewcode-back" href="../../mdp/mdp.html#mdp.Node._stop_training">[docs]</a>    <span class="k">def</span> <span class="nf">_stop_training</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">pass</span></div>
+
+<div class="viewcode-block" id="Node._execute"><a class="viewcode-back" href="../../mdp/mdp.html#mdp.Node._execute">[docs]</a>    <span class="k">def</span> <span class="nf">_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">x</span></div>
+
+<div class="viewcode-block" id="Node._inverse"><a class="viewcode-back" href="../../mdp/mdp.html#mdp.Node._inverse">[docs]</a>    <span class="k">def</span> <span class="nf">_inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_invertible</span><span class="p">():</span>
+            <span class="k">return</span> <span class="n">x</span></div>
+
+<div class="viewcode-block" id="Node._check_train_args"><a class="viewcode-back" href="../../mdp/mdp.html#mdp.Node._check_train_args">[docs]</a>    <span class="k">def</span> <span class="nf">_check_train_args</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="c1"># implemented by subclasses if needed</span>
+        <span class="k">pass</span></div>
+
+    <span class="c1">### User interface to the overwritten methods</span>
+
+    <span class="k">def</span> <span class="nf">train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Update the internal structures according to the input data `x`.</span>
+
+<span class="sd">        `x` is a matrix having different variables on different columns</span>
+<span class="sd">        and observations on the rows.</span>
+
+<span class="sd">        By default, subclasses should overwrite `_train` to implement their</span>
+<span class="sd">        training phase. The docstring of the `_train` method overwrites this</span>
+<span class="sd">        docstring.</span>
+
+<span class="sd">        Note: a subclass supporting multiple training phases should implement</span>
+<span class="sd">        the *same* signature for all the training phases and document the</span>
+<span class="sd">        meaning of the arguments in the `_train` method doc-string. Having</span>
+<span class="sd">        consistent signatures is a requirement to use the node in a flow.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_trainable</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="n">IsNotTrainableException</span><span class="p">(</span><span class="s2">&quot;This node is not trainable.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_training</span><span class="p">():</span>
+            <span class="n">err_str</span> <span class="o">=</span> <span class="s2">&quot;The training phase has already finished.&quot;</span>
+            <span class="k">raise</span> <span class="n">TrainingFinishedException</span><span class="p">(</span><span class="n">err_str</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_input</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_check_train_args</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_train_phase_started</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_train_seq</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_train_phase</span><span class="p">][</span><span class="mi">0</span><span class="p">](</span><span class="bp">self</span><span class="o">.</span><span class="n">_refcast</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">stop_training</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Stop the training phase.</span>
+
+<span class="sd">        By default, subclasses should overwrite `_stop_training` to implement</span>
+<span class="sd">        this functionality. The docstring of the `_stop_training` method</span>
+<span class="sd">        overwrites this docstring.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_training</span><span class="p">()</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_train_phase_started</span> <span class="o">==</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">TrainingException</span><span class="p">(</span><span class="s2">&quot;The node has not been trained.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_training</span><span class="p">():</span>
+            <span class="n">err_str</span> <span class="o">=</span> <span class="s2">&quot;The training phase has already finished.&quot;</span>
+            <span class="k">raise</span> <span class="n">TrainingFinishedException</span><span class="p">(</span><span class="n">err_str</span><span class="p">)</span>
+
+        <span class="c1"># close the current phase.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_train_seq</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_train_phase</span><span class="p">][</span><span class="mi">1</span><span class="p">](</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_train_phase</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_train_phase_started</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="c1"># check if we have some training phase left</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_remaining_train_phase</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_training</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span> <span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Process the data contained in `x`.</span>
+
+<span class="sd">        If the object is still in the training phase, the function</span>
+<span class="sd">        `stop_training` will be called.</span>
+<span class="sd">        `x` is a matrix having different variables on different columns</span>
+<span class="sd">        and observations on the rows.</span>
+
+<span class="sd">        By default, subclasses should overwrite `_execute` to implement</span>
+<span class="sd">        their execution phase. The docstring of the `_execute` method</span>
+<span class="sd">        overwrites this docstring.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pre_execution_checks</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_execute</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_refcast</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">inverse</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Invert `y`.</span>
+
+<span class="sd">        If the node is invertible, compute the input ``x`` such that</span>
+<span class="sd">        ``y = execute(x)``.</span>
+
+<span class="sd">        By default, subclasses should overwrite `_inverse` to implement</span>
+<span class="sd">        their `inverse` function. The docstring of the `inverse` method</span>
+<span class="sd">        overwrites this docstring.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pre_inversion_checks</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inverse</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_refcast</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Calling an instance of `Node` is equivalent to calling</span>
+<span class="sd">        its `execute` method.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="c1">###### adding nodes returns flows</span>
+
+    <span class="k">def</span> <span class="nf">__add__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+        <span class="c1"># check other is a node</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">Node</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">([</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">other</span><span class="p">,</span> <span class="n">mdp</span><span class="o">.</span><span class="n">Flow</span><span class="p">):</span>
+            <span class="n">flow_copy</span> <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">flow_copy</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">flow_copy</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">err_str</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;can only concatenate node&#39;</span>
+                       <span class="s1">&#39; (not </span><span class="se">\&#39;</span><span class="si">%s</span><span class="se">\&#39;</span><span class="s1">) to node&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">other</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">err_str</span><span class="p">)</span>
+
+    <span class="c1">###### string representation</span>
+
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># print input_dim, output_dim, dtype</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="n">inp</span> <span class="o">=</span> <span class="s2">&quot;input_dim=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span><span class="p">)</span>
+        <span class="n">out</span> <span class="o">=</span> <span class="s2">&quot;output_dim=</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">typ</span> <span class="o">=</span> <span class="s1">&#39;dtype=None&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">typ</span> <span class="o">=</span> <span class="s2">&quot;dtype=&#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">inp</span><span class="p">,</span> <span class="n">out</span><span class="p">,</span> <span class="n">typ</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;(&#39;</span> <span class="o">+</span> <span class="n">args</span> <span class="o">+</span> <span class="s1">&#39;)&#39;</span>
+
+    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return a deep copy of the node.</span>
+
+<span class="sd">        :param protocol: the pickle protocol (deprecated).&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">protocol</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">_warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;protocol parameter to copy() is ignored&quot;</span><span class="p">,</span>
+                           <span class="n">mdp</span><span class="o">.</span><span class="n">MDPDeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">_copy</span><span class="o">.</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">protocol</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Save a pickled serialization of the node to `filename`.</span>
+<span class="sd">        If `filename` is None, return a string.</span>
+
+<span class="sd">        Note: the pickled `Node` is not guaranteed to be forwards or</span>
+<span class="sd">        backwards compatible.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">filename</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">_cPickle</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">protocol</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># if protocol != 0 open the file in binary mode</span>
+            <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;wb&#39;</span> <span class="k">if</span> <span class="n">protocol</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;w&#39;</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span> <span class="k">as</span> <span class="n">flh</span><span class="p">:</span>
+                <span class="n">_cPickle</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flh</span><span class="p">,</span> <span class="n">protocol</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="PreserveDimNode"><a class="viewcode-back" href="../../mdp/mdp.signal_node.html#mdp.PreserveDimNode">[docs]</a><span class="k">class</span> <span class="nc">PreserveDimNode</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Abstract base class with ``output_dim == input_dim``.</span>
+
+<span class="sd">    If one dimension is set then the other is set to the same value.</span>
+<span class="sd">    If the dimensions are set to different values, then an</span>
+<span class="sd">    `InconsistentDimException` is raised.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PreserveDimNode._set_input_dim"><a class="viewcode-back" href="../../mdp/mdp.signal_node.html#mdp.PreserveDimNode._set_input_dim">[docs]</a>    <span class="k">def</span> <span class="nf">_set_input_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_output_dim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_output_dim</span> <span class="o">!=</span> <span class="n">n</span><span class="p">):</span>
+            <span class="n">err</span> <span class="o">=</span> <span class="s2">&quot;input_dim must be equal to output_dim for this node.&quot;</span>
+            <span class="k">raise</span> <span class="n">InconsistentDimException</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_output_dim</span> <span class="o">=</span> <span class="n">n</span></div>
+
+<div class="viewcode-block" id="PreserveDimNode._set_output_dim"><a class="viewcode-back" href="../../mdp/mdp.signal_node.html#mdp.PreserveDimNode._set_output_dim">[docs]</a>    <span class="k">def</span> <span class="nf">_set_output_dim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span> <span class="o">!=</span> <span class="n">n</span><span class="p">):</span>
+            <span class="n">err</span> <span class="o">=</span> <span class="s2">&quot;output_dim must be equal to input_dim for this node.&quot;</span>
+            <span class="k">raise</span> <span class="n">InconsistentDimException</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_input_dim</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_output_dim</span> <span class="o">=</span> <span class="n">n</span></div></div>
+
+
+<span class="k">def</span> <span class="nf">VariadicCumulator</span><span class="p">(</span><span class="o">*</span><span class="n">fields</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A VariadicCumulator is a `Node` whose training phase simply collects</span>
+<span class="sd">    all input data. In this way it is possible to easily implement</span>
+<span class="sd">    batch-mode learning.</span>
+
+<span class="sd">    The data is accessible in the attributes given with the VariadicCumulator&#39;s</span>
+<span class="sd">    constructor after the beginning of the `Node._stop_training` phase.</span>
+<span class="sd">    ``self.tlen`` contains the number of data points collected.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">class</span> <span class="nc">Cumulator</span><span class="p">(</span><span class="n">Node</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="nb">super</span><span class="p">(</span><span class="n">Cumulator</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cumulator_fields</span> <span class="o">=</span> <span class="n">fields</span>
+            <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cumulator_fields</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">):</span>
+                    <span class="n">errstr</span> <span class="o">=</span> <span class="s2">&quot;Cumulator Error: Property </span><span class="si">%s</span><span class="s2"> already defined&quot;</span>
+                    <span class="k">raise</span> <span class="n">mdp</span><span class="o">.</span><span class="n">MDPException</span><span class="p">(</span><span class="n">errstr</span> <span class="o">%</span> <span class="n">arg</span><span class="p">)</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">arg</span><span class="p">,</span> <span class="p">[])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tlen</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">def</span> <span class="nf">_train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Collect all input data in a list.&quot;&quot;&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tlen</span> <span class="o">+=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">field</span><span class="p">,</span> <span class="n">data</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cumulator_fields</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+                <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">_stop_training</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot;Concatenate the collected data in a single array.&quot;&quot;&quot;</span>
+            <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cumulator_fields</span><span class="p">:</span>
+                <span class="n">data</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">)</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">,</span> <span class="n">numx</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">Cumulator</span>
+
+<span class="n">Cumulator</span> <span class="o">=</span> <span class="n">VariadicCumulator</span><span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">)</span>
+<span class="n">Cumulator</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;A specialized version of `VariadicCumulator` which only</span>
+<span class="s2">                    fills the field ``self.data``.</span>
+<span class="s2">                    &quot;&quot;&quot;</span>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      Last updated on 2020-02-17 1:33:02 PM Coordinated Universal Time.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'3.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+<div class="footer">
+    <hr />
+    <table>
+      <tr>
+        <td class="footer-left">
+           <a href="http://sourceforge.net/projects/mdp-toolkit">
+ <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=116959&amp;type=12"
+      width="120" height="30" border="0" alt="MDP@SF.NET"/> </a>
+        </td>
+        <td class="footer-center">
+          Last updated on
+             2020-02-17 1:33:02 PM Coordinated Universal Time
+        </td>
+        <td class="footer-right">
+         <form class="search" action="../../search.html" method="get">
+          <input type="submit" value="Search" />
+          <input type="text" name="q" size="18" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+         </form>
+        </td>
+    </table>  
+    <!-- Piwik -->
+    <script type="text/javascript">
+	var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/mdp-toolkit/" : "http://sourceforge.net/apps/piwik/mdp-toolkit/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+	piwik_action_name = '';
+	piwik_idsite = 1;
+	piwik_url = pkBaseURL + "piwik.php";
+	piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+    </script>
+    <object><noscript>
+	    <p>
+		<img src="http://sourceforge.net/apps/piwik/mdp-toolkit/piwik.php?idsite=1"
+		     alt="piwik" />
+	    </p>
+    </noscript></object>
+    <!-- End Piwik Tag -->
+</div>   
+
+
+</body>
+</html>

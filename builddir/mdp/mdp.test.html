@@ -1,0 +1,552 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mdp.test package &mdash; Modular toolkit for Data Processing (MDP)</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="search" title="Search" href="../search.html"/>
+    <link rel="top" title="Modular toolkit for Data Processing (MDP)" href="../index.html"/>
+        <link rel="up" title="mdp package" href="mdp.html"/>
+        <link rel="next" title="mdp.test._tools module" href="mdp.test._tools.html"/>
+        <link rel="prev" title="mdp.parallel.thread_schedule module" href="mdp.parallel.thread_schedule.html"/> 
+<meta name="viewport" content="width=740" />
+
+
+  
+  <script src="../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../index.html">
+          
+
+          
+            
+            <img src="../_static/logo_animation.gif" class="logo" />
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../documentation.html">Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../examples/examples.html">Examples</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="modules.html">mdp</a><ul class="current">
+<li class="toctree-l3 current"><a class="reference internal" href="mdp.html">mdp package</a><ul class="current">
+<li class="toctree-l4 current"><a class="reference internal" href="mdp.html#subpackages">Subpackages</a><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="mdp.caching.html">mdp.caching package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="mdp.graph.html">mdp.graph package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="mdp.hinet.html">mdp.hinet package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="mdp.nodes.html">mdp.nodes package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="mdp.parallel.html">mdp.parallel package</a></li>
+<li class="toctree-l5 current"><a class="current reference internal" href="#">mdp.test package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="mdp.utils.html">mdp.utils package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="mdp.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="mdp.html#module-mdp">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../additional_utilities.html">Additional utilities</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../development.html">Development</a></li>
+<li class="toctree-l2"><a class="reference external" href="http://mdp-toolkit.sourceforge.net/api/index.html">API documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../how_to_cite_mdp.html">How to cite MDP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MDP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../documentation.html">Documentation</a> &raquo;</li>
+        
+          <li><a href="modules.html">mdp</a> &raquo;</li>
+        
+          <li><a href="mdp.html">mdp package</a> &raquo;</li>
+        
+      <li>mdp.test package</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="mdp-test-package">
+<h1>mdp.test package<a class="headerlink" href="#mdp-test-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test._tools.html">mdp.test._tools module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.benchmark_mdp.html">mdp.test.benchmark_mdp module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.conftest.html">mdp.test.conftest module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.ide_run.html">mdp.test.ide_run module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_AdaptiveCutoffNode.html">mdp.test.test_AdaptiveCutoffNode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_CCIPCANode.html">mdp.test.test_CCIPCANode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_Convolution2DNode.html">mdp.test.test_Convolution2DNode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_CutoffNode.html">mdp.test.test_CutoffNode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_EtaComputerNode.html">mdp.test.test_EtaComputerNode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_FANode.html">mdp.test.test_FANode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_FDANode.html">mdp.test.test_FDANode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_GSFANode.html">mdp.test.test_GSFANode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_GaussianClassifier.html">mdp.test.test_GaussianClassifier module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_GeneralExpansionNode.html">mdp.test.test_GeneralExpansionNode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_GrowingNeuralGasNode.html">mdp.test.test_GrowingNeuralGasNode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_HistogramNode.html">mdp.test.test_HistogramNode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_HitParadeNode.html">mdp.test.test_HitParadeNode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_ICANode.html">mdp.test.test_ICANode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_ISFANode.html">mdp.test.test_ISFANode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_IncSFANode.html">mdp.test.test_IncSFANode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_KNNClassifier.html">mdp.test.test_KNNClassifier module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_LinearRegressionNode.html">mdp.test.test_LinearRegressionNode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_MCANode.html">mdp.test.test_MCANode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_NearestMeanClassifier.html">mdp.test.test_NearestMeanClassifier module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_NeuralGasNode.html">mdp.test.test_NeuralGasNode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_NoiseNode.html">mdp.test.test_NoiseNode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_NormalizingRecursiveExpansionNode.html">mdp.test.test_NormalizingRecursiveExpansionNode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_PCANode.html">mdp.test.test_PCANode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_PolynomialExpansionNode.html">mdp.test.test_PolynomialExpansionNode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_PreseverDimNode.html">mdp.test.test_PreseverDimNode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_RBFExpansionNode.html">mdp.test.test_RBFExpansionNode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_RBM.html">mdp.test.test_RBM module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_RecursiveExpansionNode.html">mdp.test.test_RecursiveExpansionNode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_SFA2Node.html">mdp.test.test_SFA2Node module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_SFANode.html">mdp.test.test_SFANode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_TimeDelayNodes.html">mdp.test.test_TimeDelayNodes module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_TimeFrameNode.html">mdp.test.test_TimeFrameNode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_VariadicCumulator.html">mdp.test.test_VariadicCumulator module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_VartimeCovariance.html">mdp.test.test_VartimeCovariance module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_VartimeSFANode.html">mdp.test.test_VartimeSFANode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_WhiteningNode.html">mdp.test.test_WhiteningNode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_caching.html">mdp.test.test_caching module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_classifier.html">mdp.test.test_classifier module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_config.html">mdp.test.test_config module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_contrib.html">mdp.test.test_contrib module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_copying.html">mdp.test.test_copying module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_extension.html">mdp.test.test_extension module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_fastica.html">mdp.test.test_fastica module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_flows.html">mdp.test.test_flows module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_graph.html">mdp.test.test_graph module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_hinet.html">mdp.test.test_hinet module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_hinet_generic.html">mdp.test.test_hinet_generic module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_iGSFANode.html">mdp.test.test_iGSFANode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_metaclass_and_extensions.html">mdp.test.test_metaclass_and_extensions module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_namespace_fixups.html">mdp.test.test_namespace_fixups module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_node_covariance.html">mdp.test.test_node_covariance module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_node_metaclass.html">mdp.test.test_node_metaclass module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_node_operations.html">mdp.test.test_node_operations module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_nodes_generic.html">mdp.test.test_nodes_generic module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_online_flows_hinet.html">mdp.test.test_online_flows_hinet module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_onlinenode.html">mdp.test.test_onlinenode module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_parallelclassifiers.html">mdp.test.test_parallelclassifiers module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_parallelflows.html">mdp.test.test_parallelflows module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_parallelhinet.html">mdp.test.test_parallelhinet module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_parallelnodes.html">mdp.test.test_parallelnodes module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_pp_local.html">mdp.test.test_pp_local module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_pp_remote.html">mdp.test.test_pp_remote module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_process_schedule.html">mdp.test.test_process_schedule module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_reload.html">mdp.test.test_reload module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_schedule.html">mdp.test.test_schedule module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_scikits.html">mdp.test.test_scikits module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_seed.html">mdp.test.test_seed module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_stats_nodes_online.html">mdp.test.test_stats_nodes_online module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_svm_classifier.html">mdp.test.test_svm_classifier module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_tempdir.html">mdp.test.test_tempdir module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_utils.html">mdp.test.test_utils module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="mdp.test.test_utils_generic.html">mdp.test.test_utils_generic module</a></li>
+</ul>
+</div>
+</div>
+<div class="section" id="module-mdp.test">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-mdp.test" title="Permalink to this headline">¶</a></h2>
+<p><strong>Module content:</strong></p>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.CheckpointFlow</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.CheckpointFunction</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.CheckpointSaveFunction</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.ClassifierCumulator</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.ClassifierNode</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.CrashRecoveryException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.Cumulator</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.ExtensionException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.ExtensionNode</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.ExtensionNodeMetaclass</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.Flow</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.FlowException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.FlowExceptionCR</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.InconsistentDimException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.IsNotInvertibleException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.IsNotTrainableException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.MDPDeprecationWarning</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.MDPException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.MDPWarning</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.Node</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.NodeException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.NodeMetaclass</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.PreserveDimNode</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.TrainingException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.TrainingFinishedException</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.VariadicCumulator</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">__loader__</span></code></td>
+<td>Concrete implementation of SourceLoader using the file system.</td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">__spec__</span></code></td>
+<td>The specification for a module, used for loading.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.activate_extension</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.activate_extensions</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.config</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.deactivate_extension</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.deactivate_extensions</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.extension</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.extension_method</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.extension_setup</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.extension_teardown</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.fastica</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.get_active_extensions</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.get_extensions</span></code></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.pca</span></code></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#mdp.test.test" title="mdp.test.test"><code class="xref py py-obj docutils literal notranslate"><span class="pre">test</span></code></a>([filename,&nbsp;seed,&nbsp;options,&nbsp;mod_loc])</td>
+<td>Run tests.</td>
+</tr>
+<tr class="row-odd"><td><code class="xref py py-obj docutils literal notranslate"><span class="pre">mdp.test.with_extension</span></code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<dl class="function">
+<dt id="mdp.test.get_worker">
+<code class="descclassname">mdp.test.</code><code class="descname">get_worker</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/test.html#get_worker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.test.get_worker" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="mdp.test.test">
+<code class="descclassname">mdp.test.</code><code class="descname">test</code><span class="sig-paren">(</span><em>filename=None</em>, <em>seed=None</em>, <em>options=''</em>, <em>mod_loc=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mdp/test.html#test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mdp.test.test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run tests.</p>
+<dl class="docutils">
+<dt>filename – only run tests in filename. If not set run all tests.</dt>
+<dd>You do not need the full path, the relative path within the
+test directory is enough.</dd>
+</dl>
+<p>seed     – set random seed</p>
+<p>options  – options to be passed to py.test (as a string)</p>
+<p>mod_loc  – don’t use it, it’s for internal usage</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="mdp.test._tools.html" class="btn btn-neutral float-right" title="mdp.test._tools module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="mdp.parallel.thread_schedule.html" class="btn btn-neutral" title="mdp.parallel.thread_schedule module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      Last updated on 2020-02-17 1:33:02 PM Coordinated Universal Time.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../',
+            VERSION:'3.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../_static/jquery.js"></script>
+      <script type="text/javascript" src="../_static/underscore.js"></script>
+      <script type="text/javascript" src="../_static/doctools.js"></script>
+      <script type="text/javascript" src="../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+<div class="footer">
+    <hr />
+    <table>
+      <tr>
+        <td class="footer-left">
+           <a href="http://sourceforge.net/projects/mdp-toolkit">
+ <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=116959&amp;type=12"
+      width="120" height="30" border="0" alt="MDP@SF.NET"/> </a>
+        </td>
+        <td class="footer-center">
+          Last updated on
+             2020-02-17 1:33:02 PM Coordinated Universal Time
+        </td>
+        <td class="footer-right">
+         <form class="search" action="../search.html" method="get">
+          <input type="submit" value="Search" />
+          <input type="text" name="q" size="18" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+         </form>
+        </td>
+    </table>  
+    <!-- Piwik -->
+    <script type="text/javascript">
+	var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/mdp-toolkit/" : "http://sourceforge.net/apps/piwik/mdp-toolkit/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+	piwik_action_name = '';
+	piwik_idsite = 1;
+	piwik_url = pkBaseURL + "piwik.php";
+	piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+    </script>
+    <object><noscript>
+	    <p>
+		<img src="http://sourceforge.net/apps/piwik/mdp-toolkit/piwik.php?idsite=1"
+		     alt="piwik" />
+	    </p>
+    </noscript></object>
+    <!-- End Piwik Tag -->
+</div>   
+
+
+</body>
+</html>

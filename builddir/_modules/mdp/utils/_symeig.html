@@ -1,0 +1,438 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mdp.utils._symeig &mdash; Modular toolkit for Data Processing (MDP)</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="Modular toolkit for Data Processing (MDP)" href="../../../index.html"/>
+        <link rel="up" title="mdp.utils" href="../utils.html"/> 
+<meta name="viewport" content="width=740" />
+
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html">
+          
+
+          
+            
+            <img src="../../../_static/logo_animation.gif" class="logo" />
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_cite_mdp.html">How to cite MDP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MDP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../../mdp.html">mdp</a> &raquo;</li>
+        
+          <li><a href="../utils.html">mdp.utils</a> &raquo;</li>
+        
+      <li>mdp.utils._symeig</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mdp.utils._symeig</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">str</span>
+<span class="kn">from</span> <span class="nn">past.utils</span> <span class="k">import</span> <span class="n">old_div</span>
+<span class="kn">import</span> <span class="nn">mdp</span>
+<span class="kn">from</span> <span class="nn">mdp</span> <span class="k">import</span> <span class="n">numx</span><span class="p">,</span> <span class="n">numx_linalg</span>
+
+<div class="viewcode-block" id="SymeigException"><a class="viewcode-back" href="../../../mdp/mdp.utils._symeig.html#mdp.utils._symeig.SymeigException">[docs]</a><span class="k">class</span> <span class="nc">SymeigException</span><span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">MDPException</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+<span class="c1"># the following functions and classes were part of the scipy_emulation.py file</span>
+
+<span class="n">_type_keys</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">]</span>
+<span class="n">_type_conv</span> <span class="o">=</span> <span class="p">{(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">):</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span><span class="s1">&#39;F&#39;</span><span class="p">):</span> <span class="s1">&#39;F&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span><span class="s1">&#39;D&#39;</span><span class="p">):</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span>
+              <span class="p">(</span><span class="s1">&#39;d&#39;</span><span class="p">,</span><span class="s1">&#39;F&#39;</span><span class="p">):</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;d&#39;</span><span class="p">,</span><span class="s1">&#39;D&#39;</span><span class="p">):</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span>
+              <span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span><span class="s1">&#39;d&#39;</span><span class="p">):</span> <span class="s1">&#39;D&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s1">&#39;F&#39;</span><span class="p">,</span><span class="s1">&#39;D&#39;</span><span class="p">):</span> <span class="s1">&#39;D&#39;</span><span class="p">}</span>
+
+<div class="viewcode-block" id="_greatest_common_dtype"><a class="viewcode-back" href="../../../mdp/mdp.utils._symeig.html#mdp.utils._symeig._greatest_common_dtype">[docs]</a><span class="k">def</span> <span class="nf">_greatest_common_dtype</span><span class="p">(</span><span class="n">alist</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Apply conversion rules to find the common conversion type</span>
+<span class="sd">    dtype &#39;d&#39; is default for &#39;i&#39; or unknown types</span>
+<span class="sd">    (known types: &#39;f&#39;,&#39;d&#39;,&#39;F&#39;,&#39;D&#39;).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dtype</span> <span class="o">=</span> <span class="s1">&#39;f&#39;</span>
+    <span class="k">for</span> <span class="n">array</span> <span class="ow">in</span> <span class="n">alist</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">array</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">tc</span> <span class="o">=</span> <span class="n">array</span><span class="o">.</span><span class="n">dtype</span><span class="o">.</span><span class="n">char</span>
+        <span class="k">if</span> <span class="n">tc</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_type_keys</span><span class="p">:</span>
+            <span class="n">tc</span> <span class="o">=</span> <span class="s1">&#39;d&#39;</span>
+        <span class="n">transition</span> <span class="o">=</span> <span class="p">(</span><span class="n">dtype</span><span class="p">,</span> <span class="n">tc</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">transition</span> <span class="ow">in</span> <span class="n">_type_conv</span><span class="p">:</span>
+            <span class="n">dtype</span> <span class="o">=</span> <span class="n">_type_conv</span><span class="p">[</span><span class="n">transition</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">dtype</span></div>
+
+<div class="viewcode-block" id="_assert_eigenvalues_real_and_positive"><a class="viewcode-back" href="../../../mdp/mdp.utils._symeig.html#mdp.utils._symeig._assert_eigenvalues_real_and_positive">[docs]</a><span class="k">def</span> <span class="nf">_assert_eigenvalues_real_and_positive</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">dtype</span><span class="p">):</span>
+    <span class="n">tol</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">finfo</span><span class="p">(</span><span class="n">dtype</span><span class="o">.</span><span class="n">type</span><span class="p">)</span><span class="o">.</span><span class="n">eps</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">w</span><span class="o">.</span><span class="n">imag</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&gt;</span> <span class="n">tol</span><span class="p">:</span>
+        <span class="n">err</span> <span class="o">=</span> <span class="s2">&quot;Some eigenvalues have significant imaginary part: </span><span class="si">%s</span><span class="s2"> &quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">w</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">mdp</span><span class="o">.</span><span class="n">SymeigException</span><span class="p">(</span><span class="n">err</span><span class="p">)</span></div>
+    <span class="c1">#if w.real.min() &lt; 0:</span>
+    <span class="c1">#    err = &quot;Got negative eigenvalues: %s&quot; % str(w)</span>
+    <span class="c1">#    raise SymeigException(err)</span>
+
+<div class="viewcode-block" id="wrap_eigh"><a class="viewcode-back" href="../../../mdp/mdp.utils._symeig.html#mdp.utils._symeig.wrap_eigh">[docs]</a><span class="k">def</span> <span class="nf">wrap_eigh</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">eigenvectors</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">turbo</span> <span class="o">=</span> <span class="s2">&quot;on&quot;</span><span class="p">,</span> <span class="nb">range</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+              <span class="nb">type</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">overwrite</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Wrapper for scipy.linalg.eigh for scipy version &gt; 0.7&quot;&quot;&quot;</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">args</span><span class="p">[</span><span class="s1">&#39;a&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">A</span>
+    <span class="n">args</span><span class="p">[</span><span class="s1">&#39;b&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">B</span>
+    <span class="n">args</span><span class="p">[</span><span class="s1">&#39;eigvals_only&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">eigenvectors</span>
+    <span class="n">args</span><span class="p">[</span><span class="s1">&#39;overwrite_a&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">overwrite</span>
+    <span class="n">args</span><span class="p">[</span><span class="s1">&#39;overwrite_b&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">overwrite</span>
+    <span class="k">if</span> <span class="n">turbo</span> <span class="o">==</span> <span class="s2">&quot;on&quot;</span><span class="p">:</span>
+        <span class="n">args</span><span class="p">[</span><span class="s1">&#39;turbo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">args</span><span class="p">[</span><span class="s1">&#39;turbo&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">args</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">type</span>
+    <span class="k">if</span> <span class="nb">range</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="nb">range</span>
+        <span class="k">if</span> <span class="n">lo</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">lo</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">lo</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">:</span>
+            <span class="n">lo</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="k">if</span> <span class="n">hi</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">:</span>
+            <span class="n">hi</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="k">if</span> <span class="n">lo</span> <span class="o">&gt;</span> <span class="n">hi</span><span class="p">:</span>
+            <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">hi</span><span class="p">,</span> <span class="n">lo</span>
+        <span class="c1"># in scipy.linalg.eigh the range starts from 0</span>
+        <span class="n">lo</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="n">hi</span> <span class="o">-=</span> <span class="mi">1</span>
+        <span class="nb">range</span> <span class="o">=</span> <span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">)</span>
+    <span class="n">args</span><span class="p">[</span><span class="s1">&#39;eigvals&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">range</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">numx_linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="o">**</span><span class="n">args</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">numx_linalg</span><span class="o">.</span><span class="n">LinAlgError</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">SymeigException</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">exception</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="_symeig_fake"><a class="viewcode-back" href="../../../mdp/mdp.utils._symeig.html#mdp.utils._symeig._symeig_fake">[docs]</a><span class="k">def</span> <span class="nf">_symeig_fake</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">eigenvectors</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">turbo</span> <span class="o">=</span> <span class="s2">&quot;on&quot;</span><span class="p">,</span> <span class="nb">range</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="nb">type</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">overwrite</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Solve standard and generalized eigenvalue problem for symmetric</span>
+<span class="sd">(hermitian) definite positive matrices.</span>
+<span class="sd">This function is a wrapper of LinearAlgebra.eigenvectors or</span>
+<span class="sd">numarray.linear_algebra.eigenvectors with an interface compatible with symeig.</span>
+
+<span class="sd">    Syntax:</span>
+
+<span class="sd">      w,Z = symeig(A)</span>
+<span class="sd">      w = symeig(A,eigenvectors=0)</span>
+<span class="sd">      w,Z = symeig(A,range=(lo,hi))</span>
+<span class="sd">      w,Z = symeig(A,B,range=(lo,hi))</span>
+
+<span class="sd">    Inputs:</span>
+
+<span class="sd">      A     -- An N x N matrix.</span>
+<span class="sd">      B     -- An N x N matrix.</span>
+<span class="sd">      eigenvectors -- if set return eigenvalues and eigenvectors, otherwise</span>
+<span class="sd">                      only eigenvalues</span>
+<span class="sd">      turbo -- not implemented</span>
+<span class="sd">      range -- the tuple (lo,hi) represent the indexes of the smallest and</span>
+<span class="sd">               largest (in ascending order) eigenvalues to be returned.</span>
+<span class="sd">               1 &lt;= lo &lt; hi &lt;= N</span>
+<span class="sd">               if range = None, returns all eigenvalues and eigenvectors.</span>
+<span class="sd">      type  -- not implemented, always solve A*x = (lambda)*B*x</span>
+<span class="sd">      overwrite -- not implemented</span>
+
+<span class="sd">    Outputs:</span>
+
+<span class="sd">      w     -- (selected) eigenvalues in ascending order.</span>
+<span class="sd">      Z     -- if range = None, Z contains the matrix of eigenvectors,</span>
+<span class="sd">               normalized as follows:</span>
+<span class="sd">                  Z^H * A * Z = lambda and Z^H * B * Z = I</span>
+<span class="sd">               where ^H means conjugate transpose.</span>
+<span class="sd">               if range, an N x M matrix containing the orthonormal</span>
+<span class="sd">               eigenvectors of the matrix A corresponding to the selected</span>
+<span class="sd">               eigenvalues, with the i-th column of Z holding the eigenvector</span>
+<span class="sd">               associated with w[i]. The eigenvectors are normalized as above.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">dtype</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="n">_greatest_common_dtype</span><span class="p">([</span><span class="n">A</span><span class="p">,</span> <span class="n">B</span><span class="p">]))</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">B</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">w</span><span class="p">,</span> <span class="n">Z</span> <span class="o">=</span> <span class="n">numx_linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># make B the identity matrix</span>
+            <span class="n">wB</span><span class="p">,</span> <span class="n">ZB</span> <span class="o">=</span> <span class="n">numx_linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+            <span class="n">_assert_eigenvalues_real_and_positive</span><span class="p">(</span><span class="n">wB</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+            <span class="n">ZB</span> <span class="o">=</span> <span class="n">old_div</span><span class="p">(</span><span class="n">ZB</span><span class="o">.</span><span class="n">real</span><span class="p">,</span> <span class="n">numx</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">wB</span><span class="o">.</span><span class="n">real</span><span class="p">))</span>
+            <span class="c1"># transform A in the new basis: A = ZB^T * A * ZB</span>
+            <span class="n">A</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">mult</span><span class="p">(</span><span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">mult</span><span class="p">(</span><span class="n">ZB</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">A</span><span class="p">),</span> <span class="n">ZB</span><span class="p">)</span>
+            <span class="c1"># diagonalize A</span>
+            <span class="n">w</span><span class="p">,</span> <span class="n">ZA</span> <span class="o">=</span> <span class="n">numx_linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+            <span class="n">Z</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">mult</span><span class="p">(</span><span class="n">ZB</span><span class="p">,</span> <span class="n">ZA</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">numx_linalg</span><span class="o">.</span><span class="n">LinAlgError</span> <span class="k">as</span> <span class="n">exception</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">SymeigException</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">exception</span><span class="p">))</span>
+
+    <span class="n">_assert_eigenvalues_real_and_positive</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">real</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">real</span>
+
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">argsort</span><span class="p">()</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">w</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">idx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># sanitize range:</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">range</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="nb">range</span>
+        <span class="k">if</span> <span class="n">lo</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">lo</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">lo</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">:</span>
+            <span class="n">lo</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="k">if</span> <span class="n">hi</span> <span class="o">&gt;</span> <span class="n">n</span><span class="p">:</span>
+            <span class="n">hi</span> <span class="o">=</span> <span class="n">n</span>
+        <span class="k">if</span> <span class="n">lo</span> <span class="o">&gt;</span> <span class="n">hi</span><span class="p">:</span>
+            <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">hi</span><span class="p">,</span> <span class="n">lo</span>
+
+        <span class="n">Z</span> <span class="o">=</span> <span class="n">Z</span><span class="p">[:,</span> <span class="n">lo</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">hi</span><span class="p">]</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">w</span><span class="p">[</span><span class="n">lo</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span><span class="n">hi</span><span class="p">]</span>
+
+    <span class="c1"># the final call to refcast is necessary because of a bug in the casting</span>
+    <span class="c1"># behavior of Numeric and numarray: eigenvector does not wrap the LAPACK</span>
+    <span class="c1"># single precision routines</span>
+    <span class="k">if</span> <span class="n">eigenvectors</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">refcast</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">dtype</span><span class="p">),</span> <span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">refcast</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">mdp</span><span class="o">.</span><span class="n">utils</span><span class="o">.</span><span class="n">refcast</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span></div>
+
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      Last updated on 2020-02-17 1:33:02 PM Coordinated Universal Time.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'3.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+<div class="footer">
+    <hr />
+    <table>
+      <tr>
+        <td class="footer-left">
+           <a href="http://sourceforge.net/projects/mdp-toolkit">
+ <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=116959&amp;type=12"
+      width="120" height="30" border="0" alt="MDP@SF.NET"/> </a>
+        </td>
+        <td class="footer-center">
+          Last updated on
+             2020-02-17 1:33:02 PM Coordinated Universal Time
+        </td>
+        <td class="footer-right">
+         <form class="search" action="../../../search.html" method="get">
+          <input type="submit" value="Search" />
+          <input type="text" name="q" size="18" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+         </form>
+        </td>
+    </table>  
+    <!-- Piwik -->
+    <script type="text/javascript">
+	var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/mdp-toolkit/" : "http://sourceforge.net/apps/piwik/mdp-toolkit/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+	piwik_action_name = '';
+	piwik_idsite = 1;
+	piwik_url = pkBaseURL + "piwik.php";
+	piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+    </script>
+    <object><noscript>
+	    <p>
+		<img src="http://sourceforge.net/apps/piwik/mdp-toolkit/piwik.php?idsite=1"
+		     alt="piwik" />
+	    </p>
+    </noscript></object>
+    <!-- End Piwik Tag -->
+</div>   
+
+
+</body>
+</html>

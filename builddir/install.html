@@ -1,0 +1,437 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Installation &mdash; Modular toolkit for Data Processing (MDP)</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Modular toolkit for Data Processing (MDP)" href="index.html"/>
+        <link rel="next" title="Documentation" href="documentation.html"/>
+        <link rel="prev" title="&lt;no title&gt;" href="index.html"/> 
+<meta name="viewport" content="width=740" />
+
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html">
+          
+
+          
+            
+            <img src="_static/logo_animation.gif" class="logo" />
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pip-windows-macosx-linux">pip (Windows, MacOSX, Linux)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#binary-packages-linux-bsd">Binary packages (Linux/BSD)</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#debian-ubuntu-and-derivatives">Debian, Ubuntu and derivatives</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gentoo">Gentoo</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#netbsd">NetBSD</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#installation-from-source">Installation from source</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#id1">Installation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#optional-libraries">Optional Libraries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#license">License</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="documentation.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="how_to_cite_mdp.html">How to cite MDP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MDP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Installation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="installation">
+<span id="install"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<p>You can install using <a class="reference internal" href="#pip"><span class="std std-ref">pip (Windows, MacOSX, Linux)</span></a>, <a class="reference internal" href="#binary-packages"><span class="std std-ref">binary packages</span></a> or
+from <a class="reference internal" href="#install-from-source"><span class="std std-ref">source</span></a>.</p>
+<div class="section" id="pip-windows-macosx-linux">
+<span id="pip"></span><h2>pip (Windows, MacOSX, Linux)<a class="headerlink" href="#pip-windows-macosx-linux" title="Permalink to this headline">¶</a></h2>
+<p>MDP is listed in the <a class="reference external" href="http://pypi.python.org/pypi/MDP">Python Package Index</a> and can be
+installed with <cite>pip</cite>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">MDP</span>
+</pre></div>
+</div>
+<p>This is the preferred method of installation if you are using Windows or MacOSX.</p>
+</div>
+<div class="section" id="binary-packages-linux-bsd">
+<span id="binary-packages"></span><h2>Binary packages (Linux/BSD)<a class="headerlink" href="#binary-packages-linux-bsd" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="debian-ubuntu-and-derivatives">
+<h3>Debian, Ubuntu and derivatives<a class="headerlink" href="#debian-ubuntu-and-derivatives" title="Permalink to this headline">¶</a></h3>
+<p>Thanks to Yaroslav Halchenko, users of Debian, Ubuntu and derivatives can
+install the <a class="reference external" href="http://packages.debian.org/python-mdp">python-mdp</a> package.</p>
+<p>Just type:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">aptitude</span> <span class="n">install</span> <span class="n">python</span><span class="o">-</span><span class="n">mdp</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="gentoo">
+<h3>Gentoo<a class="headerlink" href="#gentoo" title="Permalink to this headline">¶</a></h3>
+<p>Gentoo users can install the ebuild <a class="reference external" href="http://git.overlays.gentoo.org/gitweb/?p=proj/sci.git;a=tree;f=sci-mathematics/mdp">sci-mathematics/mdp</a> from the
+<code class="docutils literal notranslate"><span class="pre">science</span></code> overlay.</p>
+<p>Use your favourite package manager or, alternatively:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">emerge</span> <span class="n">layman</span>
+<span class="n">layman</span> <span class="o">-</span><span class="n">L</span>
+<span class="n">layman</span> <span class="o">-</span><span class="n">a</span> <span class="n">science</span>
+<span class="n">emerge</span> <span class="n">sci</span><span class="o">-</span><span class="n">mathematics</span><span class="o">/</span><span class="n">mdp</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="netbsd">
+<h3>NetBSD<a class="headerlink" href="#netbsd" title="Permalink to this headline">¶</a></h3>
+<p>Thanks to Kamel Ibn Aziz Derouiche, NetBSD users can install the
+<a class="reference external" href="http://pkgsrc.se/wip/py-mdp">py-mdp</a> from <a class="reference external" href="http://pkgsrc.se">pkgsrc</a>.</p>
+</div>
+</div>
+<div class="section" id="installation-from-source">
+<span id="install-from-source"></span><h2>Installation from source<a class="headerlink" href="#installation-from-source" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="requirements">
+<h3>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h3>
+<ul class="simple">
+<li><a class="reference external" href="http://www.python.org/">Python</a> 2.6/2.7/3.2/3.3/3.4/3.5</li>
+<li><a class="reference external" href="http://python-future.org/">Python-Future</a></li>
+<li><a class="reference external" href="http://numpy.scipy.org/">NumPy</a> ≥ 1.6</li>
+</ul>
+<p>Download the latest MDP release source archive <a class="reference external" href="http://sourceforge.net/projects/mdp-toolkit">here</a>.</p>
+<p>If you want to live on the bleeding edge, check out the MDP git repositories.
+You can either <a class="reference external" href="https://github.com/mdp-toolkit/mdp-toolkit">browse the repository</a>
+or clone the <code class="docutils literal notranslate"><span class="pre">mdp-toolkit</span></code> repository with:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">mdp</span><span class="o">-</span><span class="n">toolkit</span><span class="o">/</span><span class="n">mdp</span><span class="o">-</span><span class="n">toolkit</span>
+</pre></div>
+</div>
+<p>and then install as explained below.</p>
+</div>
+<div class="section" id="id1">
+<h3>Installation<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h3>
+<p>Unpack the archive file and change to the project directory or change to the
+cloned git repository, and type:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
+</pre></div>
+</div>
+<p>If you want to use MDP without installing it on the system Python path:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span> <span class="o">--</span><span class="n">prefix</span><span class="o">=/</span><span class="n">some_dir_in_PYTHONPATH</span><span class="o">/</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="optional-libraries">
+<h2>Optional Libraries<a class="headerlink" href="#optional-libraries" title="Permalink to this headline">¶</a></h2>
+<p>MDP can make use of several additional libraries if they are installed on your
+system. They are not required for using MDP, but may give more
+functionality. Here a list of optional libraries and the corresponding
+additional features in MDP:</p>
+<ul class="simple">
+<li><a class="reference external" href="http://www.scipy.org/">SciPy</a> ≥ 0.5.2: Use the fast and
+efficient LAPACK wrapper for the symmetrical eigensolver, used
+interally by many nodes; use the fast FFT routines in some nodes;
+provide the <code class="docutils literal notranslate"><span class="pre">Convolution2DNode</span></code>, using the fast convolution routines
+in SciPy.</li>
+<li><a class="reference external" href="http://www.parallelpython.com/">Parallel Python</a>:  provide the
+parallel python scheduler <code class="docutils literal notranslate"><span class="pre">PPScheduler</span></code> in the <code class="docutils literal notranslate"><span class="pre">parallel</span></code>
+module.</li>
+<li><a class="reference external" href="http://www.csie.ntu.edu.tw/~cjlin/libsvm/">LibSVM</a> ≥ 2.91:
+provide the <code class="docutils literal notranslate"><span class="pre">LibSVMClassifier</span></code> node.</li>
+<li><a class="reference external" href="http://packages.python.org/joblib/">joblib</a> ≥ 0.4.3: provide the
+<code class="docutils literal notranslate"><span class="pre">caching</span></code> extension and the corresponding <code class="docutils literal notranslate"><span class="pre">cache</span></code> context
+manager.</li>
+<li><a class="reference external" href="http://scikit-learn.org/stable/">sklearn</a> ≥ 0.6: provide
+wrapper nodes to several sklearn algorithms.</li>
+</ul>
+</div>
+<div class="section" id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
+<p>If you have successfully installed MDP, you can test your installation in a
+Python shell as follows:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">mdp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">mdp</span><span class="o">.</span><span class="n">test</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">bimdp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">bimdp</span><span class="o">.</span><span class="n">test</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>Note that you will need to install <a class="reference external" href="http://pytest.org">pytest</a> to run the tests.</p>
+<p>If some test fails, please report it to the <a class="reference external" href="https://mail.python.org/mm3/mailman3/lists/mdp-toolkit.python.org/">mailing list</a>.</p>
+</div>
+<div class="section" id="license">
+<h2>License<a class="headerlink" href="#license" title="Permalink to this headline">¶</a></h2>
+<p>MDP is distributed under the open source BSD license.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">This</span> <span class="n">file</span> <span class="ow">is</span> <span class="n">part</span> <span class="n">of</span> <span class="n">Modular</span> <span class="n">toolkit</span> <span class="k">for</span> <span class="n">Data</span> <span class="n">Processing</span> <span class="p">(</span><span class="n">MDP</span><span class="p">)</span><span class="o">.</span>
+<span class="n">All</span> <span class="n">the</span> <span class="n">code</span> <span class="ow">in</span> <span class="n">this</span> <span class="n">package</span> <span class="ow">is</span> <span class="n">distributed</span> <span class="n">under</span> <span class="n">the</span> <span class="n">following</span> <span class="n">conditions</span><span class="p">:</span>
+
+<span class="n">Copyright</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="mi">2003</span><span class="o">-</span><span class="mi">2016</span><span class="p">,</span> <span class="n">MDP</span> <span class="n">Developers</span> <span class="o">&lt;</span><span class="n">mdp</span><span class="o">-</span><span class="n">toolkit</span><span class="nd">@python</span><span class="o">.</span><span class="n">org</span><span class="o">&gt;</span>
+
+<span class="n">All</span> <span class="n">rights</span> <span class="n">reserved</span><span class="o">.</span>
+
+<span class="n">Redistribution</span> <span class="ow">and</span> <span class="n">use</span> <span class="ow">in</span> <span class="n">source</span> <span class="ow">and</span> <span class="n">binary</span> <span class="n">forms</span><span class="p">,</span> <span class="k">with</span> <span class="ow">or</span> <span class="n">without</span>
+<span class="n">modification</span><span class="p">,</span> <span class="n">are</span> <span class="n">permitted</span> <span class="n">provided</span> <span class="n">that</span> <span class="n">the</span> <span class="n">following</span> <span class="n">conditions</span> <span class="n">are</span> <span class="n">met</span><span class="p">:</span>
+
+    <span class="o">*</span> <span class="n">Redistributions</span> <span class="n">of</span> <span class="n">source</span> <span class="n">code</span> <span class="n">must</span> <span class="n">retain</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span>
+      <span class="n">notice</span><span class="p">,</span> <span class="n">this</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span><span class="o">.</span>
+    <span class="o">*</span> <span class="n">Redistributions</span> <span class="ow">in</span> <span class="n">binary</span> <span class="n">form</span> <span class="n">must</span> <span class="n">reproduce</span> <span class="n">the</span> <span class="n">above</span> <span class="n">copyright</span>
+      <span class="n">notice</span><span class="p">,</span> <span class="n">this</span> <span class="nb">list</span> <span class="n">of</span> <span class="n">conditions</span> <span class="ow">and</span> <span class="n">the</span> <span class="n">following</span> <span class="n">disclaimer</span> <span class="ow">in</span> <span class="n">the</span>
+      <span class="n">documentation</span> <span class="ow">and</span><span class="o">/</span><span class="ow">or</span> <span class="n">other</span> <span class="n">materials</span> <span class="n">provided</span> <span class="k">with</span> <span class="n">the</span> <span class="n">distribution</span><span class="o">.</span>
+    <span class="o">*</span> <span class="n">Neither</span> <span class="n">the</span> <span class="n">name</span> <span class="n">of</span> <span class="n">the</span> <span class="n">Modular</span> <span class="n">toolkit</span> <span class="k">for</span> <span class="n">Data</span> <span class="n">Processing</span> <span class="p">(</span><span class="n">MDP</span><span class="p">)</span>
+      <span class="n">nor</span> <span class="n">the</span> <span class="n">names</span> <span class="n">of</span> <span class="n">its</span> <span class="n">contributors</span> <span class="n">may</span> <span class="n">be</span> <span class="n">used</span> <span class="n">to</span> <span class="n">endorse</span> <span class="ow">or</span> <span class="n">promote</span>
+      <span class="n">products</span> <span class="n">derived</span> <span class="kn">from</span> <span class="nn">this</span> <span class="n">software</span> <span class="n">without</span> <span class="n">specific</span> <span class="n">prior</span> <span class="n">written</span>
+      <span class="n">permission</span><span class="o">.</span>
+
+<span class="n">THIS</span> <span class="n">SOFTWARE</span> <span class="n">IS</span> <span class="n">PROVIDED</span> <span class="n">BY</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDERS</span> <span class="n">AND</span> <span class="n">CONTRIBUTORS</span> <span class="s2">&quot;AS IS&quot;</span> <span class="n">AND</span>
+<span class="n">ANY</span> <span class="n">EXPRESS</span> <span class="n">OR</span> <span class="n">IMPLIED</span> <span class="n">WARRANTIES</span><span class="p">,</span> <span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">THE</span> <span class="n">IMPLIED</span>
+<span class="n">WARRANTIES</span> <span class="n">OF</span> <span class="n">MERCHANTABILITY</span> <span class="n">AND</span> <span class="n">FITNESS</span> <span class="n">FOR</span> <span class="n">A</span> <span class="n">PARTICULAR</span> <span class="n">PURPOSE</span> <span class="n">ARE</span>
+<span class="n">DISCLAIMED</span><span class="o">.</span> <span class="n">IN</span> <span class="n">NO</span> <span class="n">EVENT</span> <span class="n">SHALL</span> <span class="n">THE</span> <span class="n">COPYRIGHT</span> <span class="n">HOLDER</span> <span class="n">OR</span> <span class="n">CONTRIBUTORS</span> <span class="n">BE</span> <span class="n">LIABLE</span>
+<span class="n">FOR</span> <span class="n">ANY</span> <span class="n">DIRECT</span><span class="p">,</span> <span class="n">INDIRECT</span><span class="p">,</span> <span class="n">INCIDENTAL</span><span class="p">,</span> <span class="n">SPECIAL</span><span class="p">,</span> <span class="n">EXEMPLARY</span><span class="p">,</span> <span class="n">OR</span> <span class="n">CONSEQUENTIAL</span>
+<span class="n">DAMAGES</span> <span class="p">(</span><span class="n">INCLUDING</span><span class="p">,</span> <span class="n">BUT</span> <span class="n">NOT</span> <span class="n">LIMITED</span> <span class="n">TO</span><span class="p">,</span> <span class="n">PROCUREMENT</span> <span class="n">OF</span> <span class="n">SUBSTITUTE</span> <span class="n">GOODS</span> <span class="n">OR</span>
+<span class="n">SERVICES</span><span class="p">;</span> <span class="n">LOSS</span> <span class="n">OF</span> <span class="n">USE</span><span class="p">,</span> <span class="n">DATA</span><span class="p">,</span> <span class="n">OR</span> <span class="n">PROFITS</span><span class="p">;</span> <span class="n">OR</span> <span class="n">BUSINESS</span> <span class="n">INTERRUPTION</span><span class="p">)</span> <span class="n">HOWEVER</span>
+<span class="n">CAUSED</span> <span class="n">AND</span> <span class="n">ON</span> <span class="n">ANY</span> <span class="n">THEORY</span> <span class="n">OF</span> <span class="n">LIABILITY</span><span class="p">,</span> <span class="n">WHETHER</span> <span class="n">IN</span> <span class="n">CONTRACT</span><span class="p">,</span> <span class="n">STRICT</span> <span class="n">LIABILITY</span><span class="p">,</span>
+<span class="n">OR</span> <span class="n">TORT</span> <span class="p">(</span><span class="n">INCLUDING</span> <span class="n">NEGLIGENCE</span> <span class="n">OR</span> <span class="n">OTHERWISE</span><span class="p">)</span> <span class="n">ARISING</span> <span class="n">IN</span> <span class="n">ANY</span> <span class="n">WAY</span> <span class="n">OUT</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">USE</span>
+<span class="n">OF</span> <span class="n">THIS</span> <span class="n">SOFTWARE</span><span class="p">,</span> <span class="n">EVEN</span> <span class="n">IF</span> <span class="n">ADVISED</span> <span class="n">OF</span> <span class="n">THE</span> <span class="n">POSSIBILITY</span> <span class="n">OF</span> <span class="n">SUCH</span> <span class="n">DAMAGE</span><span class="o">.</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="documentation.html" class="btn btn-neutral float-right" title="Documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral" title="&lt;no title&gt;" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      Last updated on 2020-02-17 1:32:12 PM Coordinated Universal Time.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'3.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+<div class="footer">
+    <hr />
+    <table>
+      <tr>
+        <td class="footer-left">
+           <a href="http://sourceforge.net/projects/mdp-toolkit">
+ <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=116959&amp;type=12"
+      width="120" height="30" border="0" alt="MDP@SF.NET"/> </a>
+        </td>
+        <td class="footer-center">
+          Last updated on
+             2020-02-17 1:32:12 PM Coordinated Universal Time
+        </td>
+        <td class="footer-right">
+         <form class="search" action="search.html" method="get">
+          <input type="submit" value="Search" />
+          <input type="text" name="q" size="18" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+         </form>
+        </td>
+    </table>  
+    <!-- Piwik -->
+    <script type="text/javascript">
+	var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/mdp-toolkit/" : "http://sourceforge.net/apps/piwik/mdp-toolkit/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+	piwik_action_name = '';
+	piwik_idsite = 1;
+	piwik_url = pkBaseURL + "piwik.php";
+	piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+    </script>
+    <object><noscript>
+	    <p>
+		<img src="http://sourceforge.net/apps/piwik/mdp-toolkit/piwik.php?idsite=1"
+		     alt="piwik" />
+	    </p>
+    </noscript></object>
+    <!-- End Piwik Tag -->
+</div>   
+
+
+</body>
+</html>

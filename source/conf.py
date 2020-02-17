@@ -24,7 +24,7 @@ def get_mdp_version():
 
 sys.path.insert(0, os.path.abspath('../ext'))
 sys.path.insert(0, os.path.abspath('../'))
-sys.path.insert(0, os.path.abspath('./'))
+sys.path.insert(0, os.path.abspath('../'))
 
 # -- General configuration -----------------------------------------------------
 
@@ -224,7 +224,7 @@ extapi_link_prefix = '%s/api'%mdp.__homepage__
 
 # neatdoc
 neatdoc_module_path_list  =[os.path.abspath('../mdp')]
-neatdoc_apidoc_options = '-e -P -d 7'
+neatdoc_apidoc_options = ['-e',  '-P', '-d 7']
 
 neatdoc_create_class_toc = True
 autodoc_default_flags = ['members', 'undoc-members', 'private-members', 'special-members', 'inherited-members', 'show-inheritance']

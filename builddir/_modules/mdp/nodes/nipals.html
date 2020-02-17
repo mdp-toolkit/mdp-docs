@@ -1,0 +1,404 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mdp.nodes.nipals &mdash; Modular toolkit for Data Processing (MDP)</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="Modular toolkit for Data Processing (MDP)" href="../../../index.html"/>
+        <link rel="up" title="mdp.nodes" href="../nodes.html"/> 
+<meta name="viewport" content="width=740" />
+
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html">
+          
+
+          
+            
+            <img src="../../../_static/logo_animation.gif" class="logo" />
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../documentation.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../how_to_cite_mdp.html">How to cite MDP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MDP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../../mdp.html">mdp</a> &raquo;</li>
+        
+          <li><a href="../nodes.html">mdp.nodes</a> &raquo;</li>
+        
+      <li>mdp.nodes.nipals</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mdp.nodes.nipals</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">division</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">range</span>
+<span class="kn">from</span> <span class="nn">past.utils</span> <span class="k">import</span> <span class="n">old_div</span>
+<span class="n">__docformat__</span> <span class="o">=</span> <span class="s2">&quot;restructuredtext en&quot;</span>
+
+<span class="kn">from</span> <span class="nn">mdp</span> <span class="k">import</span> <span class="n">numx</span><span class="p">,</span> <span class="n">NodeException</span><span class="p">,</span> <span class="n">Cumulator</span>
+<span class="kn">from</span> <span class="nn">mdp.utils</span> <span class="k">import</span> <span class="n">mult</span>
+<span class="kn">from</span> <span class="nn">mdp.nodes</span> <span class="k">import</span> <span class="n">PCANode</span>
+<span class="n">sqrt</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">sqrt</span>
+
+<span class="k">class</span> <span class="nc">NIPALSNode</span><span class="p">(</span><span class="n">Cumulator</span><span class="p">,</span> <span class="n">PCANode</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Perform Principal Component Analysis using the NIPALS algorithm.</span>
+<span class="sd">    This algorithm is particularyl useful if you have more variable than</span>
+<span class="sd">    observations, or in general when the number of variables is huge and</span>
+<span class="sd">    calculating a full covariance matrix may be unfeasable. It&#39;s also more</span>
+<span class="sd">    efficient of the standard PCANode if you expect the number of significant</span>
+<span class="sd">    principal components to be a small. In this case setting output_dim to be</span>
+<span class="sd">    a certain fraction of the total variance, say 90%, may be of some help.</span>
+
+<span class="sd">    **Internal variables of interest**</span>
+
+<span class="sd">      ``self.avg``</span>
+<span class="sd">          Mean of the input data (available after training).</span>
+
+<span class="sd">      ``self.d``</span>
+<span class="sd">          Variance corresponding to the PCA components.</span>
+
+<span class="sd">      ``self.v``</span>
+<span class="sd">          Transposed of the projection matrix (available after training).</span>
+<span class="sd">          </span>
+<span class="sd">      ``self.explained_variance``</span>
+<span class="sd">          When output_dim has been specified as a fraction of the total</span>
+<span class="sd">          variance, this is the fraction of the total variance that is actually</span>
+<span class="sd">          explained.</span>
+
+<span class="sd">    Reference for NIPALS (Nonlinear Iterative Partial Least Squares):</span>
+<span class="sd">    Wold, H.</span>
+<span class="sd">    Nonlinear estimation by iterative least squares procedures.</span>
+<span class="sd">    in David, F. (Editor), Research Papers in Statistics, Wiley,</span>
+<span class="sd">    New York, pp 411-444 (1966).</span>
+
+<span class="sd">    More information about Principal Component Analysis, a.k.a. discrete</span>
+<span class="sd">    Karhunen-Loeve transform can be found among others in</span>
+<span class="sd">    I.T. Jolliffe, Principal Component Analysis, Springer-Verlag (1986).</span>
+
+<span class="sd">    Original code contributed by:</span>
+<span class="sd">    Michael Schmuker, Susanne Lezius, and Farzad Farkhooi (2008).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">output_dim</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">conv</span> <span class="o">=</span> <span class="mf">1e-8</span><span class="p">,</span> <span class="n">max_it</span> <span class="o">=</span> <span class="mi">100000</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        The number of principal components to be kept can be specified as</span>
+<span class="sd">        &#39;output_dim&#39; directly (e.g. &#39;output_dim=10&#39; means 10 components</span>
+<span class="sd">        are kept) or by the fraction of variance to be explained</span>
+<span class="sd">        (e.g. &#39;output_dim=0.95&#39; means that as many components as necessary</span>
+<span class="sd">        will be kept in order to explain 95% of the input variance).</span>
+
+<span class="sd">        Other Arguments:</span>
+<span class="sd">           conv   - convergence threshold for the residual error.</span>
+<span class="sd">           max_it - maximum number of iterations</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NIPALSNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">input_dim</span><span class="p">,</span> <span class="n">output_dim</span><span class="p">,</span> <span class="n">dtype</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">conv</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_it</span> <span class="o">=</span> <span class="n">max_it</span>
+
+<div class="viewcode-block" id="NIPALSNode._train"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.NIPALSNode._train">[docs]</a>    <span class="k">def</span> <span class="nf">_train</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NIPALSNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_train</span><span class="p">(</span><span class="n">x</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="NIPALSNode._stop_training"><a class="viewcode-back" href="../../../node_list.html#mdp.nodes.NIPALSNode._stop_training">[docs]</a>    <span class="k">def</span> <span class="nf">_stop_training</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="c1"># debug argument is ignored but needed by the base class</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">NIPALSNode</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="n">_stop_training</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_adjust_output_dim</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">desired_variance</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">des_var</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">des_var</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span>
+        <span class="n">conv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span>
+        <span class="n">dtype</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span>
+        <span class="n">mean</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">avg</span> <span class="o">=</span> <span class="n">mean</span>
+        <span class="n">max_it</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_it</span>
+        <span class="n">tlen</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tlen</span>
+
+        <span class="c1"># remove mean</span>
+        <span class="n">X</span> <span class="o">-=</span> <span class="n">mean</span>
+        <span class="n">var</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">total_variance</span> <span class="o">=</span> <span class="n">var</span>
+        <span class="n">exp_var</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="n">eigenv</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="n">d</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span><span class="p">,),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="n">dtype</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">input_dim</span><span class="p">):</span>
+            <span class="n">it</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="c1"># first score vector t is initialized to first column in X</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span>
+            <span class="c1"># initialize difference</span>
+            <span class="n">diff</span> <span class="o">=</span> <span class="n">conv</span> <span class="o">+</span> <span class="mi">1</span>
+            <span class="k">while</span> <span class="n">diff</span> <span class="o">&gt;</span> <span class="n">conv</span><span class="p">:</span>
+                <span class="c1"># increase iteration counter</span>
+                <span class="n">it</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="c1"># Project X onto t to find corresponding loading p</span>
+                <span class="c1"># and normalize loading vector p to length 1</span>
+                <span class="n">p</span> <span class="o">=</span> <span class="n">old_div</span><span class="p">(</span><span class="n">mult</span><span class="p">(</span><span class="n">X</span><span class="o">.</span><span class="n">T</span><span class="p">,</span> <span class="n">t</span><span class="p">),</span><span class="n">mult</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">t</span><span class="p">))</span>
+                <span class="n">p</span> <span class="o">/=</span> <span class="n">sqrt</span><span class="p">(</span><span class="n">mult</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
+
+                <span class="c1"># project X onto p to find corresponding score vector t_new</span>
+                <span class="n">t_new</span> <span class="o">=</span> <span class="n">mult</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+                <span class="c1"># difference between new and old score vector</span>
+                <span class="n">tdiff</span> <span class="o">=</span> <span class="n">t_new</span> <span class="o">-</span> <span class="n">t</span>
+                <span class="n">diff</span> <span class="o">=</span> <span class="p">(</span><span class="n">tdiff</span><span class="o">*</span><span class="n">tdiff</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="n">t_new</span>
+                <span class="k">if</span> <span class="n">it</span> <span class="o">&gt;</span> <span class="n">max_it</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;PC#</span><span class="si">%d</span><span class="s1">: no convergence after&#39;</span>
+                           <span class="s1">&#39; </span><span class="si">%d</span><span class="s1"> iterations.&#39;</span><span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">max_it</span><span class="p">))</span>
+                    <span class="k">raise</span> <span class="n">NodeException</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+
+            <span class="c1"># store ith eigenvector in result matrix</span>
+            <span class="n">eigenv</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:]</span> <span class="o">=</span> <span class="n">p</span>
+            <span class="c1"># remove the estimated principal component from X</span>
+            <span class="n">D</span> <span class="o">=</span> <span class="n">numx</span><span class="o">.</span><span class="n">outer</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+            <span class="n">X</span> <span class="o">-=</span> <span class="n">D</span>
+            <span class="n">D</span> <span class="o">=</span> <span class="n">mult</span><span class="p">(</span><span class="n">D</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+            <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">old_div</span><span class="p">((</span><span class="n">D</span><span class="o">*</span><span class="n">D</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),(</span><span class="n">tlen</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+            <span class="n">exp_var</span> <span class="o">+=</span> <span class="n">old_div</span><span class="p">(</span><span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">],</span><span class="n">var</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">des_var</span> <span class="ow">and</span> <span class="p">(</span><span class="n">exp_var</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">desired_variance</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="k">break</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">d</span> <span class="o">=</span> <span class="n">d</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">eigenv</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">output_dim</span><span class="p">,</span> <span class="p">:]</span><span class="o">.</span><span class="n">T</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">explained_variance</span> <span class="o">=</span> <span class="n">exp_var</span></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      Last updated on 2020-02-17 1:33:02 PM Coordinated Universal Time.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'3.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+<div class="footer">
+    <hr />
+    <table>
+      <tr>
+        <td class="footer-left">
+           <a href="http://sourceforge.net/projects/mdp-toolkit">
+ <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=116959&amp;type=12"
+      width="120" height="30" border="0" alt="MDP@SF.NET"/> </a>
+        </td>
+        <td class="footer-center">
+          Last updated on
+             2020-02-17 1:33:02 PM Coordinated Universal Time
+        </td>
+        <td class="footer-right">
+         <form class="search" action="../../../search.html" method="get">
+          <input type="submit" value="Search" />
+          <input type="text" name="q" size="18" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+         </form>
+        </td>
+    </table>  
+    <!-- Piwik -->
+    <script type="text/javascript">
+	var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/mdp-toolkit/" : "http://sourceforge.net/apps/piwik/mdp-toolkit/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+	piwik_action_name = '';
+	piwik_idsite = 1;
+	piwik_url = pkBaseURL + "piwik.php";
+	piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+    </script>
+    <object><noscript>
+	    <p>
+		<img src="http://sourceforge.net/apps/piwik/mdp-toolkit/piwik.php?idsite=1"
+		     alt="piwik" />
+	    </p>
+    </noscript></object>
+    <!-- End Piwik Tag -->
+</div>   
+
+
+</body>
+</html>

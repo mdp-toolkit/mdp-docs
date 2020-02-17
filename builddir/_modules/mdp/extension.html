@@ -1,0 +1,749 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mdp.extension &mdash; Modular toolkit for Data Processing (MDP)</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="Modular toolkit for Data Processing (MDP)" href="../../index.html"/>
+        <link rel="up" title="mdp" href="../mdp.html"/> 
+<meta name="viewport" content="width=740" />
+
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html">
+          
+
+          
+            
+            <img src="../../_static/logo_animation.gif" class="logo" />
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../documentation.html">Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../how_to_cite_mdp.html">How to cite MDP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">MDP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+          <li><a href="../mdp.html">mdp</a> &raquo;</li>
+        
+      <li>mdp.extension</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mdp.extension</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Extension Mechanism for nodes.</span>
+
+<span class="sd">The extension mechanism makes it possible to dynamically add class attributes,</span>
+<span class="sd">especially methods, for specific features to node classes</span>
+<span class="sd">(e.g. nodes need a _fork and _join method for parallelization).</span>
+<span class="sd">It is also possible for users to define new extensions to provide new</span>
+<span class="sd">functionality for MDP nodes without having to modify any MDP code.</span>
+
+<span class="sd">Without the extension mechanism extending nodes would be done by inheritance,</span>
+<span class="sd">which is fine unless one wants to use multiple inheritance at the same time</span>
+<span class="sd">(requiring multiple inheritance for every combination of extensions one wants</span>
+<span class="sd">to use). The extension mechanism does not depend on inheritance, instead it</span>
+<span class="sd">adds the methods to the node classes dynamically at runtime. This makes it</span>
+<span class="sd">possible to activate extensions just when they are needed, reducing the risk</span>
+<span class="sd">of interference between different extensions.</span>
+
+<span class="sd">However, since the extension mechanism provides a special Metaclass it is</span>
+<span class="sd">still possible to define the extension nodes as classes derived from nodes.</span>
+<span class="sd">This keeps the code readable and is compatible with automatic code checkers</span>
+<span class="sd">(like the background pylint checks in the Eclipse IDE with PyDev).</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="k">import</span> <span class="n">print_function</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">str</span>
+<span class="kn">from</span> <span class="nn">builtins</span> <span class="k">import</span> <span class="nb">object</span>
+
+<span class="kn">from</span> <span class="nn">mdp</span> <span class="k">import</span> <span class="n">MDPException</span><span class="p">,</span> <span class="n">NodeMetaclass</span>
+<span class="kn">from</span> <span class="nn">future.utils</span> <span class="k">import</span> <span class="n">with_metaclass</span>
+
+<span class="c1"># TODO: Register the node instances as well?</span>
+<span class="c1">#    This would allow instance initialization when an extension is activated.</span>
+<span class="c1">#    Implementing this should not be too hard via the metclass.</span>
+
+<span class="c1"># TODO: Add warning about overriding public methods with respect to</span>
+<span class="c1">#    the docstring wrappers?</span>
+
+<span class="c1"># TODO: in the future could use ABC&#39;s to register nodes with extension nodes</span>
+
+
+<span class="c1"># name prefix used for the original attributes when they are shadowed</span>
+<span class="n">ORIGINAL_ATTR_PREFIX</span> <span class="o">=</span> <span class="s2">&quot;_non_extension_&quot;</span>
+<span class="c1"># prefix used to store the current extension name for an attribute,</span>
+<span class="c1"># the value stored in this attribute is the extension name</span>
+<span class="n">_EXTENSION_ATTR_PREFIX</span> <span class="o">=</span> <span class="s2">&quot;_extension_for_&quot;</span>
+<span class="c1"># list of attribute names that are not affected by extensions,</span>
+<span class="n">_NON_EXTENSION_ATTRIBUTES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;__module__&quot;</span><span class="p">,</span> <span class="s2">&quot;__doc__&quot;</span><span class="p">,</span> <span class="s2">&quot;extension_name&quot;</span><span class="p">]</span>
+
+<span class="c1"># keys under which the global activation and deactivation functions</span>
+<span class="c1"># for extensions can be stored in the extension registry</span>
+<span class="n">_SETUP_FUNC_ATTR</span> <span class="o">=</span> <span class="s2">&quot;_extension_setup&quot;</span>
+<span class="n">_TEARDOWN_FUNC_ATTR</span> <span class="o">=</span> <span class="s2">&quot;_extension_teardown&quot;</span>
+
+<span class="c1"># dict of dicts of dicts, contains a key for each extension,</span>
+<span class="c1"># the inner dict maps the node types to their extension node,</span>
+<span class="c1"># the innermost dict then maps attribute names to values</span>
+<span class="c1"># (e.g. a method name to the actual function)</span>
+<span class="c1">#</span>
+<span class="c1"># For each extension there are also the special _SETUP_FUNC_ATTR and</span>
+<span class="c1"># _TEARDOWN_FUNC_ATTR keys.</span>
+<span class="n">_extensions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+<span class="c1"># set containing the names of the currently activated extensions</span>
+<span class="n">_active_extensions</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="ExtensionException"><a class="viewcode-back" href="../../mdp/mdp.extension.html#mdp.extension.ExtensionException">[docs]</a><span class="k">class</span> <span class="nc">ExtensionException</span><span class="p">(</span><span class="n">MDPException</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for extension related exceptions.&quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="_register_attribute"><a class="viewcode-back" href="../../mdp/mdp.extension.html#mdp.extension._register_attribute">[docs]</a><span class="k">def</span> <span class="nf">_register_attribute</span><span class="p">(</span><span class="n">ext_name</span><span class="p">,</span> <span class="n">node_cls</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">attr_value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Register an attribute as an extension attribute.</span>
+
+<span class="sd">    ext_name -- String with the name of the extension.</span>
+<span class="sd">    node_cls -- Node class for which the method should be registered.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_extensions</span><span class="p">[</span><span class="n">ext_name</span><span class="p">][</span><span class="n">node_cls</span><span class="p">][</span><span class="n">attr_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">attr_value</span></div>
+
+
+<span class="k">def</span> <span class="nf">extension_method</span><span class="p">(</span><span class="n">extension_name</span><span class="p">,</span> <span class="n">node_cls</span><span class="p">,</span> <span class="n">method_name</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a decorator to register a function as an extension method.</span>
+
+<span class="sd">    :Parameters:</span>
+<span class="sd">      extension_name</span>
+<span class="sd">        String with the name of the extension.</span>
+<span class="sd">      node_cls</span>
+<span class="sd">        Node class for which the method should be registered.</span>
+<span class="sd">      method_name</span>
+<span class="sd">        Name of the extension method (default value is ``None``).</span>
+
+<span class="sd">        If no value is provided then the name of the function is used.</span>
+
+<span class="sd">    Note that it is possible to directly call other extension functions, call</span>
+<span class="sd">    extension methods in other node classes or to use super in the normal way</span>
+<span class="sd">    (the function will be called as a method of the node class).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">register_function</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="n">_method_name</span> <span class="o">=</span> <span class="n">method_name</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">_method_name</span><span class="p">:</span>
+            <span class="n">_method_name</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">extension_name</span> <span class="ow">in</span> <span class="n">_extensions</span><span class="p">:</span>
+            <span class="c1"># creation of a new extension, add entry in dict</span>
+            <span class="n">_extensions</span><span class="p">[</span><span class="n">extension_name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">node_cls</span> <span class="ow">in</span> <span class="n">_extensions</span><span class="p">[</span><span class="n">extension_name</span><span class="p">]:</span>
+            <span class="c1"># register this node</span>
+            <span class="n">_extensions</span><span class="p">[</span><span class="n">extension_name</span><span class="p">][</span><span class="n">node_cls</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="n">_register_attribute</span><span class="p">(</span><span class="n">extension_name</span><span class="p">,</span> <span class="n">node_cls</span><span class="p">,</span> <span class="n">_method_name</span><span class="p">,</span> <span class="n">func</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">func</span>
+    <span class="k">return</span> <span class="n">register_function</span>
+
+
+<span class="k">def</span> <span class="nf">extension_setup</span><span class="p">(</span><span class="n">extension_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a decorator to register a setup function for an extension.</span>
+
+<span class="sd">    :Parameters:</span>
+<span class="sd">      extension_name</span>
+<span class="sd">        String with the name of the extension.</span>
+
+<span class="sd">    The decorated function will be called when the extension is activated.</span>
+<span class="sd">    </span>
+<span class="sd">    Note that there is also the extension_teardown decorator, which should</span>
+<span class="sd">    probably defined as well if there is a setup procedure.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">register_setup_function</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">extension_name</span> <span class="ow">in</span> <span class="n">_extensions</span><span class="p">:</span>
+            <span class="c1"># creation of a new extension, add entry in dict</span>
+            <span class="n">_extensions</span><span class="p">[</span><span class="n">extension_name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">_SETUP_FUNC_ATTR</span> <span class="ow">in</span> <span class="n">_extensions</span><span class="p">[</span><span class="n">extension_name</span><span class="p">]:</span>
+            <span class="n">err</span> <span class="o">=</span> <span class="s2">&quot;There is already a setup function for this extension.&quot;</span>
+            <span class="k">raise</span> <span class="n">ExtensionException</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+        <span class="n">_extensions</span><span class="p">[</span><span class="n">extension_name</span><span class="p">][</span><span class="n">_SETUP_FUNC_ATTR</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span>
+        <span class="k">return</span> <span class="n">func</span>
+    <span class="k">return</span> <span class="n">register_setup_function</span>
+
+
+<span class="k">def</span> <span class="nf">extension_teardown</span><span class="p">(</span><span class="n">extension_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a decorator to register a teardown function for an extension.</span>
+
+<span class="sd">    :Parameters:</span>
+<span class="sd">      extension_name</span>
+<span class="sd">        String with the name of the extension.</span>
+
+<span class="sd">    The decorated function will be called when the extension is deactivated.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">register_teardown_function</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">extension_name</span> <span class="ow">in</span> <span class="n">_extensions</span><span class="p">:</span>
+            <span class="c1"># creation of a new extension, add entry in dict</span>
+            <span class="n">_extensions</span><span class="p">[</span><span class="n">extension_name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">_TEARDOWN_FUNC_ATTR</span> <span class="ow">in</span> <span class="n">_extensions</span><span class="p">[</span><span class="n">extension_name</span><span class="p">]:</span>
+            <span class="n">err</span> <span class="o">=</span> <span class="s2">&quot;There is already a teardown function for this extension.&quot;</span>
+            <span class="k">raise</span> <span class="n">ExtensionException</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+        <span class="n">_extensions</span><span class="p">[</span><span class="n">extension_name</span><span class="p">][</span><span class="n">_TEARDOWN_FUNC_ATTR</span><span class="p">]</span> <span class="o">=</span> <span class="n">func</span>
+        <span class="k">return</span> <span class="n">func</span>
+    <span class="k">return</span> <span class="n">register_teardown_function</span>
+
+
+<span class="k">class</span> <span class="nc">ExtensionNodeMetaclass</span><span class="p">(</span><span class="n">NodeMetaclass</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This is the metaclass for node extension superclasses.</span>
+
+<span class="sd">    It takes care of registering extensions and the attributes in the</span>
+<span class="sd">    extension.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">classname</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">members</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create new node classes and register extensions.</span>
+
+<span class="sd">        If a concrete extension node is created then a corresponding mixin</span>
+<span class="sd">        class is automatically created and registered.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">classname</span> <span class="o">==</span> <span class="s2">&quot;ExtensionNode&quot;</span><span class="p">:</span>
+            <span class="c1"># initial creation of ExtensionNode class</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">ExtensionNodeMetaclass</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">classname</span><span class="p">,</span>
+                                                              <span class="n">bases</span><span class="p">,</span> <span class="n">members</span><span class="p">)</span>
+        <span class="c1"># check if this is a new extension definition,</span>
+        <span class="c1"># in that case this node is directly derived from ExtensionNode</span>
+        <span class="k">if</span> <span class="n">ExtensionNode</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">:</span>
+            <span class="n">ext_name</span> <span class="o">=</span> <span class="n">members</span><span class="p">[</span><span class="s2">&quot;extension_name&quot;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">ext_name</span><span class="p">:</span>
+                <span class="n">err</span> <span class="o">=</span> <span class="s2">&quot;No extension name has been specified.&quot;</span>
+                <span class="k">raise</span> <span class="n">ExtensionException</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">ext_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_extensions</span><span class="p">:</span>
+                <span class="c1"># creation of a new extension, add entry in dict</span>
+                <span class="n">_extensions</span><span class="p">[</span><span class="n">ext_name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">err</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;An extension with the name &#39;&quot;</span> <span class="o">+</span> <span class="n">ext_name</span> <span class="o">+</span>
+                       <span class="s2">&quot;&#39; has already been registered.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">ExtensionException</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+        <span class="c1"># find the node that this extension node belongs to</span>
+        <span class="n">base_node_cls</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">base</span> <span class="ow">in</span> <span class="n">bases</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">base</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">ExtensionNodeMetaclass</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">base_node_cls</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">base_node_cls</span> <span class="o">=</span> <span class="n">base</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">err</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Extension node derived from multiple &quot;</span>
+                           <span class="s2">&quot;normal nodes.&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="n">ExtensionException</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">base_node_cls</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># This new extension is not directly derived from another class,</span>
+            <span class="c1"># so there is nothing to register (no default implementation).</span>
+            <span class="c1"># We disable the doc method extension mechanism as this class</span>
+            <span class="c1"># is not a node subclass and adding methods (e.g. _execute) would</span>
+            <span class="c1"># cause problems.</span>
+            <span class="bp">cls</span><span class="o">.</span><span class="n">DOC_METHODS</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">(</span><span class="n">ExtensionNodeMetaclass</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">classname</span><span class="p">,</span>
+                                                              <span class="n">bases</span><span class="p">,</span> <span class="n">members</span><span class="p">)</span>
+        <span class="n">ext_node_cls</span> <span class="o">=</span> <span class="nb">super</span><span class="p">(</span><span class="n">ExtensionNodeMetaclass</span><span class="p">,</span> <span class="bp">cls</span><span class="p">)</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span>
+                                                <span class="bp">cls</span><span class="p">,</span> <span class="n">classname</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">members</span><span class="p">)</span>
+        <span class="n">ext_name</span> <span class="o">=</span> <span class="n">ext_node_cls</span><span class="o">.</span><span class="n">extension_name</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">base_node_cls</span> <span class="ow">in</span> <span class="n">_extensions</span><span class="p">[</span><span class="n">ext_name</span><span class="p">]:</span>
+            <span class="c1"># register the base node</span>
+            <span class="n">_extensions</span><span class="p">[</span><span class="n">ext_name</span><span class="p">][</span><span class="n">base_node_cls</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="c1"># Register methods from extension class hierarchy: iterate MRO in</span>
+        <span class="c1"># reverse order and register all attributes starting from the</span>
+        <span class="c1"># classes which are subclasses from ExtensionNode.</span>
+        <span class="n">extension_subtree</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">base</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">ext_node_cls</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">):</span>
+            <span class="c1"># make sure we only inject methods in classes which have</span>
+            <span class="c1"># ExtensionNode as superclass</span>
+            <span class="k">if</span> <span class="n">extension_subtree</span> <span class="ow">and</span> <span class="n">ExtensionNode</span> <span class="ow">in</span> <span class="n">base</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">attr_value</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+                    <span class="k">if</span> <span class="n">attr_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_NON_EXTENSION_ATTRIBUTES</span><span class="p">:</span>
+                        <span class="c1"># check if this attribute has not already been</span>
+                        <span class="c1"># extended in one of the base classes</span>
+                        <span class="n">already_active</span> <span class="o">=</span> <span class="kc">False</span>
+                        <span class="k">for</span> <span class="n">bb</span> <span class="ow">in</span> <span class="n">ext_node_cls</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="p">(</span><span class="n">bb</span> <span class="ow">in</span> <span class="n">_extensions</span><span class="p">[</span><span class="n">ext_name</span><span class="p">]</span> <span class="ow">and</span>
+                            <span class="n">attr_name</span> <span class="ow">in</span> <span class="n">_extensions</span><span class="p">[</span><span class="n">ext_name</span><span class="p">][</span><span class="n">bb</span><span class="p">]</span> <span class="ow">and</span>
+                            <span class="n">_extensions</span><span class="p">[</span><span class="n">ext_name</span><span class="p">][</span><span class="n">bb</span><span class="p">][</span><span class="n">attr_name</span><span class="p">]</span> <span class="o">==</span> <span class="n">attr_value</span><span class="p">):</span>
+                                <span class="n">already_active</span> <span class="o">=</span> <span class="kc">True</span>
+                        <span class="c1"># only register if not yet active</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">already_active</span><span class="p">:</span>
+                            <span class="n">_register_attribute</span><span class="p">(</span><span class="n">ext_name</span><span class="p">,</span> <span class="n">base_node_cls</span><span class="p">,</span>
+                                                <span class="n">attr_name</span><span class="p">,</span> <span class="n">attr_value</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">base</span> <span class="o">==</span> <span class="n">ExtensionNode</span><span class="p">:</span>
+                <span class="n">extension_subtree</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">ext_node_cls</span>
+
+
+<span class="k">class</span> <span class="nc">ExtensionNode</span><span class="p">(</span><span class="n">with_metaclass</span><span class="p">(</span><span class="n">ExtensionNodeMetaclass</span><span class="p">,</span> <span class="nb">object</span><span class="p">)):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for extensions nodes.</span>
+
+<span class="sd">    A new extension node class should override the _extension_name.</span>
+<span class="sd">    The concrete node implementations are then derived from this extension</span>
+<span class="sd">    node class.</span>
+
+<span class="sd">    To call an instance method from a parent class you have multiple options:</span>
+
+<span class="sd">    - use super, but with the normal node class, e.g.:</span>
+
+<span class="sd">      &gt;&gt;&gt;  super(mdp.nodes.SFA2Node, self).method()      # doctest: +SKIP</span>
+
+<span class="sd">      Here SFA2Node was given instead of the extension node class for the</span>
+<span class="sd">      SFA2Node.</span>
+
+<span class="sd">      If the extensions node class is used directly (without the extension</span>
+<span class="sd">      mechanism) this can cause problems. In that case you have to be</span>
+<span class="sd">      careful about the inheritance order and the effect on the MRO.</span>
+
+<span class="sd">    - call it explicitly using the __func__ attribute [python version &lt; 3]:</span>
+
+<span class="sd">      &gt;&gt;&gt; parent_class.method.__func__(self)             # doctest: +SKIP</span>
+
+<span class="sd">      or [python version &gt;=3]:</span>
+
+<span class="sd">      &gt;&gt;&gt; parent_class.method(self)                      # doctest: +SKIP</span>
+
+<span class="sd">    To call the original (pre-extension) method in the same class use you</span>
+<span class="sd">    simply prefix the method name with &#39;_non_extension_&#39; (this is the value</span>
+<span class="sd">    of the `ORIGINAL_ATTR_PREFIX` constant in this module).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># override this name in a concrete extension node base class</span>
+    <span class="n">extension_name</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<span class="k">def</span> <span class="nf">get_extensions</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Return a dictionary currently registered extensions.</span>
+
+<span class="sd">    Note that this is not a copy, so if you change anything in this dict</span>
+<span class="sd">    the whole extension mechanism will be affected. If you just want the</span>
+<span class="sd">    names of the available extensions use get_extensions().keys().</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_extensions</span>
+
+<div class="viewcode-block" id="get_active_extensions"><a class="viewcode-back" href="../../mdp/mdp.extension.html#mdp.extension.get_active_extensions">[docs]</a><span class="k">def</span> <span class="nf">get_active_extensions</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Returns a list with the names of the currently activated extensions.&quot;&quot;&quot;</span>
+    <span class="c1"># use copy to protect the original set, also important if the return</span>
+    <span class="c1"># value is used in a for-loop (see deactivate_extensions function)</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">_active_extensions</span><span class="p">)</span></div>
+
+<span class="k">def</span> <span class="nf">activate_extension</span><span class="p">(</span><span class="n">extension_name</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Activate the extension by injecting the extension methods.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">extension_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">_extensions</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+        <span class="n">err</span> <span class="o">=</span> <span class="s2">&quot;Unknown extension name: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="o">%</span><span class="nb">str</span><span class="p">(</span><span class="n">extension_name</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">ExtensionException</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">extension_name</span> <span class="ow">in</span> <span class="n">_active_extensions</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Extension </span><span class="si">%s</span><span class="s1"> is already active!&#39;</span> <span class="o">%</span> <span class="n">extension_name</span><span class="p">)</span>
+        <span class="k">return</span>
+    <span class="n">_active_extensions</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">extension_name</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">_SETUP_FUNC_ATTR</span> <span class="ow">in</span> <span class="n">_extensions</span><span class="p">[</span><span class="n">extension_name</span><span class="p">]:</span>
+            <span class="n">_extensions</span><span class="p">[</span><span class="n">extension_name</span><span class="p">][</span><span class="n">_SETUP_FUNC_ATTR</span><span class="p">]()</span>
+        <span class="k">for</span> <span class="n">node_cls</span><span class="p">,</span> <span class="n">attributes</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">_extensions</span><span class="p">[</span><span class="n">extension_name</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">node_cls</span> <span class="o">==</span> <span class="n">_SETUP_FUNC_ATTR</span> <span class="ow">or</span> <span class="n">node_cls</span> <span class="o">==</span> <span class="n">_TEARDOWN_FUNC_ATTR</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="k">for</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">attr_value</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">attributes</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;extension </span><span class="si">%s</span><span class="s2">: adding </span><span class="si">%s</span><span class="s2"> to </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>
+                           <span class="p">(</span><span class="n">extension_name</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">node_cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
+                <span class="c1">## store the original attribute / make it available</span>
+                <span class="n">ext_attr_name</span> <span class="o">=</span> <span class="n">_EXTENSION_ATTR_PREFIX</span> <span class="o">+</span> <span class="n">attr_name</span>
+                <span class="k">if</span> <span class="n">attr_name</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">node_cls</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">ext_attr_name</span> <span class="ow">in</span> <span class="n">node_cls</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+                        <span class="c1"># two extensions override the same attribute</span>
+                        <span class="n">err</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Name collision for attribute &#39;&quot;</span> <span class="o">+</span>
+                               <span class="n">attr_name</span> <span class="o">+</span> <span class="s2">&quot;&#39; between extension &#39;&quot;</span> <span class="o">+</span>
+                               <span class="nb">getattr</span><span class="p">(</span><span class="n">node_cls</span><span class="p">,</span> <span class="n">ext_attr_name</span><span class="p">)</span>
+                               <span class="o">+</span> <span class="s2">&quot;&#39; and newly activated extension &#39;&quot;</span> <span class="o">+</span>
+                               <span class="n">extension_name</span> <span class="o">+</span> <span class="s2">&quot;&#39;.&quot;</span><span class="p">)</span>
+                        <span class="k">raise</span> <span class="n">ExtensionException</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+                    <span class="c1"># only overwrite the attribute if the extension is not</span>
+                    <span class="c1"># yet active on this class or its superclasses</span>
+                    <span class="k">if</span> <span class="n">ext_attr_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">dir</span><span class="p">(</span><span class="n">node_cls</span><span class="p">):</span>
+                        <span class="n">original_attr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">node_cls</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                            <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;extension </span><span class="si">%s</span><span class="s2">: overwriting </span><span class="si">%s</span><span class="s2"> in </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>
+                                <span class="p">(</span><span class="n">extension_name</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">node_cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
+                        <span class="nb">setattr</span><span class="p">(</span><span class="n">node_cls</span><span class="p">,</span> <span class="n">ORIGINAL_ATTR_PREFIX</span> <span class="o">+</span> <span class="n">attr_name</span><span class="p">,</span>
+                                <span class="n">original_attr</span><span class="p">)</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="n">node_cls</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">attr_value</span><span class="p">)</span>
+                <span class="c1"># store to which extension this attribute belongs, this is also</span>
+                <span class="c1"># used as a flag that this is an extension attribute</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="n">node_cls</span><span class="p">,</span> <span class="n">ext_attr_name</span><span class="p">,</span> <span class="n">extension_name</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="c1"># make sure that an incomplete activation is reverted</span>
+        <span class="n">deactivate_extension</span><span class="p">(</span><span class="n">extension_name</span><span class="p">)</span>
+        <span class="k">raise</span>
+
+<span class="k">def</span> <span class="nf">deactivate_extension</span><span class="p">(</span><span class="n">extension_name</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Deactivate the extension by removing the injected methods.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">extension_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">_extensions</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+        <span class="n">err</span> <span class="o">=</span> <span class="s2">&quot;Unknown extension name: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">extension_name</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">ExtensionException</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">extension_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_active_extensions</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="k">for</span> <span class="n">node_cls</span><span class="p">,</span> <span class="n">attributes</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">_extensions</span><span class="p">[</span><span class="n">extension_name</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+        <span class="k">if</span> <span class="n">node_cls</span> <span class="o">==</span> <span class="n">_SETUP_FUNC_ATTR</span> <span class="ow">or</span> <span class="n">node_cls</span> <span class="o">==</span> <span class="n">_TEARDOWN_FUNC_ATTR</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">for</span> <span class="n">attr_name</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">attributes</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="n">original_name</span> <span class="o">=</span> <span class="n">ORIGINAL_ATTR_PREFIX</span> <span class="o">+</span> <span class="n">attr_name</span>
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;extension </span><span class="si">%s</span><span class="s2">: removing </span><span class="si">%s</span><span class="s2"> from </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>
+                       <span class="p">(</span><span class="n">extension_name</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">node_cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">original_name</span> <span class="ow">in</span> <span class="n">node_cls</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">:</span>
+                <span class="c1"># restore the original attribute</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="nb">print</span> <span class="p">(</span><span class="s2">&quot;extension </span><span class="si">%s</span><span class="s2">: restoring </span><span class="si">%s</span><span class="s2"> in </span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span>
+                           <span class="p">(</span><span class="n">extension_name</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">node_cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">))</span>
+                <span class="nb">delattr</span><span class="p">(</span><span class="n">node_cls</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">)</span>
+                <span class="n">original_attr</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">node_cls</span><span class="p">,</span> <span class="n">original_name</span><span class="p">)</span>
+                <span class="c1"># Check if the attribute is defined by one of the super</span>
+                <span class="c1"># classes and test if the overwritten method is not that</span>
+                <span class="c1"># method, otherwise we would inject unwanted methods.</span>
+                <span class="c1"># Note: &#39;==&#39; tests identity for .__func__ and .__self__,</span>
+                <span class="c1">#    but .im_class does not matter in Python 2.6.</span>
+                <span class="k">if</span> <span class="nb">all</span><span class="p">([</span><span class="nb">getattr</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">!=</span>
+                           <span class="n">original_attr</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">node_cls</span><span class="o">.</span><span class="vm">__mro__</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]):</span>
+                    <span class="nb">setattr</span><span class="p">(</span><span class="n">node_cls</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">,</span> <span class="n">original_attr</span><span class="p">)</span>
+                <span class="nb">delattr</span><span class="p">(</span><span class="n">node_cls</span><span class="p">,</span> <span class="n">original_name</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="c1"># no original attribute to restore, so simply delete</span>
+                    <span class="c1"># might be missing if the activation failed</span>
+                    <span class="nb">delattr</span><span class="p">(</span><span class="n">node_cls</span><span class="p">,</span> <span class="n">attr_name</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                    <span class="k">pass</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># might be missing if the activation failed</span>
+                <span class="nb">delattr</span><span class="p">(</span><span class="n">node_cls</span><span class="p">,</span> <span class="n">_EXTENSION_ATTR_PREFIX</span> <span class="o">+</span> <span class="n">attr_name</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+                <span class="k">pass</span>
+    <span class="k">if</span> <span class="n">_TEARDOWN_FUNC_ATTR</span> <span class="ow">in</span> <span class="n">_extensions</span><span class="p">[</span><span class="n">extension_name</span><span class="p">]:</span>
+        <span class="n">_extensions</span><span class="p">[</span><span class="n">extension_name</span><span class="p">][</span><span class="n">_TEARDOWN_FUNC_ATTR</span><span class="p">]()</span>
+    <span class="n">_active_extensions</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">extension_name</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">activate_extensions</span><span class="p">(</span><span class="n">extension_names</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Activate all the extensions for the given names.</span>
+
+<span class="sd">    extension_names -- Sequence of extension names.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">extension_name</span> <span class="ow">in</span> <span class="n">extension_names</span><span class="p">:</span>
+            <span class="n">activate_extension</span><span class="p">(</span><span class="n">extension_name</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="c1"># if something goes wrong deactivate all, otherwise we might be</span>
+        <span class="c1"># in an inconsistent state (e.g. methods for active extensions might</span>
+        <span class="c1"># have been removed)</span>
+        <span class="n">deactivate_extensions</span><span class="p">(</span><span class="n">get_active_extensions</span><span class="p">())</span>
+        <span class="k">raise</span>
+
+<span class="k">def</span> <span class="nf">deactivate_extensions</span><span class="p">(</span><span class="n">extension_names</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Deactivate all the extensions for the given names.</span>
+
+<span class="sd">    extension_names -- Sequence of extension names.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">extension_name</span> <span class="ow">in</span> <span class="n">extension_names</span><span class="p">:</span>
+        <span class="n">deactivate_extension</span><span class="p">(</span><span class="n">extension_name</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span><span class="p">)</span>
+
+<span class="c1"># TODO: add check that only extensions are deactivated that were</span>
+<span class="c1">#    originally activcated by this extension (same in context manager)</span>
+<span class="c1">#    also add test for this</span>
+<span class="k">def</span> <span class="nf">with_extension</span><span class="p">(</span><span class="n">extension_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a wrapper function to activate and deactivate the extension.</span>
+<span class="sd">    </span>
+<span class="sd">    This function is intended to be used with the decorator syntax.</span>
+
+<span class="sd">    The deactivation happens only if the extension was activated by</span>
+<span class="sd">    the decorator (not if it was already active before). So this</span>
+<span class="sd">    decorator ensures that the extensions is active and prevents</span>
+<span class="sd">    unintended side effects.</span>
+
+<span class="sd">    If the generated function is a generator, the extension will be in</span>
+<span class="sd">    effect only when the generator object is created (that is when the</span>
+<span class="sd">    function is called, but its body is not actually immediately</span>
+<span class="sd">    executed). When the function body is executed (after ``next`` is</span>
+<span class="sd">    called on the generator object), the extension might not be in</span>
+<span class="sd">    effect anymore. Therefore, it is better to use the `extension`</span>
+<span class="sd">    context manager with a generator function.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="k">def</span> <span class="nf">wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="c1"># make sure that we don&#39;t deactive and extension that was</span>
+            <span class="c1"># not activated by the decorator (would be a strange sideeffect)</span>
+            <span class="k">if</span> <span class="n">extension_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">get_active_extensions</span><span class="p">():</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">activate_extension</span><span class="p">(</span><span class="n">extension_name</span><span class="p">)</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="k">finally</span><span class="p">:</span>
+                    <span class="n">deactivate_extension</span><span class="p">(</span><span class="n">extension_name</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">result</span>
+        <span class="c1"># now make sure that docstring and signature match the original</span>
+        <span class="n">func_info</span> <span class="o">=</span> <span class="n">NodeMetaclass</span><span class="o">.</span><span class="n">_function_infodict</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">NodeMetaclass</span><span class="o">.</span><span class="n">_wrap_function</span><span class="p">(</span><span class="n">wrapper</span><span class="p">,</span> <span class="n">func_info</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">decorator</span>
+
+<span class="k">class</span> <span class="nc">extension</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Context manager for MDP extension.</span>
+<span class="sd">    </span>
+<span class="sd">    This allows you to use extensions using a ``with`` statement, as in:</span>
+
+<span class="sd">    &gt;&gt;&gt; with mdp.extension(&#39;extension_name&#39;):</span>
+<span class="sd">    ...     # &#39;node&#39; is executed with the extension activated</span>
+<span class="sd">    ...     node.execute(x)</span>
+
+<span class="sd">    It is also possible to activate multiple extensions at once:</span>
+
+<span class="sd">    &gt;&gt;&gt; with mdp.extension([&#39;ext1&#39;, &#39;ext2&#39;]):</span>
+<span class="sd">    ...     # &#39;node&#39; is executed with the two extensions activated</span>
+<span class="sd">    ...     node.execute(x)</span>
+<span class="sd">        </span>
+<span class="sd">    The deactivation at the end happens only for the extensions that were</span>
+<span class="sd">    activated by this context manager (not for those that were already active</span>
+<span class="sd">    when the context was entered). This prevents unintended side effects.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ext_names</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">ext_names</span><span class="p">,</span> <span class="n">__builtins__</span><span class="p">[</span><span class="s1">&#39;str&#39;</span><span class="p">]):</span>
+            <span class="n">ext_names</span> <span class="o">=</span> <span class="p">[</span><span class="n">ext_names</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ext_names</span> <span class="o">=</span> <span class="n">ext_names</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deactivate_exts</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">already_active</span> <span class="o">=</span> <span class="n">get_active_extensions</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">deactivate_exts</span> <span class="o">=</span> <span class="p">[</span><span class="n">ext_name</span> <span class="k">for</span> <span class="n">ext_name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">ext_names</span>
+                                <span class="k">if</span> <span class="n">ext_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">already_active</span><span class="p">]</span>
+        <span class="n">activate_extensions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ext_names</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">traceback</span><span class="p">):</span>
+        <span class="n">deactivate_extensions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">deactivate_exts</span><span class="p">)</span>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      Last updated on 2020-02-17 1:33:02 PM Coordinated Universal Time.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'3.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+      <script type="text/javascript" src="../../_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+<div class="footer">
+    <hr />
+    <table>
+      <tr>
+        <td class="footer-left">
+           <a href="http://sourceforge.net/projects/mdp-toolkit">
+ <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=116959&amp;type=12"
+      width="120" height="30" border="0" alt="MDP@SF.NET"/> </a>
+        </td>
+        <td class="footer-center">
+          Last updated on
+             2020-02-17 1:33:02 PM Coordinated Universal Time
+        </td>
+        <td class="footer-right">
+         <form class="search" action="../../search.html" method="get">
+          <input type="submit" value="Search" />
+          <input type="text" name="q" size="18" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+         </form>
+        </td>
+    </table>  
+    <!-- Piwik -->
+    <script type="text/javascript">
+	var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/mdp-toolkit/" : "http://sourceforge.net/apps/piwik/mdp-toolkit/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+	piwik_action_name = '';
+	piwik_idsite = 1;
+	piwik_url = pkBaseURL + "piwik.php";
+	piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+    </script>
+    <object><noscript>
+	    <p>
+		<img src="http://sourceforge.net/apps/piwik/mdp-toolkit/piwik.php?idsite=1"
+		     alt="piwik" />
+	    </p>
+    </noscript></object>
+    <!-- End Piwik Tag -->
+</div>   
+
+
+</body>
+</html>

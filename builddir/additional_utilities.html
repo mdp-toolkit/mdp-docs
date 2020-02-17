@@ -1,0 +1,465 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Additional utilities &mdash; Modular toolkit for Data Processing (MDP)</title>
+  
+
+  
+  
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="search" title="Search" href="search.html"/>
+    <link rel="top" title="Modular toolkit for Data Processing (MDP)" href="index.html"/>
+        <link rel="up" title="Documentation" href="documentation.html"/>
+        <link rel="next" title="Development" href="development.html"/>
+        <link rel="prev" title="mdp.signal_node_online module" href="mdp/mdp.signal_node_online.html"/> 
+<meta name="viewport" content="width=740" />
+
+
+  
+  <script src="_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="index.html">
+          
+
+          
+            
+            <img src="_static/logo_animation.gif" class="logo" />
+          
+          </a>
+
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="documentation.html">Documentation</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="tutorial/tutorial.html">Tutorial</a></li>
+<li class="toctree-l2"><a class="reference internal" href="examples/examples.html">Examples</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mdp/modules.html">mdp</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Additional utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#html-slideshows">HTML Slideshows</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#graph-module">Graph module</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="development.html">Development</a></li>
+<li class="toctree-l2"><a class="reference external" href="http://mdp-toolkit.sourceforge.net/api/index.html">API documentation</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="how_to_cite_mdp.html">How to cite MDP</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contact.html">Contact</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MDP</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="documentation.html">Documentation</a> &raquo;</li>
+        
+      <li>Additional utilities</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="additional-utilities">
+<span id="id1"></span><h1>Additional utilities<a class="headerlink" href="#additional-utilities" title="Permalink to this headline">¶</a></h1>
+<p>MDP offers some additional utilities of general interest
+in the <code class="docutils literal notranslate"><span class="pre">mdp.utils</span></code> module. Refer to the
+<a class="reference external" href="http://mdp-toolkit.sourceforge.net/docs/api/index.html">API</a>
+for the full documentation and interface description.</p>
+<dl class="docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">mdp.utils.CovarianceMatrix</span></code></dt>
+<dd><p class="first">This class stores an empirical covariance matrix that can be updated
+incrementally. A call to the <code class="docutils literal notranslate"><span class="pre">fix</span></code> method returns the current state
+of the covariance matrix, the average and the number of observations,
+and resets the internal data.</p>
+<p class="last">Note that the internal sum is a standard <code class="docutils literal notranslate"><span class="pre">__add__</span></code> operation. We are not
+using any of the fancy sum algorithms to avoid round off errors when
+adding many numbers. If you want to contribute a <code class="docutils literal notranslate"><span class="pre">CovarianceMatrix</span></code>
+class that uses such algorithms we would be happy to include it in
+MDP.  For a start see the <a class="reference external" href="http://code.activestate.com/recipes/393090/">Python recipe</a>
+by Raymond Hettinger. For a
+review about floating point arithmetic and its pitfalls see
+<em>What every computer scientist should know about floating-point
+arithmetic</em> by David Goldberg, ACM Computing Surveys, Vol 23, No
+1, March 1991.</p>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">mdp.utils.DelayCovarianceMatrix</span></code></dt>
+<dd>This class stores an empirical covariance matrix between the signal and
+time delayed signal that can be updated incrementally.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">mdp.utils.MultipleCovarianceMatrices</span></code></dt>
+<dd>Container class for multiple covariance matrices to easily
+execute operations on all matrices at the same time.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">mdp.utils.dig_node</span></code> (node)</dt>
+<dd>Crawl recursively an MDP <code class="docutils literal notranslate"><span class="pre">Node</span></code> looking for arrays.
+Return (dictionary, string), where the dictionary is:
+{ attribute_name: (size_in_bytes, array_reference)}
+and string is a nice string representation of it.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">mdp.utils.get_node_size</span></code> (node)</dt>
+<dd>Get <code class="docutils literal notranslate"><span class="pre">node</span></code> total byte-size using <code class="docutils literal notranslate"><span class="pre">cPickle</span></code> with protocol=2.
+(The byte-size is related the memory needed by the node).</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">mdp.utils.progressinfo</span></code> (sequence, length, style, custom)</dt>
+<dd><p class="first">A fully configurable text-mode progress info box tailored to the
+command-line die-hards.
+To get a progress info box for your loops use it like this:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">progressinfo</span><span class="p">(</span><span class="n">sequence</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">do_something</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can also use it with generators, files or any other iterable object,
+but in this case you have to specify the total length of the sequence:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">progressinfo</span><span class="p">(</span><span class="n">open_file</span><span class="p">,</span> <span class="n">nlines</span><span class="p">):</span>
+<span class="gp">... </span>    <span class="n">do_something</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>A few examples of the available layouts:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="o">===================================</span><span class="mi">73</span><span class="o">%==============&gt;...................</span><span class="p">]</span>
+
+<span class="n">Progress</span><span class="p">:</span>  <span class="mi">67</span><span class="o">%</span><span class="p">[</span><span class="o">======================================&gt;</span>                   <span class="p">]</span>
+
+<span class="mi">23</span><span class="o">%</span> <span class="p">[</span><span class="mi">02</span><span class="p">:</span><span class="mi">01</span><span class="p">:</span><span class="mi">28</span><span class="p">]</span> <span class="o">-</span> <span class="p">[</span><span class="mi">00</span><span class="p">:</span><span class="mi">12</span><span class="p">:</span><span class="mi">37</span><span class="p">]</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">mdp.utils.QuadraticForm</span></code></dt>
+<dd>Define an inhomogeneous quadratic form as <code class="docutils literal notranslate"><span class="pre">1/2</span> <span class="pre">x'Hx</span> <span class="pre">+</span> <span class="pre">f'x</span> <span class="pre">+</span> <span class="pre">c</span></code>.
+This class implements the quadratic form analysis methods
+presented in:
+Berkes, P. and Wiskott, L. On the analysis and interpretation
+of inhomogeneous quadratic forms as receptive fields. <em>Neural
+Computation</em>, 18(8): 1868-1895. (2006).</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">mdp.utils.refcast</span></code> (array, dtype)</dt>
+<dd>Cast the array to <code class="docutils literal notranslate"><span class="pre">dtype</span></code> only if necessary,
+otherwise return a reference.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">mdp.utils.rotate</span></code> (mat, angle, columns, units)</dt>
+<dd><p class="first">Rotate in-place a NxM data matrix in the plane defined by the <code class="docutils literal notranslate"><span class="pre">columns</span></code>
+when observation are stored on rows. Observations are rotated
+counterclockwise. This corresponds to the following matrix-multiplication
+for each data-point (unchanged elements omitted):</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span>  <span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span> <span class="o">-</span><span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>     <span class="p">[</span> <span class="n">x_i</span> <span class="p">]</span>
+   <span class="n">sin</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span>  <span class="n">cos</span><span class="p">(</span><span class="n">angle</span><span class="p">)</span> <span class="p">]</span> <span class="o">*</span> <span class="p">[</span> <span class="n">x_j</span> <span class="p">]</span>
+</pre></div>
+</div>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">mdp.utils.random_rot</span></code> (dim, dtype)</dt>
+<dd>Return a random rotation matrix, drawn from the Haar distribution
+(the only uniform distribution on SO(n)).
+The algorithm is described in the paper
+Stewart, G.W., <em>The efficient generation of random orthogonal
+matrices with an application to condition estimators</em>, SIAM Journal
+on Numerical Analysis, 17(3), pp. 403-409, 1980.
+For more information see this <a class="reference external" href="http://en.wikipedia.org/wiki/Orthogonal_matrix#Randomization">Wikipedia entry</a>.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">mdp.utils.symrand</span></code> (dim_or_eigv, dtype)</dt>
+<dd>Return a random symmetric (Hermitian) matrix with eigenvalues
+uniformly distributed on (0,1].</dd>
+</dl>
+<div class="section" id="html-slideshows">
+<h2>HTML Slideshows<a class="headerlink" href="#html-slideshows" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">mdp.utils</span></code> module contains some classes and helper function to
+display animated results in a Webbrowser. This works by creating an
+HTML file with embedded JavaScript code, which dynamically loads
+image files (the images contain the content that you want to animate
+and can for example be created with matplotlib).
+MDP internally uses the open source <a class="reference external" href="http://davidbau.com/downloads/templet.py">Templete templating libray,
+written by David Bau</a>.</p>
+<p>The easiest way to create a slideshow it to use one of these two helper
+function:</p>
+<dl class="docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">mdp.utils.show_image_slideshow</span></code> (filenames, image_size, filename=None, title=None, **kwargs)</dt>
+<dd>Write the slideshow into a HTML file, open it in the browser and
+return the file name. <code class="docutils literal notranslate"><span class="pre">filenames</span></code> is a list of the images files
+that you want to display in the slideshow. <code class="docutils literal notranslate"><span class="pre">image_size</span></code> is a
+2-tuple containing the width and height at which the images should
+be displayed. There are also a couple of additional arguments,
+which are documented in the docstring.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">mdp.utils.image_slideshow</span></code> (filenames, image_size, title=None, **kwargs)</dt>
+<dd>This function is similar to <code class="docutils literal notranslate"><span class="pre">show_image_slideshow</span></code>, but it simply
+returns the slideshow HTML code (including the JavaScript code)
+which you can then embed into your own HTML file. Note that
+the default slideshow CSS code is not included, but it can be
+accessed in <code class="docutils literal notranslate"><span class="pre">mdp.utils.IMAGE_SLIDESHOW_STYLE</span></code>.</dd>
+</dl>
+<p>Note that there are also two demos in the Examples section <a class="reference internal" href="examples/slideshow/slideshow.html#slideshow"><span class="std std-ref">Slideshow</span></a>.</p>
+</div>
+<div class="section" id="graph-module">
+<h2>Graph module<a class="headerlink" href="#graph-module" title="Permalink to this headline">¶</a></h2>
+<p>MDP contains <code class="docutils literal notranslate"><span class="pre">mdp.graph</span></code>, a lightweight package to handle directed graphs.</p>
+<dl class="docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">mdp.graph.Graph</span></code></dt>
+<dd><p class="first">Represent a directed graph. This class contains several methods
+to create graph structures and manipulate them, among which</p>
+<ul class="last">
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">add_tree</span></code>: Add a tree to the graph.</dt>
+<dd><p class="first">The tree is specified with a nested list of tuple, in a LISP-like
+notation. The values specified in the list become the values of
+the single nodes.
+Return an equivalent nested list with the nodes instead of the values.</p>
+<p>Example::</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">mdp</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">a</span> <span class="o">=</span> <span class="n">b</span> <span class="o">=</span> <span class="n">c</span> <span class="o">=</span> <span class="n">d</span> <span class="o">=</span> <span class="n">e</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">nodes</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">add_tree</span><span class="p">(</span> <span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">d</span> <span class="p">,</span><span class="n">e</span><span class="p">))</span> <span class="p">)</span>
+</pre></div>
+</div>
+<p>Graph <code class="docutils literal notranslate"><span class="pre">g</span></code> corresponds to this tree, with all node values
+being <code class="docutils literal notranslate"><span class="pre">None</span></code>:</p>
+<div class="last highlight-default notranslate"><div class="highlight"><pre><span></span>  <span class="n">a</span>
+ <span class="o">/</span> \
+<span class="n">b</span>   <span class="n">c</span>
+   <span class="o">/</span> \
+  <span class="n">d</span>   <span class="n">e</span>
+</pre></div>
+</div>
+</dd>
+</dl>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">topological_sort</span></code>: Perform a topological sort of the nodes.</p>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">dfs</span></code>, <code class="docutils literal notranslate"><span class="pre">undirected_dfs</span></code>: Perform Depth First sort.</p>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">bfs</span></code>, <code class="docutils literal notranslate"><span class="pre">undirected_bfs</span></code>: Perform Breadth First sort.</p>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">connected_components</span></code>: Return a list of lists containing
+the nodes of all connected components of the graph.</p>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">is_weakly_connected</span></code>: Return True if the graph is weakly connected.</p>
+</li>
+</ul>
+</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">mdp.graph.GraphEdge</span></code></dt>
+<dd>Represent a graph edge and all information attached to it.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">mdp.graph.GraphNode</span></code></dt>
+<dd>Represent a graph node and all information attached to it.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">mdp.graph.recursive_map</span></code> (fun, seq)</dt>
+<dd>Apply a function recursively on a sequence and all subsequences.</dd>
+<dt><code class="docutils literal notranslate"><span class="pre">mdp.graph.recursive_reduce</span></code> (func, seq, *argv)</dt>
+<dd>Apply <code class="docutils literal notranslate"><span class="pre">reduce(func,</span> <span class="pre">seq)</span></code> recursively to a sequence and all its
+subsequences.</dd>
+</dl>
+</div>
+</div>
+
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="development.html" class="btn btn-neutral float-right" title="Development" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="mdp/mdp.signal_node_online.html" class="btn btn-neutral" title="mdp.signal_node_online module" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+      Last updated on 2020-02-17 1:32:12 PM Coordinated Universal Time.
+
+    </p>
+  </div> 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'./',
+            VERSION:'3.5',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="_static/jquery.js"></script>
+      <script type="text/javascript" src="_static/underscore.js"></script>
+      <script type="text/javascript" src="_static/doctools.js"></script>
+      <script type="text/javascript" src="_static/language_data.js"></script>
+      <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+<div class="footer">
+    <hr />
+    <table>
+      <tr>
+        <td class="footer-left">
+           <a href="http://sourceforge.net/projects/mdp-toolkit">
+ <img src="http://sflogo.sourceforge.net/sflogo.php?group_id=116959&amp;type=12"
+      width="120" height="30" border="0" alt="MDP@SF.NET"/> </a>
+        </td>
+        <td class="footer-center">
+          Last updated on
+             2020-02-17 1:32:12 PM Coordinated Universal Time
+        </td>
+        <td class="footer-right">
+         <form class="search" action="search.html" method="get">
+          <input type="submit" value="Search" />
+          <input type="text" name="q" size="18" />
+          <input type="hidden" name="check_keywords" value="yes" />
+          <input type="hidden" name="area" value="default" />
+         </form>
+        </td>
+    </table>  
+    <!-- Piwik -->
+    <script type="text/javascript">
+	var pkBaseURL = (("https:" == document.location.protocol) ? "https://sourceforge.net/apps/piwik/mdp-toolkit/" : "http://sourceforge.net/apps/piwik/mdp-toolkit/");
+	document.write(unescape("%3Cscript src='" + pkBaseURL + "piwik.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+	piwik_action_name = '';
+	piwik_idsite = 1;
+	piwik_url = pkBaseURL + "piwik.php";
+	piwik_log(piwik_action_name, piwik_idsite, piwik_url);
+    </script>
+    <object><noscript>
+	    <p>
+		<img src="http://sourceforge.net/apps/piwik/mdp-toolkit/piwik.php?idsite=1"
+		     alt="piwik" />
+	    </p>
+    </noscript></object>
+    <!-- End Piwik Tag -->
+</div>   
+
+
+</body>
+</html>
