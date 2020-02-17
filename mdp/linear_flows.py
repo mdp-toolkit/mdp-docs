@@ -114,7 +114,7 @@ class Flow(object):
 
         flow -- a list of Nodes
         crash_recovery -- set (or not) Crash Recovery Mode (save node
-                          in case a failure)
+        in case a failure)
         verbose -- if True, print some basic progress information
         """
         self._check_nodes_consistency(flow)
