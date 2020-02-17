@@ -33,8 +33,9 @@ class Docsummary(Autosummary):
                     documenter = get_documenter(member, obj)
             except AttributeError:
                 continue
-            if documenter.objtype == typ:
-                items.append((name,member))
+            if documenter is not None:
+                if documenter.objtype == typ:
+                    items.append((name,member))
 
         return items
     @staticmethod
