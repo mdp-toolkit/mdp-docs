@@ -23,8 +23,8 @@ def get_mdp_version():
 #sys.path.append(os.path.abspath('.'))
 
 sys.path.insert(0, os.path.abspath('../ext'))
-sys.path.insert(0, os.path.abspath('../'))
-sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath('../'    ))
+sys.path.insert(0, os.path.abspath('./talks'))
 
 # -- General configuration -----------------------------------------------------
 
