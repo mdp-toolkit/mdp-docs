@@ -12,8 +12,8 @@ Documentation
    examples/examples.rst
    mdp/modules.rst
    additional_utilities.rst   
-   development.rst
-   talks/talks.rst
+   talks/development.rst
+   talks.rst
 
 
 - The comprehensive :ref:`MDP tutorial <tutorial>`, also available as `pdf <http://downloads.sourceforge.net/mdp-toolkit/MDP-tutorial.pdf?download>`_.
