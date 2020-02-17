@@ -27,7 +27,7 @@ class Docsummary(Autosummary):
         for name in dir(obj):
             try:
                 member = safe_getattr(obj, name)
-                documenter = get_documenter(member, obj)
+                documenter = get_documenter(obj, member)
             except AttributeError:
                 continue
             if documenter.objtype == typ:
@@ -101,7 +101,7 @@ class Docsummary(Autosummary):
         return super(Docsummary, self).run()
 
 def run_apidoc(app):
-    from sphinx.apidoc import main
+    from sphinx.ext.apidoc import main
     import os
     import sys
 
