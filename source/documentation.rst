@@ -13,7 +13,6 @@ Documentation
    mdp/modules.rst
    additional_utilities.rst   
    development.rst
-   API documentation <http://mdp-toolkit.sourceforge.net/api/index.html>
    talks/talks.rst
 
 
