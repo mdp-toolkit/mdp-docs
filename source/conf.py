@@ -186,9 +186,9 @@ latex_logo = 'examples/logo/logo.png'
 #latex_preamble = ''
 
 # Documents to append as an appendix to all manuals.
-latex_appendices = [#'node_list', 
+latex_appendices = []#'node_list', 
 #'additional_utilities',
- 'license']
+#'license']
 
 # If false, no module index is generated.
 latex_domain_indices = False
