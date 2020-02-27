@@ -30,22 +30,23 @@ sys.path.insert(0, os.path.abspath('../'))
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc',
-              #'neatdoc',
-	      	  'sphinx.ext.napoleon',
-              'sphinx.ext.autosummary',
-              'sphinx.ext.doctest',
-	          'sphinx.ext.viewcode',
-              'sphinx.ext.extlinks',
-			  'sphinx.ext.mathjax',
-              'extapi',
-              'codesnippet',
-              'version_string',
-              'linkcheck2',
-              'descriptions_string',]
+extensions = [
+#'sphinx.ext.autodoc',
+#              #'neatdoc',
+#	      	  'sphinx.ext.napoleon',
+#              'sphinx.ext.autosummary',
+#              'sphinx.ext.doctest',
+#	          'sphinx.ext.viewcode',
+#              'sphinx.ext.extlinks',
+#			  'sphinx.ext.mathjax',
+#              'extapi',
+#              'codesnippet',
+#              'version_string',
+#              'linkcheck2',
+#              'descriptions_string',]
 #              'download_links']
 
-napoleon_google_docstring = False
+#napoleon_google_docstring = False
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
@@ -66,9 +67,6 @@ release = get_mdp_version()
 
 # List of patterns, relative to source directory, that match files and
 # directories to ignore when looking for source files.
-exclude_patterns = ['main.rst',
-                    'tutorial/using_mdp_is_as_easy.rst',
-                    ]
 
 # The name of the Pygments (syntax highlighting) style to use.
 pygments_style = 'sphinx'
@@ -143,10 +141,6 @@ html_show_copyright = False
 
 # If nonempty, this is the file name suffix for HTML files (e.g. ".xhtml").
 #html_file_suffix = ''
-
-# A list of regular expressions that match URIs that should not be checked
-# when doing a ``linkcheck`` build.
-linkcheck2_ignore = [r'http://mdp-toolkit.*']
 
 # Output file base name for HTML help builder.
 htmlhelp_basename = 'MDP-toolkitdoc'
