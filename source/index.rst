@@ -3,7 +3,9 @@
    :maxdepth: 3
 
    install.rst
+   documentation.rst
    contact.rst
+   license.rst
 
 .. Note::
 
@@ -19,8 +21,6 @@
 
      MDP works equally well in Python 2 and Python 3. All code examples in the documentation are using
      Python 2 though. 
-     
-.. middle-description-string::
 
 .. include:: tutorial/using_mdp_is_as_easy.rst
 
