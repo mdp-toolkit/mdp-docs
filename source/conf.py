@@ -150,7 +150,7 @@ latex_font_size = '10pt'
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
   ('tutorial/tutorial', 'MDP-tutorial.tex',
-   ur'''Modular toolkit for Data Processing\\\mbox{ }\\Tutorial''',
+   u'''Modular toolkit for Data Processing\\\\\\mbox{ }\\\\Tutorial''',
    u'Authors: MDP Developers', 'manual', True),
 ]
 

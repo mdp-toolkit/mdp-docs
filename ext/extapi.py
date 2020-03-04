@@ -22,6 +22,8 @@
 import os.path
 from docutils import nodes
 import re
+from sphinx.util import logging
+LOG = logging.getLogger(__name__)
 
 def _extract_name(text):
     """
@@ -60,9 +62,7 @@ def api_role(role, rawtext, text, lineno, inliner, options={}, content=[]):
     basedir = inliner.document.settings.env.config.extapi_epydoc_path
     prefix = os.path.abspath(basedir)
     if not os.path.exists(prefix):
-        inliner.document.settings.env.app.info('Warning: '
-                                               'epydoc API not found '
-                                               'in %s'%prefix)
+        LOG.info('Warning: epydoc API not found in %s' % prefix)
     exists = lambda f: os.path.exists(os.path.join(prefix, f))
     link_prefix = inliner.document.settings.env.config.extapi_link_prefix
 
