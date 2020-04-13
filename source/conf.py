@@ -12,6 +12,9 @@
 # serve to show the default.
 
 import sys, os
+sys.path.insert(0, os.path.abspath('../ext'))
+sys.path.insert(0, os.path.abspath('../'))
+sys.path.insert(0, os.path.abspath('../mdp-toolkit'))
 import mdp
 
 def get_mdp_version():
@@ -22,15 +25,13 @@ def get_mdp_version():
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #sys.path.append(os.path.abspath('.'))
 
-sys.path.insert(0, os.path.abspath('../ext'))
-sys.path.insert(0, os.path.abspath('../'))
 
 # -- General configuration -----------------------------------------------------
 
 
 # Add any Sphinx extension module names here, as strings. They can be extensions
 # coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = []
+extensions = ['sphinx.ext.autodoc']
 #'sphinx.ext.autodoc',
 #              #'neatdoc',
 #	      	  'sphinx.ext.napoleon',
