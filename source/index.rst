@@ -3,12 +3,26 @@ Modular toolkit for Data Processing (MDP)
 
 .. toctree::
    :hidden:
-   :maxdepth: 3
+   :maxdepth: 4
+   :caption: Getting Started
 
-   install.rst
-   documentation.rst
-   how_to_cite_mdp.rst
-   contact.rst
+   getting_started/install.rst
+
+.. toctree::
+   :hidden:
+   :maxdepth: 4
+   :caption: Documentation
+
+   documentation/api_documentation/api_documentation.rst
+   documentation/talks/talks.rst
+
+.. toctree::
+   :hidden:
+   :maxdepth: 4
+   :caption: Reference
+
+   reference/how_to_cite_mdp.rst
+   reference/contact.rst
 
 .. Note::
 
@@ -27,4 +41,4 @@ Modular toolkit for Data Processing (MDP)
 
 .. include:: tutorial/using_mdp_is_as_easy.rst
 
-To learn more about MDP, read through the :ref:`documentation`.
+To learn more about MDP, check out the documentation.
