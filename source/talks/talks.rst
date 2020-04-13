@@ -8,7 +8,7 @@ Talks
   Data Processing Frameworks - Reality or Wishful Thinking?*
 - `EuroScipy 2010 <../_static/EuroScipy2010MDPTalk.pdf>`_: *MDP: Modular 
   toolkit for Data Processing (and its new features)*
-- :download:`EuroScipy 2010 <../_static/EuroScipy2010MDPTalk.pdf>`: *MDP:
+- :download:`EuroScipy 2010 <./EuroScipy2010MDPTalk.pdf>`: *MDP:
   Modular toolkit for Data Processing (and its new features)*
 - `EuroScipy 2009 <../_static/EuroScipy2009Talk.pdf>`_: *Modular
   toolkit for Data Processing a Python data processing framework* 
