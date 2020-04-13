@@ -5,7 +5,6 @@
    install.rst
    documentation.rst
    contact.rst
-   license.rst
 
 .. Note::
 
