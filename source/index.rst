@@ -1,3 +1,6 @@
+Modular toolkit for Data Processing (MDP)
+=========================
+
 .. toctree::
    :hidden:
    :maxdepth: 3
