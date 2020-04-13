@@ -7,6 +7,7 @@ Modular toolkit for Data Processing (MDP)
 
    install.rst
    documentation.rst
+   how_to_cite_mdp.rst
    contact.rst
 
 .. Note::
