@@ -1,0 +1,34 @@
+{
+    "image_size": [
+        20, 
+        20
+    ], 
+    "layer_configs": [
+        {
+            "field_channels_xy": [
+                4, 
+                4
+            ], 
+            "field_spacing_xy": [
+                2, 
+                2
+            ], 
+            "layer_type": "standard rect", 
+            "sfa2_dim": 1, 
+            "sfa_dim": 1
+        }, 
+        {
+            "field_channels_xy": [
+                4, 
+                4
+            ], 
+            "field_spacing_xy": [
+                2, 
+                2
+            ], 
+            "layer_type": "standard rect", 
+            "sfa2_dim": 1, 
+            "sfa_dim": 1
+        }
+    ]
+}
