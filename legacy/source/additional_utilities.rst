@@ -27,6 +27,17 @@ for the full documentation and interface description.
      arithmetic* by David Goldberg, ACM Computing Surveys, Vol 23, No
      1, March 1991.
 
+:api:`mdp.utils.VartimeCovarianceMatrix`
+     This class stores an empirical covariance matrix that can be updated
+     incrementally. A call to the 'fix' method returns the current state
+     of the covariance matrix, the average and the number of observations,
+     and resets the internal data.
+
+     As compared to the *CovarianceMatrix* class, this class accepts sampled
+     input in conjunction with a non-constant time increment between samples.
+     The covariance matrix is then computed as a (centered) scalar product
+     between functions, that is sampled unevenly, using the trapezoid rule.
+
 :api:`mdp.utils.DelayCovarianceMatrix`
      This class stores an empirical covariance matrix between the signal and
      time delayed signal that can be updated incrementally.
