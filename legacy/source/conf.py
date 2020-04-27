@@ -12,6 +12,7 @@
 # serve to show the default.
 
 import sys, os
+sys.path.insert(0, os.path.abspath('../../mdp-toolkit'))
 import mdp
 
 def get_mdp_version():
