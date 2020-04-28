@@ -187,4 +187,5 @@ legacyapi:
 	cp -a api $(BUILDDIR)/html/
 
 legacywebsite: legacyapi codesnippet html
+
 legacywebsitelocal: legacyapi codesnippet htmllocal
