@@ -181,3 +181,10 @@ codesnippet:
 	      "results in $(BUILDDIR)/codesnippet/."
 
 website: epydoc codesnippet html$(LINKS) latexpdf
+
+legacyapi:
+	mkdir -p $(BUILDDIR)/html
+	cp -a api $(BUILDDIR)/html/
+
+legacywebsite: legacyapi codesnippet html
+legacywebsitelocal: legacyapi codesnippet htmllocal
