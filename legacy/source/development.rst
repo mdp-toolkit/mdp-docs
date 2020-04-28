@@ -21,11 +21,8 @@ of the `Ruhr University Bochum <https://www.ruhr-uni-bochum.de/en>`_.
 
 Current maintainers are:
 
-*   `Pietro Berkes <http://people.brandeis.edu/~berkes/>`_
-*   `Zbigniew Jędrzejewski-Szmek <https://github.com/keszybz>`_
+*   `Nils Müller <https://www.ini.rub.de/the_institute/people/nils-mller/>`_
 *   `Stefan Richthofer <https://www.ini.rub.de/the_institute/people/stefan-richthofer/>`_
-*   `Rike-Benjamin Schuppner <https://github.com/Debilski>`_
-*   `Niko Wilbert <https://github.com/nwilbert>`_
 *   `Tiziano Zito <https://github.com/otizonaizit>`_
 
 
@@ -64,6 +61,7 @@ Contributors
 Strictly in alphabetical order:
 
 - `Gabriel Beckers <http://www.gbeckers.nl/>`_
+- `Pietro Berkes <http://people.brandeis.edu/~berkes/>`_
 - Sven Dähne
 - Philip DeBoer
 - Kamel Ibn Aziz Derouiche
@@ -77,10 +75,10 @@ Strictly in alphabetical order:
 - Christian Hinze
 - `Sebastian Höfer <http://www.sebastianhoefer.de>`_
 - Michael Hull
+- `Zbigniew Jędrzejewski-Szmek <https://github.com/keszybz>`_
 - `Samuel John <http://www.samueljohn.de/>`_
 - `Varun Kompella <https://varunrajk.gitlab.io/>`_
 - Susanne Lezius
-- `Nils Müller <https://www.ini.rub.de/the_institute/people/nils-mller/>`_
 - `Fabian Pedregosa <http://fseoane.net/blog/>`_
 - `José Quesada <https://github.com/quesada>`_
 - `Stefan Richthofer <https://www.ini.rub.de/the_institute/people/stefan-richthofer/>`_
@@ -88,9 +86,11 @@ Strictly in alphabetical order:
 - `Michael Schmuker <https://github.com/Huitzilo>`_
 - `Benjamin Schrauwen <https://about.me/benjamin_schrauwen>`_
 - `Fabian Schönfeld <https://www.ini.rub.de/the_institute/people/fabian-schonfeld/>`_
+. `Rike-Benjamin Schuppner <https://github.com/Debilski>`_
 - `Henning Sprekeler <https://www.cognition.tu-berlin.de/menue/members/henning_sprekeler/>`_
 - `Jake VanderPlas <https://github.com/jakevdp>`_
 - `David Verstraeten <https://we.vub.ac.be/en/david-verstraeten>`_
+- `Niko Wilbert <https://github.com/nwilbert>`_
 - Ben Willmore
 - `Katharina Maria Zeiner <http://dgppf.de/dr-katharina-m-zeiner/>`_
 
