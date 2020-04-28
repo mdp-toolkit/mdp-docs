@@ -26,9 +26,6 @@ Current maintainers are:
 *   `Tiziano Zito <https://github.com/otizonaizit>`_
 
 
-`Yaroslav Halchenko`_ maintains the python-mdp_ Debian package,
-`Maximilian Nickel <https://mnick.github.io/>`_ maintains the py25-mdp-toolkit_ and py26-mdp-toolkit_ MacPorts packages.
-
 MDP is open to user contributions. Users have already contributed some
 of the nodes, and more contributions are currently being reviewed for
 inclusion in future releases of the package. The package development
@@ -52,7 +49,6 @@ hesitate to submit it!
 
 
 .. _`mailing list`: https://mail.python.org/mm3/mailman3/lists/mdp-toolkit.python.org/
-
 
 
 ------------
@@ -79,6 +75,7 @@ Strictly in alphabetical order:
 - `Samuel John <http://www.samueljohn.de/>`_
 - `Varun Kompella <https://varunrajk.gitlab.io/>`_
 - Susanne Lezius
+- Maximilian Nickel
 - `Fabian Pedregosa <http://fseoane.net/blog/>`_
 - `José Quesada <https://github.com/quesada>`_
 - `Stefan Richthofer <https://www.ini.rub.de/the_institute/people/stefan-richthofer/>`_
