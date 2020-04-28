@@ -83,7 +83,7 @@ Strictly in alphabetical order:
 - `Michael Schmuker <https://github.com/Huitzilo>`_
 - `Benjamin Schrauwen <https://about.me/benjamin_schrauwen>`_
 - `Fabian Schönfeld <https://www.ini.rub.de/the_institute/people/fabian-schonfeld/>`_
-. `Rike-Benjamin Schuppner <https://github.com/Debilski>`_
+- `Rike-Benjamin Schuppner <https://github.com/Debilski>`_
 - `Henning Sprekeler <https://www.cognition.tu-berlin.de/menue/members/henning_sprekeler/>`_
 - `Jake VanderPlas <https://github.com/jakevdp>`_
 - `David Verstraeten <https://we.vub.ac.be/en/david-verstraeten>`_
