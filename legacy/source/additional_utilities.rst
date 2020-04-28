@@ -29,11 +29,11 @@ for the full documentation and interface description.
 
 :api:`mdp.utils.VartimeCovarianceMatrix`
      This class stores an empirical covariance matrix that can be updated
-     incrementally. A call to the 'fix' method returns the current state
+     incrementally. A call to the ``fix`` method returns the current state
      of the covariance matrix, the average and the number of observations,
      and resets the internal data.
 
-     As compared to the *CovarianceMatrix* class, this class accepts sampled
+     As compared to the ``CovarianceMatrix`` class, this class accepts sampled
      input in conjunction with a non-constant time increment between samples.
      The covariance matrix is then computed as a (centered) scalar product
      between functions, that is sampled unevenly, using the trapezoid rule.
