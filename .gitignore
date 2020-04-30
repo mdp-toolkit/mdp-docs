@@ -7,7 +7,7 @@
 
 # ignore sphinx builds
 #build/
-build_api/
+#build_api/
 source/code
 
 # python ignores
