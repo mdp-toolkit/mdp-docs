@@ -6,7 +6,7 @@
 # *~
 
 # ignore sphinx builds
-build/
+#build/
 build_api/
 source/code
 
