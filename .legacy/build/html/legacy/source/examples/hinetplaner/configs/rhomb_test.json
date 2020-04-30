@@ -1,0 +1,49 @@
+{
+    "image_size": [
+        21, 
+        21
+    ], 
+    "layer_configs": [
+        {
+            "field_channels_xy": [
+                2, 
+                2
+            ], 
+            "field_spacing_xy": [
+                2, 
+                2
+            ], 
+            "layer_type": "standard rect", 
+            "sfa2_dim": 1, 
+            "sfa_dim": 1
+        }, 
+        {
+            "field_channels_xy": [
+                2, 
+                2
+            ], 
+            "layer_type": "double rect", 
+            "sfa2_dim": 1, 
+            "sfa_dim": 2
+        }, 
+        {
+            "field_size": 2, 
+            "layer_type": "double rhomb", 
+            "sfa2_dim": 1, 
+            "sfa_dim": 1
+        }, 
+        {
+            "field_channels_xy": [
+                3, 
+                4
+            ], 
+            "field_spacing_xy": [
+                1, 
+                1
+            ], 
+            "layer_type": "standard rect", 
+            "sfa2_dim": 1, 
+            "sfa_dim": 1
+        }
+    ]
+}

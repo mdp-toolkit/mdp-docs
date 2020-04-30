@@ -1,0 +1,37 @@
+{
+    "image_size": [
+        150, 
+        140
+    ], 
+    "layer_configs": [
+        {
+            "field_channels_xy": [
+                10, 
+                10
+            ], 
+            "layer_type": "double rect", 
+            "sfa2_dim": 32, 
+            "sfa_dim": 32
+        }, 
+        {
+            "field_size": 4, 
+            "layer_type": "double rhomb", 
+            "sfa2_dim": 32, 
+            "sfa_dim": 32
+        }, 
+        {
+            "field_channels_xy": [
+                2, 
+                2
+            ], 
+            "layer_type": "double rect", 
+            "sfa2_dim": 32, 
+            "sfa_dim": 42
+        }, 
+        {
+            "layer_type": "single node", 
+            "sfa2_dim": 256, 
+            "sfa_dim": 52
+        }
+    ]
+}
