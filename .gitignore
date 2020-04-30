@@ -8,7 +8,7 @@
 # ignore sphinx builds
 #build/
 #build_api/
-source/code
+#source/code
 
 # python ignores
 *.pyc
