@@ -110,6 +110,69 @@ for the full documentation and interface description.
     For more information see this `Wikipedia entry
     <http://en.wikipedia.org/wiki/Orthogonal_matrix#Randomization>`_.
 
+:api:`mdp.utils.symeig_semidefinite_ldl` (A, B, eigenvectors, turbo, rng, type, overwrite, rank_threshold, dfc_out)
+    LDL-based routine to solve generalized symmetric positive semidefinite
+    eigenvalue problems.
+    This can be used in case the normal ``symeig()`` call in 
+    ``_stop_training()`` throws
+    ``SymeigException ('Covariance matrices may be singular')``.
+
+    This solver uses SciPy's raw LAPACK interface to access LDL decomposition.
+
+    Roughly as efficient as ordinary eigenvalue solving. Can exploit range
+    parameter for performance just as well as the backend for ordinary symmetric
+    eigenvalue solving enables. This is the recommended and most efficient
+    approach, but it requires SciPy 1.0 or newer.
+
+:api:`mdp.utils.symeig_semidefinite_pca` (A, B, eigenvectors, turbo, range, type, overwrite, rank_threshold, dfc_out)
+    PCA-based routine to solve generalized symmetric positive semidefinite
+    eigenvalue problems.
+    This can be used in case the normal ``symeig()``
+    call in ``_stop_training()`` throws
+    ``SymeigException ('Covariance matrices may be singular')``.
+
+    It applies PCA to B and filters out rank deficit before it applies
+    symeig() to A.
+    It is roughly twice as expensive as the ordinary eigh implementation.
+
+    One of the most stable and accurate approaches.
+    Roughly twice as expensive as ordinary symmetric eigenvalue solving as
+    it solves two symmetric eigenvalue problems.
+    Only the second one can exploit range parameter for performance.
+
+:api:`mdp.utils.symeig_semidefinite_reg` (A, B, eigenvectors, turbo, range, type, overwrite, rank_threshold, dfc_out)
+    Regularization-based routine to solve generalized symmetric positive
+    semidefinite eigenvalue problems.
+    This can be used in case the normal ``symeig()``
+    call in ``_stop_training()`` throws
+    ``SymeigException ('Covariance matrices may be singular')``.
+
+    This solver applies a moderate regularization to B before applying
+    eigh/symeig. Afterwards it properly detects the rank deficit and
+    filters out malformed features.
+    For full range, this procedure is (approximately) as efficient as the
+    ordinary eigh implementation, because all additional steps are
+    computationally cheap.
+    For shorter range, the LDL method should be preferred.
+
+    Roughly as efficient as ordinary eigenvalue solving if no range is given.
+    If range is given, depending on the backend for ordinary symmetric
+    eigenvalue solving, this method can be much slower than an ordinary
+    symmetric eigenvalue solver that can exploit range for performance.
+
+:api:`mdp.utils.symeig_semidefinite_svd` (A, B, eigenvectors, turbo, range, type, overwrite, rank_threshold, dfc_out)
+    SVD-based routine to solve generalized symmetric positive semidefinite
+    eigenvalue problems.
+    This can be used in case the normal ``symeig()``
+    call in ``_stop_training()`` throws
+    ``SymeigException ('Covariance matrices may be singular')``.
+
+    One of the most stable and accurate approaches.
+    Involves solving two svd problems. Computational cost can vary greatly
+    depending on the backends used. E.g. SVD from SciPy appears to be much
+    faster than SVD from NumPy. Based on this it can be faster or slower
+    than the PCA based approach.
+
 :api:`mdp.utils.symrand` (dim_or_eigv, dtype)
     Return a random symmetric (Hermitian) matrix with eigenvalues
     uniformly distributed on (0,1].
