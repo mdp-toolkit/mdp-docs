@@ -80,7 +80,9 @@ Python shell as follows::
 
 Note that you will need to install `pytest <http://pytest.org>`_ to run the tests.
 
-If some test fails, please report it to the `mailing list
+If some test fails, please file a `bug report
+<https://github.com/mdp-toolkit/mdp-toolkit/issues>`_.
+Optionally, report it to the `mailing list
 <https://mail.python.org/mm3/mailman3/lists/mdp-toolkit.python.org/>`_.
 
 License
