@@ -34,13 +34,9 @@ Install the development version
 ===============================
 If you want to live on the bleeding edge, check out the MDP git repositories.
 You can either `browse the repository <https://github.com/mdp-toolkit/mdp-toolkit>`_
-or clone the ``mdp-toolkit`` repository with::
+or directly install the development version from the repository with::
 
-    git clone git://github.com/mdp-toolkit/mdp-toolkit
-
-change to the newly created ``mdp-toolkit`` directory and then install with::
-
-    pip install -e .
+    pip install git+https://github.com/mdp-toolkit/mdp-toolkit.git
 
 
 Optional Libraries
