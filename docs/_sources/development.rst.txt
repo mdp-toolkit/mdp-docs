@@ -37,6 +37,7 @@ cloned with::
 
 .. _repositories: http://github.com/mdp-toolkit
 
+
 You can install the development version by changing to the newly
 created ``mdp-toolkit`` directory and running::	
 
