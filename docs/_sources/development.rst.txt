@@ -37,6 +37,11 @@ cloned with::
 
 .. _repositories: http://github.com/mdp-toolkit
 
+You can install the development version by changing to the newly
+created ``mdp-toolkit`` directory and running::	
+
+    pip install -e .
+
 For comments, patches, feature requests, support requests, and bug reports
 you can use the users’ `mailing list`_.
 
@@ -102,9 +107,9 @@ and best-practices specific to new developers. You should also follow
 the `General style guidelines`_, which are applicable to
 all developers.
 
-- Create an account on sourceforge.net and tell us your username
-  there, so that we can add you to the list of developers and give
-  you access to our git repositories
+- If you do not already own one, create an account on github.com and tell
+  us your username there, so that we can add you to the list of developers
+  and give you access to our git repositories
 
 - Since our migration to git, the repository setup consists of
   two separate repositories:
