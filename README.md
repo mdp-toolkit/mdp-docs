@@ -1,3 +1,7 @@
+Please refer to the online documentation at https://mdp-toolkit.github.io/.
+The source code is available at https://github.com/mdp-toolkit/mdp-toolkit.
+
+
 How to built the legacy documentation
 =====================================
 
