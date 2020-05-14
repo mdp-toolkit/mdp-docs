@@ -189,7 +189,7 @@ legacyapi:
 changeurl:
 	grep -rl $http://mdp-toolkit.sourceforge.net ./build/html \
 	| xargs sed -i \
-	s@$http://mdp-toolkit.sourceforge.net@$https://nimlr.github.io/mdp-docs@g
+	s@$http://mdp-toolkit.sourceforge.net@$https://mdp-toolkit.github.io@g
 
 legacywebsite: legacyapi codesnippet html changeurl
 
