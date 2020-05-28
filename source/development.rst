@@ -21,16 +21,10 @@ of the `Ruhr University Bochum <https://www.ruhr-uni-bochum.de/en>`_.
 
 Current maintainers are:
 
-*   `Pietro Berkes <http://people.brandeis.edu/~berkes/>`_
-*   `Zbigniew Jędrzejewski-Szmek <https://github.com/keszybz>`_
+*   `Nils Müller <https://www.ini.rub.de/the_institute/people/nils-mller/>`_
 *   `Stefan Richthofer <https://www.ini.rub.de/the_institute/people/stefan-richthofer/>`_
-*   `Rike-Benjamin Schuppner <https://github.com/Debilski>`_
-*   `Niko Wilbert <https://github.com/nwilbert>`_
 *   `Tiziano Zito <https://github.com/otizonaizit>`_
 
-
-`Yaroslav Halchenko`_ maintains the python-mdp_ Debian package,
-`Maximilian Nickel <https://mnick.github.io/>`_ maintains the py25-mdp-toolkit_ and py26-mdp-toolkit_ MacPorts packages.
 
 MDP is open to user contributions. Users have already contributed some
 of the nodes, and more contributions are currently being reviewed for
@@ -42,6 +36,12 @@ cloned with::
     git clone git://github.com/mdp-toolkit/mdp-docs.git
 
 .. _repositories: http://github.com/mdp-toolkit
+
+
+You can install the development version by changing to the newly
+created ``mdp-toolkit`` directory and running::	
+
+    pip install -e .
 
 For comments, patches, feature requests, support requests, and bug reports
 you can use the users’ `mailing list`_.
@@ -57,13 +57,13 @@ hesitate to submit it!
 .. _`mailing list`: https://mail.python.org/mm3/mailman3/lists/mdp-toolkit.python.org/
 
 
-
 ------------
 Contributors
 ------------
 Strictly in alphabetical order:
 
 - `Gabriel Beckers <http://www.gbeckers.nl/>`_
+- `Pietro Berkes <http://people.brandeis.edu/~berkes/>`_
 - Sven Dähne
 - Philip DeBoer
 - Kamel Ibn Aziz Derouiche
@@ -77,10 +77,12 @@ Strictly in alphabetical order:
 - Christian Hinze
 - `Sebastian Höfer <http://www.sebastianhoefer.de>`_
 - Michael Hull
+- `Zbigniew Jędrzejewski-Szmek <https://github.com/keszybz>`_
 - `Samuel John <http://www.samueljohn.de/>`_
 - `Varun Kompella <https://varunrajk.gitlab.io/>`_
 - Susanne Lezius
 - `Nils Müller <https://www.ini.rub.de/the_institute/people/nils-mller/>`_
+- Maximilian Nickel
 - `Fabian Pedregosa <http://fseoane.net/blog/>`_
 - `José Quesada <https://github.com/quesada>`_
 - `Stefan Richthofer <https://www.ini.rub.de/the_institute/people/stefan-richthofer/>`_
@@ -88,11 +90,14 @@ Strictly in alphabetical order:
 - `Michael Schmuker <https://github.com/Huitzilo>`_
 - `Benjamin Schrauwen <https://about.me/benjamin_schrauwen>`_
 - `Fabian Schönfeld <https://www.ini.rub.de/the_institute/people/fabian-schonfeld/>`_
+- `Rike-Benjamin Schuppner <https://github.com/Debilski>`_
 - `Henning Sprekeler <https://www.cognition.tu-berlin.de/menue/members/henning_sprekeler/>`_
 - `Jake VanderPlas <https://github.com/jakevdp>`_
 - `David Verstraeten <https://we.vub.ac.be/en/david-verstraeten>`_
+- `Niko Wilbert <https://github.com/nwilbert>`_
 - Ben Willmore
 - `Katharina Maria Zeiner <http://dgppf.de/dr-katharina-m-zeiner/>`_
+- `Tiziano Zito <https://github.com/otizonaizit>`_
 
 .. _`Yaroslav Halchenko`: http://centerforopenneuroscience.org/whoweare#yaroslav_o_halchenko_
  
@@ -105,9 +110,9 @@ and best-practices specific to new developers. You should also follow
 the `General style guidelines`_, which are applicable to
 all developers.
 
-- Create an account on sourceforge.net and tell us your username
-  there, so that we can add you to the list of developers and give
-  you access to our git repositories
+- If you do not already own one, create an account on github.com and tell
+  us your username there, so that we can add you to the list of developers
+  and give you access to our git repositories
 
 - Since our migration to git, the repository setup consists of
   two separate repositories:
@@ -274,6 +279,29 @@ history of the branch if she finds it reasonable::
 
 If multiple developers wants to cooperate on ``feature_branch``, they
 should agree between themselves on a history rewriting policy.
+
+How to handle failed tests
+--------------------------
+
+If you discover a component of MDP failing to run correctly, you should always
+post an issue on
+`MDP's issue tracker <https://github.com/mdp-toolkit/mdp-toolkit/issues/>`_.
+If this happens during a test of MDP, locally or in a CI service, the problem
+is typically easy to reproduce like this::
+
+       pytest --seed==SEED mdp/test/test_FUNCTIONALITY.py -k test_NAME
+
+The variables have the following meaning:
+
+* ``SEED``: the random seed,
+* ``FUNCTIONALITY``: describes the component of MDP that is tested and
+* ``NAME``: the name of the failing test.
+
+The values can be read out of the pytest report after a failed test run.
+Further useful information is given by the versions of Python and the MDP
+dependencies for which the test failed. The other developers of MDP can spot
+the problem if the data is added to
+`the file dedicated to collecting such data <https://github.com/mdp-toolkit/mdp-toolkit/blob/master/BROKEN_SEEDS/>`_.
 
 ------------------------
 General Style Guidelines

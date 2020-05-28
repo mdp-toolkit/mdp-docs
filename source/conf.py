@@ -12,6 +12,7 @@
 # serve to show the default.
 
 import sys, os
+sys.path.insert(0, os.path.abspath('../mdp-toolkit'))
 import mdp
 
 def get_mdp_version():
@@ -82,7 +83,7 @@ html_title = "Modular toolkit for Data Processing (MDP)"
 # The name of an image file (within the static path) to use as favicon of the
 # docs.  This file should be a Windows icon file (.ico) being 16x16 or 32x32
 # pixels large.
-html_favicon = "favicon.ico"
+html_favicon = "./_static/favicon.ico"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -198,7 +199,7 @@ prefix = '%s/%s' %(mdp.__homepage__, codesnippet_path)
 extlinks = {'code_snippet': (prefix+'/%s', 'code_snippet')}
 
 # extapi
-extapi_epydoc_path = os.path.join('build_api','api')
+extapi_epydoc_path = './api'
 extapi_link_prefix = '%s/api'%mdp.__homepage__
 
 # download links

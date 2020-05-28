@@ -9,18 +9,30 @@
 
 .. admonition:: News
 
-  09.03.2016
-     MDP 3.5 released! This is a bug-fix release
+  01.05.2020
+     
+     MDP 3.6 released!
+     Some of the most compelling new features of MDP 3.6 are
 
-     Note that from this release MDP is in maintenance mode. 13 years after its first public release,
-     MDP has reached full maturity and no new features are planned in the future.
+     - A new online mode to enable use of MDP in reinforcement learning using
+       OnlineNode, OnlineFlow and other new nodes.
+       This notably includes incremental Slow Feature Analysis in IncSFANode.
+     - SFA-based supervised learning, specifically graph-based SFA nodes
+       GSFANode as well as iGSFANode, and hierarchical GSFA (HGSFA).
+     - New solvers in SFA-node that are robust against rank deficiencies in the
+       covariance matrix. This cures the common issue
+       SymeigException ('Covariance matrices may be singular').
+     - A new family of expansion nodes, including Legendre, Hermite and
+       Chebyshev polynomials allows for numerically stable data expansion
+       to high	 degrees.
+     - VartimeSFANode supports SFA on data with non-constant time increments.
+       This node is a pilot effort to support non-constant time increments in
+       various mdp nodes.
 
-     If you plan to do serious machine learning in Python, use `sklearn <http://scikit-learn.org>`_.
-     Note though that some algorithms, notably SFA and Growing Neural Gas, are only available in MDP.
-     We would be happy to support the porting of these algorithms to sklearn! 
+     MDP 3.6 supports the newest versions of Python, NumPy, SciPy and
+     scikit-learn. More specifically, it supports Python 3.5-3.8 and 2.7. It is
+     the last release that officially supports Python 2.7.
 
-     MDP works equally well in Python 2 and Python 3. All code examples in the documentation are using
-     Python 2 though. 
      
 .. middle-description-string::
 
