@@ -3,7 +3,7 @@
 ### The source code is available at https://github.com/mdp-toolkit/mdp-toolkit.
 
 
-### How to built the legacy documentation:
+### How to build the legacy documentation:
 
 ```bash
 python2.7 -m virtualenv /PATH/TO/VIRTUALENV/
