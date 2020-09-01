@@ -95,12 +95,9 @@ First let’s import the usual data science modules and library
 implementation and other data processing tools.
 
 
-	>>> %matplotlib inline
 	>>> import matplotlib.pyplot as plt
-	>>>
 	>>> from sklearn import (datasets, model_selection, metrics)
 	>>> import numpy as np
-	>>>
 	>>> import mdp 
 	>>> from sklearn.svm import SVC
 
@@ -110,7 +107,6 @@ Now from the sklearn let’s load the ‘breast_cancer’ dataset. We’ll use
 
 
 	>>> data, label = datasets.load_breast_cancer(return_X_y=True
-	>>>
 	>>> data_train, data_test, label_train, label_test = \
 	... model_selection.train_test_split(data, label, test_size=0.2)
 
@@ -119,7 +115,6 @@ We get the baseline classification quality.
 	>>> clf = SVC(gamma='auto')
 	>>> clf.fit(data_train, label_train)
 	>>> SVM_test = clf.predict(data_train)
-	>>> 
 	>>> print("SVM test score: ", metrics.accuracy_score(label_train, SVM_test))
 
 
@@ -129,7 +124,6 @@ We get the baseline classification quality.
 	>>> clf = SVC(gamma='auto')
 	>>> clf.fit(data_train, label_train)
 	>>> SVM_test = clf.predict(data_test)
-	>>> 
 	>>> print("SVM test score: ", metrics.accuracy_score(label_test, SVM_test))
 
 
@@ -146,16 +140,13 @@ This will let us to represent the original data in 2D coordinates.
 
 
 	>>> output_dim = 2
-	>>>
 	>>> GSFA_n = mdp.nodes.GSFANode(output_dim=output_dim)
-	>>>
 	>>> GSFA_n.train(data_train, train_mode=("classification", label_train, 1))
 	>>> GSFA_n.stop_training()
 	
 Then we find projections of the train and test data on feature space we have found.
     
 	>>> GSFA_train = GSFA_n.execute(data_train)
-	>>> 
 	>>> GSFA_test = GSFA_n.execute(data_test)
 
 Since we consider dimensionality reduction to the value of 2 we can
@@ -164,14 +155,13 @@ try to depict train and test data on 2-D graph.
 
 	>>> import matplotlib
 	>>> colors = ['red', 'blue']
-	>>> 
 	>>> f = plt.figure(figsize=(15,6))
 	>>> ax = f.add_subplot(121)
 	>>> ax2 = f.add_subplot(122)
-	>>> 
-	>>> ax.scatter(GSFA_train[:, 0], GSFA_train[:, 1], c=label_train, cmap=matplotlib.colors.ListedColormap(colors))
-	>>> ax2.scatter(GSFA_test[:, 0], GSFA_test[:, 1], c=label_test, cmap=matplotlib.colors.ListedColormap(colors))
-	>>>
+	>>> ax.scatter(GSFA_train[:, 0], GSFA_train[:, 1], c=label_train,
+	...	cmap=matplotlib.colors.ListedColormap(colors))
+	>>> ax2.scatter(GSFA_test[:, 0], GSFA_test[:, 1], c=label_test,
+	...	cmap=matplotlib.colors.ListedColormap(colors))
 	>>> ax.set_title("Train data in 2-D")
 	>>> ax2.set_title("Test data in 2-D")
 
@@ -190,7 +180,6 @@ We train SVM on the data transformed with GSFA
 	>>> GSFA_clf = SVC(gamma='auto')
 	>>> GSFA_clf.fit(GSFA_train, label_train)
 	>>> GSFA_SVM_test = GSFA_clf.predict(GSFA_test)
-	>>> 
 	>>> print("SVM test score: ", metrics.accuracy_score(label_test, GSFA_SVM_test))
 
 
@@ -256,8 +245,6 @@ s.t. :
 -  Each edge of :math:`\textbf{E}` corresponds to a pair of samples
    :math:`(\textbf{x}(n), \textbf{x}(n'))`
 
-|
-|
 
 Weights:
 ^^^^^^^^
@@ -345,11 +332,11 @@ can be solved by linear algebra methods.
 
 As previously, suppose
 
-1. Verticies
+1\. Verticies
    :math:`\textbf{V} = \{ \textbf{x}(1), \dots, \textbf{x}(N)\}` are the
    input samples with weights :math:`\{v_1, \dots, v_N\}`, and
 
-2. Edges :math:`\textbf{E}` be the set of edges
+2\. Edges :math:`\textbf{E}` be the set of edges
    :math:`(\textbf{x}(n), \textbf{x}(n'))` with edge weights
    :math:`\gamma_{n, n'}`. Also we imply that non-existing edges
    :math:`(\textbf{x}(n), \textbf{x}(n')) \notin \textbf{E}` have
@@ -378,7 +365,7 @@ A shering matrix :math:`\textbf{S}` is computed with
 derive that a sphered signal
 :math:`\textbf{z} := \textbf{S}^T \textbf{x}`.
 
-Afterwards, the J directions of least variance in the derivative signal
+Afterwards, the :math:`J` directions of least variance in the derivative signal
 :math:`\dot{\textbf{z}}` are found and represented by an
 :math:`I \times J` rotation matrix :math:`\textbf{R}`, such that
 :math:`\textbf{R}^T \dot{\textbf{C}}_{z} \textbf{R} = \Lambda`, where
