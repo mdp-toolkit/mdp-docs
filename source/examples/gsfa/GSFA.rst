@@ -3,6 +3,7 @@
 ======================
 Graph-Based SFA (GSFA)
 ======================
+.. codesnippet::
 
 -  Extension of slow feature analysis
    `(SFA) <https://www.ini.rub.de/research/blog/a_brief_introduction_to_slow_feature_analysis/>`__
@@ -106,28 +107,29 @@ Now from the sklearn let’s load the ‘breast_cancer’ dataset. We’ll use
 20% of the data for testing.
 
 
-	>>> data, label = datasets.load_breast_cancer(return_X_y=True
+	>>> data, label = datasets.load_breast_cancer(return_X_y=True)
 	>>> data_train, data_test, label_train, label_test = \
 	... model_selection.train_test_split(data, label, test_size=0.2)
 
 We get the baseline classification quality.
 
-	>>> clf = SVC(gamma='auto')
-	>>> clf.fit(data_train, label_train)
-	>>> SVM_test = clf.predict(data_train)
-	>>> print("SVM test score: ", metrics.accuracy_score(label_train, SVM_test))
+**SVM performance on train data:** 
 
+	>>> SVM_clf_train = SVC(gamma='auto')
+	>>> SVM_clf_train.fit(data_train, label_train)
+	>>> SVM_prediction_train = SVM_clf_train.predict(data_train)
+	>>> print("SVM train score: ", 
+	...	metrics.accuracy_score(label_train, SVM_prediction_train))
+	SVM train score:  1.0
 
-**SVM train score:  1.0**
+**SVM performance on test data:**
 
-
-	>>> clf = SVC(gamma='auto')
-	>>> clf.fit(data_train, label_train)
-	>>> SVM_test = clf.predict(data_test)
-	>>> print("SVM test score: ", metrics.accuracy_score(label_test, SVM_test))
-
-
-**SVM test score:  0.5614**
+	>>> SVM_clf_test = SVC(gamma='auto')
+	>>> SVM_clf_test.fit(data_train, label_train)
+	>>> SVM_prediction_test = SVM_clf_test.predict(data_test)
+	>>> print("SVM test score: ", 
+	...	metrics.accuracy_score(label_test, SVM_prediction_test))
+	SVM test score:  0.5877192982456141
 
 
 Let’s train GSFA model on training data, so that it will compute the
@@ -164,6 +166,7 @@ try to depict train and test data on 2-D graph.
 	...	cmap=matplotlib.colors.ListedColormap(colors))
 	>>> ax.set_title("Train data in 2-D")
 	>>> ax2.set_title("Test data in 2-D")
+	>>> plt.show()
 
 
 
@@ -176,23 +179,25 @@ separate data even in two-dimensional representation.**
 
 We train SVM on the data transformed with GSFA
 
+**SVM performance on test data previously transformed with GSFA:**
 
 	>>> GSFA_clf = SVC(gamma='auto')
 	>>> GSFA_clf.fit(GSFA_train, label_train)
 	>>> GSFA_SVM_test = GSFA_clf.predict(GSFA_test)
-	>>> print("SVM test score: ", metrics.accuracy_score(label_test, GSFA_SVM_test))
+	>>> print("GSFA dimension reduction + SVM score: ", metrics.accuracy_score(label_test, GSFA_SVM_test))
+	GSFA dimension reduction + SVM score:  0.9649122807017544
 
 
- **GSFA dimension reduction + SVM score:  0.9649**
+Results:
+##################
 
-*Algorithms comparison*: 
 
 +------------+-------------+------------+---------------+
 | classifier | train_score | test_score | training_time |
 +============+=============+============+===============+
-| SVM        | 1.0         | 0.614      | 0.024         |
+| SVM        | 1.0         | 0.588      | 0.024         |
 +------------+-------------+------------+---------------+
-| GSFA + SVM | 1.0         | 0.991      | 0.057         |
+| GSFA + SVM | 1.0         | 0.964      | 0.057         |
 +------------+-------------+------------+---------------+
 
 --------------
