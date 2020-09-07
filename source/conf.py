@@ -192,7 +192,6 @@ np.random.seed(0)
 # set path for download links in codesnippet
 codesnippet_path = "code"
 
-
 # wheter to strip '# doctest: ...' (True by default)
 # codesnippet_strip_doctest_directives = True
 
@@ -235,6 +234,3 @@ def setup(app):
     app.connect('autodoc-process-signature', autodoc_process_signature)
     app.connect('autodoc-skip-member', autodoc_skip_member)
     app.connect('autodoc-process-docstring', autodoc_process_docstring)
-
-# link that is used to download mathjax
-mathjax_path="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"

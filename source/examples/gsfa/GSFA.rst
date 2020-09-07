@@ -189,7 +189,8 @@ We train SVM on the data transformed with GSFA
 
 
 Results:
-##################
+^^^^^^^^^
+
 
 
 +------------+-------------+------------+---------------+
@@ -268,6 +269,7 @@ illustrated in Figure(b))*.
 .. image:: training_graph.png
     :width: 1300px
     :height: 300px
+	
 --------------
 
 .. _GSFA Optimization Problem:
@@ -387,31 +389,24 @@ Finally the algorithm returns the weight matrix
 
 The features extracted:
 
-| 
 
-  .. math:: y = W^T (\textbf{x}(n) -  \hat{\textbf{x}}) \hspace{0.5cm}
-| where
-  :math:`\hspace{0.5cm} \Delta(y_j) = \lambda_j \hspace{0.5cm} 1 \leq j \leq J`
+.. math:: y = W^T (\textbf{x}(n) -  \hat{\textbf{x}}) \hspace{0.5cm}
+
+where
+
+:math:`\hspace{0.5cm} \Delta(y_j) = \lambda_j \hspace{0.5cm} 1 \leq j \leq J`
 
 --------------
 
 
-Referencies 
-===============
+Referencies
+------------
 
-[1]: Escalante-B. et al. (2013) `How to Solve Classification and
-Regression Problems on High-Dimensional Data with a Supervised Extension
-of Slow Feature
-Analysis <https://jmlr.csail.mit.edu/papers/v14/escalante13a.html>`__
 
-[2]: Wiskott and Sejnowski (2002) `Slow Feature Analysis: Unsupervised
-Learning of
-Invariances <https://www.mitpressjournals.org/doi/10.1162/089976602317318938>`__
+.. [1] Escalante-B. et al. (2013) `How to Solve Classification and Regression Problems on High-Dimensional Data with a Supervised Extension of Slow Feature Analysis <https://jmlr.csail.mit.edu/papers/v14/escalante13a.html>`__
 
-[3]: `SFA on
-Scholarpedia <http://www.scholarpedia.org/article/Slow_feature_analysis>`__
+.. [2] Wiskott and Sejnowski (2002) `Slow Feature Analysis: Unsupervised Learning of Invariances <https://www.mitpressjournals.org/doi/10.1162/089976602317318938>`__
 
-[4]: `A brief introduction to Slow Feature
-Analysis <https://www.ini.rub.de/research/blog/a_brief_introduction_to_slow_feature_analysis/>`__
-by `Hlynur Davíð
-Hlynsson <https://www.ini.rub.de/the_institute/people/hlynur_david-hlynsson/>`__
+.. [3] `SFA on Scholarpedia <http://www.scholarpedia.org/article/Slow_feature_analysis>`__
+
+.. [4] `A brief introduction to Slow Feature Analysis <https://www.ini.rub.de/research/blog/a_brief_introduction_to_slow_feature_analysis/>`__ by `Hlynur Davíð Hlynsson <https://www.ini.rub.de/the_institute/people/hlynur_david-hlynsson/>`__
