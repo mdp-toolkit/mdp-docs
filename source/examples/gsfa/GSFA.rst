@@ -20,9 +20,9 @@ edges represent similarities of the corresponding labels. Later, we use
 aquired low-dimensional representaion of the original data to train
 typical supervised learning algortihms.
 
-In this tutorial we will briefly exlpain the idea behind GSFA and
+In this example we will briefly exlpain the idea behind GSFA and
 specify the optimization task it solves. Moreover, we will show the
-effeciency of the GSFA compared to SVM on a toy example and introduce an
+effeciency of the GSFA compared to SVM on a toy dataset and introduce an
 approach that makes classsification task more interpretable.
 
 Table of Contents
@@ -169,8 +169,8 @@ try to depict train and test data on 2-D graph.
 
 .. image:: plots.png
         :width: 700
-
-
+		
+		
 **As we can see the GSFA shows good performance in finding features the
 separate data even in two-dimensional representation.**
 
@@ -223,7 +223,7 @@ weights indicating desired output similarities, as derived from the
 labels.
 
 .. image:: approach.png
-    :width: 400px
+    :width: 700px
     :align: center
     :height: 400px
 
@@ -233,7 +233,6 @@ labels.
 
 3. How the graphs are used for the training 
 -------------------------------------------
-
 
 The training data is represented as a training graph
 :math:`G = (\textbf{V}, \textbf{E})` *(as illustrated in Figure bellow)*
@@ -262,9 +261,8 @@ has a linear structure and all node and edge weights are identical *(as
 illustrated in Figure(b))*.
 
 .. image:: training_graph.png
-    :width: 400px
-    :align: center
-    :height: 150px
+    :width: 1300px
+    :height: 300px
 --------------
 
 .. _GSFA Optimization Problem:
