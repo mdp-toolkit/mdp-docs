@@ -26,20 +26,9 @@ specify the optimization task it solves. Moreover, we will show the
 effeciency of the GSFA compared to SVM on a toy dataset and introduce an
 approach that makes classsification task more interpretable.
 
-Table of Contents
------------------
 
-
-1. `Classification using GSFA`_
-
-2. `Idea behind GSFA`_
-
-3. `How the graphs are used for the training`_
-
-4. `GSFA Optimization Problem`_
-
-5. `Linear GSFA Algorithm`_
-
+.. contents:: **Table of contents**
+   :local:
 
 --------------
 
@@ -187,22 +176,16 @@ We train SVM on the data transformed with GSFA
 	>>> print("GSFA dimension reduction + SVM score: ", metrics.accuracy_score(label_test, GSFA_SVM_test))
 	GSFA dimension reduction + SVM score:  0.9649122807017544
 
+**Models comparison**
 
-Results:
-^^^^^^^^^
+.. csv-table:: 
+   :header: "classifier", "train_score", "test_score", "training_time"
+   :widths: 20, 20, 20, 20
 
-
-
-+------------+-------------+------------+---------------+
-| classifier | train_score | test_score | training_time |
-+============+=============+============+===============+
-| SVM        | 1.0         | 0.588      | 0.024         |
-+------------+-------------+------------+---------------+
-| GSFA + SVM | 1.0         | 0.964      | 0.057         |
-+------------+-------------+------------+---------------+
+   "SVM", 1.0, 0.588, 0.024
+   "GSFA + SVM", 1.0, 0.964, 0.057
 
 --------------
-
 
 .. _Idea behind GSFA:
 
@@ -251,8 +234,8 @@ s.t. :
    :math:`(\textbf{x}(n), \textbf{x}(n'))`
 
 
-Weights:
-^^^^^^^^
+**Weights:**
+
 
 1\. Edge weights indicate the **similarity between the connected vertices**. And since edges are undirected and have symmetric weights:
 
@@ -394,7 +377,7 @@ The features extracted:
 
 where
 
-:math:`\hspace{0.5cm} \Delta(y_j) = \lambda_j \hspace{0.5cm} 1 \leq j \leq J`
+.. math:: \hspace{0.5cm} \Delta(y_j) = \lambda_j \hspace{0.5cm} 1 \leq j \leq J
 
 --------------
 
