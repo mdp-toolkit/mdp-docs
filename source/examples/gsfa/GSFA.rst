@@ -14,17 +14,17 @@ Graph-Based SFA (GSFA)
    edges represent similarities of the corresponding labels.
 
 Graph-based slow feature analysis (GSFA) is a supervised extension of
-SFA algorithm that relies on particular graphs structure to extract
+the SFA algorithm that relies on particular graphs structure to extract
 features that preserve label similarities. More precisely, the algorithm
-utilize training graphs, in which the verticies are the samples and the
+utilizes training graphs, in which the vertices are the samples, and the
 edges represent similarities of the corresponding labels. Later, we use
-aquired low-dimensional representaion of the original data to train
-typical supervised learning algortihms.
+acquired low-dimensional representation of the original data to train
+typical supervised learning algorithms.
 
-In this example we will briefly exlpain the idea behind GSFA and
+In this example, we will briefly explain the idea behind the GSFA and
 specify the optimization task it solves. Moreover, we will show the
-effeciency of the GSFA compared to SVM on a toy dataset and introduce an
-approach that makes classsification task more interpretable.
+efficiency of the GSFA compared to SVM on a toy dataset and introduce an
+approach that makes the classification task more interpretable.
 
 
 .. contents:: **Table of contents**
@@ -37,14 +37,14 @@ approach that makes classsification task more interpretable.
 1. Classification using GSFA 
 ----------------------------
 
-To show the benefits of the model and its efficiency we will solve the
-classification task that is based on
+To show the benefits of the model and its efficiency, we will solve the
+classification task based on the
 `‘breast_cancer’ <https://scikit-learn.org/stable/modules/generated/sklearn.datasets.load_breast_cancer.html>`__
-dataset of sklearn library. More precisely, we will use SVM Classifier
+dataset of scikit-learn library. More precisely, we will use the SVM Classifier
 as a baseline method and later see the effect of preprocessing data via
 GSFA.
 
-The breast cancer dataset is a classic and very easy binary
+The breast cancer dataset is a classic and straightforward binary
 classification dataset. Features are computed from a digitized image of
 a fine needle aspirate (FNA) of a breast mass. They describe
 characteristics of the cell nuclei present in the image. It can be found
@@ -197,7 +197,7 @@ learning algorithms can often not be applied due to prohibitive
 computational requirements. In such cases, the following general scheme
 based on hierarchical GSFA is proposed:
 
-1\. Transform the labeled data to structured data, where the label information behind is implicitly encoded in the connections between the data points (samples).This permits using unsupervised learning algorithms, such as SFA, or its extension GSFA.
+1\. Transform the labeled data to structured data, where the label information behind is implicitly encoded in the connections between the data points (samples). This permits using unsupervised learning algorithms, such as SFA, or its extension GSFA.
 
 2\. Use hierarchical processing to reduce the dimensionality, resulting in low-dimensional data with component similarities strongly dependent on the graph connectivity. Since the label information is encoded in the graph connectivity, the low-dimensional data is highly predictive of the labels.
 
@@ -218,16 +218,16 @@ labels.
 
 --------------
 
-.. _How the graphs are used for the training:
+.. _Training graphs:
 
-3. How the graphs are used for the training 
+3. Training graphs
 -------------------------------------------
 
 The training data is represented as a training graph
 :math:`G = (\textbf{V}, \textbf{E})` *(as illustrated in Figure bellow)*
 s.t. :
 
--  :math:`\textbf{V}` corresponds to set of :math:`\textbf{x}(n)`
+-  :math:`\textbf{V}` corresponds to the set of :math:`\textbf{x}(n)`
    :math:`\rightarrow` *each vertex of the graph is a sample*
 
 -  Each edge of :math:`\textbf{E}` corresponds to a pair of samples
@@ -243,7 +243,7 @@ s.t. :
 
 2\. Each vertex  :math:`\textbf{x(}n\textbf{)}` has an associated weight :math:`v_n > 0`, which can be used to reflect its importance, frequency, or reliability.
 
-For instance, a sample occurring frequently in an observed phenomenon
+For instance, a sample frequently occurring in an observed phenomenon
 should have a larger weight than a rare sample. This representation
 includes the standard time series as a special case in which the graph
 has a linear structure and all node and edge weights are identical *(as
@@ -305,7 +305,7 @@ overfitting.
 5. Linear GSFA algorithm 
 ------------------------
 
-In this section we will consider soulution of GSFA problem in the linear
+In this section, we will consider the solution of the GSFA problem in the linear
 function space. Hence, the output components take the form
 
 .. math:: y_j(n) = \textbf{w}_j^{T} (\textbf{x}(n) - \hat{\textbf{x}})
@@ -353,7 +353,7 @@ A shering matrix :math:`\textbf{S}` is computed with
 derive that a sphered signal
 :math:`\textbf{z} := \textbf{S}^T \textbf{x}`.
 
-Afterwards, the :math:`J` directions of least variance in the derivative signal
+Afterward, the :math:`J` directions of least variance in the derivative signal
 :math:`\dot{\textbf{z}}` are found and represented by an
 :math:`I \times J` rotation matrix :math:`\textbf{R}`, such that
 :math:`\textbf{R}^T \dot{\textbf{C}}_{z} \textbf{R} = \Lambda`, where
@@ -365,7 +365,7 @@ and :math:`\Lambda` is a diagonal matrix with diagonal elements
 **Step 3: Calculate the weight matrix**
 
 
-Finally the algorithm returns the weight matrix
+Finally, the algorithm returns the weight matrix
 :math:`W = (w_1, \dots, w_J)`, defined as
 
 .. math:: W = SR
