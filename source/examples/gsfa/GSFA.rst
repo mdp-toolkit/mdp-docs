@@ -1,29 +1,28 @@
 .. _gsfa:
 
 ======================
-Graph-Based SFA (GSFA)
+Graph-based SFA (GSFA)
 ======================
 .. codesnippet::
 
--  Extension of slow feature analysis
-   `(SFA) <https://www.ini.rub.de/research/blog/a_brief_introduction_to_slow_feature_analysis/>`__
+-  Extension of Slow Feature Analysis (SFA)
 
 -  Supervised dimensionality reduction method
 
 -  Trained with a graph, in which the vertices are the samples and the
    edges represent similarities of the corresponding labels.
 
-Graph-based slow feature analysis (GSFA) is a supervised extension of
-the SFA algorithm that relies on particular graphs structure to extract
+Graph-based Slow Feature Analysis (GSFA) is a supervised extension of
+the SFA algorithm [1]_ that relies on particular graphs structure to extract
 features that preserve label similarities. More precisely, the algorithm
 utilizes training graphs, in which the vertices are the samples, and the
 edges represent similarities of the corresponding labels. Later, we use
 acquired low-dimensional representation of the original data to train
 typical supervised learning algorithms.
 
-In this example, we will briefly explain the idea behind the GSFA and
+In this example, we will briefly explain the idea behind GSFA [2]_ and
 specify the optimization task it solves. Moreover, we will show the
-efficiency of the GSFA compared to SVM on a toy dataset and introduce an
+efficiency of GSFA compared to the SVM on a toy dataset and introduce an
 approach that makes the classification task more interpretable.
 
 
@@ -84,11 +83,9 @@ First let’s import the usual data science modules and library
 `mdp <https://mdp-toolkit.github.io>`__. We use it for GSFA
 implementation and other data processing tools.
 
-
+	>>> import matplotlib
 	>>> import matplotlib.pyplot as plt
 	>>> from sklearn import (datasets, model_selection, metrics)
-	>>> import numpy as np
-	>>> import mdp 
 	>>> from sklearn.svm import SVC
 
 
@@ -144,7 +141,6 @@ Since we consider dimensionality reduction to the value of 2 we can
 try to depict train and test data on 2-D graph.
 
 
-	>>> import matplotlib
 	>>> colors = ['red', 'blue']
 	>>> f = plt.figure(figsize=(15,6))
 	>>> ax = f.add_subplot(121)
@@ -157,13 +153,15 @@ try to depict train and test data on 2-D graph.
 	>>> ax2.set_title("Test data in 2-D")
 	>>> plt.show()
 
+|
+|
 
 
 .. image:: plots.png
         :width: 700
 		
 		
-**As we can see the GSFA shows good performance in finding features the
+**As we can see GSFA shows good performance in finding features the
 separate data even in two-dimensional representation.**
 
 We train SVM on the data transformed with GSFA
@@ -320,19 +318,17 @@ can be solved by linear algebra methods.
 
 As previously, suppose
 
-1\. Verticies
+1\. Vertices
    :math:`\textbf{V} = \{ \textbf{x}(1), \dots, \textbf{x}(N)\}` are the
    input samples with weights :math:`\{v_1, \dots, v_N\}`, and
 
-2\. Edges :math:`\textbf{E}` be the set of edges
-   :math:`(\textbf{x}(n), \textbf{x}(n'))` with edge weights
-   :math:`\gamma_{n, n'}`. Also we imply that non-existing edges
-   :math:`(\textbf{x}(n), \textbf{x}(n')) \notin \textbf{E}` have
-   weights :math:`\gamma_{n, n'} = 0`
+2\. Edges :math:`\textbf{E}` 
+	be the set of edges :math:`(\textbf{x}(n), \textbf{x}(n'))` with edge    	weights :math:`\gamma_{n, n'}`. Also we imply that non-existing edges 	:math:`(\textbf{x}(n), \textbf{x}(n')) \notin \textbf{E}` have
+	weights :math:`\gamma_{n, n'} = 0`
 
 
 
-**Step 1: Calculate covariance and second-moment matrices**
+.. rubric:: Step 1: Calculate covariance and second-moment matrices
 
 
 The sample covariance matrix :math:`\textbf{C}_{G}` is defined as:
@@ -345,7 +341,7 @@ defined as:
 .. math:: \dot{\textbf{C}}_{G} := \frac{1}{R} \sum_{n, n'} \gamma_{n, n'} (\textbf{x}(n') - \textbf{x}(n))(\textbf{x}(n') - \textbf{x}(n))^T
 
 
-**Step 2: Calculate sphering and rotation matricies**
+.. rubric:: Step 2: Calculate sphering and rotation matricies
 
 
 A shering matrix :math:`\textbf{S}` is computed with
@@ -382,14 +378,9 @@ where
 --------------
 
 
-Referencies
+References
 ------------
 
+.. [1] Wiskott and Sejnowski (2002) `Slow Feature Analysis: Unsupervised Learning of Invariances <https://www.mitpressjournals.org/doi/10.1162/089976602317318938>`__
 
-.. [1] Escalante-B. et al. (2013) `How to Solve Classification and Regression Problems on High-Dimensional Data with a Supervised Extension of Slow Feature Analysis <https://jmlr.csail.mit.edu/papers/v14/escalante13a.html>`__
-
-.. [2] Wiskott and Sejnowski (2002) `Slow Feature Analysis: Unsupervised Learning of Invariances <https://www.mitpressjournals.org/doi/10.1162/089976602317318938>`__
-
-.. [3] `SFA on Scholarpedia <http://www.scholarpedia.org/article/Slow_feature_analysis>`__
-
-.. [4] `A brief introduction to Slow Feature Analysis <https://www.ini.rub.de/research/blog/a_brief_introduction_to_slow_feature_analysis/>`__ by `Hlynur Davíð Hlynsson <https://www.ini.rub.de/the_institute/people/hlynur_david-hlynsson/>`__
+.. [2] Escalante-B. et al. (2013) `How to Solve Classification and Regression Problems on High-Dimensional Data with a Supervised Extension of Slow Feature Analysis <https://jmlr.csail.mit.edu/papers/v14/escalante13a.html>`__
