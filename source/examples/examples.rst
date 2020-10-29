@@ -37,7 +37,7 @@ applications:
   of caching extension.
 * :ref:`digit_classification` — Use the combined power of MDP and scikits.learn
   in an applciation for handwritten digit classification
-* :ref:`gsfa` - Use graph-based Slow Feature Analysis (GSFA) for supervised
+* :ref:`gsfa` — Use graph-based Slow Feature Analysis (GSFA) for supervised
   dimensionality reduction and classification.
 
 * `hinet_html.py`__ — Get the HTML representation for a simple hinet network.
