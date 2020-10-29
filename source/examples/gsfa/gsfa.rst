@@ -10,12 +10,12 @@ Graph-based SFA (GSFA)
 - Supervised dimensionality reduction method
 
 - Trained with a graph in which the vertices are the samples and the
-  edges represent similarities of the corresponding labels.
+  edges represent similarities of the corresponding labels
 
 Graph-based Slow Feature Analysis (GSFA) is a supervised extension of
 SFA [1]_ that relies on a particular graph structure to extract
 features that preserve label similarities. More precisely, the algorithm
-utilizes training graphs in which the vertices are the samples and the
+utilizes training graphs in which the vertices are the samples, and the
 edges represent similarities of the corresponding labels. Later, we use
 the acquired low-dimensional representation of the original data to train
 a typical supervised learning algorithm.
@@ -49,7 +49,7 @@ classification dataset. Features are computed from a digitized image of
 a fine needle aspirate (FNA) of breast mass. They describe
 characteristics of the cell nuclei present in the image. It can be found
 on `UCI Machine Learning
-Repository <https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+%28Diagnostic%29>`__
+Repository <https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+%28Diagnostic%29>`__.
 
 **Number of instances:** 569
 
@@ -184,24 +184,23 @@ We train an SVM on the data transformed with GSFA.
 2. Idea behind GSFA
 -------------------
 
-Given a large number of high-dimensional labeled samples, supervised
-learning algorithms are often not feasible due to prohibitive
-computational requirements. In such cases, the following general scheme
-based on hierarchical GSFA is proposed:
+With a large number of high-dimensional labeled samples, supervised
+learning is often not feasible due to prohibitive computational
+requirements. In such cases, the following general scheme based
+on hierarchical GSFA is proposed:
 
 1\. Transform the labeled data into structured data where the label information is implicitly encoded in the connections between the data points (samples). This permits using unsupervised learning algorithms such as SFA or its extension GSFA.
 
 2\. Use hierarchical processing to reduce the dimensionality, resulting in low-dimensional data with component similarities strongly dependent on the graph connectivity. Since the label information is encoded in the graph connectivity, the low-dimensional data is highly predictive of the labels.
 
-3\. Convert the (low-dimensional) data back to labeled data by combining the low-dimensional data points with the original labels or classes. This constitutes a dataset suitable for standard supervised learning methods, because the dimensionality has become manageable.
+3\. Convert the (low-dimensional) data back to labeled data by combining the low-dimensional data points with the original labels or classes. This constitutes a dataset suitable for standard supervised learning methods because the dimensionality has become manageable.
 
-4\. Use standard supervised learning methods on the low-dimensional labeled data to estimate the labels. The unsupervised hierarchical network together with the supervised direct method constitute the classifier or regression architecture.
+4\. Use standard supervised learning methods on the low-dimensional labeled data to estimate the labels. The unsupervised hierarchical network, together with the supervised direct method, constitutes the classifier or regression architecture.
 
-In case of GSFA, the structured training data is called *training
-graph*, a weighted graph that has vertices representing the samples,
-vertex weights specifying a priori sample probabilities, and edge
-weights indicating desired output similarities derived from the
-labels.
+In the case of GSFA, the structured training data is called a
+*training graph*, a weighted graph that has vertices representing
+the samples, vertex weights specifying a priori sample probabilities,
+and edge weights indicating desired output similarities derived from the labels.
 
 .. image:: approach.png
     :width: 700px
@@ -217,7 +216,7 @@ labels.
 
 The training data is represented as a training graph
 :math:`G = (\textbf{V}, \textbf{E})` *(as illustrated in Figure bellow)*
-s.t. :
+such that:
 
 -  :math:`\textbf{V}` corresponds to the set of :math:`\textbf{x}(n)`
    :math:`\rightarrow` *each vertex of the graph is a sample*
@@ -229,9 +228,9 @@ s.t. :
 **Weights:**
 
 
-1\. Edge weights indicate the **similarity between the connected vertices**. Since edges are undirected and have symmetric weights:
+1\. Edge weights indicate the **similarity between the connected vertices**. Since edges are undirected and have symmetric weights, i.e.,
 
-   .. math:: \gamma_{n, n'} = \gamma_{n', n}
+   .. math:: \gamma_{n, n'} = \gamma_{n', n} \,.
 
 2\. Each vertex  :math:`\textbf{x(}n\textbf{)}` has an associated weight :math:`v_n > 0` that can be used to reflect its importance, frequency, or reliability.
 
@@ -271,15 +270,15 @@ output signal :math:`\textbf{y}(n) := \textbf{g}(\textbf{x}(n))` (
 i.e. each :math:`y_j(n)` for :math:`1 \leq j \leq J`) the objective
 function
 
-.. math:: \Delta_j := \frac{1}{R} \sum_{n, n'} \gamma_{n, n'} (y_j(n') - y_j(n))^2 \text{ is minimal } \textbf{(weighted delta value)}
+.. math:: \Delta_j := \frac{1}{R} \sum_{n, n'} \gamma_{n, n'} (y_j(n') - y_j(n))^2 \tag*{(weighted delta value)}
 
-under the constraints
+is minimal under the constraints
 
-.. math:: \frac{1}{Q} \sum_{n} v_n y_j(n) = 0 \textbf{ (weighted zero mean) }
+.. math:: \frac{1}{Q} \sum_{n} v_n y_j(n) = 0 \tag*{(weighted zero mean)}
 
-.. math:: \frac{1}{Q} \sum_{n} v_n (y_j(n))^2 = 1 \textbf{ (weighted unit variance) }
+.. math:: \frac{1}{Q} \sum_{n} v_n (y_j(n))^2 = 1 \tag*{(weighted unit variance)}
 
-.. math:: \frac{1}{Q} \sum_{n} v_n y_j(n) y_{j'}(n)= 0 \text{ , for } j' < j \textbf{ (weighted decorrelation) }
+.. math:: \frac{1}{Q} \sum_{n} v_n y_j(n) y_{j'}(n)= 0 \quad \text{for all} \,\, j' < j \tag*{(weighted decorrelation)}
 
 with
 
@@ -290,7 +289,7 @@ with
 is optimized.
 
 In practice, the function :math:`\textbf{g}` is usually chosen from a
-finite-dimensional function space :math:`\mathcal{F}`, e.g. from the
+finite-dimensional function space :math:`\mathcal{F}`, e.g., from the
 space of quadratic or linear functions. Highly complex function spaces
 should be avoided because they are expensive to handle and may result in
 overfitting.
@@ -306,11 +305,11 @@ overfitting.
 In this section we consider the solution of the GSFA problem in a linear
 function space. Hence, the output components take the form
 
-.. math:: y_j(n) = \textbf{w}_j^{T} (\textbf{x}(n) - \hat{\textbf{x}})
+.. math:: y_j(n) = \textbf{w}_j^{T} (\textbf{x}(n) - \hat{\textbf{x}}) \,,
 
 \ where
 
-.. math:: \hat{\textbf{x}} = \frac{1}{Q} \sum_n v_n \textbf{x}_n  \hspace{1cm} \text{(weighted average of all samples)}
+.. math:: \hat{\textbf{x}} = \frac{1}{Q} \sum_n v_n \textbf{x}_n \,. \tag*{(weighted average of all samples)}
 
 Thus, in the linear case, the SFA problem reduces to finding an optimal
 set of weight vectors :math:`w_j` under the constraints above. It
@@ -326,19 +325,19 @@ As previously, suppose
 	are the set of edges :math:`(\textbf{x}(n), \textbf{x}(n'))` with
 	edge weights :math:`\gamma_{n, n'}`. For non-existing edges
 	:math:`(\textbf{x}(n), \textbf{x}(n')) \notin \textbf{E}` set zero
-	weights :math:`\gamma_{n, n'} = 0`
+	weights :math:`\gamma_{n, n'} = 0`.
 
 
 .. rubric:: Step 1: Calculate covariance and second-moment matrices
 
 The sample covariance matrix :math:`\textbf{C}_{G}` is defined as:
 
-.. math:: \textbf{C}_{G} := \frac{1}{Q} \sum_{n} v_n (\textbf{x}(n) - \hat{\textbf{x}})(\textbf{x}(n) - \hat{\textbf{x}})^T = \frac{1}{Q} \sum_{n} (v_n \textbf{x}(n) (\textbf{x}(n))^T ) - \hat{\textbf{x}} \hat{\textbf{x}}^T
+.. math:: \textbf{C}_{G} := \frac{1}{Q} \sum_{n} v_n (\textbf{x}(n) - \hat{\textbf{x}})(\textbf{x}(n) - \hat{\textbf{x}})^T = \frac{1}{Q} \sum_{n} (v_n \textbf{x}(n) (\textbf{x}(n))^T ) - \hat{\textbf{x}} \hat{\textbf{x}}^T \,.
 
 The derivative second-moment matrix :math:`\dot{\textbf{C}}_{G}` is
 defined as:
 
-.. math:: \dot{\textbf{C}}_{G} := \frac{1}{R} \sum_{n, n'} \gamma_{n, n'} (\textbf{x}(n') - \textbf{x}(n))(\textbf{x}(n') - \textbf{x}(n))^T
+.. math:: \dot{\textbf{C}}_{G} := \frac{1}{R} \sum_{n, n'} \gamma_{n, n'} (\textbf{x}(n') - \textbf{x}(n))(\textbf{x}(n') - \textbf{x}(n))^T \,.
 
 
 .. rubric:: Step 2: Calculate sphering and rotation matrices
@@ -366,11 +365,11 @@ Finally, the algorithm returns the weight matrix
 
 and the extracted features are given as
 
-.. math:: y = W^T (\textbf{x}(n) -  \hat{\textbf{x}}) \hspace{0.5cm}
+.. math:: y = W^T (\textbf{x}(n) -  \hat{\textbf{x}}) \,,
 
 where
 
-.. math:: \hspace{0.5cm} \Delta(y_j) = \lambda_j \hspace{0.5cm} 1 \leq j \leq J
+.. math:: \hspace{0.5cm} \Delta(y_j) = \lambda_j \hspace{0.5cm} 1 \leq j \leq J \,.	
 
 --------------
 
@@ -381,4 +380,3 @@ References
 .. [1] Wiskott and Sejnowski (2002) `Slow Feature Analysis: Unsupervised Learning of Invariances <https://www.mitpressjournals.org/doi/10.1162/089976602317318938>`__
 
 .. [2] Escalante-B. et al. (2013) `How to Solve Classification and Regression Problems on High-Dimensional Data with a Supervised Extension of Slow Feature Analysis <https://jmlr.csail.mit.edu/papers/v14/escalante13a.html>`__
-
