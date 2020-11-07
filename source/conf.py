@@ -38,7 +38,8 @@ extensions = ['sphinx.ext.autodoc',
               'codesnippet',
               'version_string',
               'linkcheck2',
-              'descriptions_string',]
+              'descriptions_string',
+              'sphinx.ext.mathjax']
 #              'download_links']
 
 # Add any paths that contain templates here, relative to this directory.
