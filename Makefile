@@ -188,7 +188,7 @@ legacyapi:
 
 changeurl:
 	find $(BUILDDIR)/html -type f -exec sed -i 's#http://mdp-toolkit.sourceforge.net#https://mdp-toolkit.github.io#g' {} +
-	find $(BUILDDIR)/build/html -type f -exec sed -i 's#mdp-toolkit.sourceforge.net#mdp-toolkit.github.io#g' {} +
+	find $(BUILDDIR)/html -type f -exec sed -i 's#mdp-toolkit.sourceforge.net#mdp-toolkit.github.io#g' {} +
 
 legacywebsite: legacyapi codesnippet html changeurl
 
