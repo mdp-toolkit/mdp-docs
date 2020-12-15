@@ -1,0 +1,67 @@
+name: CI
+
+# Controls when the action will run. Triggers the workflow on push request
+on: [push]
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "build"
+  build:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checks-out your repository mdp-docs
+      - uses: actions/checkout@master
+        with:
+          persist-credentials: false 
+					# otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
+     
+      - name: Set up Python
+        # fix the version to make sure that python 2.7 version is supported
+        uses: actions/setup-python@v2
+        with:
+          python-version: 2.7
+
+      - name: Install dependencies
+        run: |
+            python -m pip install --upgrade pip
+            pip install sphinx==1.6.4 epydoc==3.0.1 numpy==1.16.6 future==0.18.2 scikit-learn==0.20.4 pp==1.6.5 joblib==0.14.1
+            
+      - name: Get most recent submodule files
+        run: git submodule update --init --recursive
+            
+      # Run the following to build a version with weblinks
+      - name: Run makefile
+        run: make legacywebsite
+      
+      - name: Make output folder
+        run: mkdir output
+
+      - name: Clone master branch
+        run: git clone --no-checkout "https://github.com/nkgevorgyan/nkgevorgyan.github.io.git" ./output
+        
+      - name: Replace
+        run: cp -R ./build/html/* ./output
+      
+      - name: Add .nojekyll file
+        run: touch .nojekyll
+        working-directory: ./output
+        
+      - name: Commit files
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "MDP Robot"
+          git add --all
+          COMMIT_MESSAGE="OTH: $(echo ${GITHUB_SHA} | cut -c1-8)"
+          git diff-index --quiet --cached HEAD -- && echo "No changes!" && exit 0 || echo $COMMIT_MESSAGE
+          git commit -m "${COMMIT_MESSAGE}"
+        working-directory: ./output
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.ACCESS_TOKEN  }}
+          branch: master
+          directory: ./output
+          repository: nkgevorgyan/nkgevorgyan.github.io
