@@ -15,7 +15,6 @@ jobs:
       - uses: actions/checkout@master
         with:
           persist-credentials: false 
-					# otherwise, the token used is the GITHUB_TOKEN, instead of your personal token
      
       - name: Set up Python
         # fix the version to make sure that python 2.7 version is supported
