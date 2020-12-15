@@ -15,7 +15,6 @@ jobs:
       - uses: actions/checkout@master
         with:
           persist-credentials: false 
-          fetch-depth: 0 
      
       - name: Set up Python
         # fix the version to make sure that python 2.7 version is supported
@@ -61,7 +60,7 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@master
         with:
-          github_token: ${{ secrets.ACCESS_TOKEN  }}
+          github_token: ${{ secrets.GITHUB_TOKEN  }}
           branch: master
           directory: ./output
           repository: nkgevorgyan/nkgevorgyan.github.io
