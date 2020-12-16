@@ -50,6 +50,8 @@ jobs:
           ssh-add - <<< "${{ secrets.WEBSITE_KEY }}"
 
       - name: Clone master branch
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: git clone --no-checkout git@github.com:mdp-toolkit/mdp-toolkit.github.io.git ./output
         
       - name: Replace
@@ -73,5 +75,7 @@ jobs:
 
 
       - name: Push changes
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
           git push
