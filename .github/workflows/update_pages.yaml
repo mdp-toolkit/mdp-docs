@@ -14,7 +14,10 @@ jobs:
       # Checks-out your repository mdp-docs
       - uses: actions/checkout@master
         with:
-          persist-credentials: false 
+          # otherwise, the token used is the GITHUB_TOKEN, instead of your personal token:
+          persist-credentials: false
+          # default value, change to 0 to get the whole history of commits
+          fetch-depth: 1
      
       - name: Set up Python
         # fix the version to make sure that python 2.7 version is supported
@@ -52,7 +55,9 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "MDP Robot"
           git add --all
-          COMMIT_MESSAGE="OTH: $(echo ${GITHUB_SHA} | cut -c1-8)"
+          # Add trigger commit identifier
+          COMMIT_MESSAGE="OTH: Robot build on $(echo ${GITHUB_SHA} | cut -c1-8)"
+          # Check for changes before commit 
           git diff-index --quiet --cached HEAD -- && echo "No changes!" && exit 0 || echo $COMMIT_MESSAGE
           git commit -m "${COMMIT_MESSAGE}"
         working-directory: ./output
