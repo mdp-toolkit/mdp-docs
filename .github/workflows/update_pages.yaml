@@ -40,6 +40,15 @@ jobs:
       - name: Make output folder
         run: mkdir output
 
+      - name: Setup SSH keys and known_hosts
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          ssh-add - <<< "${{ secrets.WEBSITE_KEY }}"
+
       - name: Clone master branch
         run: git clone --no-checkout git@github.com:mdp-toolkit/mdp-toolkit.github.io.git ./output
         
@@ -62,17 +71,7 @@ jobs:
           git commit -m "${COMMIT_MESSAGE}"
         working-directory: ./output
 
-      - name: Setup SSH keys and known_hosts
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: |
-          mkdir -p ~/.ssh
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
-          ssh-add - <<< "${{ secrets.WEBSITE_KEY }}"
 
       - name: Push changes
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
           git push
