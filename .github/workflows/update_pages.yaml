@@ -41,7 +41,7 @@ jobs:
         run: mkdir output
 
       - name: Clone master branch
-        run: git clone --no-checkout "https://github.com/mdp-toolkit/mdp-toolkit.github.io" ./output
+        run: git clone --no-checkout git@github.com:mdp-toolkit/mdp-toolkit.github.io.git ./output
         
       - name: Replace
         run: cp -R ./build/html/* ./output
