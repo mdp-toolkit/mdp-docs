@@ -56,7 +56,7 @@ jobs:
           git config --local user.name "MDP Robot"
           git add --all
           # Add trigger commit identifier
-          COMMIT_MESSAGE="OTH: Robot build on $(echo ${GITHUB_SHA} | cut -c1-8)"
+          COMMIT_MESSAGE="OTH: Robot build on $GITHUB_REPOSITORY@$(echo ${GITHUB_SHA} | cut -c1-8)"
           # Check for changes before commit 
           git diff-index --quiet --cached HEAD -- && echo "No changes!" && exit 0 || echo $COMMIT_MESSAGE
           git commit -m "${COMMIT_MESSAGE}"
