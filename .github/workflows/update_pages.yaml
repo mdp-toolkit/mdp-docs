@@ -61,7 +61,9 @@ jobs:
         run: touch .nojekyll
         working-directory: ./output
         
-      - name: Commit files
+      - name: Commit and push files
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "MDP Robot"
@@ -71,11 +73,5 @@ jobs:
           # Check for changes before commit 
           git diff-index --quiet --cached HEAD -- && echo "No changes!" && exit 0 || echo $COMMIT_MESSAGE
           git commit -m "${COMMIT_MESSAGE}"
+          git push --force
         working-directory: ./output
-
-
-      - name: Push changes
-        env:
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
-        run: |
-          git push
