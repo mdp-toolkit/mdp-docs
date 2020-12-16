@@ -41,7 +41,7 @@ jobs:
         run: mkdir output
 
       - name: Clone master branch
-        run: git clone --no-checkout "https://github.com/nkgevorgyan/nkgevorgyan.github.io.git" ./output
+        run: git clone --no-checkout "https://github.com/mdp-toolkit/mdp-toolkit.github.io" ./output
         
       - name: Replace
         run: cp -R ./build/html/* ./output
@@ -68,4 +68,4 @@ jobs:
           github_token: ${{ secrets.ACCESS_TOKEN }}
           branch: master
           directory: ./output
-          repository: nkgevorgyan/nkgevorgyan.github.io
+          repository: mdp-toolkit/mdp-toolkit.github.io
