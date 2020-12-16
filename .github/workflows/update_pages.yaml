@@ -72,5 +72,7 @@ jobs:
           ssh-add - <<< "${{ secrets.WEBSITE_KEY }}"
 
       - name: Push changes
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
           git push
