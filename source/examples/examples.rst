@@ -13,7 +13,7 @@ Examples
    convolution/image_convolution.rst
    scikits_learn/digit_classification.rst
    gsfa/gsfa.rst
-	 incsfa/incsfa_example.rst
+   incsfa/incsfa.rst
    logo/logo_animation.rst
    bayes_guesser/bayes_guesser.rst
    word_generator/word_generator.rst
