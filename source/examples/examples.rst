@@ -13,6 +13,7 @@ Examples
    convolution/image_convolution.rst
    scikits_learn/digit_classification.rst
    gsfa/gsfa.rst
+	 incsfa/incsfa_example.rst
    logo/logo_animation.rst
    bayes_guesser/bayes_guesser.rst
    word_generator/word_generator.rst
@@ -39,6 +40,8 @@ applications:
   in an applciation for handwritten digit classification
 * :ref:`gsfa` — Use graph-based Slow Feature Analysis (GSFA) for supervised
   dimensionality reduction and classification.
+* :ref:`incsfa` -  Utilize Incremental Slow Feature Analysis IncSFA as part of 
+  a hierarchical image processing architecture
 
 * `hinet_html.py`__ — Get the HTML representation for a simple hinet network.
 * `benchmark_parallel.py`__ — Simple benchmark to compare the different
