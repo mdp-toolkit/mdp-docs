@@ -14,7 +14,6 @@ Examples
    scikits_learn/digit_classification.rst
    gsfa/gsfa.rst
    incsfa/incsfa.rst
-	 icub/icub.rst
    logo/logo_animation.rst
    bayes_guesser/bayes_guesser.rst
    word_generator/word_generator.rst
@@ -24,6 +23,7 @@ Examples
    bimdp_examples/bimdp_inverse.rst
    bimdp_examples/bimdp_hinet_inspection.rst
    bimdp_examples/bimdp_custom_inspection.rst
+   icub/icub.rst
 
 
 Here are examples on how to use MDP for typical machine learning

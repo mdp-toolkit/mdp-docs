@@ -15,7 +15,7 @@ Slow feature analysis (SFA) is an unsupervised learning technique that extracts 
 .. _Intuition behind IncSFA:
 
 1. Intuition behind IncSFA
-==========================
+--------------------------
 
 We first review SFA briefly in an intuitive sense. SFA [2]_ is a form of
 unsupervised learning (UL). It searches for a set of mappings
@@ -43,8 +43,7 @@ under the constraints
 Solving this learning problem involves non-trivial variational calculus
 optimization. But it is simplified through an eigenvector approach:
 
-Step 1:
-^^^^^^^
+.. rubric:: Step 1:
 
 If the :math:`g_j` are linear combinations of a finite set of nonlinear
 functions h, then
@@ -60,16 +59,15 @@ If the functions of h are chosen such that z has unit covariance matrix
 and zero mean, the three constraints will be fulfilled if and only if
 the weight vectors :math:`w_j` are orthonormal.
 
-Step 2:
-^^^^^^^
+.. rubric:: Step 2:
+
 
 To select h appropriately, a well-known process called whitening (or
 sphering), is used to map x to a z with zero mean and identity
 covariance matrix.Whitening requires the PCs of the input signal (PCA
 #1).
 
-Step 3:
-^^^^^^^
+.. rubric:: Step 3:
 
 The orthonormal basis that minimizes the rate of output change are the
 minor components – principal components with smallest eigenvalues – in
@@ -113,7 +111,7 @@ parallel.
 .. _IncSFA Algorithm:
 
 2. IncSFA Algorithm
-===================
+-------------------
 
 In this chapter we will describe each step of appliying IncSFA method.
 For clarity we will demonstrate these steps on high-dimensional video.
@@ -511,6 +509,9 @@ We conduct an experiment with real high-dimensional vision sequences generated f
 |
 
 After training completes, the images are embedded in a lower dimension using the learned features. The embedding of trajectories of 20 different episodes are shown with respect to the first two PCs as well as the first two slow features. Since the cups being toppled or upright are the slow events in the scene, IncSFA’s encoding is keyed on the object’s state (toppled or upright). PCA does not find such an encoding, being much more sensitive to the arm. Such clear object-specific low-dimensional encoding, invariant to the robot’s arm position, is useful, greatly facilitating training of a subsequent regressor or reinforcement learner.
+
+--------------
+
 
 
 References
