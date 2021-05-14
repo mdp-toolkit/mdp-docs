@@ -13,6 +13,7 @@ Examples
    convolution/image_convolution.rst
    scikits_learn/digit_classification.rst
    gsfa/gsfa.rst
+   incsfa/incsfa.rst
    logo/logo_animation.rst
    bayes_guesser/bayes_guesser.rst
    word_generator/word_generator.rst
@@ -22,6 +23,7 @@ Examples
    bimdp_examples/bimdp_inverse.rst
    bimdp_examples/bimdp_hinet_inspection.rst
    bimdp_examples/bimdp_custom_inspection.rst
+   icub/icub.rst
 
 
 Here are examples on how to use MDP for typical machine learning
@@ -39,6 +41,10 @@ applications:
   in an applciation for handwritten digit classification
 * :ref:`gsfa` — Use graph-based Slow Feature Analysis (GSFA) for supervised
   dimensionality reduction and classification.
+* :ref:`incsfa` -  Utilize Incremental Slow Feature Analysis (IncSFA) as part of 
+  a hierarchical image processing architecture
+* :ref:`icub` -  Use  Incremental Slow Feature Analysis (IncSFA) to ptocess real 
+  high-dimensional vision sequences generated from the camera-eyes of an exploring iCub robot. 
 
 * `hinet_html.py`__ — Get the HTML representation for a simple hinet network.
 * `benchmark_parallel.py`__ — Simple benchmark to compare the different
