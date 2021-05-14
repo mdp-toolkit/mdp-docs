@@ -4,26 +4,26 @@ Image Processing with Incremental Slow Feature Analysis (IncSFA)
 ================================================================
 .. codesnippet::
 
--  Incremental verision of SFA
+-  Incremental version of SFA
 
 -  Unsupervised preprocessor for autonomous learning agents and robots
 
--  Combines incremental Principal Components Analysis and Minor
-   Components Analysis
+-  Combines incremental Principal Components Analysis (PCA) and Minor
+   Components Analysis (MCA)
 
-Slow feature analysis
-(SFA) is an unsupervised learning technique that **extracts features from an
-input stream with the objective of maintaining an informative but
-slowly-changing feature response over time.** There are limitations to
-existing SFA implementations due to their batch processing nature, which
-becomes especially apparent when attempting to apply it in somewhat
-uncontrolled environments. Incremental Slow Feature Analysis (IncSFA) [1]_ has several advantages over SFA:
+Slow feature analysis (SFA) is an unsupervised learning technique that
+**extracts features from an input stream with the objective of maintaining
+an informative but slowly-changing feature response over time.** There are
+limitations to existing SFA implementations due to their batch processing
+nature, which becomes especially apparent when attempting to apply it in
+somewhat uncontrolled environments. Incremental Slow Feature Analysis
+(IncSFA) [1]_ has several advantages over SFA:
 
 1. **Adaption to changing input statistics**
 
 SFA requires all data to be collected in advance. New data cannot be
 used to modify already learned slow features. Once the input statistics
-change, IncSFA can automatically adapt its features without outside
+change, IncSFA can automatically adapt its features without external
 intervention, while SFA has to discard previous features to process the
 new data.
 
@@ -54,23 +54,20 @@ techniques.
 1. Signal processing with the IncSFA 
 ------------------------------------
 
-At first, we will use a simple problem that was introduced in the
-original paper SFA paper [2]_
-to show that IncSFA derives the same features as SFA.
+To show that IncSFA derives the same features as SFA, we begin with a
+simple problem that was introduced in the original SFA paper [2]_.
 
 The input signal is:
-
 
 
 .. math::
 
     x_1(t) = sin(t) + [cos(11t)]^2, \\
-   x_2(t) = cos(11t), t\in[0, 2 \pi] 
+    x_2(t) = cos(11t), t\in[0, 2 \pi] 
 
 
 
-
-Both vary quickly over time. The two slowest feature hidden in the
+Both components vary quickly over time. The two slowest features hidden in the
 signal are
 
 .. math:: y_1(t) = x_1(t) * x_2(t) = sin(t)
@@ -78,7 +75,7 @@ signal are
 .. math:: y_2(t) = [x_2(t)]^2 = [cos(11t)]^2
 
 First, let’s import the usual data processing modules and the library
-`mdp <https://mdp-toolkit.github.io>`__, which includes IncSFA implementation.
+`mdp <https://mdp-toolkit.github.io>`__, which includes an IncSFA implementation.
 
 .. code:: ipython3
 
@@ -91,11 +88,12 @@ First, let’s import the usual data processing modules and the library
     
     import mdp
 
-Implementations of SFA aim at finding features of the input that are
-linear. But as we can see from our example, *the slowest components are
-highly non-linear!* This can be remedied by doing a non-linear expansion
-of the time series first, then finding linear features of the expanded
-data. By doing this we find non-linear features of the original data.
+Implementations of SFA usually perform linear feature extraction based on
+a non-linear data expansion in a preprocessing step.
+Indeed, we can see from our example that *the slowest components are
+highly non-linear!* We remedy this by applying a polynomial data expansion
+of second degree to the time series first. On top of this, a linear SFA
+implementation can extract features non-linearly from the original data.
 
 .. code:: ipython3
 
@@ -111,10 +109,10 @@ data. By doing this we find non-linear features of the original data.
     input_data = expnode(x)
 
 Next, we train an IncSFA model on the derived transformed input signal
-on 500 datapoints with 10 epochs through the data.  
+on 500 data points with 10 passes through (epochs) through the data.  
 
-We set the output dimension parameter to 2 to compute only the first two
-slowest features and compare them later with the output of the SFA.
+We choose the output dimension parameter to extract only the first two
+slowest features. Later we will compare them to the output of ordinary SFA.
 
 .. code:: ipython3
 
@@ -131,8 +129,8 @@ slowest features and compare them later with the output of the SFA.
     # projection of training data to the low-dimensional feature space 
     IncSFA_proj = IncSFA_node.execute(input_data)
 
-We train the SFA on the same data and compare its output with IncSFA
-result.
+We train ordinary SFA on the same data and compare its output with the
+result from IncSFA.
 
 .. code:: ipython3
 
@@ -142,7 +140,7 @@ result.
     SFA_wv = SFA_node.sf
     SFA_proj = SFA_node.execute(input_data)
 
-We want to check whether both methods derive the same result and if not what is the difference.
+We want to check whether both methods derive the same result and – if not – examine the difference.
 
 .. code:: ipython3
 
@@ -175,12 +173,12 @@ We want to check whether both methods derive the same result and if not what is 
 				:height: 300
 
 
-To measure the difference between the estimated feature :math:`w(t)` of
-the IncSFA and fetures :math:`w(t)^*` of SFA we use the direction cosine
+To measure the difference between the estimated features :math:`w(t)` of IncSFA and the
+features :math:`w(t)^*` of ordinary SFA we use the cosine similarity
 
-.. math:: DirectionCosine(t) = \frac{|w^T(t) * w^*|}{||w^T(t)|| * ||w^*||}
+.. math:: Cosinesimilarity(t) = \frac{|w^T(t) * w^*|}{||w^T(t)|| * ||w^*||}
 
-The direction cosine equals one when the directions align (the feature
+The cosine similarity equals one when the directions align (the feature
 is correct) and zero when they are orthogonal.
 
 .. code:: ipython3
@@ -205,7 +203,7 @@ is correct) and zero when they are orthogonal.
 |
 |
 
-.. rubric:: This result show that it is indeed possible to extract multiple slow features in an online way without storing covariance matrices.
+.. rubric:: This result shows that it is indeed possible to extract multiple slow features in an online way without storing covariance matrices.
 
 
 --------------
@@ -215,18 +213,23 @@ is correct) and zero when they are orthogonal.
 2. High-Dimensional Video with Linear IncSFA 
 --------------------------------------------
 
-InSFA makes it possible to use SFA in high-dimensional video processing applications without using deep receptive-field based networks.
-CCIPCA provides an intermediate dimensionality reduction, which, when enough compared to the input dimension, can greatly reduce the computational and space complexities as well as search space for the slow features via MCA.
+InSFA makes it possible to use SFA in high-dimensional video processing
+applications without using deep receptive field based networks. CCIPCA
+provides an intermediate dimensionality reduction, which can greatly
+reduce the complexities in computation and memory space as well as the
+search space for slow features via MCA.
 
-As an experiment to show this, SFs are extracted from rotating vision-based agent in a square room. The room has four complex-textured walls. 
+As an experiment to demonstrate this, SFs are extracted from a rotating
+vision-based agent in a square-shaped room. The room has four
+complexly-textured walls.
 
 .. figure:: room.gif
 
-For this example one of the `PASSTA
-dataset <https://www.cvl.isy.liu.se/research/datasets/passta/>`__ is
-used. The images are assumed to have been taken from a camera fixed on a
-tripod. Between each subsequent image, the camera is assumed to have
-been rotated around the vertical axis through the optical center.
+For this example, one of the
+`PASSTA datasets <https://www.cvl.isy.liu.se/research/datasets/passta/>`__
+is used. The images are assumed to have been taken from a camera mounted on
+a tripod. Between each pair of subsequent images, the camera is assumed to
+have been rotated around the vertical axis through the optical center.
 
 .. code:: ipython3
 
@@ -235,11 +238,11 @@ been rotated around the vertical axis through the optical center.
 
 **Lunch Room Blue:** *consists of 72 images acquired with a Canon DS50 and
 perspective lenses with a resolution of 1280x1920 px at poor light
-condition. A panorama head was used to approximate a fixed rotation of 5
+conditions. A panorama head was used to approximate a fixed rotation of 5
 degrees around the vertical axis about the optical center of the camera.*
 
-We rescale images to the size 50 x 70 x 3 to make the training less
-time-consuming.
+We rescale the images to 50 x 70 x 3 components (pixels and color channels)
+to make the training less time-consuming.
 
 
 .. code:: ipython3
@@ -250,14 +253,14 @@ time-consuming.
 		
 At any time, a slight amount of Gaussian noise is added to the image
 (:math:`\sigma = 8`). The agent has a video input sensor, and the
-sequence of image frames with 10, 500 dimensions is fed into a linear
+sequence of image frames with 10500 (50  * 70 * 3) dimensions is fed into a linear
 IncSFA directly.
 
 .. code:: ipython3
 
-    noisy_data = np.zeros(data.shape)
+    noisy_data = np.empty(data.shape)
     for i in range (data.shape[0]):
-        gauss = np.random.normal(0,8,data.shape[1])
+        gauss = np.random.normal(0, 8, data.shape[1])
         noisy_data[i, :] = data[i, :] + gauss
 		
     # we normalize pixel values, i.e. transform values from [0, 255] -> [0, 1]
@@ -267,14 +270,14 @@ IncSFA directly.
 To reduce computation time, only the 40 most significant principal components are computed by
 CCIPCA.  Computation of the covariance matrix and its full eigendecomposition (including over 5000 eigenvectors and eigenvalues) is
 avoided. On the 40 × 40 whitened difference space, only the first 5 slow features are computed via MCA
-and sequential addition. Here we consider 500 epochs through the data each time adding a new image to the observation to imitate real-world situation.
+and sequential addition. Here we consider 500 passes (epochs) through the data each time adding a new image to the observation to imitate real-world situation.
 
 .. code:: ipython3
 
     node = mdp.nodes.IncSFANode(whitening_output_dim=40, output_dim=3)
     
     for i in range(500):
-        node.train(noisy_data[:i+1])
+        node.train(noisy_data)
     node.stop_training()
     
     out = node.execute(data)
@@ -320,7 +323,7 @@ nature underlying the image sequence.
 				:width: 700				
 
 
-Same data projected on two slow features will show the cyclical structure more clearly.
+The same data projected on two slow features will show the cyclical structure more clearly.
 
 				
 .. image:: graph_3.png
@@ -329,8 +332,9 @@ Same data projected on two slow features will show the cyclical structure more c
 				
 A few subsequences have somewhat ambiguous encodings, because certain images associated with slightly different angles are very similar.
 
+
 References
-------------
+----------
 
 .. [1] Kompella V. R., Luciw M., Schmidhuber J. (2011) `Incremental slow feature analysis: Adaptive and episodic learning from high-dimensional input streams <https://arxiv.org/pdf/1112.2113.pdf>`__
 
